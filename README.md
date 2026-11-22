@@ -45,8 +45,8 @@ signed: [Code signing policy](#code-signing-policy).
   why there is nothing yet.
 - See a club's sponsorship deals in its finances, read only: each deal by the name the game gives its
   kind, what it pays per season and in all, its term, and what a relegation changes. Shown on Game
-  Pass 0.9.2524.0 and 0.9.2562.0, Steam build 26340721 on Windows and 26385295 on Apple silicon Macs;
-  the others say why there is nothing yet.
+  Pass 0.9.2524.0 and 0.9.2562.0, Steam build 26340721 on Windows and 26385295 and 26620374 on Apple
+  silicon Macs; the others say why there is nothing yet.
 - See each nation's men's and women's national team in the Clubs tab (its **National teams**
   switch), the players the game lists for its senior team and its reputation, which can be edited,
   and heal, inspire or refresh its senior team's squad. So far on Windows (Game Pass 0.9.2435.0,
