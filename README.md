@@ -49,7 +49,9 @@ signed: [Code signing policy](#code-signing-policy).
   the others say why there is nothing yet.
 - See each nation's men's and women's national team in the Clubs tab (its **National teams**
   switch), the players the game lists for its senior team and its reputation, which can be edited,
-  and heal, inspire or refresh its senior team's squad. So far on Windows (Game Pass 0.9.2435.0,
+  and heal, inspire or refresh its senior team's squad. On Apple silicon Macs, its profile also
+  shows, read only, the year its federation was founded, the nation's continent and the federation's
+  staff, team by team, each with their job in the national team. So far on Windows (Game Pass 0.9.2435.0,
   0.9.2524.0 and 0.9.2562.0, Steam builds 26577676, 26620374 and 26797085) and on Steam for macOS,
   builds 26385295, 26620374 and 26797085 on Apple silicon; the other versions of the game say why
   there are none yet.

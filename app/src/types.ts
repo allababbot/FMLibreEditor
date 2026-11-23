@@ -287,6 +287,29 @@ export interface NationalProfile {
   team: NationalTeamSummary;
   teams: NationalSide[];
   squad: ClubTeam;
+  /** What the profile shows of the nation and its federation; null where this version of the game has it unplaced. */
+  nation: NationDetails | null;
+}
+
+/**
+ * What a national team's profile shows of its nation and federation, as the game's nation page and staff list show it
+ * (see docs/recon/fm27-national-teams.md). The staff are the federation's for the men's or the women's teams.
+ */
+export interface NationDetails {
+  /** The year the federation was founded; null where the game has none. */
+  founded: number | null;
+  /** The continent's name, in the game's language. */
+  continent: string | null;
+  /** Grouped by team, in the order the teams are listed. */
+  staff: FederationMember[];
+}
+
+/** A member of a federation's staff: his job in the national team, and the kind of the team (see `NationalSide`). */
+export interface FederationMember {
+  member: StaffSummary;
+  /** An FM job code, as `StaffSummary.job`; not the job at his club, which `member` has. */
+  job: number | null;
+  teamKind: number | null;
 }
 
 /**

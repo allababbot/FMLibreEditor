@@ -97,7 +97,10 @@ pub use locate::{
 pub use mass::{Operation, Plan, Planned, Skipped};
 pub use medical::{Ban, HealPlan, Healed, Injury, LiftPlan, Lifted};
 pub use names::{LONGEST_PERSON_NAME, NameChange, NameKind, PersonNames};
-pub use national::{NationalIndex, NationalSide, NationalTeamSummary, NationalUnavailable, OTHER_KINDS, SENIOR_KIND};
+pub use national::{
+    FederationMember, NationDetails, NationalIndex, NationalSide, NationalTeamSummary, NationalUnavailable,
+    OTHER_KINDS, SENIOR_KIND,
+};
 pub use object_pool::ObjectPool;
 pub use players::{Nation, PLAYABLE_RATING, PlayerIndex, PlayerSummary, is_woman, nations, read_players};
 pub use prize_money::{

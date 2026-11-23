@@ -8131,3 +8131,8 @@ kbd {
 .ability-change + .ability {
   min-width: 0;
 }
+
+/* A national team's profile: what the game shows of its nation and federation, over its teams. */
+.nation-details {
+  margin-bottom: 16px;
+}
