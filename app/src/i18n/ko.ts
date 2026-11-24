@@ -1327,6 +1327,138 @@ export const ko: Strings = {
     unavailableBuild: "이 게임 버전이 스폰서 계약을 어디에 보관하는지 아직 확인되지 않아, 엉뚱한 메모리를 읽지 않도록 표시하지 않습니다.",
     unavailableUnreadable: "편집기는 이 게임 버전에서 예상되는 위치에서 스폰서 계약을 찾았지만, 찾은 내용이 게임의 데이터로 읽히지 않아 표시하지 않습니다.",
   },
+
+  competitions: {
+    nav: "대회",
+    search: "이름, 국가 또는 UID로 대회 검색",
+    summary: (total, shown) =>
+      total > shown ? `대회 ${format(total)}개 중 ${format(shown)}개` : `대회 ${format(total)}개`,
+    empty: (query, filtered) => {
+      if (query === "") {
+        return filtered ? "이 국가에는 스쿼드 규칙이 있는 대회가 없습니다." : "스쿼드 규칙이 있는 대회를 찾지 못했습니다.";
+      }
+      return filtered ? `이 국가에서 “${query}”에 맞는 대회가 없습니다.` : `“${query}”에 맞는 대회가 없습니다.`;
+    },
+    reading: "게임에서 대회의 스쿼드 규칙을 읽는 중… 몇 초 걸립니다.",
+    readAgain: "다시 읽기",
+    readAgainTitle: "게임에서 규칙을 다시 읽습니다",
+    listNote: "스쿼드 규칙이 없는 대회는 표시되지 않습니다.",
+    unavailableTitle: "표시할 스쿼드 규칙이 없습니다",
+    unavailableBuild: "이 게임 버전이 대회의 스쿼드 규칙을 어디에 보관하는지 아직 확인되지 않아, 엉뚱한 메모리를 읽지 않도록 표시하지 않습니다.",
+    unavailableUnreadable: "에디터가 이 게임 버전에서 스쿼드 규칙이 있을 것으로 예상한 곳을 살펴봤지만, 찾은 내용이 게임의 데이터로 읽히지 않아 아무것도 표시하지 않습니다.",
+    columns: {
+      name: "대회",
+      nation: "국가",
+      level: "레벨",
+      rules: "규칙",
+      uid: "UID",
+    },
+    level: (level) => format(level),
+    rulesCount: (current, next) =>
+      next === null || next === current ? format(current) : `${format(current)} · ${format(next)}`,
+    rulesCountTitle: "이번 시즌의 스쿼드 규칙 수. 다음 시즌의 수가 다르면 함께 표시됩니다",
+    international: "국제",
+    filters: {
+      nation: "국가",
+      allNations: "모든 국가",
+    },
+    title: "스쿼드 규칙",
+    intro: "이 대회에서 스쿼드에 등록하거나 팀이 한 경기에 선택할 수 있는 특정 종류의 선수 수입니다. 누가 외국인 또는 홈그로운으로 인정되는지는 게임이 직접 정합니다.",
+    seasons: { current: "이번 시즌", next: "다음 시즌" },
+    began: (year) => `${year}년에 시작`,
+    begins: (year) => `${year}년에 시작 예정`,
+    noRules: "스쿼드 규칙이 없습니다.",
+    noNext: "게임에 다음 시즌 규칙이 없습니다.",
+    ruleColumns: {
+      rule: "규칙",
+      where: "집계 대상",
+      limit: "한도",
+      value: "선수",
+    },
+    atMost: "최대",
+    atLeast: "최소",
+    scopes: {
+      squad: "스쿼드",
+      matchSquad: "경기 엔트리",
+      eleven: "출전 11명",
+      startingEleven: "선발 11명",
+      bench: "벤치",
+    },
+    who: {
+      squadSize: "스쿼드 선수",
+      foreign: "외국인 선수",
+      foreignExceptAsian: "외국인 선수(아시아 선수 제외)",
+      foreignGoalkeepers: "외국인 골키퍼",
+      nonEu: "비EU 선수",
+      domestic: "자국 선수",
+      domesticGoalkeepers: "자국 골키퍼",
+      goalkeepers: "골키퍼",
+      outfield: "필드 플레이어",
+      nonHomegrown: "홈그로운이 아닌 선수",
+      youthContract: "유스 계약 선수",
+      fullTime: "풀타임 계약 선수",
+      amateur: "아마추어 선수",
+      youthOrAmateur: "유스 또는 아마추어 선수",
+      trialists: "테스트 선수",
+      loans: "임대 선수",
+      internationals: "국가대표 선수",
+      otherTeam: "다른 팀에 등록된 선수",
+      firstTeam: "1군에 등록된 선수",
+      over: (age) => `${format(age)}세 초과 선수`,
+      under: (age) => `${format(age)}세 미만 선수`,
+      domesticUnder: (age) => `${format(age)}세 미만 자국 선수`,
+      foreignOver: (age) => `${format(age)}세 초과 외국인 선수`,
+      goalkeepersOver: (age) => `${format(age)}세 초과 골키퍼`,
+      outfieldOver: (age) => `${format(age)}세 초과 필드 플레이어`,
+      homegrown: (from, fromAge, toAge) => {
+        const ages = `${format(fromAge)}–${format(toAge)}세에 육성`;
+        if (from === "club") {
+          return `구단 육성 선수(${ages})`;
+        }
+        return from === "nation" ? `자국 육성 선수(${ages})` : `구단 또는 자국 육성 선수(${ages})`;
+      },
+      homegrownUnder: (age, fromAge, toAge) =>
+        `${format(age)}세 미만 자국 육성 선수(${format(fromAge)}–${format(toAge)}세에 육성)`,
+    },
+    unnamedKind: (kind) => `종류 ${format(kind)} 규칙`,
+    gameKey: (key) => `게임에서 이 규칙의 이름: ${key}`,
+    teamsFrom: (competition) => `${competition} 소속 팀`,
+    teamsFromUnknown: "다른 디비전의 팀",
+    condition: (code) => `조건부(${code})`,
+    conditionTitle: "게임이 자체 조건에 따라 이 규칙을 적용하지만, 에디터는 아직 그 조건을 설명하지 않습니다.",
+    years: (from, to) => {
+      if (from !== null && to !== null) {
+        return from === to ? `${from}` : `${from}–${to}`;
+      }
+      return from !== null ? `${from}년부터` : `${to}년까지`;
+    },
+    yearsTitle: "국가의 규칙이 이 규칙을 적용하는 시즌, 시즌이 시작되는 연도 기준",
+    leftAlone: "건드리지 않음",
+    notSavedTitle: "저장 파일이 보관하는 국가의 규칙에는 이런 규칙이 없어서, 변경해도 저장 파일을 불러오면 사라집니다. 에디터는 이 규칙을 건드리지 않습니다.",
+    notACountTitle: "선수 수가 아니라 금액입니다. 에디터는 건드리지 않습니다.",
+    noneChangeable: "이 규칙들은 시기와 관계없이 아직 변경할 수 없습니다. 에디터는 저장 파일이 보관하는 규칙에서도 같은 규칙을 찾은 경우에만 변경하는데(저장 파일을 불러와도 변경이 남도록), 이 대회의 규칙은 거기에서 찾지 못했습니다. 현재 여자 리그, 메이저 리그 사커, 일부 컵 대회가 이에 해당합니다.",
+    unsavedNote: "게임은 이 대회의 규칙을 어떤 저장 파일에도 보관하지 않습니다. 저장 파일을 불러올 때마다, 그리고 새 시즌마다 게임이 직접 다시 만듭니다. 그래서 에디터가 여기서 바꾼 내용을 유지합니다. 실행 중인 게임에 기록하고, 이 커리어용으로 기억해 두었다가, 연결하거나 데이터를 다시 불러올 때마다 다시 기록합니다. 저장 파일을 불러온 뒤에는 변경 사항이 돌아오도록 에디터를 한 번 연결하세요(또는 데이터 다시 불러오기를 누르세요). 변경 내역의 되돌리기를 누르면 유지를 해제합니다.",
+    heldTag: "유지 중",
+    heldTitle: (original) => `에디터가 이 수치를 유지하며 게임을 읽을 때마다 다시 기록합니다. 게임의 원래 값은 ${format(original)}입니다.`,
+    savedDiffers: (value) => `저장 파일의 규칙에는 ${format(value)}`,
+    savedDiffersTitle: "게임은 목록에 따라 진행하며, 저장 파일을 불러올 때 저장 파일의 규칙으로 목록을 만듭니다. 여기서 변경을 저장하면 둘 다 설정됩니다.",
+    edit: "규칙 변경",
+    editTitle: "이 대회의 스쿼드 규칙 수치를 변경합니다",
+    save: "규칙 저장",
+    saving: "저장하는 중…",
+    cancel: "취소",
+    invalid: (most) => `0부터 ${format(most)}까지의 정수를 입력하세요.`,
+    shared: (names) => `이 규칙은 ${names}의 규칙이기도 합니다. 변경은 그쪽에도 적용됩니다.`,
+    currentNote: (turn) =>
+      `여기서 바꾼 내용은 이번 시즌이 끝날 때까지 적용됩니다${turn === null ? "" : ` (시즌은 ${turn}에 바뀝니다)`}. 게임은 변경 사항을 반영해 스쿼드를 바로 집계합니다. 게임 자체 화면에는 하루가 지나야 표시됩니다.`,
+    nextNote: (turn) =>
+      `여기서 바꾼 내용은 시즌이 바뀔 때${turn === null ? "" : `(${turn})`} 이번 시즌의 규칙이 되며, 더 뒤의 시즌에 대해 게임에 별도의 규칙이 없는 한 그 뒤 시즌에도 유지됩니다. 게임의 다음 시즌 페이지에는 바로 표시됩니다.`,
+    lasts: "변경 사항은 게임이 따르는 목록과 저장 파일이 보관하는 국가의 규칙에 모두 기록되므로, 저장 파일을 불러와도 그대로 남아 있습니다. 이번 시즌 규칙의 변경은 시즌이 바뀌면 끝나고, 다음 시즌의 규칙이 그 자리를 대신합니다. 변경 내역의 되돌리기를 누르면 이전 수치로 돌아갑니다.",
+    infoLabel: "스쿼드 규칙 변경이 유지되는 방식",
+    ruleField: (season, rule) => `스쿼드 규칙, ${season}: ${rule}`,
+    alsoFor: (count) =>
+      count === 1 ? "같은 규칙을 쓰는 다른 대회 1곳에도 적용" : `같은 규칙을 쓰는 다른 대회 ${format(count)}곳에도 적용`,
+  },
   app: {
     stage: "베타",
     settingsLabel: "설정",
@@ -1585,7 +1717,7 @@ export const ko: Strings = {
       change: "변경",
       status: "상태",
     },
-    kinds: { player: "선수", staff: "스태프", club: "구단", nationalTeam: "국가대표" },
+    kinds: { player: "선수", staff: "스태프", club: "구단", nationalTeam: "국가대표", competition: "대회" },
     stored: (change) => `저장된 값 ${change}`,
     undone: (time) => `${time}에 되돌림`,
     undo: "되돌리기",

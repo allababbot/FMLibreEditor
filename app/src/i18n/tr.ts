@@ -1310,6 +1310,138 @@ export const tr: Strings = {
     unavailableBuild: "Oyunun bu sürümünün sponsorluk anlaşmalarını nerede tuttuğunu henüz kimse denetlemedi; bu yüzden editör yanlış belleği okumak yerine hiçbirini göstermiyor.",
     unavailableUnreadable: "Editör sponsorluk anlaşmalarını oyunun bu sürümünde beklediği yerde aradı, ancak bulduğu şey oyunun verisi gibi okunmuyor; bu yüzden hiçbirini göstermiyor.",
   },
+
+  competitions: {
+    nav: "Organizasyonlar",
+    search: "Organizasyonları ad, ülke ya da UID ile ara",
+    summary: (total, shown) =>
+      total > shown ? `${format(total)} organizasyondan ${format(shown)} tanesi` : `${format(total)} organizasyon`,
+    empty: (query, filtered) => {
+      if (query === "") {
+        return filtered ? "Bu ülkede kadro kuralı olan organizasyon yok." : "Kadro kuralı olan organizasyon bulunamadı.";
+      }
+      return filtered ? `Bu ülkede “${query}” ile eşleşen organizasyon yok.` : `“${query}” ile eşleşen organizasyon yok.`;
+    },
+    reading: "Organizasyonların kadro kuralları oyundan okunuyor… Bu birkaç saniye sürer.",
+    readAgain: "Yeniden oku",
+    readAgainTitle: "Kuralları oyundan yeniden oku",
+    listNote: "Kadro kuralı olmayan organizasyonlar listelenmez.",
+    unavailableTitle: "Gösterilecek kadro kuralı yok",
+    unavailableBuild: "Oyunun bu sürümünün organizasyonların kadro kurallarını nerede tuttuğunu henüz kimse denetlemedi; bu yüzden editör yanlış belleği okumak yerine hiçbirini göstermiyor.",
+    unavailableUnreadable: "Editör kadro kurallarını oyunun bu sürümünde beklediği yerde aradı, ama bulduğu veri oyunun verisine benzemiyor; bu yüzden hiçbirini göstermiyor.",
+    columns: {
+      name: "Organizasyon",
+      nation: "Ülke",
+      level: "Kademe",
+      rules: "Kural",
+      uid: "UID",
+    },
+    level: (level) => format(level),
+    rulesCount: (current, next) =>
+      next === null || next === current ? format(current) : `${format(current)} · ${format(next)}`,
+    rulesCountTitle: "Bu sezonki kadro kuralı sayısı; gelecek sezon farklıysa o da",
+    international: "Uluslararası",
+    filters: {
+      nation: "Ülke",
+      allNations: "Tüm ülkeler",
+    },
+    title: "Kadro kuralları",
+    intro: "Bu organizasyonda bir kadroya belli türden kaç oyuncu kaydedilebileceği ya da bir maç için kaç oyuncu seçilebileceği. Kimin yabancı ya da altyapıdan yetişmiş sayılacağına oyun kendisi karar verir.",
+    seasons: { current: "Bu sezon", next: "Gelecek sezon" },
+    began: (year) => `${year} yılında başladı`,
+    begins: (year) => `${year} yılında başlıyor`,
+    noRules: "Kadro kuralı yok.",
+    noNext: "Oyun gelecek sezon için kural tutmuyor.",
+    ruleColumns: {
+      rule: "Kural",
+      where: "Sayıldığı yer",
+      limit: "Sınır",
+      value: "Oyuncu",
+    },
+    atMost: "En fazla",
+    atLeast: "En az",
+    scopes: {
+      squad: "Kadro",
+      matchSquad: "Maç kadrosu",
+      eleven: "On bir",
+      startingEleven: "İlk 11",
+      bench: "Yedek kulübesi",
+    },
+    who: {
+      squadSize: "Kadrodaki oyuncular",
+      foreign: "Yabancı oyuncular",
+      foreignExceptAsian: "Yabancı oyuncular (Asyalılar hariç)",
+      foreignGoalkeepers: "Yabancı kaleciler",
+      nonEu: "AB dışı oyuncular",
+      domestic: "Yerli oyuncular",
+      domesticGoalkeepers: "Yerli kaleciler",
+      goalkeepers: "Kaleciler",
+      outfield: "Saha oyuncuları",
+      nonHomegrown: "Altyapıdan yetişmemiş oyuncular",
+      youthContract: "Altyapı sözleşmeli oyuncular",
+      fullTime: "Tam zamanlı sözleşmeli oyuncular",
+      amateur: "Amatör oyuncular",
+      youthOrAmateur: "Altyapı ya da amatör oyuncular",
+      trialists: "Deneme oyuncuları",
+      loans: "Kiralık oyuncular",
+      internationals: "Uluslararası oyuncular",
+      otherTeam: "Başka bir takıma kayıtlı oyuncular",
+      firstTeam: "A takıma kayıtlı oyuncular",
+      over: (age) => `${format(age)} yaş üstü oyuncular`,
+      under: (age) => `${format(age)} yaş altı oyuncular`,
+      domesticUnder: (age) => `${format(age)} yaş altı yerli oyuncular`,
+      foreignOver: (age) => `${format(age)} yaş üstü yabancı oyuncular`,
+      goalkeepersOver: (age) => `${format(age)} yaş üstü kaleciler`,
+      outfieldOver: (age) => `${format(age)} yaş üstü saha oyuncuları`,
+      homegrown: (from, fromAge, toAge) => {
+        const ages = `${format(fromAge)}–${format(toAge)} yaş arasında`;
+        if (from === "club") {
+          return `Kulüpte yetişen oyuncular (${ages})`;
+        }
+        return from === "nation" ? `Ülkede yetişen oyuncular (${ages})` : `Kulüpte ya da ülkede yetişen oyuncular (${ages})`;
+      },
+      homegrownUnder: (age, fromAge, toAge) =>
+        `Ülkede yetişen ${format(age)} yaş altı oyuncular (${format(fromAge)}–${format(toAge)} yaş arasında)`,
+    },
+    unnamedKind: (kind) => `${format(kind)} türündeki kural`,
+    gameKey: (key) => `Oyunun bu kurala verdiği ad: ${key}`,
+    teamsFrom: (competition) => `${competition} takımları`,
+    teamsFromUnknown: "Başka bir ligin takımları",
+    condition: (code) => `Koşullu (${code})`,
+    conditionTitle: "Oyun bu kuralı kendi belirlediği bir koşulla uygular; editör bu koşulu henüz açıklamıyor.",
+    years: (from, to) => {
+      if (from !== null && to !== null) {
+        return from === to ? `${from}` : `${from}–${to}`;
+      }
+      return from !== null ? `${from} ve sonrası` : `${to} yılına kadar`;
+    },
+    yearsTitle: "Ülkenin kurallarının bu kuralı verdiği sezonlar, sezonun başladığı yıla göre",
+    leftAlone: "Dokunulmuyor",
+    notSavedTitle: "Ülkenin kayıtta tutulan kurallarında böyle bir kural yok; bu yüzden değişiklik kayıt yüklenince kaybolurdu. Editör bu kurala dokunmuyor.",
+    notACountTitle: "Bu bir oyuncu sayısı değil, bir para tutarı: editör buna dokunmuyor.",
+    noneChangeable: "Bu kurallar şimdilik hiçbir tarihte değiştirilemiyor: editör bir kuralı yalnızca kayıtta tutulan kurallarda da bulduğunda değiştirir (böylece değişiklik kayıt yüklendiğinde yerinde kalır) ve bu organizasyonun kurallarını orada bulamadı. Şimdilik kadın ligleri, MLS ve birkaç kupa bu durumda.",
+    unsavedNote: "Oyun bu organizasyonun kurallarını hiçbir kayıtta tutmaz: her kayıt yüklemesinde ve her yeni sezonda kendisi yeniden kurar. Bu yüzden editör buradaki değişikliği tutar: çalışan oyuna yazar, bu kariyer için hatırlar ve oyuna her bağlandığında ya da verileri yeniden okuduğunda yeniden yazar. Bir kayıt yükledikten sonra değişikliğin geri gelmesi için editörü bir kez bağlayın (ya da Verileri yeniden oku'ya basın). Değişiklikler sekmesindeki Geri al tutmayı bırakır.",
+    heldTag: "Tutuluyor",
+    heldTitle: (original) => `Editör bu sayıyı tutuyor ve oyunu her okuduğunda yeniden yazıyor. Oyunun kendi değeri ${format(original)}.`,
+    savedDiffers: (value) => `Kayıttaki kurallarda ${format(value)}`,
+    savedDiffersTitle: "Oyun listeye göre oynar ve listeyi, kaydı yüklerken kayıttaki kurallardan kurar. Burada kaydedilen bir değişiklik ikisini de ayarlar.",
+    edit: "Kuralları değiştir",
+    editTitle: "Bu organizasyonun kadro kurallarındaki sayıları değiştir",
+    save: "Kuralları kaydet",
+    saving: "Kaydediliyor…",
+    cancel: "Vazgeç",
+    invalid: (most) => `0 ile ${format(most)} arasında bir tam sayı girin.`,
+    shared: (names) => `Bu kurallar şunların da kurallarıdır: ${names}. Yapılan değişiklik onlar için de geçerli olur.`,
+    currentNote: (turn) =>
+      `Buradaki değişiklik bu sezonun sonuna kadar geçerlidir${turn === null ? "" : `; sezon ${turn} günü döner`}. Oyun kadroları değişikliğe göre hemen sayar; oyunun kendi ekranları değişikliği bir gün geçince gösterir.`,
+    nextNote: (turn) =>
+      `Buradaki değişiklik sezon döndüğünde${turn === null ? "" : ` (${turn})`} bu sezonun kuralı olur ve oyunun sonraki bir sezon için kendi kuralı yoksa sonraki sezonlarda da kalır. Oyunun Gelecek Sezon sayfası değişikliği hemen gösterir.`,
+    lasts: "Değişiklik hem oyunun kullandığı listeye hem de ülkenin kayıtta tutulan kurallarına yazılır; böylece kayıt yüklendiğinde yine yerindedir. Bu sezonun kuralındaki değişiklik sezon dönünce biter: yerini gelecek sezonun kuralları alır. Değişiklikler sekmesindeki Geri al eski sayıyı geri getirir.",
+    infoLabel: "Kadro kuralındaki bir değişiklik ne kadar sürer",
+    ruleField: (season, rule) => `Kadro kuralı, ${season.toLocaleLowerCase("tr")}: ${rule}`,
+    alsoFor: (count) => `Aynı kurallarla oynanan ${format(count)} organizasyon için de geçerli`,
+  },
+
   app: {
     stage: "beta",
     settingsLabel: "Ayarlar",
@@ -1571,7 +1703,13 @@ export const tr: Strings = {
       change: "Değişiklik",
       status: "Durum",
     },
-    kinds: { player: "Oyuncu", staff: "Personel", club: "Kulüp", nationalTeam: "Milli takım" } satisfies Record<EditEntity, string>,
+    kinds: {
+      player: "Oyuncu",
+      staff: "Personel",
+      club: "Kulüp",
+      nationalTeam: "Milli takım",
+      competition: "Organizasyon",
+    } satisfies Record<EditEntity, string>,
     stored: (change) => `saklanan ${change}`,
     undone: (time) => `Geri alındı: ${time}`,
     undo: "Geri al",

@@ -1301,6 +1301,138 @@ export const ja: Strings = {
     unavailableBuild: "このバージョンのゲームがスポンサー契約をどこに保存しているかはまだ確認されていないため、誤ったメモリを読まないよう表示しません。",
     unavailableUnreadable: "このバージョンのゲームで想定される場所からスポンサー契約を探しましたが、見つかったものがゲームのデータとして読めないため、表示しません。",
   },
+
+  competitions: {
+    nav: "大会",
+    search: "名前、国、UIDで大会を検索",
+    summary: (total: number, shown: number) =>
+      total > shown ? `${format(total)}大会中${format(shown)}大会` : `${format(total)}大会`,
+    empty: (query: string, filtered: boolean) => {
+      if (query === "") {
+        return filtered ? "この国にスカッドルールのある大会はありません。" : "スカッドルールのある大会が見つかりません。";
+      }
+      return filtered ? `この国で「${query}」に一致する大会はありません。` : `「${query}」に一致する大会はありません。`;
+    },
+    reading: "ゲームから大会のスカッドルールを読み込んでいます… 数秒かかります。",
+    readAgain: "再読み込み",
+    readAgainTitle: "ゲームからルールを読み込み直します",
+    listNote: "スカッドルールのない大会は一覧に表示されません。",
+    unavailableTitle: "表示できるスカッドルールがありません",
+    unavailableBuild: "このバージョンのゲームが大会のスカッドルールをどこに保持しているか、まだ誰も確認していません。誤ったメモリを読まないよう、エディターは何も表示しません。",
+    unavailableUnreadable: "エディターはこのバージョンのゲームでスカッドルールがあるはずの場所を調べましたが、見つかったものはゲームのものとして読めないため、何も表示しません。",
+    columns: {
+      name: "大会",
+      nation: "国",
+      level: "レベル",
+      rules: "ルール",
+      uid: "UID",
+    },
+    level: (level: number) => format(level),
+    rulesCount: (current: number, next: number | null) =>
+      next === null || next === current ? format(current) : `${format(current)} · ${format(next)}`,
+    rulesCountTitle: "今シーズンのスカッドルールの数。来シーズンで数が異なる場合はその数も表示します",
+    international: "国際",
+    filters: {
+      nation: "国",
+      allNations: "すべての国",
+    },
+    title: "スカッドルール",
+    intro: "この大会で、スカッドに登録できる、またはチームが1試合で選べる、ある種類の選手の人数です。外国籍やホームグロウンに数えられる選手はゲーム自身が決めます。",
+    seasons: { current: "今シーズン", next: "来シーズン" },
+    began: (year: number) => `${year}年に開始`,
+    begins: (year: number) => `${year}年に開始予定`,
+    noRules: "スカッドルールはありません。",
+    noNext: "ゲームに来シーズンのルールはありません。",
+    ruleColumns: {
+      rule: "ルール",
+      where: "カウント対象",
+      limit: "制限",
+      value: "選手",
+    },
+    atMost: "最大",
+    atLeast: "最低",
+    scopes: {
+      squad: "スカッド",
+      matchSquad: "試合登録メンバー",
+      eleven: "出場11人",
+      startingEleven: "先発11人",
+      bench: "ベンチ",
+    },
+    who: {
+      squadSize: "スカッドの選手",
+      foreign: "外国籍選手",
+      foreignExceptAsian: "外国籍選手（アジア人を除く）",
+      foreignGoalkeepers: "外国籍ゴールキーパー",
+      nonEu: "EU圏外の選手",
+      domestic: "自国籍選手",
+      domesticGoalkeepers: "自国籍ゴールキーパー",
+      goalkeepers: "ゴールキーパー",
+      outfield: "フィールドプレーヤー",
+      nonHomegrown: "ホームグロウンでない選手",
+      youthContract: "ユース契約の選手",
+      fullTime: "フルタイム契約の選手",
+      amateur: "アマチュア選手",
+      youthOrAmateur: "ユースまたはアマチュアの選手",
+      trialists: "テスト生",
+      loans: "レンタル選手",
+      internationals: "代表選手",
+      otherTeam: "他チームに登録された選手",
+      firstTeam: "トップチームに登録された選手",
+      over: (age: number) => `${format(age)}歳超の選手`,
+      under: (age: number) => `${format(age)}歳未満の選手`,
+      domesticUnder: (age: number) => `${format(age)}歳未満の自国籍選手`,
+      foreignOver: (age: number) => `${format(age)}歳超の外国籍選手`,
+      goalkeepersOver: (age: number) => `${format(age)}歳超のゴールキーパー`,
+      outfieldOver: (age: number) => `${format(age)}歳超のフィールドプレーヤー`,
+      homegrown: (from: "club" | "nation" | "clubOrNation", fromAge: number, toAge: number) => {
+        const ages = `${format(fromAge)}–${format(toAge)}歳で育成`;
+        if (from === "club") {
+          return `クラブのホームグロウン（${ages}）`;
+        }
+        return from === "nation" ? `国のホームグロウン（${ages}）` : `クラブまたは国のホームグロウン（${ages}）`;
+      },
+      homegrownUnder: (age: number, fromAge: number, toAge: number) =>
+        `国のホームグロウンの${format(age)}歳未満の選手（${format(fromAge)}–${format(toAge)}歳で育成）`,
+    },
+    unnamedKind: (kind: number) => `種類${format(kind)}のルール`,
+    gameKey: (key: string) => `ゲーム内でのこのルールの名前：${key}`,
+    teamsFrom: (competition: string) => `${competition}のチーム`,
+    teamsFromUnknown: "別のディビジョンのチーム",
+    condition: (code: string) => `条件付き（${code}）`,
+    conditionTitle: "ゲームはこのルールを独自の条件で適用しますが、エディターはまだその条件を説明していません。",
+    years: (from: number | null, to: number | null) => {
+      if (from !== null && to !== null) {
+        return from === to ? `${from}` : `${from}–${to}`;
+      }
+      return from !== null ? `${from}年以降` : `${to}年まで`;
+    },
+    yearsTitle: "国のルールがこのルールを適用するシーズン（シーズンが始まる年で表示）",
+    leftAlone: "変更しません",
+    notSavedTitle: "セーブが保持する国のルールにはこのルールがないため、変更はセーブを読み込むと消えてしまいます。エディターは変更しません。",
+    notACountTitle: "選手数ではなく金額です。エディターは変更しません。",
+    noneChangeable: "これらのルールは、時期にかかわらずまだ変更できません。エディターは、セーブが保持するルールの中にも同じルールが見つかった場合にのみ変更します（セーブを読み込んでも変更が残るようにするためです）が、この大会のルールはそこに見つかっていません。現時点では、女子リーグ、メジャーリーグサッカー、一部のカップ戦が該当します。",
+    unsavedNote: "ゲームはこの大会のルールをどのセーブにも保持しません。セーブを読み込むたびに、また新しいシーズンのたびに、ゲーム自身が作り直します。そのためエディターはここでの変更を保持します：実行中のゲームに書き込み、このキャリア用に記憶し、接続するたび、またはデータを再読み込みするたびに書き直します。セーブを読み込んだ後は、変更を戻すためにエディターを一度接続してください（または「データを再読み込み」を押してください）。「変更履歴」の「元に戻す」で保持を解除できます。",
+    heldTag: "保持中",
+    heldTitle: (original: number) => `エディターがこの人数を保持し、ゲームを読み込むたびに書き直します。ゲーム本来の値は${format(original)}です。`,
+    savedDiffers: (value: number) => `セーブのルールでは${format(value)}`,
+    savedDiffersTitle: "ゲームはリストに従ってプレーし、セーブを読み込むときにセーブのルールからリストを作ります。ここで変更を保存すると両方が設定されます。",
+    edit: "ルールを変更",
+    editTitle: "この大会のスカッドルールの人数を変更します",
+    save: "ルールを保存",
+    saving: "保存中…",
+    cancel: "キャンセル",
+    invalid: (most: number) => `0から${format(most)}までの整数を入力してください。`,
+    shared: (names: string) => `このルールは${names}のルールでもあります。変更はそちらにも適用されます。`,
+    currentNote: (turn: string | null) =>
+      `ここでの変更は今シーズンの終わりまで有効です${turn === null ? "" : `（シーズンは${turn}に切り替わります）`}。ゲームはスカッドの人数を変更後の値ですぐに数えます。ゲーム自身の画面には1日経つと反映されます。`,
+    nextNote: (turn: string | null) =>
+      `ここでの変更は、シーズンが切り替わると${turn === null ? "" : `（${turn}）`}今シーズンのルールになり、それより後のシーズンにゲーム独自のルールがない限り、その後のシーズンにも残ります。ゲームの来シーズンのページにはすぐに表示されます。`,
+    lasts: "変更は、ゲームが従うリストと、セーブが保持する国のルールの両方に書き込まれるため、セーブを読み込んでも残ります。今シーズンのルールへの変更はシーズンの切り替わりで終わり、来シーズンのルールに置き換わります。「変更履歴」の「元に戻す」で元の人数に戻せます。",
+    infoLabel: "スカッドルールの変更はどう保持されるか",
+    ruleField: (season: string, rule: string) => `スカッドルール、${season}：${rule}`,
+    alsoFor: (count: number) =>
+      count === 1 ? "同じルールの他の1大会にも適用" : `同じルールの他の${format(count)}大会にも適用`,
+  },
   app: {
     stage: "ベータ",
     settingsLabel: "設定",
@@ -1551,7 +1683,7 @@ export const ja: Strings = {
       change: "変更",
       status: "状態",
     },
-    kinds: { player: "選手", staff: "スタッフ", club: "クラブ", nationalTeam: "代表チーム" },
+    kinds: { player: "選手", staff: "スタッフ", club: "クラブ", nationalTeam: "代表チーム", competition: "大会" },
     stored: (change: string) => `内部値 ${change}`,
     undone: (time: string) => `${time}に元に戻しました`,
     undo: "元に戻す",

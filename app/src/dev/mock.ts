@@ -31,6 +31,12 @@ import type {
   ClubDetails,
   ClubFilter,
   CompetitionPrizes,
+  CompetitionRules,
+  CompetitionRulesRead,
+  CompetitionRulesSet,
+  HeldRule,
+  RuleInput,
+  SquadRule,
   League,
   LeaguePrizes,
   ClubSponsorships,
@@ -1567,6 +1573,10 @@ function currentValues(entity: EditEntity, uid: number): FieldValues {
     const youth = Object.fromEntries(NATIONAL_YOUTH.map(({ kind }) => [`team.${kind}.reputation`, youthReputation(team, kind)]));
     return { reputation: team.reputation, ...youth };
   }
+  if (entity === "competition") {
+    // A competition has no fields: its squad rules are changed in the Competitions tab.
+    return {};
+  }
   const d = profileOf(entity, uid);
   const person = d as PlayerDetails & StaffDetails;
   const club = d as ClubDetails;
@@ -1716,6 +1726,9 @@ function writeValue(entity: EditEntity, uid: number, key: string, value: number)
 
 /** `apply_edits`: every edit is checked and written on its own, like the real command, with the same messages. */
 function applyEdits(entity: EditEntity, uid: number, edits: FieldEdit[]): ApplyReport {
+  if (entity === "competition") {
+    throw failure("app.notFound", `No competition with id ${uid}`, { entity, uid });
+  }
   const name =
     entity === "nationalTeam"
       ? (nationals.find((n) => n.uid === uid) ?? (() => { throw failure("app.notFound", `No national team ${uid}`, { entity, uid }); })()).name
@@ -2117,6 +2130,13 @@ function undoChange(id: number): LoggedChange {
     } else {
       prizeStage[entry.field.slice("prize.".length) as "win" | "draw" | "loss"] = entry.old;
     }
+    entry.undoneAt = Date.now();
+    return { ...entry };
+  }
+  const ruleBack = ruleUndo.get(entry.id);
+  if (ruleBack) {
+    // The real Undo writes the count back to the season's list and to the nation's rules.
+    ruleBack();
     entry.undoneAt = Date.now();
     return { ...entry };
   }
@@ -3654,6 +3674,222 @@ function setLeaguePrizes(uid: number, index: number, amounts: PrizeInput[]): Lea
   return { changes: logged, league: structuredClone(league) };
 }
 
+/** A squad rule of the fixtures: of the kind the game numbers `kind` and calls `name`, at most (-1) or at least (1) `value`. */
+function squadRule(kind: number, name: string, compare: -1 | 1, value: number, more: Partial<SquadRule> = {}): SquadRule {
+  return {
+    kind,
+    name,
+    compare,
+    value,
+    condition: null,
+    conditionCompetition: null,
+    source: { value, fromYear: null, toYear: null },
+    unsaved: false,
+    ...more,
+  };
+}
+
+/** A competition of the fixtures, with the same rules next season unless `next` gives others (null for no list). */
+function ruledCompetition(
+  uid: number,
+  name: string,
+  nation: [number, string] | null,
+  level: number | null,
+  current: SquadRule[],
+  next: SquadRule[] | null | undefined = undefined,
+  sharedWith: number[] = [],
+): CompetitionRules {
+  return {
+    uid,
+    name,
+    shortName: null,
+    nationUid: nation?.[0] ?? null,
+    nation: nation?.[1] ?? null,
+    level,
+    season: 2026,
+    // Türkiye's seasons turn on 20 June, England's on 25 June.
+    seasonTurn: nation === null ? null : { month: 6, day: nation === ENGLAND ? 25 : 20 },
+    current,
+    next: next === undefined ? structuredClone(current) : next,
+    sharedWith,
+    // A competition of no nation whose rules no record keeps is one whose every rule says so.
+    unsaved: current.length > 0 && current.every((rule) => rule.unsaved),
+    registration: current.some((rule) => rule.unsaved) ? { days: 6, most: 25 } : null,
+  };
+}
+
+const TURKIYE: [number, string] = [799, "Türkiye"];
+const ENGLAND: [number, string] = [765, "England"];
+
+/** The 2. Lig's rules, which its two groups are played under too: the squad's size is not in the nation's rules as such. */
+const secondLeagueRules = () => [
+  squadRule(21, "all_foreign_players_in_squad", -1, 6),
+  squadRule(87, "goalkeepers_in_squad", -1, 3),
+  squadRule(9, "max_squad_size", -1, 30, { source: null }),
+];
+
+/**
+ * The competitions the mock has squad rules for (`competition_rules`), as the editor changed them: the Süper Lig's as
+ * FM27 lists them, a division whose groups share its lists, a cup whose rules are for the teams of a division, a
+ * league with a wage among its rules and a continent's competition with no list for next season.
+ */
+const ruledCompetitions: CompetitionRules[] = [
+  ruledCompetition(130286, "Trendyol Süper Lig", TURKIYE, 0, [
+    squadRule(21, "all_foreign_players_in_squad", -1, 14),
+    squadRule(368, "foreign_over_24_players_in_squad", -1, 10, {
+      condition: "1yol",
+      source: { value: 10, fromYear: 2026, toYear: 2027 },
+    }),
+    squadRule(209, "under_23_national_players_in_squad", 1, 4, {
+      condition: "Tk24",
+      source: { value: 4, fromYear: 2026, toYear: null },
+    }),
+    squadRule(87, "goalkeepers_in_squad", -1, 3),
+    squadRule(230, "domestic_goalkeepers_in_squad", 1, 2),
+    squadRule(9, "max_squad_size", -1, 28),
+  ]),
+  ruledCompetition(463479, "Trendyol 1. Lig", TURKIYE, 1, [
+    squadRule(21, "all_foreign_players_in_squad", -1, 8),
+    squadRule(4, "all_foreign_players_in_match_squad", -1, 6),
+    squadRule(87, "goalkeepers_in_squad", -1, 3),
+    squadRule(9, "max_squad_size", -1, 28),
+  ]),
+  ruledCompetition(463481, "Nesine 2. Lig", TURKIYE, 2, secondLeagueRules(), undefined, [463485, 463486]),
+  ruledCompetition(463485, "Nesine 2. Lig Beyaz Grup", TURKIYE, 2, secondLeagueRules(), undefined, [463481, 463486]),
+  ruledCompetition(463486, "Nesine 2. Lig Kırmızı Grup", TURKIYE, 2, secondLeagueRules(), undefined, [463481, 463485]),
+  ruledCompetition(130284, "Ziraat Türkiye Kupası", TURKIYE, 0, [
+    squadRule(4, "all_foreign_players_in_match_squad", -1, 9, { condition: "tfrd", conditionCompetition: 130286 }),
+    squadRule(4, "all_foreign_players_in_match_squad", -1, 6, { condition: "tfrd", conditionCompetition: 463479 }),
+    squadRule(2, "all_foreign_players_in_11", -1, 5, { condition: "dtcm" }),
+  ]),
+  ruledCompetition(11, "Premier League", ENGLAND, 0, [
+    squadRule(9, "max_squad_size", -1, 25),
+    squadRule(41, "homegrown_players_15_21_from_nation", 1, 8),
+    squadRule(310, "over_21_players_with_over_40_first_team_apps_in_match_squad", -1, 5),
+    squadRule(502, "weekly_wage_for_youth_contract", -1, 71_940_388),
+    squadRule(77, "keepers_on_bench", 1, 1),
+  ]),
+  ruledCompetition(
+    1301394,
+    "UEFA Champions League",
+    null,
+    0,
+    // As in the game: no record keeps UEFA's rules, the game makes them itself, and the editor holds a change of them.
+    [
+      squadRule(87, "goalkeepers_in_squad", 1, 2, { source: null, unsaved: true }),
+      squadRule(38, "homegrown_players_15_21_from_club", 1, 4, { source: null, unsaved: true }),
+      squadRule(39, "homegrown_players_15_21_from_nation", 1, 8, { source: null, unsaved: true }),
+      squadRule(9, "max_squad_size", -1, 25, { source: null, unsaved: true }),
+    ],
+    [],
+  ),
+  ruledCompetition(2000321669, "FIFA Intercontinental Cup", null, 0, [squadRule(165, "min_squad_size", 1, 23)], null),
+];
+
+/** What puts a squad rule's count back, by the id of the change that set it. */
+const ruleUndo = new Map<number, () => void>();
+
+/** The rules the mock's editor holds: of the competitions whose rules no record keeps. */
+let heldRules: HeldRule[] = [];
+
+/** Holds `value` for the rule `rule` of `competition`, which held `before`; back at the game's own count, lets go. */
+function holdRule(competition: CompetitionRules, season: RuleInput["season"], rule: SquadRule, value: number, before: number) {
+  const holder = Math.min(competition.uid, ...competition.sharedWith);
+  const same = (h: HeldRule) =>
+    h.competition === holder && h.season === season && h.kind === rule.kind && h.compare === rule.compare &&
+    h.condition === rule.condition && h.conditionCompetition === rule.conditionCompetition;
+  const original = heldRules.find(same)?.original ?? before;
+  heldRules = heldRules.filter((h) => !same(h));
+  if (value !== original) {
+    heldRules.push({
+      competition: holder,
+      season,
+      kind: rule.kind,
+      compare: rule.compare,
+      condition: rule.condition,
+      conditionCompetition: rule.conditionCompetition,
+      value,
+      original,
+    });
+  }
+}
+
+/** `competition_rules`: the fixtures' squad rules, after the time a read of the game's memory takes. */
+async function mockCompetitionRules(again: boolean): Promise<CompetitionRulesRead> {
+  await new Promise((resolve) => setTimeout(resolve, again ? 600 : 300));
+  return { unavailable: null, competitions: structuredClone(ruledCompetitions), held: structuredClone(heldRules) };
+}
+
+/** `set_competition_rules`: sets rules of a competition, and of those played under the same lists, logging each. */
+function setCompetitionRules(uid: number, inputs: RuleInput[]): CompetitionRulesSet {
+  const competition = ruledCompetitions.find((c) => c.uid === uid);
+  if (!competition) {
+    throw failure("rule.notRead", "The competition's squad rules have not been read: read them again.");
+  }
+  const sharing = ruledCompetitions.filter((c) => c.uid === uid || competition.sharedWith.includes(c.uid));
+  const logged: LoggedChange[] = [];
+  const batch = inputs.length > 1 ? 900 + changes.length : null;
+  for (const input of inputs) {
+    const listOf = (c: CompetitionRules) => (input.season === "current" ? c.current : c.next);
+    const rule = listOf(competition)?.[input.rule];
+    if (!rule || rule.kind !== input.kind || rule.value !== input.from) {
+      throw failure("app.dataChanged", "This data has changed in the game; reload and try again.");
+    }
+    if (rule.source === null && !rule.unsaved) {
+      throw failure("rule.noSource", "The nation's rules as a save keeps them hold no such rule.", { kind: rule.kind });
+    }
+    const held = rule.unsaved;
+    if (held) {
+      holdRule(competition, input.season, rule, input.value, input.from);
+    }
+    const set = (value: number) =>
+      sharing.forEach((c) => {
+        const shared = listOf(c)?.[input.rule];
+        if (shared) {
+          shared.value = value;
+          shared.source = shared.source && { ...shared.source, value };
+        }
+      });
+    set(input.value);
+    const division = rule.conditionCompetition;
+    const change: LoggedChange = {
+      id: changes.length + 1,
+      at: Date.now(),
+      name: competition.name,
+      entity: "competition",
+      uid,
+      field: `rule.${input.season}.${rule.name ?? `kind${rule.kind}`}`,
+      old: input.from,
+      new: input.value,
+      undoneAt: null,
+      earlier: false,
+      undoable: true,
+      batch,
+      rule: {
+        held,
+        season: input.season,
+        year: competition.season === null ? null : competition.season + (input.season === "next" ? 1 : 0),
+        kind: rule.kind,
+        kindName: rule.name,
+        compare: rule.compare,
+        condition: rule.condition,
+        conditionCompetition: ruledCompetitions.find((c) => c.uid === division)?.name ?? null,
+        nation: competition.nation,
+        shared: competition.sharedWith.length,
+      },
+    };
+    changes.push(change);
+    ruleUndo.set(change.id, () => {
+      set(input.from);
+      if (held) {
+        holdRule(competition, input.season, rule, input.from, input.value);
+      }
+    });
+    logged.push({ ...change });
+  }
+  return { changes: logged, competitions: structuredClone(ruledCompetitions), held: structuredClone(heldRules) };
+}
+
 /** `club_leagues`: the leagues the clubs `filter` selects play in, by nation, a nation's best known first. */
 function mockLeagues(filter: ClubFilter): League[] {
   const byUid = new Map<number, League>();
@@ -4185,6 +4421,10 @@ export async function mockInvoke<T>(command: string, args?: Record<string, unkno
       return mockLeaguePrizes(Number(args?.club)) as T;
     case "set_league_prizes":
       return setLeaguePrizes(Number(args?.club), Number(args?.stage), (args?.amounts ?? []) as PrizeInput[]) as T;
+    case "competition_rules":
+      return (await mockCompetitionRules(Boolean(args?.again))) as T;
+    case "set_competition_rules":
+      return setCompetitionRules(Number(args?.competition), (args?.changes ?? []) as RuleInput[]) as T;
     case "club_details": {
       const uid = Number(args?.uid);
       const club = clubs.find((c) => c.uid === uid);

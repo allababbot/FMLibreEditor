@@ -1417,6 +1417,138 @@ export const zhCN: Strings = {
     unavailableBuild: "尚无人确认此版本游戏把赞助合同存放在哪里，因此编辑器不显示，以免读取错误的内存。",
     unavailableUnreadable: "编辑器在此版本游戏中预期的位置查找了赞助合同，但找到的内容不像游戏的数据，因此不显示。",
   },
+
+  competitions: {
+    nav: "赛事",
+    search: "按名称、国家/地区或 UID 搜索赛事",
+    summary: (total: number, shown: number) =>
+      total > shown ? `共 ${format(total)} 项赛事，显示 ${format(shown)} 项` : `${format(total)} 项赛事`,
+    empty: (query: string, filtered: boolean) => {
+      if (query === "") {
+        return filtered ? "该国家/地区没有设有阵容规则的赛事。" : "未找到设有阵容规则的赛事。";
+      }
+      return filtered ? `该国家/地区没有匹配“${query}”的赛事。` : `没有匹配“${query}”的赛事。`;
+    },
+    reading: "正在从游戏读取各赛事的阵容规则…这需要几秒钟。",
+    readAgain: "重新读取",
+    readAgainTitle: "重新从游戏读取规则",
+    listNote: "没有阵容规则的赛事不会列出。",
+    unavailableTitle: "没有可显示的阵容规则",
+    unavailableBuild: "还没有人确认此版本的游戏把赛事的阵容规则存放在哪里，因此编辑器不显示，以免读取错误的内存。",
+    unavailableUnreadable: "编辑器在此版本游戏中预期的位置查找了阵容规则，但找到的内容不像游戏的数据，因此不显示。",
+    columns: {
+      name: "赛事",
+      nation: "国家/地区",
+      level: "级别",
+      rules: "规则",
+      uid: "UID",
+    },
+    level: (level: number) => format(level),
+    rulesCount: (current: number, next: number | null) =>
+      next === null || next === current ? format(current) : `${format(current)} · ${format(next)}`,
+    rulesCountTitle: "本赛季的阵容规则数；下赛季数量不同时一并显示",
+    international: "国际",
+    filters: {
+      nation: "国家/地区",
+      allNations: "所有国家/地区",
+    },
+    title: "阵容规则",
+    intro: "在此赛事中，一支球队的阵容最多可注册、或一场比赛最多可选用某类球员多少人。谁算外籍球员或本土培养球员由游戏自己决定。",
+    seasons: { current: "本赛季", next: "下赛季" },
+    began: (year: number) => `始于 ${year} 年`,
+    begins: (year: number) => `将于 ${year} 年开始`,
+    noRules: "没有阵容规则。",
+    noNext: "游戏中没有下赛季的规则。",
+    ruleColumns: {
+      rule: "规则",
+      where: "计入范围",
+      limit: "限制",
+      value: "球员",
+    },
+    atMost: "最多",
+    atLeast: "至少",
+    scopes: {
+      squad: "阵容",
+      matchSquad: "比赛名单",
+      eleven: "场上十一人",
+      startingEleven: "首发十一人",
+      bench: "替补席",
+    },
+    who: {
+      squadSize: "阵容中的球员",
+      foreign: "外籍球员",
+      foreignExceptAsian: "外籍球员（亚洲球员除外）",
+      foreignGoalkeepers: "外籍门将",
+      nonEu: "非欧盟球员",
+      domestic: "本国球员",
+      domesticGoalkeepers: "本国门将",
+      goalkeepers: "门将",
+      outfield: "外场球员",
+      nonHomegrown: "非本土培养球员",
+      youthContract: "青年合同球员",
+      fullTime: "全职合同球员",
+      amateur: "业余球员",
+      youthOrAmateur: "青年或业余球员",
+      trialists: "试训球员",
+      loans: "租借球员",
+      internationals: "国脚",
+      otherTeam: "注册于其他球队的球员",
+      firstTeam: "注册于一线队的球员",
+      over: (age: number) => `${format(age)} 岁以上的球员`,
+      under: (age: number) => `${format(age)} 岁以下的球员`,
+      domesticUnder: (age: number) => `${format(age)} 岁以下的本国球员`,
+      foreignOver: (age: number) => `${format(age)} 岁以上的外籍球员`,
+      goalkeepersOver: (age: number) => `${format(age)} 岁以上的门将`,
+      outfieldOver: (age: number) => `${format(age)} 岁以上的外场球员`,
+      homegrown: (from: "club" | "nation" | "clubOrNation", fromAge: number, toAge: number) => {
+        const ages = `${format(fromAge)}–${format(toAge)} 岁期间培养`;
+        if (from === "club") {
+          return `俱乐部培养（${ages}）`;
+        }
+        return from === "nation" ? `本国培养（${ages}）` : `俱乐部或本国培养（${ages}）`;
+      },
+      homegrownUnder: (age: number, fromAge: number, toAge: number) =>
+        `${format(age)} 岁以下的本国培养球员（${format(fromAge)}–${format(toAge)} 岁期间培养）`,
+    },
+    unnamedKind: (kind: number) => `类型 ${format(kind)} 的规则`,
+    gameKey: (key: string) => `游戏中此规则的名称：${key}`,
+    teamsFrom: (competition: string) => `来自${competition}的球队`,
+    teamsFromUnknown: "来自其他级别的球队",
+    condition: (code: string) => `有条件（${code}）`,
+    conditionTitle: "游戏在其自身的某个条件下才应用此规则，编辑器暂未解释该条件。",
+    years: (from: number | null, to: number | null) => {
+      if (from !== null && to !== null) {
+        return from === to ? `${from}` : `${from}–${to}`;
+      }
+      return from !== null ? `${from} 年起` : `至 ${to} 年`;
+    },
+    yearsTitle: "该国规则适用此规则的赛季，按赛季开始的年份计",
+    leftAlone: "保持不变",
+    notSavedTitle: "存档保存的该国规则中没有这条规则，因此改动会在加载存档后消失：编辑器不会改动它。",
+    notACountTitle: "这是一笔金额，不是球员人数：编辑器不会改动它。",
+    noneChangeable: "这些规则目前无法修改，与日期无关：只有在存档保存的规则中也找到同一条规则时，编辑器才会修改它（这样加载存档后改动仍然存在），而本赛事的规则尚未在其中找到。目前女子联赛、美国职业足球大联盟和部分杯赛属于这种情况。",
+    unsavedNote: "游戏不会把本赛事的规则保存在任何存档里：每次加载存档时以及每个新赛季，游戏都会自行重新生成。因此编辑器会保持此处的改动：把它写入运行中的游戏，为本生涯记住它，并在每次连接或重新读取数据时再次写入。加载存档后，请连接一次编辑器（或点击“重新读取数据”），改动才会恢复。在“改动记录”中点击“撤销”可取消保持。",
+    heldTag: "保持中",
+    heldTitle: (original: number) => `编辑器保持这个人数，并在每次读取游戏时再次写入。游戏原本的数值是${format(original)}。`,
+    savedDiffers: (value: number) => `存档的规则中为 ${format(value)}`,
+    savedDiffersTitle: "游戏按列表运行，并在加载存档时根据存档的规则生成列表。在此保存改动会同时设置两者。",
+    edit: "修改规则",
+    editTitle: "修改此赛事阵容规则中的人数",
+    save: "保存规则",
+    saving: "正在保存…",
+    cancel: "取消",
+    invalid: (most: number) => `请输入 0 到 ${format(most)} 之间的整数。`,
+    shared: (names: string) => `这些规则同时也是 ${names} 的规则：改动对它们同样生效。`,
+    currentNote: (turn: string | null) =>
+      `此处的改动在本赛季结束前有效${turn === null ? "" : `（赛季于${turn}更替）`}。游戏会立即按改动后的规则统计阵容；游戏自己的界面要过一天后才会显示。`,
+    nextNote: (turn: string | null) =>
+      `此处的改动会在赛季更替时${turn === null ? "" : `（${turn}）`}成为本赛季的规则，并在之后的赛季继续保留，除非游戏对更晚的赛季另有规则。游戏的“下赛季”页面会立即显示改动。`,
+    lasts: "改动会写入游戏所依据的列表，以及存档保存的该国规则，因此加载存档后依然有效。对本赛季规则的改动在赛季更替时结束，由下赛季的规则取代。在“改动记录”中点击“撤销”可恢复原来的人数。",
+    infoLabel: "阵容规则的改动如何保留",
+    ruleField: (season: string, rule: string) => `阵容规则，${season}：${rule}`,
+    alsoFor: (count: number) =>
+      count === 1 ? "同样适用于另 1 项使用相同规则的赛事" : `同样适用于另 ${format(count)} 项使用相同规则的赛事`,
+  },
   app: {
     /** The small line under the name in the sidebar. */
     stage: "测试版",
@@ -1744,7 +1876,7 @@ export const zhCN: Strings = {
       status: "状态",
     },
     /** The small tag after a name. */
-    kinds: { player: "球员", staff: "职员", club: "俱乐部", nationalTeam: "国家队" } satisfies Record<EditEntity, string>,
+    kinds: { player: "球员", staff: "职员", club: "俱乐部", nationalTeam: "国家队", competition: "赛事" } satisfies Record<EditEntity, string>,
     /** Hover text of a change of an attribute: the values as stored; `change` is from `valueChange`. */
     stored: (change: string) => `游戏中记录为：${change}`,
     undone: (time: string) => `已于 ${time} 撤销`,

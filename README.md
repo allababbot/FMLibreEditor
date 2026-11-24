@@ -36,6 +36,12 @@ signed: [Code signing policy](#code-signing-policy).
   Steam builds 26340721, 26577676 and 26620374 on Windows, Steam builds 26340721, 26385295 and
   26620374 on Apple silicon Macs, and Game Pass 0.9.2409.0, 0.9.2435.0 and 0.9.2524.0; the others
   say why there is nothing yet.
+- See and change a competition's squad rules in the Competitions tab: how many foreign players a
+  squad may register, how many goalkeepers, how many players in all, and what a team may pick for
+  a match, this season's and next season's apart. A change is kept in the save; UEFA's Champions,
+  Europa and Conference League keep their rules in none, so the editor holds a change of them and
+  writes it again each time it connects. So far on Game Pass 0.9.2524.0 and Steam build 26620374 on
+  Apple silicon Macs, where it was checked; the other versions say why there is nothing yet.
 - See a club's sponsorship deals in its finances, read only: each deal by the name the game gives its
   kind, what it pays per season and in all, its term, and what a relegation changes. Shown on Game
   Pass 0.9.2524.0, Steam build 26340721 on Windows and 26385295 on Apple silicon Macs; the others say
@@ -53,7 +59,7 @@ signed: [Code signing policy](#code-signing-policy).
   draws them over time and lists the attributes that changed. A note under his abilities, arrows
   beside the attributes and a club's squad say who gained and who lost over the last year.
 - Find anyone from anywhere: **Ctrl+K** (**⌘K** on macOS) opens one search over players, staff,
-  clubs and the app's commands. The tabs (Ctrl+1 to 6), the list's search (Ctrl+F), Edit
+  clubs and the app's commands. The tabs (Ctrl+1 to 7), the list's search (Ctrl+F), Edit
   (Ctrl+E), Apply (Ctrl+S) and Reload data (Ctrl+R) have shortcuts too, with ⌘ on macOS.
 - Edit attributes, abilities, positions, personality, traits, contracts with their bonuses and
   clauses, reputation, finances, stadiums and more.

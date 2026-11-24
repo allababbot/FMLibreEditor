@@ -220,7 +220,10 @@ are, in `[layout.<section>]` tables: a session reads its build's layout with tho
    A club's finances show no league prize money on the new build, and cannot change it, until someone has checked
    that `fmlibre-probe prizes` lists the amounts the game's Rules pages show, and added `prize_money = true` to the
    profile. The same goes for a club's sponsorship deals: `fmlibre-probe sponsorships <club UID>` has to list the
-   deals the game's Sponsorship screen shows, with its amounts and dates, before `sponsorships = true` goes in.
+   deals the game's Sponsorship screen shows, with its amounts and dates, before `sponsorships = true` goes in; and
+   for the Competitions tab's squad rules: `fmlibre-probe rules <a league's UID>` has to list the rules the game's
+   Competition Stages page lists for it, this season's and next season's, and a rule changed with `--next` has to show
+   on that page and come back from a save, before `squad_rules = true` goes in.
 4. Build the app (`npm run release`), and run the smoke tests on both storefronts (see
    [`tools/smoke`](../tools/smoke/README.md)).
 
@@ -473,6 +476,10 @@ fmlibre-probe concerns --all                         # every reason to be unhapp
 fmlibre-probe captain 680 43425040 --restore         # make a player captain (--vice: vice-captain) and back
 fmlibre-probe prizes                                 # the prize money competitions pay, by final position and per match
 fmlibre-probe prizes 130286 --win 1234567 --restore  # change what a Süper Lig win pays and back: this writes too
+fmlibre-probe rules                                  # the competitions with squad rules; rules 130286 for the Süper Lig's
+fmlibre-probe rules 130286 --current 1 16 --restore  # change rule 1 of this season's list and back: this writes too
+fmlibre-probe rules 11 --where --sources             # where its lists are, and what each of the nation's records holds
+fmlibre-probe rules 1301394 --current 4 30 --restore # the Champions League's: no record keeps them, so the list alone
 fmlibre-probe sponsorships 2188                      # a club's sponsorship deals: kind, term, amounts (reads only)
 fmlibre-probe scan                                   # find arrays of game objects in game_plugin.dll
 fmlibre-probe refs 0x1a5a5396990 --span 0x3c8        # every pointer into an object (holders, lists, squads too)
@@ -489,7 +496,8 @@ arrays, the in-game date, the retirement manager and the game object the way it 
 
 Only `set`, `move`, `swap`, `release`, `staff-move`, `staff-job`, `staff-sign`, `staff-release`, `heal --heal`,
 `bans --lift`, `tie-set`, `tie-add`, `tie-remove`, `captain`, `cohesion --set`, `familiarity --set`,
-`training-history --max` and `prizes` with an amount to change write to the game. Unlike the app, the probe writes to a build without a profile too, as far as the checks allow, so
+`training-history --max`, `prizes` with an amount to change and `rules` with `--current` or `--next` write to the
+game. Unlike the app, the probe writes to a build without a profile too, as far as the checks allow, so
 that a new build can be mapped.
 - `set` changes one field after the checks above. Values are as stored:
   attributes run 0–100, or 1–20 with `--shown`.
@@ -497,10 +505,11 @@ that a new build can be mapped.
   staff without a club.
 - With `--restore`, each one puts the old values back straight away, to test
   without changing the save. `set`, `move`, `release`, `staff-release`, `heal`, `bans`, the `tie`
-  commands, `captain`, `cohesion`, `familiarity`, `training-history` and `prizes` also take `--hold <seconds>` to
-  wait first, so the
+  commands, `captain`, `cohesion`, `familiarity`, `training-history`, `prizes` and `rules` also take
+  `--hold <seconds>` to wait first, so the
   change can be looked at in the game. The Dynamics page shows a team's cohesion as the game last
-  worked it out, and works it out again only once the game moves on (Continue).
+  worked it out, and works it out again only once the game moves on (Continue); so do the pages that show this
+  season's squad rules.
 
 If Windows denies access, run the probe from an administrator terminal.
 

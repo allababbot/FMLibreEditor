@@ -35,9 +35,11 @@ mod own_memory;
 mod players;
 mod prize_money;
 mod profile;
+mod records;
 mod relations;
 mod retirement;
 pub mod rtti;
+mod rules;
 mod scan;
 mod scout_lists;
 mod scouting;
@@ -109,6 +111,10 @@ pub use profile::{
 };
 pub use relations::{HOMEGROWN_RULES, Relation, RelationPlan, RelationSet, Tie, TieTarget};
 pub use retirement::{PlannedRetirement, RetirementPlan, RetirementSet};
+pub use rules::{
+    CompetitionRules, MOST_RULE_VALUE, RecordedRule, Registration, RuleChange, RuleEdit, RuleError, RulePlaces,
+    RuleReadError, RuleRecord, RuleSource, RuleUnavailable, Season, SeasonTurn, SquadRule,
+};
 pub use scan::{ArrayCandidate, ScanOptions, VtableCount, scan_object_arrays};
 pub use scout_lists::{
     KIND_MOST, KindCount, OPPORTUNITY_KINDS, Opportunities, Opportunity, OpportunityKind, OpportunityRequest,

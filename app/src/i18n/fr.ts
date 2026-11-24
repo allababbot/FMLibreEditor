@@ -1427,6 +1427,138 @@ export const fr: Strings = {
     unavailableBuild: "Personne n'a encore vérifié où cette version du jeu garde les contrats de sponsoring ; l'éditeur n'en montre donc aucun plutôt que de lire la mauvaise mémoire.",
     unavailableUnreadable: "L'éditeur a cherché les contrats de sponsoring là où il les attend dans cette version du jeu, mais ce qu'il a trouvé ne ressemble pas aux données du jeu ; il n'en montre donc aucun.",
   },
+
+  competitions: {
+    nav: "Compétitions",
+    search: "Rechercher des compétitions par nom, pays ou UID",
+    summary: (total, shown) =>
+      total > shown ? `${format(shown)} compétitions sur ${format(total)}` : `${format(total)} compétitions`,
+    empty: (query, filtered) => {
+      if (query === "") {
+        return filtered ? "Aucune compétition de ce pays n'a de règles d'effectif." : "Aucune compétition avec des règles d'effectif trouvée.";
+      }
+      return filtered ? `Aucune compétition de ce pays ne correspond à « ${query} ».` : `Aucune compétition ne correspond à « ${query} ».`;
+    },
+    reading: "Lecture des règles d'effectif des compétitions dans le jeu… Cela prend quelques secondes.",
+    readAgain: "Relire",
+    readAgainTitle: "Relire les règles dans le jeu",
+    listNote: "Les compétitions sans règles d'effectif ne sont pas listées.",
+    unavailableTitle: "Aucune règle d'effectif à afficher",
+    unavailableBuild: "Personne n'a encore vérifié où cette version du jeu garde les règles d'effectif des compétitions : l'éditeur n'en montre donc aucune plutôt que de lire la mauvaise mémoire.",
+    unavailableUnreadable: "L'éditeur a cherché les règles d'effectif là où il les attend dans cette version du jeu, mais ce qu'il a trouvé ne ressemble pas aux données du jeu : il n'en montre donc aucune.",
+    columns: {
+      name: "Compétition",
+      nation: "Pays",
+      level: "Niveau",
+      rules: "Règles",
+      uid: "UID",
+    },
+    level: (level) => format(level),
+    rulesCount: (current, next) =>
+      next === null || next === current ? format(current) : `${format(current)} · ${format(next)}`,
+    rulesCountTitle: "Règles d'effectif cette saison, et la saison prochaine si leur nombre diffère",
+    international: "International",
+    filters: {
+      nation: "Pays",
+      allNations: "Tous les pays",
+    },
+    title: "Règles d'effectif",
+    intro: "Combien de joueurs d'un type un effectif peut inscrire, ou une équipe aligner pour un match, dans cette compétition. Qui compte comme étranger ou comme formé localement, c'est le jeu qui en décide.",
+    seasons: { current: "Cette saison", next: "Saison prochaine" },
+    began: (year) => `a commencé en ${year}`,
+    begins: (year) => `commence en ${year}`,
+    noRules: "Aucune règle d'effectif.",
+    noNext: "Le jeu ne contient aucune règle pour la saison prochaine.",
+    ruleColumns: {
+      rule: "Règle",
+      where: "Compté dans",
+      limit: "Limite",
+      value: "Joueurs",
+    },
+    atMost: "Au plus",
+    atLeast: "Au moins",
+    scopes: {
+      squad: "Effectif",
+      matchSquad: "Groupe du match",
+      eleven: "Onze",
+      startingEleven: "Onze de départ",
+      bench: "Banc",
+    },
+    who: {
+      squadSize: "Joueurs dans l'effectif",
+      foreign: "Joueurs étrangers",
+      foreignExceptAsian: "Joueurs étrangers, hors Asiatiques",
+      foreignGoalkeepers: "Gardiens de but étrangers",
+      nonEu: "Joueurs hors UE",
+      domestic: "Joueurs nationaux",
+      domesticGoalkeepers: "Gardiens de but nationaux",
+      goalkeepers: "Gardiens de but",
+      outfield: "Joueurs de champ",
+      nonHomegrown: "Joueurs non formés localement",
+      youthContract: "Joueurs sous contrat jeune",
+      fullTime: "Joueurs sous contrat à plein temps",
+      amateur: "Joueurs amateurs",
+      youthOrAmateur: "Joueurs jeunes ou amateurs",
+      trialists: "Joueurs à l'essai",
+      loans: "Joueurs prêtés",
+      internationals: "Joueurs internationaux",
+      otherTeam: "Joueurs inscrits dans une autre équipe",
+      firstTeam: "Joueurs inscrits dans l'équipe première",
+      over: (age) => `Joueurs de plus de ${format(age)} ans`,
+      under: (age) => `Joueurs de moins de ${format(age)} ans`,
+      domesticUnder: (age) => `Joueurs nationaux de moins de ${format(age)} ans`,
+      foreignOver: (age) => `Joueurs étrangers de plus de ${format(age)} ans`,
+      goalkeepersOver: (age) => `Gardiens de but de plus de ${format(age)} ans`,
+      outfieldOver: (age) => `Joueurs de champ de plus de ${format(age)} ans`,
+      homegrown: (from, fromAge, toAge) => {
+        const ages = `formés entre ${format(fromAge)} et ${format(toAge)} ans`;
+        if (from === "club") {
+          return `Formés au club (${ages})`;
+        }
+        return from === "nation" ? `Formés dans le pays (${ages})` : `Formés au club ou dans le pays (${ages})`;
+      },
+      homegrownUnder: (age, fromAge, toAge) =>
+        `Joueurs de moins de ${format(age)} ans formés dans le pays (formés entre ${format(fromAge)} et ${format(toAge)} ans)`,
+    },
+    unnamedKind: (kind) => `Règle de type ${format(kind)}`,
+    gameKey: (key) => `Nom de cette règle dans le jeu : ${key}`,
+    teamsFrom: (competition) => `Équipes de ${competition}`,
+    teamsFromUnknown: "Équipes d'une autre division",
+    condition: (code) => `Conditionnelle (${code})`,
+    conditionTitle: "Le jeu applique cette règle sous une condition qui lui est propre, que l'éditeur n'explique pas encore.",
+    years: (from, to) => {
+      if (from !== null && to !== null) {
+        return from === to ? `${from}` : `${from}–${to}`;
+      }
+      return from !== null ? `à partir de ${from}` : `jusqu'en ${to}`;
+    },
+    yearsTitle: "Les saisons pour lesquelles les règles du pays donnent cette règle, d'après l'année où une saison commence",
+    leftAlone: "Laissée telle quelle",
+    notSavedTitle: "Les règles du pays telles qu'une sauvegarde les garde ne contiennent pas cette règle : une modification disparaîtrait au chargement de la sauvegarde. L'éditeur la laisse telle quelle.",
+    notACountTitle: "Un montant d'argent, pas un nombre de joueurs : l'éditeur le laisse tel quel.",
+    noneChangeable: "Ces règles ne peuvent pas encore être modifiées, à aucune date\u00a0: l'éditeur ne modifie une règle que s'il la trouve aussi dans les règles que la sauvegarde conserve, pour que la modification soit encore là au chargement de la sauvegarde, et il n'y a pas trouvé celles de cette compétition. Pour l'instant, c'est le cas des championnats féminins, de la Major League Soccer et de quelques coupes.",
+    unsavedNote: "Le jeu ne garde les règles de cette compétition dans aucune sauvegarde\u00a0: il les crée lui-même à chaque chargement, et de nouveau à chaque saison. L'éditeur maintient donc une modification ici\u00a0: il l'écrit dans le jeu en cours, la retient pour cette carrière et la réécrit chaque fois qu'il se connecte ou relit les données. Après avoir chargé une sauvegarde, connectez l'éditeur (ou cliquez sur Recharger les données) une fois pour que la modification revienne. Annuler dans Modifications la relâche.",
+    heldTag: "Maintenue",
+    heldTitle: (original) => `L'éditeur maintient ce nombre et le réécrit chaque fois qu'il lit le jeu. Celui du jeu est ${format(original)}.`,
+    savedDiffers: (value) => `Les règles de la sauvegarde indiquent ${format(value)}`,
+    savedDiffersTitle: "Le jeu suit la liste et la refait à partir des règles de la sauvegarde quand il la charge. Enregistrer une modification ici change les deux.",
+    edit: "Modifier les règles",
+    editTitle: "Modifier les nombres des règles d'effectif de cette compétition",
+    save: "Enregistrer les règles",
+    saving: "Enregistrement…",
+    cancel: "Annuler",
+    invalid: (most) => `Saisissez un nombre entier de 0 à ${format(most)}.`,
+    shared: (names) => `Ces règles sont aussi celles de ${names} : une modification vaut aussi pour elles.`,
+    currentNote: (turn) =>
+      `Une modification ici vaut pour le reste de cette saison${turn === null ? "" : `, qui change le ${turn}`}. Le jeu compte les effectifs avec elle tout de suite ; ses propres écrans la montrent une fois un jour passé.`,
+    nextNote: (turn) =>
+      `Une modification ici devient la règle de cette saison au changement de saison${turn === null ? "" : ` (le ${turn})`} et reste pour les saisons suivantes, sauf si le jeu a ses propres règles pour une saison ultérieure. La page Saison prochaine du jeu la montre tout de suite.`,
+    lasts: "Une modification est écrite dans la liste que le jeu suit et dans les règles du pays que la sauvegarde garde ; elle est donc de nouveau là au chargement de la sauvegarde. Une modification d'une règle de cette saison prend fin au changement de saison : les règles de la saison prochaine prennent sa place. Annuler dans Modifications remet l'ancien nombre.",
+    infoLabel: "Comment une modification d'une règle d'effectif dure",
+    ruleField: (season, rule) => `Règle d'effectif, ${season.toLowerCase()} : ${rule}`,
+    alsoFor: (count) =>
+      count === 1 ? "Aussi pour 1 autre compétition aux mêmes règles" : `Aussi pour ${format(count)} autres compétitions aux mêmes règles`,
+  },
   app: {
     stage: "bêta",
     settingsLabel: "Paramètres",
@@ -1703,7 +1835,7 @@ export const fr: Strings = {
       change: "Modification",
       status: "Statut",
     },
-    kinds: { player: "Joueur", staff: "Staff", club: "Club", nationalTeam: "Sélection" },
+    kinds: { player: "Joueur", staff: "Staff", club: "Club", nationalTeam: "Sélection", competition: "Compétition" },
     stored: (change) => `valeur brute ${change}`,
     undone: (time) => `Annulée à ${time}`,
     undo: "Annuler",

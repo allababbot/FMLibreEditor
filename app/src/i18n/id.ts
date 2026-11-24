@@ -1278,6 +1278,138 @@ export const id: Strings = {
     unavailableBuild: "Belum ada yang memeriksa di mana versi game ini menyimpan kesepakatan sponsor, jadi editor tidak menampilkannya daripada membaca memori yang salah.",
     unavailableUnreadable: "Editor mencari kesepakatan sponsor di tempat yang diduganya pada versi game ini, tetapi yang ditemukan tidak terbaca seperti data game, jadi tidak ditampilkan.",
   },
+
+  competitions: {
+    nav: "Kompetisi",
+    search: "Cari kompetisi berdasarkan nama, negara, atau UID",
+    summary: (total: number, shown: number) =>
+      total > shown ? `${format(shown)} dari ${format(total)} kompetisi` : `${format(total)} kompetisi`,
+    empty: (query: string, filtered: boolean) => {
+      if (query === "") {
+        return filtered ? "Tidak ada kompetisi di negara ini yang punya aturan skuad." : "Tidak ada kompetisi dengan aturan skuad.";
+      }
+      return filtered ? `Tidak ada kompetisi di negara ini yang cocok dengan “${query}”.` : `Tidak ada kompetisi yang cocok dengan “${query}”.`;
+    },
+    reading: "Membaca aturan skuad kompetisi dari game… Ini butuh beberapa detik.",
+    readAgain: "Baca ulang",
+    readAgainTitle: "Baca ulang aturan dari game",
+    listNote: "Kompetisi tanpa aturan skuad tidak ditampilkan.",
+    unavailableTitle: "Tidak ada aturan skuad untuk ditampilkan",
+    unavailableBuild: "Belum ada yang memeriksa di mana versi game ini menyimpan aturan skuad kompetisi, jadi editor tidak menampilkannya daripada membaca memori yang salah.",
+    unavailableUnreadable: "Editor mencari aturan skuad di tempat yang diharapkan pada versi game ini, tetapi yang ditemukan tidak terbaca seperti data game, jadi tidak ditampilkan.",
+    columns: {
+      name: "Kompetisi",
+      nation: "Negara",
+      level: "Tingkat",
+      rules: "Aturan",
+      uid: "UID",
+    },
+    level: (level: number) => format(level),
+    rulesCount: (current: number, next: number | null) =>
+      next === null || next === current ? format(current) : `${format(current)} · ${format(next)}`,
+    rulesCountTitle: "Aturan skuad musim ini, dan musim depan jika jumlahnya berbeda",
+    international: "Internasional",
+    filters: {
+      nation: "Negara",
+      allNations: "Semua negara",
+    },
+    title: "Aturan skuad",
+    intro: "Berapa banyak pemain dari satu jenis yang boleh didaftarkan sebuah skuad, atau dipilih sebuah tim untuk satu pertandingan, di kompetisi ini. Siapa yang dihitung sebagai pemain asing atau binaan sendiri ditentukan oleh game sendiri.",
+    seasons: { current: "Musim ini", next: "Musim depan" },
+    began: (year: number) => `dimulai tahun ${year}`,
+    begins: (year: number) => `akan dimulai tahun ${year}`,
+    noRules: "Tidak ada aturan skuad.",
+    noNext: "Game tidak menyimpan aturan untuk musim depan.",
+    ruleColumns: {
+      rule: "Aturan",
+      where: "Dihitung di",
+      limit: "Batas",
+      value: "Pemain",
+    },
+    atMost: "Maksimal",
+    atLeast: "Minimal",
+    scopes: {
+      squad: "Skuad",
+      matchSquad: "Skuad pertandingan",
+      eleven: "Sebelas pemain",
+      startingEleven: "Susunan pemain inti",
+      bench: "Bangku cadangan",
+    },
+    who: {
+      squadSize: "Pemain di skuad",
+      foreign: "Pemain asing",
+      foreignExceptAsian: "Pemain asing, kecuali pemain Asia",
+      foreignGoalkeepers: "Kiper asing",
+      nonEu: "Pemain non-UE",
+      domestic: "Pemain lokal",
+      domesticGoalkeepers: "Kiper lokal",
+      goalkeepers: "Kiper",
+      outfield: "Pemain lapangan",
+      nonHomegrown: "Pemain yang bukan binaan sendiri",
+      youthContract: "Pemain berkontrak junior",
+      fullTime: "Pemain berkontrak penuh waktu",
+      amateur: "Pemain amatir",
+      youthOrAmateur: "Pemain junior atau amatir",
+      trialists: "Pemain uji coba",
+      loans: "Pemain pinjaman",
+      internationals: "Pemain internasional",
+      otherTeam: "Pemain yang didaftarkan untuk tim lain",
+      firstTeam: "Pemain yang didaftarkan untuk tim utama",
+      over: (age: number) => `Pemain di atas ${format(age)} tahun`,
+      under: (age: number) => `Pemain di bawah ${format(age)} tahun`,
+      domesticUnder: (age: number) => `Pemain lokal di bawah ${format(age)} tahun`,
+      foreignOver: (age: number) => `Pemain asing di atas ${format(age)} tahun`,
+      goalkeepersOver: (age: number) => `Kiper di atas ${format(age)} tahun`,
+      outfieldOver: (age: number) => `Pemain lapangan di atas ${format(age)} tahun`,
+      homegrown: (from: "club" | "nation" | "clubOrNation", fromAge: number, toAge: number) => {
+        const ages = `dibina pada usia ${format(fromAge)}–${format(toAge)}`;
+        if (from === "club") {
+          return `Binaan klub (${ages})`;
+        }
+        return from === "nation" ? `Binaan negara (${ages})` : `Binaan klub atau negara (${ages})`;
+      },
+      homegrownUnder: (age: number, fromAge: number, toAge: number) =>
+        `Pemain binaan negara di bawah ${format(age)} tahun (dibina pada usia ${format(fromAge)}–${format(toAge)})`,
+    },
+    unnamedKind: (kind: number) => `Aturan jenis ${format(kind)}`,
+    gameKey: (key: string) => `Nama aturan ini di game: ${key}`,
+    teamsFrom: (competition: string) => `Tim dari ${competition}`,
+    teamsFromUnknown: "Tim dari divisi lain",
+    condition: (code: string) => `Bersyarat (${code})`,
+    conditionTitle: "Game menerapkan aturan ini dengan syarat miliknya sendiri, yang belum dijelaskan editor.",
+    years: (from: number | null, to: number | null) => {
+      if (from !== null && to !== null) {
+        return from === to ? `${from}` : `${from}–${to}`;
+      }
+      return from !== null ? `mulai ${from}` : `hingga ${to}`;
+    },
+    yearsTitle: "Musim-musim yang diberi aturan ini oleh aturan negara, menurut tahun dimulainya musim",
+    leftAlone: "Tidak diubah",
+    notSavedTitle: "Aturan negara sebagaimana disimpan dalam save tidak memuat aturan seperti itu, jadi perubahan akan hilang saat save dimuat: editor tidak mengubahnya.",
+    notACountTitle: "Ini jumlah uang, bukan jumlah pemain: editor tidak mengubahnya.",
+    noneChangeable: "Aturan ini belum bisa diubah, pada tanggal berapa pun: editor hanya mengubah aturan jika menemukannya juga di aturan yang disimpan dalam save, agar perubahan tetap ada saat save dimuat, dan aturan kompetisi ini belum ditemukan di sana. Sejauh ini hal itu berlaku untuk liga wanita, Major League Soccer, dan beberapa piala.",
+    unsavedNote: "Game tidak menyimpan aturan kompetisi ini di save mana pun: game membuatnya sendiri setiap kali memuat save, dan sekali lagi untuk setiap musim baru. Karena itu editor menahan perubahan di sini: menulisnya ke game yang sedang berjalan, mengingatnya untuk karier ini, dan menulisnya lagi setiap kali tersambung atau membaca data lagi. Setelah memuat save, sambungkan editor (atau tekan Muat ulang data) sekali agar perubahan kembali. Urungkan di Perubahan melepaskannya.",
+    heldTag: "Ditahan",
+    heldTitle: (original: number) => `Editor menahan jumlah ini dan menulisnya lagi setiap kali membaca game. Jumlah dari game sendiri adalah ${format(original)}.`,
+    savedDiffers: (value: number) => `Aturan di save berisi ${format(value)}`,
+    savedDiffersTitle: "Game berjalan menurut daftar, dan membuat daftar itu dari aturan di save saat memuatnya. Menyimpan perubahan di sini mengatur keduanya.",
+    edit: "Ubah aturan",
+    editTitle: "Ubah jumlah pada aturan skuad kompetisi ini",
+    save: "Simpan aturan",
+    saving: "Menyimpan…",
+    cancel: "Batal",
+    invalid: (most: number) => `Masukkan bilangan bulat dari 0 sampai ${format(most)}.`,
+    shared: (names: string) => `Aturan ini juga milik ${names}: perubahan berlaku juga untuk mereka.`,
+    currentNote: (turn: string | null) =>
+      `Perubahan di sini berlaku sampai akhir musim ini${turn === null ? "" : `; musim berganti pada ${turn}`}. Game langsung menghitung skuad dengan perubahan itu; layar game sendiri baru menampilkannya setelah satu hari berlalu.`,
+    nextNote: (turn: string | null) =>
+      `Perubahan di sini menjadi aturan musim ini saat musim berganti${turn === null ? "" : ` (${turn})`}, dan tetap berlaku pada musim-musim berikutnya kecuali game punya aturan sendiri untuk musim yang lebih jauh. Halaman Musim Depan di game langsung menampilkannya.`,
+    lasts: "Perubahan ditulis ke daftar yang dipakai game dan ke aturan negara yang disimpan save, jadi tetap ada saat save dimuat lagi. Perubahan pada aturan musim ini berakhir saat musim berganti: aturan musim depan menggantikannya. Urungkan di Perubahan mengembalikan jumlah lama.",
+    infoLabel: "Bagaimana perubahan aturan skuad bertahan",
+    ruleField: (season: string, rule: string) => `Aturan skuad, ${season.toLowerCase()}: ${rule}`,
+    alsoFor: (count: number) =>
+      count === 1 ? "Juga untuk 1 kompetisi lain dengan aturan yang sama" : `Juga untuk ${format(count)} kompetisi lain dengan aturan yang sama`,
+  },
   app: {
     stage: "beta",
     settingsLabel: "Pengaturan",
@@ -1531,7 +1663,7 @@ export const id: Strings = {
       change: "Perubahan",
       status: "Status",
     },
-    kinds: { player: "Pemain", staff: "Staf", club: "Klub", nationalTeam: "Tim nasional" },
+    kinds: { player: "Pemain", staff: "Staf", club: "Klub", nationalTeam: "Tim nasional", competition: "Kompetisi" },
     stored: (change: string) => `tersimpan ${change}`,
     undone: (time: string) => `Diurungkan pada ${time}`,
     undo: "Urungkan",

@@ -1381,6 +1381,138 @@ export const it: Strings = {
     unavailableBuild: "Nessuno ha ancora verificato dove questa versione del gioco tenga le sponsorizzazioni, quindi l'editor non le mostra per non leggere la memoria sbagliata.",
     unavailableUnreadable: "L'editor ha cercato le sponsorizzazioni dove se le aspetta in questa versione del gioco, ma ciò che ha trovato non sembra quello del gioco, quindi non le mostra.",
   },
+
+  competitions: {
+    nav: "Competizioni",
+    search: "Cerca competizioni per nome, nazione o UID",
+    summary: (total, shown) =>
+      total > shown ? `${format(shown)} di ${format(total)} competizioni` : `${format(total)} competizioni`,
+    empty: (query, filtered) => {
+      if (query === "") {
+        return filtered ? "Nessuna competizione di questa nazione ha regole di rosa." : "Nessuna competizione con regole di rosa trovata.";
+      }
+      return filtered ? `Nessuna competizione di questa nazione corrisponde a «${query}».` : `Nessuna competizione corrisponde a «${query}».`;
+    },
+    reading: "Lettura delle regole di rosa delle competizioni dal gioco… Ci vogliono alcuni secondi.",
+    readAgain: "Rileggi",
+    readAgainTitle: "Rileggi le regole dal gioco",
+    listNote: "Le competizioni senza regole di rosa non sono elencate.",
+    unavailableTitle: "Nessuna regola di rosa da mostrare",
+    unavailableBuild: "Nessuno ha ancora verificato dove questa versione del gioco tenga le regole di rosa delle competizioni, quindi l'editor non ne mostra per non leggere la memoria sbagliata.",
+    unavailableUnreadable: "L'editor ha cercato le regole di rosa dove se le aspetta in questa versione del gioco, ma ciò che ha trovato non sembra quello del gioco, quindi non ne mostra.",
+    columns: {
+      name: "Competizione",
+      nation: "Nazione",
+      level: "Livello",
+      rules: "Regole",
+      uid: "UID",
+    },
+    level: (level) => format(level),
+    rulesCount: (current, next) =>
+      next === null || next === current ? format(current) : `${format(current)} · ${format(next)}`,
+    rulesCountTitle: "Regole di rosa in questa stagione e, se il numero è diverso, nella prossima",
+    international: "Internazionale",
+    filters: {
+      nation: "Nazione",
+      allNations: "Tutte le nazioni",
+    },
+    title: "Regole di rosa",
+    intro: "Quanti giocatori di un tipo una rosa può registrare, o una squadra schierare per una partita, in questa competizione. Chi conta come straniero o formato in casa lo decide il gioco stesso.",
+    seasons: { current: "Questa stagione", next: "Prossima stagione" },
+    began: (year) => `iniziata nel ${year}`,
+    begins: (year) => `inizia nel ${year}`,
+    noRules: "Nessuna regola di rosa.",
+    noNext: "Il gioco non ha regole per la prossima stagione.",
+    ruleColumns: {
+      rule: "Regola",
+      where: "Conteggio in",
+      limit: "Limite",
+      value: "Giocatori",
+    },
+    atMost: "Al massimo",
+    atLeast: "Almeno",
+    scopes: {
+      squad: "Rosa",
+      matchSquad: "Lista gara",
+      eleven: "Undici in campo",
+      startingEleven: "Formazione titolare",
+      bench: "Panchina",
+    },
+    who: {
+      squadSize: "Giocatori in rosa",
+      foreign: "Giocatori stranieri",
+      foreignExceptAsian: "Giocatori stranieri, esclusi gli asiatici",
+      foreignGoalkeepers: "Portieri stranieri",
+      nonEu: "Giocatori non UE",
+      domestic: "Giocatori nazionali",
+      domesticGoalkeepers: "Portieri nazionali",
+      goalkeepers: "Portieri",
+      outfield: "Giocatori di movimento",
+      nonHomegrown: "Giocatori non formati in casa",
+      youthContract: "Giocatori con contratto giovanile",
+      fullTime: "Giocatori con contratto a tempo pieno",
+      amateur: "Giocatori dilettanti",
+      youthOrAmateur: "Giocatori giovani o dilettanti",
+      trialists: "Giocatori in prova",
+      loans: "Giocatori in prestito",
+      internationals: "Giocatori internazionali",
+      otherTeam: "Giocatori registrati per un'altra squadra",
+      firstTeam: "Giocatori registrati per la prima squadra",
+      over: (age) => `Giocatori sopra i ${format(age)} anni`,
+      under: (age) => `Giocatori sotto i ${format(age)} anni`,
+      domesticUnder: (age) => `Giocatori nazionali sotto i ${format(age)} anni`,
+      foreignOver: (age) => `Giocatori stranieri sopra i ${format(age)} anni`,
+      goalkeepersOver: (age) => `Portieri sopra i ${format(age)} anni`,
+      outfieldOver: (age) => `Giocatori di movimento sopra i ${format(age)} anni`,
+      homegrown: (from, fromAge, toAge) => {
+        const ages = `formati tra i ${format(fromAge)} e i ${format(toAge)} anni`;
+        if (from === "club") {
+          return `Formati nel club (${ages})`;
+        }
+        return from === "nation" ? `Formati nella nazione (${ages})` : `Formati nel club o nella nazione (${ages})`;
+      },
+      homegrownUnder: (age, fromAge, toAge) =>
+        `Giocatori sotto i ${format(age)} anni formati nella nazione (formati tra i ${format(fromAge)} e i ${format(toAge)} anni)`,
+    },
+    unnamedKind: (kind) => `Regola di tipo ${format(kind)}`,
+    gameKey: (key) => `Nome di questa regola nel gioco: ${key}`,
+    teamsFrom: (competition) => `Squadre di ${competition}`,
+    teamsFromUnknown: "Squadre di un'altra divisione",
+    condition: (code) => `Condizionale (${code})`,
+    conditionTitle: "Il gioco applica questa regola a una condizione sua, che l'editor non spiega ancora.",
+    years: (from, to) => {
+      if (from !== null && to !== null) {
+        return from === to ? `${from}` : `${from}–${to}`;
+      }
+      return from !== null ? `dal ${from}` : `fino al ${to}`;
+    },
+    yearsTitle: "Le stagioni per cui le regole della nazione prevedono questa regola, per anno in cui inizia la stagione",
+    leftAlone: "Lasciata stare",
+    notSavedTitle: "Le regole della nazione come le conserva un salvataggio non contengono questa regola, quindi una modifica sparirebbe al caricamento del salvataggio: l'editor la lascia stare.",
+    notACountTitle: "Una somma di denaro, non un numero di giocatori: l'editor la lascia stare.",
+    noneChangeable: "Queste regole non si possono ancora modificare, in nessuna data: l'editor modifica una regola solo se la trova anche nelle regole che il salvataggio conserva, così la modifica c'è ancora quando il salvataggio viene caricato, e quelle di questa competizione non le ha trovate lì. Per ora vale per i campionati femminili, la Major League Soccer e alcune coppe.",
+    unsavedNote: "Il gioco non conserva le regole di questa competizione in nessun salvataggio: le crea da sé ogni volta che ne carica uno, e di nuovo a ogni stagione. Per questo l'editor mantiene una modifica qui: la scrive nel gioco in corso, la ricorda per questa carriera e la riscrive ogni volta che si connette o rilegge i dati. Dopo aver caricato un salvataggio, connetti l'editor (o premi Ricarica i dati) una volta perché la modifica torni. Ripristina in Modifiche la rilascia.",
+    heldTag: "Mantenuta",
+    heldTitle: (original) => `L'editor mantiene questo numero e lo riscrive ogni volta che legge il gioco. Quello del gioco è ${format(original)}.`,
+    savedDiffers: (value) => `Le regole del salvataggio hanno ${format(value)}`,
+    savedDiffersTitle: "Il gioco segue la lista e la ricrea dalle regole del salvataggio quando lo carica. Salvare qui una modifica imposta entrambe.",
+    edit: "Modifica regole",
+    editTitle: "Modifica i numeri delle regole di rosa di questa competizione",
+    save: "Salva regole",
+    saving: "Salvataggio…",
+    cancel: "Annulla",
+    invalid: (most) => `Inserisci un numero intero da 0 a ${format(most)}.`,
+    shared: (names) => `Queste regole sono anche quelle di ${names}: una modifica vale anche per loro.`,
+    currentNote: (turn) =>
+      `Una modifica qui vale per il resto di questa stagione${turn === null ? "" : `, che cambia il ${turn}`}. Il gioco conta subito le rose con la modifica; le sue schermate la mostrano quando è passato un giorno.`,
+    nextNote: (turn) =>
+      `Una modifica qui diventa la regola di questa stagione al cambio di stagione${turn === null ? "" : ` (il ${turn})`} e resta per le stagioni successive, a meno che il gioco non abbia regole proprie per una stagione più avanti. La pagina Prossima stagione del gioco la mostra subito.`,
+    lasts: "Una modifica viene scritta nella lista che il gioco segue e nelle regole della nazione che il salvataggio conserva, quindi c'è ancora quando il salvataggio viene caricato. Una modifica a una regola di questa stagione finisce al cambio di stagione: le regole della prossima prendono il suo posto. Ripristina in Modifiche rimette il vecchio numero.",
+    infoLabel: "Quanto dura la modifica di una regola di rosa",
+    ruleField: (season, rule) => `Regola di rosa, ${season.toLowerCase()}: ${rule}`,
+    alsoFor: (count) =>
+      count === 1 ? "Anche per 1 altra competizione con le stesse regole" : `Anche per ${format(count)} altre competizioni con le stesse regole`,
+  },
   app: {
     stage: "beta",
     settingsLabel: "Impostazioni",
@@ -1647,7 +1779,7 @@ export const it: Strings = {
       change: "Modifica",
       status: "Stato",
     },
-    kinds: { player: "Giocatore", staff: "Staff", club: "Società", nationalTeam: "Nazionale" },
+    kinds: { player: "Giocatore", staff: "Staff", club: "Società", nationalTeam: "Nazionale", competition: "Competizione" },
     stored: (change) => `valore interno ${change}`,
     undone: (time) => `Annullata alle ${time}`,
     undo: "Ripristina",
