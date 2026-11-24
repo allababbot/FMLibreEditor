@@ -84,6 +84,49 @@ pub struct Layout {
     /// checked in.
     #[serde(default)]
     pub transfers: Option<TransfersLayout>,
+    /// The rules a competition's squads are registered under (see `rules.rs`); only in the layouts they have been
+    /// checked in.
+    #[serde(default)]
+    pub rules: Option<RulesLayout>,
+}
+
+/// Where the game keeps the rules a competition's squads are registered under (see `rules.rs` and
+/// docs/recon/fm27-league-rules.md): the lists it checks a squad against, one for this season and one for the next,
+/// and the records of the nation's rule files it makes those lists from.
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct RulesLayout {
+    /// The class of the object the game keeps for a competition as it is played, as written in C++; and in it: the
+    /// pointer to its `db::COMP`, its own rules as a record, and the pointer to its rule group.
+    pub competition_class: String,
+    pub competition_db: u64,
+    pub competition_record: u64,
+    pub competition_group: u64,
+    /// In a `db::COMP`: the pointer back to that object.
+    pub db_competition: u64,
+    /// In a rule group: the pointer to its nation's rules as the game plays by them; and in those, the `(begin, end,
+    /// capacity)` of pointers to its fixture rules, which a competition's record names one of by its place.
+    pub group_nation_rules: u64,
+    pub nation_fixture_rules: u64,
+    /// In fixture rules: the pointer to those of the next season, and the pointer to the list `(begin, end, capacity)`
+    /// of pointers to its squad rules.
+    pub fixture_next: u64,
+    pub fixture_squad_rules: u64,
+    /// A squad rule: its size, and in it the `u32` key of its condition (0 for none), the `u32` UID of the competition
+    /// the condition names, the `i32` value, the `u16` kind and the `i8` that says which way it limits (-1 at most, 1
+    /// at least).
+    pub rule_size: u64,
+    pub rule_condition: u64,
+    pub rule_competition: u64,
+    pub rule_value: u64,
+    pub rule_kind: u64,
+    pub rule_compare: u64,
+    /// In the container of a nation's men's teams: the record its rule files make together, and after it the list of
+    /// the records of the files themselves.
+    pub container_rules: u64,
+    pub container_files: u64,
+    /// The name of one kind of squad rule, by which the game's table of all of them is found in the plugin.
+    pub kind_anchor: String,
 }
 
 /// How the game keeps its transfers and a move agreed for a later day (see `arranged.rs` and

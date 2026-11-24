@@ -444,4 +444,11 @@ changes many at once, and undo.
     The competition bonuses (`+0x80`) are not named or edited yet.
   - [x] Keep a player from retiring (see Wave 2 above).
   - [x] Team cohesion and tactical familiarity (see Phase 6).
+  - [ ] A competition's squad rules: how many foreign players a squad may register, how many goalkeepers, how many
+    players in all. They are data the game keeps with the nation and makes its lists from, one for this season and
+    one for the next; the probe's `rules` reads both and changes a rule in the list and in the record a save keeps
+    (Game Pass 0.9.2524.0: the Süper Lig's limit on foreign players, seen in the game's Competition Stages and
+    Registration screens and kept by a save; on the Mac, Steam build 26620374 for Apple silicon, the Premier League's
+    squad size). The app does not show them yet; a turn of the season and Steam for Windows are not checked. See the
+    [league rules notes](recon/fm27-league-rules.md).
   - [ ] Epic.
