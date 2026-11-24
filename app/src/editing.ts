@@ -13,6 +13,8 @@ import type {
   ClubName,
   ClubStaffRow,
   ClubTeam,
+  CompetitionRulesRead,
+  CompetitionRulesSet,
   EditField,
   EditEntity,
   Entity,
@@ -34,6 +36,7 @@ import type {
   NationalTeamAction,
   PersonNames,
   RoomMaker,
+  RuleInput,
   StadiumName,
   TeamAction,
   TeamFreeze,
@@ -43,6 +46,20 @@ import type {
 
 /** The fields of players or of staff the editor can change, in display order. */
 export const editFields = (entity: EditEntity) => call<EditField[]>("edit_fields", { entity });
+
+/**
+ * The squad rules of every competition that has some, this season's and next season's, or why this version of the game
+ * shows none. The first time, and with `again`, the editor reads them from the game, which takes a few seconds; after
+ * that it gives them as read then, with the changes it made since.
+ */
+export const competitionRules = (again: boolean) => call<CompetitionRulesRead>("competition_rules", { again });
+
+/**
+ * Sets squad rules of the competition `competition`, each as its list showed it, and logs each rule changed (in one
+ * batch when there are more), which Undo in Changes puts back.
+ */
+export const setCompetitionRules = (competition: number, changes: RuleInput[]) =>
+  call<CompetitionRulesSet>("set_competition_rules", { competition, changes });
 
 /**
  * Brings the player `uid` back from his loan: it now ends on the game's date, its last day, and he is back at his club

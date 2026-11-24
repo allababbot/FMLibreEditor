@@ -2909,6 +2909,14 @@ button.destroy[aria-disabled="true"]:hover {
   font-weight: 600;
 }
 
+/* A long field name (a squad rule's with its season), the notes under a change and the fields of a mass edit wrap:
+   on one line they would push the Status column, and its Undo, out of the window. */
+.changes-grid .col-field,
+.changes-grid .col-batch .name,
+.changes-grid .change-value .sub {
+  white-space: normal;
+}
+
 /* The one cell that may be tall: an undo that failed says why under its button. */
 .changes-grid .col-status {
   min-width: 11rem;
@@ -7776,4 +7784,114 @@ kbd {
 /* The national teams table: the code takes the place of the league. */
 .national-grid td.col-league {
   width: 18%;
+}
+
+/* The competitions table: the nation takes the place of the league. */
+.competition-grid td.col-league {
+  width: 24%;
+}
+
+.competition-list-note {
+  margin: 10px 12px;
+}
+
+/* A competition's squad rules: an area for this season and one for the next, side by side where the panel has room. */
+.rule-seasons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+  gap: 14px 20px;
+  margin: 10px 0 4px;
+}
+
+.rule-season {
+  min-width: 0;
+}
+
+/* The season's heading, and beside it the year it begins in. */
+.rule-season h4 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+}
+
+.rule-season h4 small {
+  color: var(--muted);
+  font-size: 11.5px;
+  font-stretch: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.rule-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.rule-table th,
+.rule-table td {
+  padding: 5px 10px 5px 0;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.rule-table thead th {
+  padding-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.rule-table tbody th {
+  font-weight: 600;
+}
+
+.rule-table td {
+  white-space: nowrap;
+}
+
+.rule-table .num {
+  padding-right: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.rule-who {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+/* For which teams a rule holds, the years it is given for, what the save's rules hold when that is another count. */
+.rule-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 4px;
+  margin-top: 3px;
+}
+
+.rule-tags .tag {
+  white-space: normal;
+}
+
+/* A rule the editor leaves alone. */
+.rule-fixed .rule-who,
+.rule-fixed td {
+  color: var(--muted);
+}
+
+.rule-value {
+  font-weight: 600;
+}
+
+.rule-season-note {
+  margin: 8px 0 0;
+}
+
+/* Over the areas: whose rules these are too, and why none of them can be changed where that is so. */
+.squad-rules .rule-notice {
+  margin-top: 6px;
+  color: var(--text);
 }
