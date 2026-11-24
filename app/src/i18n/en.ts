@@ -3648,7 +3648,7 @@ export const en = {
   recipes: {
     /** The button beside Max attributes in a player's profile, and in the header of a club's. */
     button: "Recipes",
-    buttonTitle: "Ready-made sets of changes, each with a preview before anything is written",
+    buttonTitle: "Ready-made sets of changes, previewed first",
     /** The recipes by key, as the menu and the title of the dialog name them. */
     names: {
       wonderkid: "Make a wonderkid",
@@ -3657,24 +3657,18 @@ export const en = {
       richClub: "Make the club rich",
       topFacilities: "Top facilities",
     },
-    /** What each one does, in a sentence or two: the hover text of its menu item, and the line under the dialog's title. */
+    /** What each one does, kept short: the note beside its menu item, and the line under the dialog's title. */
     notes: {
       wonderkid:
-        "For a player of 21 or younger: potential ability to at least 180, a current ability and attributes that fit " +
-        "his age, and the hidden attributes and personality to get there. Higher values stay; positions, feet, traits " +
-        "and contract are not touched.",
-      injuryProof:
-        "Injury proneness to 1, natural fitness to 20 and stamina to at least 15, and the injuries he has now healed.",
+        "21 or younger: potential ability at least 180, ability and attributes to suit his age. Higher values " +
+        "stay.",
+      injuryProof: "Injury proneness 1, natural fitness 20, stamina at least 15, injuries healed.",
       longCareer:
-        "Takes the retirement the game plans for him out of its plans, makes his contract run at least three more " +
-        "years, and raises natural fitness to 20 and professionalism to at least 18, which slow his decline. His " +
-        "attributes can still fall with age: Freeze attributes holds them while the editor is open.",
-      richClub:
-        "Raises the balance, the transfer budget and both wage budgets to those of the richest clubs. Money the club " +
-        "has beyond that stays.",
-      topFacilities: "All five facilities of the club to 20.",
+        "No planned retirement, three more years of contract, natural fitness 20, professionalism at least 18.",
+      richClub: "Balance, transfer budget and wage budgets up to the level of the richest clubs.",
+      topFacilities: "All five facilities to 20.",
     },
-    /** The hover text of a recipe that is dimmed: the player is older than `oldest`, or his age is not known. */
+    /** The note of a recipe that is dimmed: the player is older than `oldest`, or his age is not known. */
     tooOld: (oldest: number) => `For players of ${oldest} or younger`,
     /** A recipe as the command palette lists it for the profile on show. */
     command: (recipe: string) => `Recipe: ${recipe}`,

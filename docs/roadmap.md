@@ -244,7 +244,10 @@ before trusting them.
   In the interface they have no tab and no block of their own: a Recipes button at the end of the row of Max
   attributes in a player's profile, and in the header of a club's (before Edit, gone while the club is edited),
   opens a menu of them, the squad's More actions menu by another name; a recipe that is not for the player is
-  dimmed and says whom it is for. The command palette finds the recipes of the profile on show once something is
+  dimmed and says whom it is for. What an item of the menu does is said in a small box beside the menu while the
+  pointer or the keys are on the item (the squad's More actions too), in place of the browser's hover text, which
+  is one long strip: the box is narrow, so that it fits a small window, and the recipes' notes are a line each.
+  The command palette finds the recipes of the profile on show once something is
   typed. The dialog is the mass edit's preview for one subject: the changes, the values that stay behind a line
   that opens them, what is left alone with the reasons, Apply, and Undo.
 - [ ] Recipes for a whole team from the squad's More actions menu, and recipes of the user's own.

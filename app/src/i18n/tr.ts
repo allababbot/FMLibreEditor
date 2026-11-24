@@ -3114,7 +3114,7 @@ export const tr: Strings = {
   /** Recipes (`RecipeMenu`): see `en.ts`. */
   recipes: {
     button: "Tarifler",
-    buttonTitle: "Hazır değişiklik setleri: hiçbir şey yazılmadan önce her biri önizlenir",
+    buttonTitle: "Hazır değişiklik setleri; önce önizlenir",
     names: {
       wonderkid: "Geleceğin yıldızı yap",
       injuryProof: "Sakatlanmaz yap",
@@ -3124,19 +3124,12 @@ export const tr: Strings = {
     },
     notes: {
       wonderkid:
-        "21 yaş ve altındaki oyuncu için: potansiyel yetenek en az 180, yaşına uygun mevcut yetenek ve özellikler, " +
-        "oraya ulaşmasını sağlayacak gizli özellikler ve kişilik. Daha yüksek değerler olduğu gibi kalır; " +
-        "pozisyonlara, ayaklara ve sözleşmeye dokunulmaz.",
-      injuryProof:
-        "Sakatlık eğilimi 1, doğal kondisyon 20, dayanıklılık en az 15 olur; şu anki sakatlıkları iyileştirilir.",
+        "21 yaş ve altı: potansiyel yetenek en az 180, yaşına uygun yetenek ve özellikler. Yüksek değerler kalır.",
+      injuryProof: "Sakatlık eğilimi 1, doğal kondisyon 20, dayanıklılık en az 15; sakatlıkları iyileşir.",
       longCareer:
-        "Oyunun onun için planladığı emekliliği planlardan çıkarır, sözleşmesini en az üç yıl daha sürecek şekilde " +
-        "uzatır, düşüşünü yavaşlatan doğal kondisyonu 20'ye ve profesyonelliği en az 18'e çıkarır. Özellikleri yaşla " +
-        "birlikte yine de düşebilir: editör açıkken onları Özellikleri dondur tutar.",
-      richClub:
-        "Bakiyeyi, transfer bütçesini ve iki maaş bütçesini en zengin kulüplerin düzeyine çıkarır. Kulübün bundan " +
-        "fazla parası varsa olduğu gibi kalır.",
-      topFacilities: "Kulübün beş tesisinin hepsi 20 olur.",
+        "Planlanan emeklilik kalkar, sözleşme en az 3 yıl sürer, doğal kondisyon 20, profesyonellik en az 18.",
+      richClub: "Bakiye, transfer bütçesi ve maaş bütçeleri en zengin kulüplerin düzeyine çıkar.",
+      topFacilities: "Beş tesisin hepsi 20 olur.",
     },
     tooOld: (oldest: number) => `${oldest} yaş ve altındaki oyuncular için`,
     command: (recipe: string) => `Tarif: ${recipe}`,

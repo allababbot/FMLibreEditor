@@ -3189,7 +3189,7 @@ export const es: Strings = {
   /** Recipes (`RecipeMenu`): see `en.ts`. */
   recipes: {
     button: "Recetas",
-    buttonTitle: "Conjuntos de cambios ya preparados, cada uno con vista previa antes de escribir nada",
+    buttonTitle: "Conjuntos de cambios ya preparados, con vista previa",
     names: {
       wonderkid: "Convertir en promesa",
       injuryProof: "A prueba de lesiones",
@@ -3199,21 +3199,15 @@ export const es: Strings = {
     },
     notes: {
       wonderkid:
-        "Para un jugador de 21 años o menos: habilidad potencial de 180 como mínimo, una habilidad actual y unos " +
-        "atributos acordes a su edad, y los atributos ocultos y la personalidad para llegar hasta ahí. Los valores " +
-        "más altos se quedan como están; no se tocan las posiciones, los pies, las características ni el contrato.",
+        "Hasta 21 años: habilidad potencial de 180 como mínimo, habilidad y atributos acordes a su edad. Los " +
+        "valores más altos se quedan.",
       injuryProof:
-        "Propensión a lesiones a 1, recuperación física a 20 y resistencia a 15 como mínimo, y cura las lesiones que " +
-        "tiene ahora.",
+        "Propensión a lesiones a 1, recuperación física a 20, resistencia a 15 como mínimo, lesiones curadas.",
       longCareer:
-        "Quita de los planes del juego la retirada que tiene prevista, hace que su contrato dure al menos tres años " +
-        "más y sube la recuperación física a 20 y la profesionalidad a 18 como mínimo, que frenan su declive. Sus " +
-        "atributos pueden seguir bajando con la edad: Congelar los atributos los mantiene mientras el editor esté " +
-        "abierto.",
-      richClub:
-        "Sube el saldo, el presupuesto de fichajes y los dos presupuestos salariales al nivel de los clubes más " +
-        "ricos. Si el club ya tiene más dinero, se queda como está.",
-      topFacilities: "Las cinco instalaciones del club a 20.",
+        "Sin retirada prevista, contrato de al menos tres años más, recuperación física a 20, profesionalidad a 18 " +
+        "como mínimo.",
+      richClub: "Saldo, presupuesto de fichajes y presupuestos salariales al nivel de los clubes más ricos.",
+      topFacilities: "Las cinco instalaciones a 20.",
     },
     tooOld: (oldest: number) => `Para jugadores de ${oldest} años o menos`,
     command: (recipe: string) => `Receta: ${recipe}`,

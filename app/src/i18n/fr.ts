@@ -3302,7 +3302,7 @@ export const fr: Strings = {
   /** Recipes (`RecipeMenu`): see `en.ts`. */
   recipes: {
     button: "Recettes",
-    buttonTitle: "Des ensembles de modifications tout prêts, chacun avec un aperçu avant toute écriture",
+    buttonTitle: "Des ensembles de modifications tout prêts, avec aperçu",
     names: {
       wonderkid: "En faire une jeune pépite",
       injuryProof: "À l'épreuve des blessures",
@@ -3312,21 +3312,16 @@ export const fr: Strings = {
     },
     notes: {
       wonderkid:
-        "Pour un joueur de 21 ans ou moins\u00a0: niveau potentiel à 180 au moins, un niveau actuel et des attributs " +
-        "adaptés à son âge, ainsi que les attributs cachés et la personnalité pour y arriver. Les valeurs plus " +
-        "élevées restent\u00a0; les postes, les pieds, les caractéristiques et le contrat ne sont pas touchés.",
+        "21 ans ou moins\u00a0: niveau potentiel à 180 au moins, niveau actuel et attributs adaptés à son âge. Les " +
+        "valeurs plus élevées restent.",
       injuryProof:
-        "Tendance à se blesser à 1, qualités physiques naturelles à 20 et endurance à 15 au moins, et ses blessures " +
-        "actuelles sont soignées.",
+        "Tendance à se blesser à 1, qualités physiques naturelles à 20, endurance à 15 au moins, blessures " +
+        "soignées.",
       longCareer:
-        "Retire des plans du jeu le départ à la retraite prévu pour lui, fait courir son contrat encore trois ans " +
-        "au moins et porte les qualités physiques naturelles à 20 et le professionnalisme à 18 au moins, ce qui " +
-        "ralentit son déclin. Ses attributs peuvent tout de même baisser avec l'âge\u00a0: «\u00a0Bloquer les " +
-        "attributs\u00a0» les maintient tant que l'éditeur est ouvert.",
-      richClub:
-        "Porte le solde, le budget transferts et les deux budgets salariaux au niveau des clubs les plus riches. " +
-        "L'argent que le club a en plus reste.",
-      topFacilities: "Les cinq infrastructures du club à 20.",
+        "Plus de retraite prévue, contrat de trois ans de plus au moins, qualités physiques naturelles à 20, " +
+        "professionnalisme à 18 au moins.",
+      richClub: "Solde, budget transferts et budgets salariaux au niveau des clubs les plus riches.",
+      topFacilities: "Les cinq infrastructures à 20.",
     },
     tooOld: (oldest: number) => `Pour les joueurs de ${oldest} ans ou moins`,
     command: (recipe: string) => `Recette\u00a0: ${recipe}`,

@@ -3279,7 +3279,7 @@ export const de: Strings = {
   /** Recipes (`RecipeMenu`): see `en.ts`. */
   recipes: {
     button: "Rezepte",
-    buttonTitle: "Fertige Sätze von Änderungen, jeweils mit Vorschau, bevor etwas geschrieben wird",
+    buttonTitle: "Fertige Sätze von Änderungen, erst mit Vorschau",
     names: {
       wonderkid: "Zum Wunderkind machen",
       injuryProof: "Verletzungsfest machen",
@@ -3289,22 +3289,14 @@ export const de: Strings = {
     },
     notes: {
       wonderkid:
-        "Für einen Spieler von höchstens 21 Jahren: potenzielle Fähigkeit auf mindestens 180, eine derzeitige " +
-        "Fähigkeit und Attribute, die zu seinem Alter passen, und die verborgenen Attribute und die Persönlichkeit, " +
-        "um dorthin zu kommen. Höhere Werte bleiben; Positionen, Füße, Spielereigenschaften und Vertrag werden nicht " +
-        "angerührt.",
-      injuryProof:
-        "Verletzungsanfälligkeit auf 1, Grundfitness auf 20 und Ausdauer auf mindestens 15; seine jetzigen " +
-        "Verletzungen werden geheilt.",
+        "Bis 21 Jahre: potenzielle Fähigkeit mindestens 180, Fähigkeit und Attribute passend zum Alter. Höhere " +
+        "Werte bleiben.",
+      injuryProof: "Verletzungsanfälligkeit 1, Grundfitness 20, Ausdauer mindestens 15, Verletzungen geheilt.",
       longCareer:
-        "Nimmt das Karriereende, das das Spiel für ihn plant, aus dessen Plänen, lässt seinen Vertrag noch " +
-        "mindestens drei Jahre laufen und hebt Grundfitness auf 20 und Professionalität auf mindestens 18, die " +
-        "seinen Abbau bremsen. Seine Attribute können mit dem Alter trotzdem sinken: „Attribute einfrieren“ hält " +
-        "sie, solange der Editor offen ist.",
-      richClub:
-        "Hebt Kontostand, Transferbudget und beide Gehaltsbudgets auf das Niveau der reichsten Vereine. Hat der " +
-        "Verein schon mehr Geld, bleibt es dabei.",
-      topFacilities: "Alle fünf Einrichtungen des Vereins auf 20.",
+        "Kein geplantes Karriereende, Vertrag noch mindestens drei Jahre, Grundfitness 20, Professionalität " +
+        "mindestens 18.",
+      richClub: "Kontostand, Transferbudget und Gehaltsbudgets auf das Niveau der reichsten Vereine.",
+      topFacilities: "Alle fünf Einrichtungen auf 20.",
     },
     tooOld: (oldest: number) => `Für Spieler von höchstens ${oldest} Jahren`,
     command: (recipe: string) => `Rezept: ${recipe}`,

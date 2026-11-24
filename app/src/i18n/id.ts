@@ -3036,7 +3036,7 @@ export const id: Strings = {
   /** Recipes (`RecipeMenu`): see `en.ts`. */
   recipes: {
     button: "Resep",
-    buttonTitle: "Kumpulan perubahan siap pakai, masing-masing dengan pratinjau sebelum ada yang ditulis",
+    buttonTitle: "Kumpulan perubahan siap pakai, dengan pratinjau",
     names: {
       wonderkid: "Jadikan wonderkid",
       injuryProof: "Kebal cedera",
@@ -3046,20 +3046,14 @@ export const id: Strings = {
     },
     notes: {
       wonderkid:
-        "Untuk pemain berusia 21 tahun atau lebih muda: kemampuan potensial minimal 180, kemampuan saat ini dan " +
-        "atribut yang sesuai usianya, serta atribut tersembunyi dan kepribadian untuk mencapainya. Nilai yang sudah " +
-        "lebih tinggi dibiarkan; posisi, kaki, sifat, dan kontrak tidak disentuh.",
-      injuryProof:
-        "Kerentanan cedera jadi 1, kebugaran natural jadi 20, stamina minimal 15, dan cedera yang sedang dialaminya " +
-        "disembuhkan.",
+        "Usia 21 tahun atau lebih muda: kemampuan potensial minimal 180, kemampuan dan atribut sesuai usianya. " +
+        "Nilai yang lebih tinggi dibiarkan.",
+      injuryProof: "Kerentanan cedera 1, kebugaran natural 20, stamina minimal 15, cedera disembuhkan.",
       longCareer:
-        "Menghapus pensiun yang direncanakan game untuknya, membuat kontraknya berjalan minimal tiga tahun lagi, " +
-        "serta menaikkan kebugaran natural jadi 20 dan profesionalisme minimal 18, yang memperlambat penurunannya. " +
-        "Atributnya tetap bisa turun seiring usia: Bekukan atribut menahannya selama editor terbuka.",
-      richClub:
-        "Menaikkan saldo, anggaran transfer, dan kedua anggaran gaji ke tingkat klub-klub terkaya. Uang klub yang " +
-        "sudah lebih dari itu dibiarkan.",
-      topFacilities: "Kelima fasilitas klub jadi 20.",
+        "Rencana pensiun dihapus, kontrak minimal tiga tahun lagi, kebugaran natural 20, profesionalisme minimal " +
+        "18.",
+      richClub: "Saldo, anggaran transfer, dan anggaran gaji naik ke tingkat klub-klub terkaya.",
+      topFacilities: "Kelima fasilitas jadi 20.",
     },
     tooOld: (oldest: number) => `Untuk pemain berusia ${oldest} tahun atau lebih muda`,
     command: (recipe: string) => `Resep: ${recipe}`,

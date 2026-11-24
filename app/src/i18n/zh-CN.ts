@@ -3443,7 +3443,7 @@ export const zhCN: Strings = {
   /** Recipes (`RecipeMenu`): see `en.ts`. */
   recipes: {
     button: "配方",
-    buttonTitle: "现成的成套改动，写入前都会先预览",
+    buttonTitle: "现成的成套改动，写入前先预览",
     names: {
       wonderkid: "打造妖人",
       injuryProof: "不易受伤",
@@ -3452,15 +3452,11 @@ export const zhCN: Strings = {
       topFacilities: "顶级设施",
     },
     notes: {
-      wonderkid:
-        "适用于 21 岁或以下的球员：潜力至少 180，当前能力和属性与年龄相称，并配上助其兑现潜力的隐藏属性和性格。" +
-        "已经更高的值保持不变；位置、惯用脚、习惯和合同不会改动。",
-      injuryProof: "受伤倾向改为 1，自然体能改为 20，耐力至少 15，并治愈当前伤病。",
-      longCareer:
-        "取消游戏为他安排的退役，让合同至少再持续三年，并把能延缓下滑的自然体能提到 20、职业素养提到至少 18。" +
-        "属性仍可能随年龄下降：编辑器开着时，“锁定属性”可以保持它们。",
-      richClub: "把余额、转会预算和两项工资预算提高到最富有俱乐部的水平。俱乐部已有更多资金时保持不变。",
-      topFacilities: "俱乐部的五项设施全部改为 20。",
+      wonderkid: "21 岁或以下：潜力至少 180，当前能力和属性与年龄相称。更高的值保持不变。",
+      injuryProof: "受伤倾向 1，自然体能 20，耐力至少 15，治愈当前伤病。",
+      longCareer: "取消预定的退役，合同至少再续三年，自然体能 20，职业素养至少 18。",
+      richClub: "余额、转会预算和工资预算提高到最富有俱乐部的水平。",
+      topFacilities: "五项设施全部改为 20。",
     },
     tooOld: (oldest: number) => `适用于 ${oldest} 岁或以下的球员`,
     command: (recipe: string) => `配方：${recipe}`,

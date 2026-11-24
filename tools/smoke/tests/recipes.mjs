@@ -194,14 +194,36 @@ export async function run({ app, report, probe }) {
   );
   await app.click(toggle, "Recipes");
   await app.waitFor(`${MENU}.length > 0`, "the Recipes menu");
-  const items = await app.js(`${MENU}.map((i) => [i.textContent, i.getAttribute("aria-disabled"), i.title])`);
+  const items = await app.js(`${MENU}.map((i) => [i.textContent, i.getAttribute("aria-disabled")])`);
+  // What an item does is in a small box beside the menu once the keys (or the pointer) are on it: down and up again
+  // is the first item's.
+  await app.press("ArrowDown");
+  await app.press("ArrowUp");
+  await app.waitFor(`document.querySelector(".menu-note")`, "the note of the first recipe");
+  const note = await app.js(`(() => {
+    const box = document.querySelector(".menu-note").getBoundingClientRect();
+    const menu = document.querySelector(".squad-actions-menu").getBoundingClientRect();
+    return {
+      text: document.querySelector(".menu-note").textContent,
+      described: ${MENU}[0].getAttribute("aria-describedby") === document.querySelector(".menu-note").id,
+      width: Math.round(box.width),
+      inside: box.left >= 0 && box.right <= innerWidth && box.top >= 0 && box.bottom <= innerHeight,
+      beside: box.left >= menu.right || box.right <= menu.left || box.top >= menu.bottom || box.bottom <= menu.top,
+    };
+  })()`);
   const tooOld = player.age == null || player.age > 21;
   report.check(
     "its menu lists the player's three recipes, the wonderkid dimmed and saying why for a player older than 21",
     JSON.stringify(items.map(([label]) => label)) === JSON.stringify(["Make a wonderkid", "Injury-proof", "Extend his career"]) &&
-      (items[0][1] === "true") === tooOld && (!tooOld || /21 or younger/.test(items[0][2])),
-    JSON.stringify(items.map(([label, dimmed]) => [label, dimmed])),
+      (items[0][1] === "true") === tooOld && /21 or younger/.test(note.text),
+    JSON.stringify(items),
   );
+  report.check(
+    "what a recipe does is in a narrow box beside the menu, within the window",
+    note.described && note.width <= 248 && note.inside && note.beside && note.text.length < 120,
+    JSON.stringify(note),
+  );
+  await app.shot("recipes-menu");
 
   // Injury-proof from the menu: the dialog works it out at once and lists it; Close gives focus back.
   await app.click(menuItem("Injury-proof"), "Injury-proof");
