@@ -3321,6 +3321,31 @@ export const de: Strings = {
     undoTitle: "Schreibt alles, was dieses Rezept geändert hat, zurück ins Spiel",
   },
 
+  /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */
+  progress: {
+    tabsLabel: "Bereiche des Spielerprofils",
+    tabs: { overview: "Profil", progress: "Entwicklung" },
+    lockedWhileEdited: "Beenden Sie die Bearbeitung, um diesen Reiter zu öffnen",
+    openTab: "Reiter „Entwicklung“ öffnen",
+    loading: "Aufzeichnungen werden gelesen…",
+    failed: (reason: string) => `Die Aufzeichnungen konnten nicht gelesen werden: ${reason}`,
+    since: (date: string) => `seit ${date}`,
+    change: (from: string, to: string, date: string) => `${from} → ${to} seit ${date}`,
+    rangeLabel: "Zeitraum",
+    ranges: { quarter: "3 Monate", year: "1 Jahr", all: "Alle" },
+    recorded: (count: number, first: string) => `Aufzeichnungen: ${count} · erste am ${first}`,
+    abilityTitle: "Fähigkeit",
+    valueTitle: "Wert",
+    attributesTitle: "Geänderte Attribute",
+    noAttributeChanges: (date: string) => `Seit ${date} hat sich kein Attribut geändert.`,
+    emptyTitle: "Noch nichts zum Vergleichen",
+    emptyText:
+      "Die App hält etwa einmal pro Woche der Spielzeit Fähigkeiten, Wert und Attribute aller Spieler fest, immer wenn sie die Spieldaten liest. Spielen Sie weiter und lesen Sie die Daten erneut: Dann zeigt sich hier, wie sich dieser Spieler entwickelt.",
+    offTitle: "Keine Aufzeichnungen für diesen Spielstand",
+    offText:
+      "Die App zeichnet bei Spielständen auf, in denen Sie einen Trainer steuern, und bei Spielversionen, deren Daten ihre Prüfungen bestehen.",
+  },
+
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */
   palette: {
     button: "Suchen",

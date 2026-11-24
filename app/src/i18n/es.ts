@@ -3232,6 +3232,31 @@ export const es: Strings = {
     undoTitle: "Volver a escribir en el juego todo lo que cambió esta receta",
   },
 
+  /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */
+  progress: {
+    tabsLabel: "Secciones del perfil del jugador",
+    tabs: { overview: "Perfil", progress: "Progresión" },
+    lockedWhileEdited: "Termina de editar para abrir esta pestaña",
+    openTab: "Abrir la pestaña Progresión",
+    loading: "Leyendo los registros…",
+    failed: (reason: string) => `No se pudieron leer los registros: ${reason}`,
+    since: (date: string) => `desde el ${date}`,
+    change: (from: string, to: string, date: string) => `${from} → ${to} desde el ${date}`,
+    rangeLabel: "Periodo",
+    ranges: { quarter: "3 meses", year: "1 año", all: "Todo" },
+    recorded: (count: number, first: string) => `Registros: ${count} · el primero, el ${first}`,
+    abilityTitle: "Habilidad",
+    valueTitle: "Valor",
+    attributesTitle: "Atributos que han cambiado",
+    noAttributeChanges: (date: string) => `Ningún atributo ha cambiado desde el ${date}.`,
+    emptyTitle: "Todavía no hay con qué comparar",
+    emptyText:
+      "La aplicación anota las habilidades, el valor y los atributos de todos los jugadores más o menos una vez por semana del juego, cada vez que lee los datos del juego. Sigue jugando, vuelve a leer los datos y aquí verás cómo progresa este jugador.",
+    offTitle: "No hay registros para esta partida",
+    offText:
+      "La aplicación guarda registros en las partidas en las que controlas a un entrenador y en las versiones del juego cuyos datos superan sus comprobaciones.",
+  },
+
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */
   palette: {
     button: "Buscar",

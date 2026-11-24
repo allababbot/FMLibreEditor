@@ -319,6 +319,9 @@ export const homeText = strings.home;
 /** Recipes: ready-made sets of changes to one player or one club (see `RecipeMenu`). */
 export const recipeText = strings.recipes;
 
+/** A player's development: the Development tab of his profile, the note under his abilities, a squad's changes. */
+export const progressText = strings.progress;
+
 /** The command palette and the keyboard shortcuts (see `CommandPalette` and `shortcuts.ts`). */
 export const paletteText = strings.palette;
 

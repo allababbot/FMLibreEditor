@@ -99,6 +99,16 @@ before trusting them.
   exports folder: the time, the name and UID, the field, the old and new values as stored and as shown, the mass edit,
   when it was undone, and whether it is from an earlier session and in the game. That file is for people and
   spreadsheets: it is not the edit package below, which has to be read back.
+- [x] How a career's players develop: a record of every player's abilities, transfer value and attributes, added
+  to a file per career whenever the app reads the game and a week of the game's time has passed since the last
+  (only what changed; the lists already hold it, so the game is read no more for it). A player's profile has a
+  Development tab beside the profile itself: his abilities and value over time, a period to look back over, and the
+  attributes that changed. Under his abilities a note says how far the current ability moved over the last year,
+  the attributes that moved have an arrow, and a squad's table has the change before each current ability. No new
+  page: the records show where the values they are about already are. Checked on Game Pass 0.9.2524.0 with the
+  `progress` smoke test, whose second record is one it dates back itself (50,417 players: a first record of 3.4 MB,
+  a later one of a few hundred bytes where one player changed); not yet over weeks played in the game, nor on Steam
+  or macOS. A member of staff's development, and a view of who gained the most across the whole game, are not done.
 - [ ] Edit packages: the changes of the history written to a file, and read into another save of the same database,
   with a preview as a mass edit has (people found by UID and birth date, nations and cities by name), applied as one
   batch.

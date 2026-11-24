@@ -54,6 +54,10 @@ signed: [Code signing policy](#code-signing-policy).
 - Opens on **My club**: the club you manage, its money, who needs a look (the injured, the
   banned, low morale, the tired, unrest, contracts about to end) and the actions on the whole
   team one click away. With no club of your own, pick one to follow.
+- See how a player develops: the app notes every player's abilities, value and attributes about
+  once a week of the game's time, whenever it reads the game, and a profile's **Development** tab
+  draws them over time and lists the attributes that changed. A note under his abilities, arrows
+  beside the attributes and a club's squad say who gained and who lost over the last year.
 - Find anyone from anywhere: **Ctrl+K** (**⌘K** on macOS) opens one search over players, staff,
   clubs and the app's commands. The tabs (Ctrl+1 to 7), the list's search (Ctrl+F), Edit
   (Ctrl+E), Apply (Ctrl+S) and Reload data (Ctrl+R) have shortcuts too, with ⌘ on macOS.
@@ -162,7 +166,8 @@ exception it makes on its own: when it starts (at most once every six hours), an
 release, sending nothing about you, your computer or your game. An update is downloaded from
 GitHub only when you click **Update**. The app reads and changes the memory of the Football
 Manager 27 process it connects to and nothing else on your system; on disk it writes only its
-own settings and change history, and the exports you ask for.
+own settings, its change history and its records of how your careers' players develop, and the
+exports you ask for.
 
 ## License
 
