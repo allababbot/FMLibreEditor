@@ -35,6 +35,7 @@ import {
 import { undoFailureLines } from "./massDraft";
 import { percentText } from "./MedicalGroup";
 import { PlayerDialog } from "./PlayerProfile";
+import { AbilityChange, useEarlierAbilities } from "./PlayerProgress";
 import type { Loaded, PanelIds } from "./ProfileParts";
 import { SortHeader } from "./SortHeader";
 import { TeamActionMenu, type MenuAction, type MenuItemAction } from "./TeamActionMenu";
@@ -42,6 +43,7 @@ import type {
   BatchUndo,
   CaptainRole,
   ClubTeam,
+  EarlierAbility,
   FreezeKind,
   LoggedChange,
   MassReport,
@@ -242,6 +244,8 @@ export function SquadTab({ clubUid, clubName, version, panel, label, overview }:
   // A team that is no longer there (the game changed) gives way to the first one.
   const team = teams?.find((candidate) => candidate.index === teamIndex) ?? teams?.[0];
   const players = useMemo(() => (team ? sorted(team.players, order) : []), [team, order]);
+  // What each of them was at the record the app compares with, where it keeps records of the career.
+  const earlier = useEarlierAbilities(team?.players.map((player) => player.uid) ?? [], version);
   const shownResult = result !== null && result.team === team?.index ? result : null;
 
   useEffect(() => {
@@ -523,6 +527,7 @@ export function SquadTab({ clubUid, clubName, version, panel, label, overview }:
                       opener.current = from;
                       setShown(player);
                     }}
+                    earlier={earlier.get(player.uid)}
                   />
                 ))}
               </tbody>
@@ -908,13 +913,15 @@ interface SquadRowProps {
   onCaptain: (role: CaptainRole) => void;
   /** Opens his profile over the squad; `from` is the name, which takes focus back once it is closed. */
   onOpen: (from: HTMLButtonElement) => void;
+  /** What his current ability was at the record he is compared with, where the app has one (see `AbilityChange`). */
+  earlier: EarlierAbility | undefined;
 }
 
 /**
  * One player: his name, which opens his profile over the squad, with his tags and badge by it, his values, and the menu
  * that makes him captain.
  */
-function SquadRow({ player, role, editable, busy, onCaptain, onOpen }: SquadRowProps) {
+function SquadRow({ player, role, editable, busy, onCaptain, onOpen, earlier }: SquadRowProps) {
   const positions = player.positions.map(positionLabel);
   const fullName = player.fullName !== null && player.fullName !== player.name ? player.fullName : null;
   return (
@@ -945,6 +952,7 @@ function SquadRow({ player, role, editable, busy, onCaptain, onOpen }: SquadRowP
       </td>
       <td className="num">{player.age ?? profileText.none}</td>
       <td className="num">
+        <AbilityChange now={player.currentAbility} earlier={earlier} />
         <Ability value={player.currentAbility} />
       </td>
       <td className="num">

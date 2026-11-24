@@ -332,6 +332,19 @@ its old value, with every check; one whose undo needed the game's memory as it w
 healing, a tie, a clause, a name...) stays as history. Clear history in the Changes view empties
 the file.
 
+How a career's players develop is kept there too, in `timeline\<storefront>-<UIDs of the human
+managers>.jsonl.gz` (see `Records` in `app/src-tauri/src/lib.rs` and
+`crates/fmlibre-core/src/timeline.rs`). As the lists are read, on connecting and on Reload data, a
+record is added to the end of the file when seven days of the game's time have passed since the
+last: every player's current and potential ability, transfer value and attributes (1–20), taken
+from the lists as read, so that it costs no further reading of the game. The first record holds
+every player whole; a later one only what changed, and the new players. Each record is one line
+of JSON, compressed on its own, so `gzip -dc` gives the file as lines. A date before the last
+record's means the game has gone back to an older save: that record is whole again, and the ones
+dated on or after it no longer count. Nothing is recorded without a human manager in the save, or
+where the checks of the players' values or of their attributes fail. Deleting the file starts the
+records afresh.
+
 The same file as the freezes (`frozen.json`) keeps the names the editor gave stadiums. The game keeps no stadium names in
 its saves and gives each stadium the name in its database whenever it loads one, so the app
 gives the new names again: on connecting, on a reload, and from its hold, which every 2 s

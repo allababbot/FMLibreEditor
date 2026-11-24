@@ -1128,6 +1128,7 @@ dependencies = [
 name = "fmlibre-core"
 version = "0.5.4"
 dependencies = [
+ "flate2",
  "fmlibre-mem",
  "memchr",
  "serde",

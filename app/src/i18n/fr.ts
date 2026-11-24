@@ -3163,6 +3163,31 @@ export const fr: Strings = {
     },
   },
 
+  /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */
+  progress: {
+    tabsLabel: "Sections du profil du joueur",
+    tabs: { overview: "Profil", progress: "Progression" },
+    lockedWhileEdited: "Terminez la modification pour ouvrir cet onglet",
+    openTab: "Ouvrir l'onglet Progression",
+    loading: "Lecture des relevés…",
+    failed: (reason: string) => `Impossible de lire les relevés\u00a0: ${reason}`,
+    since: (date: string) => `depuis le ${date}`,
+    change: (from: string, to: string, date: string) => `${from} → ${to} depuis le ${date}`,
+    rangeLabel: "Période",
+    ranges: { quarter: "3 mois", year: "1 an", all: "Tout" },
+    recorded: (count: number, first: string) => `Relevés\u00a0: ${count} · le premier le ${first}`,
+    abilityTitle: "Niveau",
+    valueTitle: "Valeur",
+    attributesTitle: "Attributs qui ont changé",
+    noAttributeChanges: (date: string) => `Aucun attribut n'a changé depuis le ${date}.`,
+    emptyTitle: "Rien à comparer pour l'instant",
+    emptyText:
+      "L'application note le niveau, la valeur et les attributs de tous les joueurs environ une fois par semaine du jeu, chaque fois qu'elle lit les données du jeu. Continuez à jouer, relisez les données, et la progression de ce joueur s'affichera ici.",
+    offTitle: "Aucun relevé pour cette sauvegarde",
+    offText:
+      "L'application tient des relevés pour une sauvegarde où vous dirigez un entraîneur, sur une version du jeu dont les données passent ses contrôles.",
+  },
+
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */
   palette: {
     button: "Rechercher",

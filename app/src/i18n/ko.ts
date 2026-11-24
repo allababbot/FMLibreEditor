@@ -2969,6 +2969,31 @@ export const ko: Strings = {
     },
   },
 
+  /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */
+  progress: {
+    tabsLabel: "선수 프로필 구역",
+    tabs: { overview: "프로필", progress: "성장" },
+    lockedWhileEdited: "이 탭을 열려면 편집을 마치세요",
+    openTab: "성장 탭 열기",
+    loading: "기록을 읽는 중…",
+    failed: (reason: string) => `기록을 읽지 못했습니다: ${reason}`,
+    since: (date: string) => `${date} 이후`,
+    change: (from: string, to: string, date: string) => `${date} 이후 ${from} → ${to}`,
+    rangeLabel: "기간",
+    ranges: { quarter: "3개월", year: "1년", all: "전체" },
+    recorded: (count: number, first: string) => `기록: ${count}개 · 첫 기록 ${first}`,
+    abilityTitle: "능력",
+    valueTitle: "가치",
+    attributesTitle: "변한 능력치",
+    noAttributeChanges: (date: string) => `${date} 이후 변한 능력치가 없습니다.`,
+    emptyTitle: "아직 비교할 기록이 없습니다",
+    emptyText:
+      "앱은 게임 데이터를 읽을 때마다, 게임 시간으로 약 일주일에 한 번 모든 선수의 능력, 가치, 능력치를 기록합니다. 게임을 진행하고 데이터를 다시 읽으면 이 선수의 성장이 여기에 표시됩니다.",
+    offTitle: "이 저장 파일에는 기록이 없습니다",
+    offText:
+      "앱은 직접 조종하는 감독이 있는 저장 파일에서, 데이터가 앱의 검사를 통과하는 게임 버전일 때 기록을 남깁니다.",
+  },
+
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */
   palette: {
     button: "검색",

@@ -523,6 +523,32 @@ export interface FmDate {
   day: number;
 }
 
+/**
+ * How a player's abilities, value and attributes went, from the records the app keeps of a career: one every week or
+ * so of the game's time it read the game.
+ */
+export interface PlayerProgress {
+  /**
+   * The dates of the records since the first that holds him, the oldest first, and the game's date as the last: what
+   * he is now. Only that one while there is no record of him before today; none where the game's date is not known.
+   */
+  dates: FmDate[];
+  /**
+   * For each field that has a value ("current_ability", "potential_ability", "value" in pounds, and the attributes
+   * by key, 1–20), its value on each of the dates; null before the first record that holds one.
+   */
+  series: Record<string, (number | null)[]>;
+  /** Whether the app keeps records of this career. */
+  recording: boolean;
+}
+
+/** A player's current ability at the record he is compared with, and the date of that record. */
+export interface EarlierAbility {
+  uid: number;
+  date: FmDate;
+  currentAbility: number;
+}
+
 export interface PlayerSummary {
   uid: number;
   name: string;

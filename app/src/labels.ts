@@ -310,6 +310,9 @@ export const scoutingText = strings.scouting;
 /** "My club", the page the app opens on (see `MyClub`). */
 export const homeText = strings.home;
 
+/** A player's development: the Development tab of his profile, the note under his abilities, a squad's changes. */
+export const progressText = strings.progress;
+
 /** The command palette and the keyboard shortcuts (see `CommandPalette` and `shortcuts.ts`). */
 export const paletteText = strings.palette;
 

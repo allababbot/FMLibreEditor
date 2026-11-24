@@ -2897,6 +2897,31 @@ export const id: Strings = {
     } as Record<string, (value: string) => string>,
   },
 
+  /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */
+  progress: {
+    tabsLabel: "Bagian profil pemain",
+    tabs: { overview: "Profil", progress: "Perkembangan" },
+    lockedWhileEdited: "Selesaikan pengeditan untuk membuka tab ini",
+    openTab: "Buka tab Perkembangan",
+    loading: "Membaca catatan…",
+    failed: (reason: string) => `Catatan tidak dapat dibaca: ${reason}`,
+    since: (date: string) => `sejak ${date}`,
+    change: (from: string, to: string, date: string) => `${from} → ${to} sejak ${date}`,
+    rangeLabel: "Periode",
+    ranges: { quarter: "3 bulan", year: "1 tahun", all: "Semua" },
+    recorded: (count: number, first: string) => `Catatan: ${count} · pertama pada ${first}`,
+    abilityTitle: "Kemampuan",
+    valueTitle: "Nilai",
+    attributesTitle: "Atribut yang berubah",
+    noAttributeChanges: (date: string) => `Tidak ada atribut yang berubah sejak ${date}.`,
+    emptyTitle: "Belum ada yang bisa dibandingkan",
+    emptyText:
+      "Aplikasi mencatat kemampuan, nilai, dan atribut semua pemain kira-kira sekali seminggu waktu permainan, setiap kali membaca data permainan. Lanjutkan bermain, baca ulang datanya, dan perkembangan pemain ini akan tampil di sini.",
+    offTitle: "Tidak ada catatan untuk simpanan ini",
+    offText:
+      "Aplikasi menyimpan catatan untuk simpanan yang memiliki manajer Anda, pada versi permainan yang datanya lolos pemeriksaan aplikasi.",
+  },
+
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */
   palette: {
     button: "Cari",
