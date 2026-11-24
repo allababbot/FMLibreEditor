@@ -181,7 +181,9 @@ the lists of both seasons, 2,072 of them with theirs in the records; the listing
 League (England's fixture rules 6) has the same two rules in each season, at least 8
 `homegrown_players_0_21_from_nation` and a squad of at most 25. Its squad size, written 24 in both seasons
 (`rules 11 --current 2 24 --next 2 24`), read back so from both lists and from the two records the probe writes to,
-the files together and the file for the seasons to 2028, while the file from 2029 kept 25; then it was put back.
+the files together and the file for the seasons to 2028, while the file from 2029 kept 25. The game's Competition
+Stages page showed the 24 under Next Season at once. Saved under another name and loaded, the game made both lists
+again with 24, from the two records, which came back as written; then the 25 was put back.
 
 UEFA's set holds the days squads are registered by where Windows has them (`+0x18`): 74 places, 18 in use, six days
 each for the Champions, Europa and Conference League, 25 players a day; an entry is laid out as on Windows. The app's
