@@ -30,6 +30,11 @@ training_manager = 0x5775758
 # Serie A from £28,691,666 to £773,129: to the pound what Steam build 26620374 reads on Windows.
 prize_money = true
 
+# The rules competitions register their squads under (layout-macos.toml, [rules]; docs/recon/fm27-league-rules.md) were
+# read on this build on the Arsenal save of 18 July 2027: 550 competitions being played, 426 with squad rules and 451
+# kinds of rule named, as on Windows.
+squad_rules = true
+
 # game_plugin as mapped in memory: its LC_UUID identifies the build and the architecture.
 [plugin]
 uuid = "869F5F90-FD89-3606-8AE4-2B4A7F02F324"

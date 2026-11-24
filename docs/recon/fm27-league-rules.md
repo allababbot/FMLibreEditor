@@ -183,6 +183,13 @@ League (England's fixture rules 6) has the same two rules in each season, at lea
 (`rules 11 --current 2 24 --next 2 24`), read back so from both lists and from the two records the probe writes to,
 the files together and the file for the seasons to 2028, while the file from 2029 kept 25; then it was put back.
 
+UEFA's set holds the days squads are registered by where Windows has them (`+0x18`): 74 places, 18 in use, six days
+each for the Champions, Europa and Conference League, 25 players a day; an entry is laid out as on Windows. The app's
+Competitions tab reads on the Mac what the probe reads: `tools/smoke`'s `rules` with `--writes`, run there through a
+local test hook, passed its 28 checks (the Premier League's rule on home-grown players set through the command and
+through the panel, and the Champions League's squad size held, with its six days, each read back by the probe and
+undone).
+
 ## What the game makes of a change
 
 The Süper Lig's limit of 14 foreign players was given a different number in each place that holds it, in the running
@@ -335,7 +342,8 @@ back and lets go of the rule; once the game has made the list anew and the app h
 the undo is made as a new change back.
 
 Only on the builds whose profile says `squad_rules = true`, as the prize money and the sponsorship deals have their
-flags: Game Pass 0.9.2524.0 so far. The others say why the tab is empty.
+flags: Game Pass 0.9.2524.0 and the Apple silicon half of Steam build 26620374 so far. The others say why the tab is
+empty.
 
 The game names 451 kinds of rule by keys such as `all_foreign_players_in_match_squad`; the lists read on the save
 above use 174 of them. The app words the commonest from the key (whom a rule counts, and where: the squad, the match

@@ -1955,13 +1955,14 @@ mod tests {
         assert!(layout_for(27).is_some_and(|layout| layout.sponsorship.is_some()));
     }
 
-    /// The app shows the competitions' squad rules only on the build they were read on and matched to the game's
-    /// screens: Game Pass 0.9.2524.0, where the Süper Lig's were changed and seen in the game.
+    /// The app shows the competitions' squad rules only on the builds they were read on and matched to the game's
+    /// screens: Game Pass 0.9.2524.0, where the Süper Lig's were changed and seen in the game, and the Apple silicon
+    /// half of Steam build 26620374, where the Premier League's were. The Intel half was not run.
     #[test]
     fn squad_rules_are_shown_only_on_the_builds_they_were_checked_on() {
         let checked: Vec<String> =
             built_in_profiles().filter(|profile| profile.squad_rules).map(|profile| profile.name).collect();
-        assert_eq!(checked, ["FM27 0.9.2524.0 (Game Pass)"]);
+        assert_eq!(checked, ["FM27 0.9.2524.0 (Game Pass)", "FM27 Steam build 26620374 (macOS, Apple silicon)"]);
     }
 
     /// Since the update of 17 November 2026 the club finance record keeps corporate facilities 4 bytes further on, and a

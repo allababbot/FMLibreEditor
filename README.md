@@ -40,8 +40,8 @@ signed: [Code signing policy](#code-signing-policy).
   squad may register, how many goalkeepers, how many players in all, and what a team may pick for
   a match, this season's and next season's apart. A change is kept in the save; UEFA's Champions,
   Europa and Conference League keep their rules in none, so the editor holds a change of them and
-  writes it again each time it connects. So far on Game Pass 0.9.2524.0, where it was checked; the
-  other versions say why there is nothing yet.
+  writes it again each time it connects. So far on Game Pass 0.9.2524.0 and Steam build 26620374 on
+  Apple silicon Macs, where it was checked; the other versions say why there is nothing yet.
 - See a club's sponsorship deals in its finances, read only: each deal by the name the game gives its
   kind, what it pays per season and in all, its term, and what a relegation changes. Shown on Game
   Pass 0.9.2524.0, Steam build 26340721 on Windows and 26385295 on Apple silicon Macs; the others say

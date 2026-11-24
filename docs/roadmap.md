@@ -449,15 +449,15 @@ changes many at once, and undo.
     one for the next; the probe's `rules` reads both and changes a rule in the list and in the record a save keeps
     (Game Pass 0.9.2524.0: the Süper Lig's limit on foreign players, seen in the game's Competition Stages and
     Registration screens and kept by a save; on the Mac, Steam build 26620374 for Apple silicon, the Premier League's
-    squad size). The app has them in its Competitions tab, an area for each season,
-    where a rule's count can be changed and undone, on the builds whose profile says `squad_rules = true`. Played
-    over a turn of the season on that build: a change of this season's rule lasts the season, a change of next
-    season's becomes this season's at the turn and stays while the same rule file is in force (England has another
-    from 2028). The rules of UEFA's Champions, Europa and Conference League are kept in no record (the game makes
-    them itself whenever it loads a save), so the app holds a change of them: it writes it to the running game and
-    again each time it connects or reads the data again. The other continents' competitions are held the same way
-    for now, though their rules are in records of their continent, found and not read yet. Steam for Windows is not
-    checked; the rules of the women's leagues, MLS and a few cups are shown but not found in the nation's rules, so
-    they are left alone; adding a rule or taking one away is not done. See the
+    squad size). The app has them in its Competitions tab, an area for each season, where a rule's count can be
+    changed and undone, on the builds whose profile says `squad_rules = true`: those two. Played over a turn of the
+    season on Game Pass: a change of this season's rule lasts the season, a change of next season's becomes this
+    season's at the turn and stays while the same rule file is in force (England has another from 2028). The rules
+    of UEFA's Champions, Europa and Conference League are kept in no record (the game makes them itself whenever it
+    loads a save), so the app holds a change of them: it writes it to the running game and again each time it
+    connects or reads the data again. The other continents' competitions are held the same way for now, though their
+    rules are in records of their continent, found and not read yet. Steam for Windows and the Intel half of the Mac
+    build are not checked; the rules of the women's leagues, MLS and a few cups are shown but not found in the
+    nation's rules, so they are left alone; adding a rule or taking one away is not done. See the
     [league rules notes](recon/fm27-league-rules.md).
   - [ ] Epic.

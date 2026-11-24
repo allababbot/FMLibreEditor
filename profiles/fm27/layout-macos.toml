@@ -628,6 +628,13 @@ group_nation_rules = 0x1F0    # 0x1E0 on Windows
 nation_fixture_rules = 0x60
 fixture_next = 0x68
 fixture_squad_rules = 0x70
+# The days squads are registered by, as on Windows: UEFA's set holds the Champions, Europa and Conference League's six
+# each, 25 players a day, in a table of 74 places, 18 in use.
+fixture_registration = 0x18
+registration_size = 0x40
+registration_competition = 0x14
+registration_key = 0x18
+registration_most = 0x26
 rule_size = 0x20
 rule_condition = 0x00
 rule_competition = 0x04
