@@ -3,7 +3,8 @@
 Notes behind the probe's `rules`. Everything here was read on the Windows Game Pass build 0.9.2524.0, on a save of 19
 October 2026, with the probe and a few scripts around it; the Süper Lig's limit on foreign players was then changed in
 the running game and looked at on the game's own screens (see [What the game makes of a change](#what-the-game-makes-of-a-change)).
-Nothing was read on Steam or on a Mac.
+The Mac keeps them alike, a few objects laying them out further on (see [On the Mac](#on-the-mac)); nothing was read on
+Steam for Windows.
 
 ## In short
 
@@ -150,6 +151,34 @@ entry that points at `all_foreign_players_in_squad` and reads it both ways. Amon
 Most are counts of players. Some are money (`yearly_wage`, a salary cap), which the same lists hold as large values.
 Who counts as foreign is not a rule but code (the binary names `is_foreign_for_squad_selection_rule`).
 
+## On the Mac
+
+Read with the probe on Steam build 26620374 for Apple silicon, on a save of 18 July 2027 (Arsenal's, in England). The
+game keeps the rules as on Windows, and the records read alike, their traits told by the Itanium names of their
+classes: `N6sicore16RAW_TYPED_TRAITSIiEE` for `int` (`IjEE`, `IbEE` and `IxEE` for `unsigned`, `bool` and
+`__int64`), `N6sicore28INTERNAL_OBJECT_TYPED_TRAITSINS_6RECORDELh10EEE` for a record,
+`…INS_10TYPED_LISTELh11EEE` for a list and `N6sicore19STRING_TYPED_TRAITSE` for text. A few objects lay the rules
+out further on:
+
+| Where | Windows | Mac |
+| --- | --- | --- |
+| `sicomps::ACTUAL_COMP`: its own rules, its `db::COMP`, its rule group | `+0x38`, `+0x120`, `+0x370` | `+0x50`, `+0x138`, `+0x388` |
+| A rule group: its nation's rules | `+0x1E0` | `+0x1F0` |
+| The container of a nation's men's teams: the record its rule files make together, the list of the files' records | `+0x570`, `+0x588` | `+0x578`, `+0x590` |
+
+A competition as it is played starts with a lock, pthread's (its signature, 'MUTX', at `+0x8`), and its fields after
+the lock sit 0x18 further on; why the other two moved was not looked into. The rest is where Windows has it: the
+`db::COMP`'s pointer back (`+0xB0`), the nation's sets of fixture rules (`+0x60`), a set's next season (`+0x68`) and
+list (`+0x70`), and the rule of 0x20 bytes. The table of kinds has the same form, its entry for
+`all_foreign_players_in_squad` at `game_plugin+0x5743A38` (in `__DATA_CONST`).
+
+As on Windows, 550 competitions read as played, 426 with squad rules, 451 kinds named by the game, and 2,498 rules in
+the lists of both seasons, 2,072 of them with theirs in the records; the listing takes about two seconds. The Premier
+League (England's fixture rules 6) has the same two rules in each season, at least 8
+`homegrown_players_0_21_from_nation` and a squad of at most 25. Its squad size, written 24 in both seasons
+(`rules 11 --current 2 24 --next 2 24`), read back so from both lists and from the two records the probe writes to,
+the files together and the file for the seasons to 2028, while the file from 2029 kept 25; then it was put back.
+
 ## What the game makes of a change
 
 The Süper Lig's limit of 14 foreign players was given a different number in each place that holds it, in the running
@@ -179,7 +208,7 @@ Not known yet:
 - whether the game lets a squad be confirmed against a changed limit while the window is open;
 - whether an update of the game puts its own rules over a save's records;
 - what the clubs' own structs are for;
-- how any of this is laid out on Steam and on the Mac.
+- how any of this is laid out on Steam for Windows.
 
 ## The probe's `rules`
 

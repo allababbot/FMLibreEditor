@@ -448,6 +448,7 @@ changes many at once, and undo.
     players in all. They are data the game keeps with the nation and makes its lists from, one for this season and
     one for the next; the probe's `rules` reads both and changes a rule in the list and in the record a save keeps
     (Game Pass 0.9.2524.0: the Süper Lig's limit on foreign players, seen in the game's Competition Stages and
-    Registration screens and kept by a save). The app does not show them yet; a turn of the season, Steam and the Mac
-    are not checked. See the [league rules notes](recon/fm27-league-rules.md).
+    Registration screens and kept by a save; on the Mac, Steam build 26620374 for Apple silicon, the Premier League's
+    squad size). The app does not show them yet; a turn of the season and Steam for Windows are not checked. See the
+    [league rules notes](recon/fm27-league-rules.md).
   - [ ] Epic.

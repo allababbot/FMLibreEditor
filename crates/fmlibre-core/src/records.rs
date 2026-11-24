@@ -47,8 +47,8 @@ pub(crate) enum Traits {
 }
 
 /// What the traits of the class named `class` hold: `class` as the compiler keeps it (see [`rtti::class_of`]), MSVC's
-/// names on Windows (`.?AV?$RAW_TYPED_TRAITS@H@sicore@@`) and the Itanium C++ ABI's on macOS, which nobody has read a
-/// record with yet. `None` for a class that is no traits at all.
+/// names on Windows (`.?AV?$RAW_TYPED_TRAITS@H@sicore@@`) and the Itanium C++ ABI's on macOS
+/// (`N6sicore16RAW_TYPED_TRAITSIiEE`). `None` for a class that is no traits at all.
 pub(crate) fn traits_of_class(class: &str) -> Option<Traits> {
     let has = |part: &str| class.contains(part);
     if !has("TYPED_TRAITS") {
@@ -269,6 +269,24 @@ mod tests {
         assert_eq!(of(".?AVSI_DATE_TYPED_TRAITS@fmdate@@"), Some(Traits::Other));
         // An object of another class is no traits: what points at it is no typed value.
         assert_eq!(of(".?AVACTUAL_COMP@sicomps@@"), None);
+    }
+
+    /// The same classes as the Mac build names them (Steam build 26620374, Apple silicon).
+    #[test]
+    fn traits_are_told_by_their_itanium_names_too() {
+        let of = traits_of_class;
+        assert_eq!(of("N6sicore16RAW_TYPED_TRAITSIiEE"), Some(Traits::Int));
+        assert_eq!(of("N6sicore16RAW_TYPED_TRAITSIjEE"), Some(Traits::Unsigned));
+        assert_eq!(of("N6sicore16RAW_TYPED_TRAITSIbEE"), Some(Traits::Bool));
+        assert_eq!(of("N6sicore16RAW_TYPED_TRAITSIxEE"), Some(Traits::Long));
+        assert_eq!(of("N6sicore16RAW_TYPED_TRAITSIdEE"), Some(Traits::Other));
+        assert_eq!(of("N6sicore19STRING_TYPED_TRAITSE"), Some(Traits::Text));
+        assert_eq!(of("N6sicore28INTERNAL_OBJECT_TYPED_TRAITSINS_6RECORDELh10EEE"), Some(Traits::Record));
+        assert_eq!(of("N6sicore28INTERNAL_OBJECT_TYPED_TRAITSINS_10TYPED_LISTELh11EEE"), Some(Traits::List));
+        // Another class of traits for a record, not seen in the records the editor reads.
+        assert_eq!(of("N6sicore19OBJECT_TYPED_TRAITSINS_6RECORDEEE"), Some(Traits::Other));
+        assert_eq!(of("N6fmdate20SI_DATE_TYPED_TRAITSE"), Some(Traits::Other));
+        assert_eq!(of("N7sicomps11ACTUAL_COMPE"), None);
     }
 
     #[test]
