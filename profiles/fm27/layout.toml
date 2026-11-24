@@ -704,6 +704,14 @@ group_nation_rules = 0x1E0    # in a rule group: pointer to its nation's rules
 nation_fixture_rules = 0x60   # in those: (begin, end, capacity) of pointers to fixture rules, Türkiye's 10
 fixture_next = 0x68           # in fixture rules: pointer to next season's
 fixture_squad_rules = 0x70    # pointer to the list of squad rules: (begin, end, capacity) of pointers
+# The days squads are registered by, where the competitions of a set have such days: UEFA's Champions, Europa and
+# Conference League have six each (one of them their page's "Maximum of 25 players to be registered on Friday 2nd
+# July 2027"); a nation's league has none. The set's table has 74 places, the ones in use pointing at an entry each.
+fixture_registration = 0x18   # in fixture rules: (begin, end) of the table of pointers to those entries
+registration_size = 0x40
+registration_competition = 0x14  # u32 UID of the entry's competition
+registration_key = 0x18       # u32 key 'SqSl', which marks an entry
+registration_most = 0x26      # u8: the most players a squad may register by that day
 rule_size = 0x20
 rule_condition = 0x00         # u32 key of its condition: '1yol', 'Tk24', 'tfrd' (teams from a division), 0 for none
 rule_competition = 0x04       # u32 UID of the competition a 'tfrd' condition names

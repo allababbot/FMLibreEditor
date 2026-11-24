@@ -131,6 +131,10 @@ A list holds the rules that are good in its season, in the files' order: the Sü
 from 2028. It can hold one more than the files' list gives: the 2. Lig's ends with a squad size of at most 25, which
 its files give with the dates squad numbers are handed out by (`snms`), not as a rule.
 
+Competitions whose records name the same set are played under the same lists: the Nesine 2. Lig and its two groups
+name Türkiye's set 2, and eleven under-19 competitions its set 3. A rule changed for one of them is changed for all, as
+there is only the one struct; the probe names the others ("Its lists are also those of"), and so does the app.
+
 The game also copies a list for the pages that show it: such copies were in memory with the values the list had when
 the page was built.
 
@@ -177,7 +181,16 @@ the lists of both seasons, 2,072 of them with theirs in the records; the listing
 League (England's fixture rules 6) has the same two rules in each season, at least 8
 `homegrown_players_0_21_from_nation` and a squad of at most 25. Its squad size, written 24 in both seasons
 (`rules 11 --current 2 24 --next 2 24`), read back so from both lists and from the two records the probe writes to,
-the files together and the file for the seasons to 2028, while the file from 2029 kept 25; then it was put back.
+the files together and the file for the seasons to 2028, while the file from 2029 kept 25. The game's Competition
+Stages page showed the 24 under Next Season at once. Saved under another name and loaded, the game made both lists
+again with 24, from the two records, which came back as written; then the 25 was put back.
+
+UEFA's set holds the days squads are registered by where Windows has them (`+0x18`): 74 places, 18 in use, six days
+each for the Champions, Europa and Conference League, 25 players a day; an entry is laid out as on Windows. The app's
+Competitions tab reads on the Mac what the probe reads: `tools/smoke`'s `rules` with `--writes`, run there through a
+local test hook, passed its 28 checks (the Premier League's rule on home-grown players set through the command and
+through the panel, and the Champions League's squad size held, with its six days, each read back by the probe and
+undone).
 
 ## What the game makes of a change
 
@@ -202,12 +215,73 @@ Each Süper Lig club also holds a rule of its own for the limit, with the condit
 (`include_player_domestic_to_competition_nation`): 18 structs, saved with the save. The Registration screen does not
 count against them, and what they are for is not known; the editor leaves them alone.
 
+## A turn of the season
+
+The same save was played on from 20 October 2026 to 4 July 2027, with rules of the Süper Lig changed in both seasons
+and rules of the Premier League changed in next season's only, each to numbers of its own, through the app. A listing
+of every competition's rules was taken before the changes, before the turn, after it and after a save and a load
+(`rules " "`; nothing else wrote to the game meanwhile, and no save was loaded before the last one).
+
+- **Through the season** nothing changed them: eight months on, the January window included, the lists and the
+  records held the numbers written.
+- **A nation's seasons turn on its `season_update_day`**: Türkiye's on 20 June, England's on 25 June, Brazil's on 2
+  January, Korea's on 31 December. The rules count a season by the year it begins in, and one that turns in December
+  is the next year's: Korea's turn of 31 December 2026 begins its 2027 season.
+- **At the turn next season's list becomes this season's.** So for each of the 138 competitions that turned in those
+  weeks; the Süper Lig's and the Premier League's then held the numbers written to next season's list. The numbers
+  written to this season's list were gone, and the record the files make together held the new season's.
+- **Next season's list is made from the rule file that is for that season.** A nation has one rule file (`file_type`
+  12) for every season, or more than one: England has two, one with `OvEY` 2027 (its last season) and one with `OvSY`
+  2028 (its first); neither key has a name in the game. The record the files make together carries the same key as
+  the file it was made from. After the turn the Süper Lig's list for 2028 held the numbers written to next season's
+  list again, from Türkiye's one file, but for its rule on foreign players over 24, which that file replaces by another
+  from 2028; the Premier League's list for 2028 held the game's own numbers, from England's file for 2028, which nothing
+  had written to. A save and a load left both as they were.
+- Where a nation's rules are the same in the new season, the list for the season after is not made anew at the turn:
+  the old list of this season is put in its place (Romania's SuperLiga had its rule of 2026 there four days after its
+  turn), and it is made from the rule file when a save is loaded.
+
+So a change of this season's rule lasts the season, and a change of next season's rule lasts from the next season
+on, for as long as the same rule file and the same rule are in force.
+
+## Competitions of no nation
+
+A continent's club competition has no nation: its `db::COMP` points at a `db::CONTINENT` instead (`+0x58`; the
+nation's pointer at `+0x60` is null). The continent keeps records of the same form as a nation's container: the list
+of its men's club competitions' rule files at `+0x68` (`file_type` 5) and the record they make together at `+0x98`,
+and the same for its women's club competitions at `+0x70` and `+0xB0`. The lists of the CAF, AFC and CONMEBOL
+Champions Leagues and of UEFA's Women's Champions League read as those records do. The editor does not read them yet.
+
+UEFA's men's club competitions are the exception: UEFA's `+0x68` is null and its `+0x98` record is empty, and none of
+the 1,417 lists of squad rules in the records in memory holds the Champions League's four rules together. The game
+makes them itself. Their rule group has six sets; the Champions, Europa and Conference League are played under one,
+with an empty list for next season.
+
+That set also holds what a nation's league has none of: a table of pointers at `+0x18` (74 places, 18 in use), each
+to an entry of 0x40 bytes for a day squads are registered by, six for each of the three competitions. An entry holds
+its competition's UID (`+0x14`), the key `SqSl` (`+0x18`) and at `+0x26` the most players a squad may register by that
+day. The competition's page reads its line "Maximum of 25 players to be registered on Friday 2nd July 2027" from
+there, not from the list's rule of the squad's size, and its lines on goalkeepers and on players trained at the club
+or in the nation from the list.
+
+Tried on the same save: the list's rule on players trained in the nation written from 8 to 6 and the Champions
+League's six entries from 25 to 30 showed on its page after a day ("Minimum of 6 players...", "Maximum of 30
+players..."); a save and a load put 8, 25 and 25 back in every place. So a change of these rules lasts while the game
+runs, and no longer.
+
+The editor therefore writes such a rule to the list alone (and, for the squad's size, to the entries of the set that
+repeat it), and the app holds it: it remembers the count for the career, as it remembers a renamed stadium, and
+writes it again when it connects or reads the data again and finds the game's own count there. Until the continents'
+records are read, the other continents' competitions are held the same way.
+
 Not known yet:
-- what the game does at the turn of a season: whether next season's list becomes this season's, and which record the
-  new lists are made from;
+- whether a squad is counted against the list's rule or the entries' number when it is registered for a UEFA
+  competition (no club of the save was in one);
 - whether the game lets a squad be confirmed against a changed limit while the window is open;
 - whether an update of the game puts its own rules over a save's records;
 - what the clubs' own structs are for;
+- why one of two rules of the same years is in a season's list and the other in the next's (Romania's on players
+  under 21 and under 22);
 - how any of this is laid out on Steam for Windows.
 
 ## The probe's `rules`
@@ -218,9 +292,15 @@ change rule N of a season: in the list, and in the record that list is made from
 save. `--restore` puts the values back, after `--hold` seconds if given.
 
 A rule is changed only where it is a count (0 to 255) and the record holds it for the season: the rule of the same
-kind, limit and condition that is good in the season's year, looked for in the files' order. A season begins in the
-year the nation's `season_update_day` last passed. Before writing, the list must still point at the rule and the rule
-be of the kind it was.
+kind, limit and condition that is good in the season's year, looked for in the files' order. This season's record is
+the one the files make together, next season's the rule file that is for that season. A season begins in the year the
+nation's `season_update_day` last passed, or in the year after where that day is in October or later. Before
+writing, the list must still point at the rule and the rule be of the kind it was.
+
+`--where` adds where the lists and rules are in the game's memory, and `--sources` what each of the nation's records
+holds for the competition's set of fixture rules: the record the files make together and each file's own, with the
+seasons a file is for. A rule of a competition no record keeps is changed in its list alone; `--list-only` does the
+same for any rule, to see what the game makes of it.
 
 ```text
 Trendyol Süper Lig (UID 130286) · Türkiye · level 0 · the nation's fixture rules 0
@@ -246,3 +326,29 @@ nation (the continents' competitions, whose records were not looked for); the ot
 Women's Super League, the NWSL), Major League Soccer and a few cups; why theirs do not match was not looked into. Of
 the 2,498 rules in the lists of both seasons, 2,070 have theirs in the records. A quarter of the 428 without are squad
 sizes (105), which the files give with the squad numbers; the others are of many kinds.
+
+## The app's Competitions tab
+
+The app reads the same lists (`competition_rules`, the first time its Competitions tab is shown: one pass over the
+game's memory, a few seconds) and keeps them, with its own changes, until the data is read again. It lists the
+competitions that have a squad rule in either season, and beside the list the rules of the one picked, in an area for
+this season and one for the next. A rule's count is changed there (`set_competition_rules`) under the conditions the
+probe changes it under; each rule changed is logged as a change of the competition, with the rule it set, and Undo in
+Changes writes back what it found, in the list and in the record. A change logged before the app last connected is
+kept as history: its undo needed the game's memory as it was.
+
+A rule of a competition whose rules no record keeps (see "Competitions of no nation") is written to the list alone,
+logged the same way and held: the app's file of what is frozen in each save keeps the rule, the count it was given
+and the game's own, and `competition_rules` lists what is held, which the panel tags. Undo writes the game's count
+back and lets go of the rule; once the game has made the list anew and the app has written its count there again,
+the undo is made as a new change back.
+
+Only on the builds whose profile says `squad_rules = true`, as the prize money and the sponsorship deals have their
+flags: Game Pass 0.9.2524.0 and the Apple silicon half of Steam build 26620374 so far. The others say why the tab is
+empty.
+
+The game names 451 kinds of rule by keys such as `all_foreign_players_in_match_squad`; the lists read on the save
+above use 174 of them. The app words the commonest from the key (whom a rule counts, and where: the squad, the match
+squad, the eleven, the starting eleven, the bench), by pattern where a key carries ages, and shows the key itself,
+spaced out, for the rest; a rule's hover text gives the key. A rule under a condition other than a division's teams
+shows the condition's key (`dtcm`, `btms`, ...): what those conditions are was not looked into.

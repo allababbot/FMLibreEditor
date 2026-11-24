@@ -1418,6 +1418,182 @@ export const en = {
     unavailableUnreadable: "The editor looked for the sponsorship deals where it expects them on this version of the game, but what it found does not read as the game's, so it shows none.",
   },
 
+  /**
+   * The Competitions tab: the competitions that have squad rules, and beside the list the rules of the one picked, this
+   * season's and next season's in an area each: how many players of a kind a squad may register or a team may pick.
+   * While the game can be written to, the counts can be changed.
+   */
+  competitions: {
+    /** The tab in the masthead, and the palette's command to go there. */
+    nav: "Competitions",
+    search: "Search competitions by name, nation or UID",
+    summary: (total: number, shown: number) =>
+      total > shown ? `${format(shown)} of ${format(total)} competitions` : `${format(total)} competitions`,
+    /** The message under an empty table; `filtered` is whether a nation is picked. */
+    empty: (query: string, filtered: boolean) => {
+      if (query === "") {
+        return filtered ? "No competitions of this nation have squad rules." : "No competitions with squad rules found.";
+      }
+      return filtered ? `No competitions match “${query}” in this nation.` : `No competitions match “${query}”.`;
+    },
+    /** While the rules are read: the editor reads all of the game's memory once. */
+    reading: "Reading the competitions' squad rules from the game… This takes a few seconds.",
+    readAgain: "Read again",
+    readAgainTitle: "Read the rules from the game again",
+    /** Under the list. */
+    listNote: "Competitions that have no squad rules are not listed.",
+    /** Where the app cannot show the rules: the heading, and why. */
+    unavailableTitle: "No squad rules to show",
+    unavailableBuild: "Nobody has checked yet where this version of the game keeps the competitions' squad rules, so the editor shows none rather than read the wrong memory.",
+    unavailableUnreadable: "The editor looked for the squad rules where it expects them on this version of the game, but what it found does not read as the game's, so it shows none.",
+    columns: {
+      name: "Competition",
+      nation: "Nation",
+      level: "Level",
+      rules: "Rules",
+      uid: "UID",
+    },
+    /** In the Level column: the top division is level 1. */
+    level: (level: number) => format(level),
+    /** In the Rules column: how many rules this season, and next season when its list differs in length. */
+    rulesCount: (current: number, next: number | null) =>
+      next === null || next === current ? format(current) : `${format(current)} · ${format(next)}`,
+    rulesCountTitle: "Squad rules this season, and next season where it has another number of them",
+    /** In the place of a nation, for a continent's competition, and in the filter. */
+    international: "International",
+    filters: {
+      nation: "Nation",
+      allNations: "All nations",
+    },
+    /** The heading of the panel's body, and the line under it. */
+    title: "Squad rules",
+    intro: "How many players of a kind a squad may register, or a team may pick for a match, in this competition. Who counts as foreign or home-grown is the game's own to say.",
+    /** The headings of the two areas, and beside each the year the season begins in. */
+    seasons: { current: "This season", next: "Next season" },
+    began: (year: number) => `began in ${year}`,
+    begins: (year: number) => `begins in ${year}`,
+    /** In an area with no rules, and in next season's when the game holds no list for it. */
+    noRules: "No squad rules.",
+    noNext: "The game holds no rules for next season.",
+    ruleColumns: {
+      rule: "Rule",
+      where: "Counted in",
+      limit: "Limit",
+      value: "Players",
+    },
+    atMost: "At most",
+    atLeast: "At least",
+    /** Where a rule counts players. */
+    scopes: {
+      squad: "Squad",
+      matchSquad: "Match squad",
+      eleven: "Eleven",
+      startingEleven: "Starting eleven",
+      bench: "Bench",
+    },
+    /** Whom a rule counts, by the game's key for its kind; the ages a kind names are given. */
+    who: {
+      squadSize: "Players in the squad",
+      foreign: "Foreign players",
+      foreignExceptAsian: "Foreign players, Asian ones aside",
+      foreignGoalkeepers: "Foreign goalkeepers",
+      nonEu: "Non-EU players",
+      domestic: "Domestic players",
+      domesticGoalkeepers: "Domestic goalkeepers",
+      goalkeepers: "Goalkeepers",
+      outfield: "Outfield players",
+      nonHomegrown: "Players who are not home-grown",
+      youthContract: "Players on youth contracts",
+      fullTime: "Players on full-time contracts",
+      amateur: "Amateur players",
+      youthOrAmateur: "Youth or amateur players",
+      trialists: "Trialists",
+      loans: "Loan players",
+      internationals: "International players",
+      otherTeam: "Players registered for another team",
+      firstTeam: "Players registered for the first team",
+      over: (age: number) => `Players over ${format(age)}`,
+      under: (age: number) => `Players under ${format(age)}`,
+      domesticUnder: (age: number) => `Domestic players under ${format(age)}`,
+      foreignOver: (age: number) => `Foreign players over ${format(age)}`,
+      goalkeepersOver: (age: number) => `Goalkeepers over ${format(age)}`,
+      outfieldOver: (age: number) => `Outfield players over ${format(age)}`,
+      /** Trained at the club, in the nation, or at either, between two ages. */
+      homegrown: (from: "club" | "nation" | "clubOrNation", fromAge: number, toAge: number) => {
+        const ages = `trained at ${format(fromAge)}–${format(toAge)}`;
+        if (from === "club") {
+          return `Home-grown at the club (${ages})`;
+        }
+        return from === "nation" ? `Home-grown in the nation (${ages})` : `Home-grown at the club or in the nation (${ages})`;
+      },
+      /** The same in the nation, for players under an age. */
+      homegrownUnder: (age: number, fromAge: number, toAge: number) =>
+        `Under-${format(age)}s home-grown in the nation (trained at ${format(fromAge)}–${format(toAge)})`,
+    },
+    /** A rule of a kind the game gives no name. */
+    unnamedKind: (kind: number) => `Rule of kind ${format(kind)}`,
+    /** The hover text of a rule's name: the game's own key for the kind. */
+    gameKey: (key: string) => `The game's name for this rule: ${key}`,
+    /** The small tag under a rule that holds for some teams, or under a condition of the game's. */
+    teamsFrom: (competition: string) => `Teams from ${competition}`,
+    teamsFromUnknown: "Teams from another division",
+    condition: (code: string) => `Conditional (${code})`,
+    conditionTitle: "The game applies this rule under a condition of its own, which the editor does not explain yet.",
+    /** The years the nation's rules give a rule, where they give any. */
+    years: (from: number | null, to: number | null) => {
+      if (from !== null && to !== null) {
+        return from === to ? `${from}` : `${from}–${to}`;
+      }
+      return from !== null ? `from ${from}` : `until ${to}`;
+    },
+    yearsTitle: "The seasons the nation's rules give this rule for, by the year a season begins in",
+    /** In the place of an input, for a rule the editor leaves alone, and why. */
+    leftAlone: "Left alone",
+    notSavedTitle: "The nation's rules as a save keeps them hold no such rule, so a change would be gone when the save is loaded: the editor leaves it alone.",
+    notACountTitle: "An amount of money, not a count of players: the editor leaves it alone.",
+    /** Over the areas, when the editor changes none of the competition's rules: why, and that no date changes it. */
+    noneChangeable: "These rules cannot be changed yet, at any date: the editor changes a rule only where it finds it in the rules the save keeps, so that the change is still there when the save is loaded, and it has not found this competition's there. So far that goes for the women's leagues, Major League Soccer and a few cups.",
+    /**
+     * In the place of `lasts`, for a competition whose rules the game keeps in no record (UEFA's Champions League): the
+     * editor holds a change of them. The small tag under a rule it holds, and the tag's hover text with the game's own
+     * count.
+     */
+    unsavedNote: "The game keeps this competition's rules in no save: it makes them itself each time it loads one, and again for each new season. So the editor holds a change here: it writes it to the running game, remembers it for this career, and writes it again whenever it connects or reads the data again. After loading a save, connect the editor (or press Reload data) once for the change to be back. Undo in Changes lets go of it.",
+    heldTag: "Held",
+    heldTitle: (original: number) => `The editor holds this count and writes it again whenever it reads the game. The game's own is ${format(original)}.`,
+    /** Under a rule whose count in the save's rules is another than the list's. */
+    savedDiffers: (value: number) => `The save's rules hold ${format(value)}`,
+    savedDiffersTitle: "The game plays by the list, and makes the list from the save's rules when it loads the save. Saving a change here sets both.",
+    /** The button that turns the counts into inputs, and the ones under them. */
+    edit: "Change rules",
+    editTitle: "Change the counts of this competition's squad rules",
+    save: "Save rules",
+    saving: "Saving…",
+    cancel: "Cancel",
+    /** Under an input that does not hold a count the editor writes. */
+    invalid: (most: number) => `Enter a whole number from 0 to ${format(most)}.`,
+    /** Over the areas, when other competitions are played under the same lists: their names. */
+    shared: (names: string) => `These rules are also those of ${names}: a change is theirs too.`,
+    /**
+     * Under each area: how long a change of it holds, and when the game shows it. `turn` is the day the nation's seasons
+     * turn on ("20 June") where its rules give one. Seen over a turn of the season: this season's change is gone with
+     * it, next season's becomes this season's and stays, unless the nation has another rule (the Süper Lig's on
+     * foreign players over 24 from 2028) or another file of rules (England's from 2028) for a later season.
+     */
+    currentNote: (turn: string | null) =>
+      `A change here holds for the rest of this season${turn === null ? "" : `, which turns on ${turn}`}. The game counts squads against it at once; its own screens show it once a day has passed.`,
+    nextNote: (turn: string | null) =>
+      `A change here becomes this season's rule when the season turns${turn === null ? "" : ` on ${turn}`}, and stays for the seasons after unless the game has rules of its own for a later one. The game's Next Season page shows it at once.`,
+    /** Under the areas, and in the (i) beside the button. */
+    lasts: "A change is written to the list the game plays by and to the nation's rules the save keeps, so it is there again when the save is loaded. A change of this season's rule ends when the season turns: next season's rules take its place. Undo in Changes puts the old count back.",
+    infoLabel: "How a change of a squad rule lasts",
+    /** What the Changes view calls a change of a rule: the season, and the rule. */
+    ruleField: (season: string, rule: string) => `Squad rule, ${season.toLowerCase()}: ${rule}`,
+    /** In the Changes view, under a change of a rule: how many other competitions it is for too. */
+    alsoFor: (count: number) =>
+      count === 1 ? "Also for 1 other competition under the same rules" : `Also for ${format(count)} other competitions under the same rules`,
+  },
+
   /** The app around the lists: the sidebar, the status line and the connect panel. */
   app: {
     /** The small line under the name in the sidebar. */
@@ -1768,7 +1944,13 @@ export const en = {
       status: "Status",
     },
     /** The small tag after a name. */
-    kinds: { player: "Player", staff: "Staff", club: "Club", nationalTeam: "National team" } satisfies Record<EditEntity, string>,
+    kinds: {
+      player: "Player",
+      staff: "Staff",
+      club: "Club",
+      nationalTeam: "National team",
+      competition: "Competition",
+    } satisfies Record<EditEntity, string>,
     /** Hover text of a change of an attribute: the values as stored; `change` is from `valueChange`. */
     stored: (change: string) => `stored ${change}`,
     undone: (time: string) => `Undone at ${time}`,
