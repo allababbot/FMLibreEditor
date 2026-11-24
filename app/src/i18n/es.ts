@@ -393,6 +393,10 @@ const errors: ErrorTexts = {
   "mass.noOperations": () => "Elige al menos un campo que cambiar.",
   "mass.tooMany": (p) =>
     `Hay ${p.count} resultados. Para una edición masiva, acota la búsqueda o los filtros a ${p.limit} como máximo.`,
+  "recipe.tooOld": (p) =>
+    `El jugador tiene ${p.age} años: esta receta es para jugadores de ${p.oldest} años o menos.`,
+  "recipe.ageUnknown": () => "No se conoce la edad del jugador, y esta receta depende de ella.",
+  "recipe.outOfDate": () => "Esta vista previa está desfasada. Vuelve a abrir la receta.",
   "mass.outOfDate": () => "Esta vista previa está desfasada. Vuelve a generar la vista previa de la edición masiva.",
 };
 
@@ -3180,6 +3184,58 @@ export const es: Strings = {
       unwanted: () => "Estatus: no entra en los planes",
       listed: () => "Ya está en la lista de traspasos",
     },
+  },
+
+  /** Recipes (`RecipeMenu`): see `en.ts`. */
+  recipes: {
+    button: "Recetas",
+    buttonTitle: "Conjuntos de cambios ya preparados, cada uno con vista previa antes de escribir nada",
+    names: {
+      wonderkid: "Convertir en promesa",
+      injuryProof: "A prueba de lesiones",
+      longCareer: "Alargar su carrera",
+      richClub: "Hacer rico al club",
+      topFacilities: "Instalaciones al máximo",
+    },
+    notes: {
+      wonderkid:
+        "Para un jugador de 21 años o menos: habilidad potencial de 180 como mínimo, una habilidad actual y unos " +
+        "atributos acordes a su edad, y los atributos ocultos y la personalidad para llegar hasta ahí. Los valores " +
+        "más altos se quedan como están; no se tocan las posiciones, los pies, las características ni el contrato.",
+      injuryProof:
+        "Propensión a lesiones a 1, recuperación física a 20 y resistencia a 15 como mínimo, y cura las lesiones que " +
+        "tiene ahora.",
+      longCareer:
+        "Quita de los planes del juego la retirada que tiene prevista, hace que su contrato dure al menos tres años " +
+        "más y sube la recuperación física a 20 y la profesionalidad a 18 como mínimo, que frenan su declive. Sus " +
+        "atributos pueden seguir bajando con la edad: Congelar los atributos los mantiene mientras el editor esté " +
+        "abierto.",
+      richClub:
+        "Sube el saldo, el presupuesto de fichajes y los dos presupuestos salariales al nivel de los clubes más " +
+        "ricos. Si el club ya tiene más dinero, se queda como está.",
+      topFacilities: "Las cinco instalaciones del club a 20.",
+    },
+    tooOld: (oldest: number) => `Para jugadores de ${oldest} años o menos`,
+    command: (recipe: string) => `Receta: ${recipe}`,
+    working: "Calculando los cambios…",
+    summary: (changes: number, kept: number, left: number) =>
+      [
+        changeCount(changes),
+        kept > 0 && (kept === 1 ? "1 valor ya es igual de bueno" : `${format(kept)} valores ya son igual de buenos`),
+        left > 0 && valuesLeftAlone(left),
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "Cambios que haría la receta",
+    keptHeading: (count: number) =>
+      count === 1
+        ? "1 valor se queda como está: ya es igual de bueno"
+        : `${format(count)} valores se quedan como están: ya son igual de buenos`,
+    keptLabel: "Valores que ya son igual de buenos",
+    valueColumn: "Valor",
+    leftLabel: "Lo que la receta deja sin tocar",
+    undo: "Deshacer esta receta",
+    undoTitle: "Volver a escribir en el juego todo lo que cambió esta receta",
   },
 
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */

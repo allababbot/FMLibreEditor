@@ -273,6 +273,9 @@ const errors: ErrorTexts = {
   "mass.noOperations": () => "変更する項目を1つ以上選んでください。",
   "mass.tooMany": (p) =>
     `該当が ${p.count} 件あります。一括編集するには、検索やフィルターで ${p.limit} 件以下に絞り込んでください。`,
+  "recipe.tooOld": (p) => `この選手は${p.age}歳です：このレシピは${p.oldest}歳以下の選手向けです。`,
+  "recipe.ageUnknown": () => "この選手の年齢がわからないため、年齢をもとにするこのレシピは使えません。",
+  "recipe.outOfDate": () => "このプレビューは最新ではありません。レシピをもう一度開いてください。",
   "mass.outOfDate": () => "このプレビューは最新ではありません。一括編集のプレビューをもう一度実行してください。",
 };
 
@@ -3054,6 +3057,45 @@ export const ja: Strings = {
       unwanted: () => "チーム内の立場：構想外",
       listed: () => "すでに移籍リスト入り",
     } as Record<string, (value: string) => string>,
+  },
+
+  /** Recipes (`RecipeMenu`): see `en.ts`. */
+  recipes: {
+    button: "レシピ",
+    buttonTitle: "あらかじめ用意された変更のセット。書き込む前にそれぞれプレビューします",
+    names: {
+      wonderkid: "ワンダーキッドにする",
+      injuryProof: "負傷しにくくする",
+      longCareer: "キャリアを延ばす",
+      richClub: "クラブを裕福にする",
+      topFacilities: "施設を最高にする",
+    },
+    notes: {
+      wonderkid:
+        "21歳以下の選手向け：潜在能力を180以上に、現在能力と能力値を年齢に見合う水準に、そこへ到達するための隠し能力値と性格を整えます。" +
+        "すでに高い値はそのまま。ポジション、利き足、特性、契約には触れません。",
+      injuryProof: "負傷しやすさを1、回復力を20、スタミナを15以上にし、現在の負傷を治します。",
+      longCareer:
+        "ゲームが予定している引退を取り消し、契約を少なくともあと3年続くようにし、衰えを遅らせる回復力を20、プロ意識を18以上にします。" +
+        "能力値は年齢とともに下がることがあります：エディターを開いている間は「能力値を固定」で維持できます。",
+      richClub:
+        "残高、移籍予算、2つの給与予算を、最も裕福なクラブの水準まで引き上げます。すでにそれ以上ある資金はそのままです。",
+      topFacilities: "クラブの5つの施設をすべて20にします。",
+    },
+    tooOld: (oldest: number) => `${oldest}歳以下の選手向け`,
+    command: (recipe: string) => `レシピ：${recipe}`,
+    working: "変更を計算中…",
+    summary: (changes: number, kept: number, left: number) =>
+      [changeCount(changes), kept > 0 && `${format(kept)}件はすでに十分な値`, left > 0 && valuesLeftAlone(left)]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "レシピで行われる変更",
+    keptHeading: (count: number) => `${format(count)}件の値はそのまま：すでに十分`,
+    keptLabel: "すでに十分な値",
+    valueColumn: "値",
+    leftLabel: "レシピで変更しないもの",
+    undo: "このレシピを元に戻す",
+    undoTitle: "このレシピが変更したすべてをゲームに書き戻します",
   },
 
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */

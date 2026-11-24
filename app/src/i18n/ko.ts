@@ -417,6 +417,9 @@ const errors: ErrorTexts = {
   "mass.noOperations": () => "변경할 항목을 하나 이상 선택하세요.",
   "mass.tooMany": (p) =>
     `결과가 ${p.count}건입니다. 일괄 편집을 하려면 검색이나 필터로 ${p.limit}건 이하로 줄이세요.`,
+  "recipe.tooOld": (p) => `이 선수는 ${p.age}세입니다. 이 레시피는 ${p.oldest}세 이하 선수용입니다.`,
+  "recipe.ageUnknown": () => "선수의 나이를 알 수 없습니다. 이 레시피는 나이를 기준으로 합니다.",
+  "recipe.outOfDate": () => "이 미리보기는 더 이상 최신이 아닙니다. 레시피를 다시 여세요.",
   "mass.outOfDate": () => "이 미리보기는 더 이상 최신이 아닙니다. 일괄 편집 미리보기를 다시 실행하세요.",
 };
 
@@ -3099,6 +3102,45 @@ export const ko: Strings = {
       unwanted: () => "팀 내 위상: 잉여 자원",
       listed: () => "이미 이적 명단에 등록됨",
     },
+  },
+
+  /** Recipes (`RecipeMenu`): see `en.ts`. */
+  recipes: {
+    button: "레시피",
+    buttonTitle: "미리 준비된 변경 묶음입니다. 쓰기 전에 각각 미리보기를 보여 줍니다",
+    names: {
+      wonderkid: "유망주로 만들기",
+      injuryProof: "부상에 강하게",
+      longCareer: "선수 생활 연장",
+      richClub: "구단을 부자로",
+      topFacilities: "최고 시설",
+    },
+    notes: {
+      wonderkid:
+        "21세 이하 선수용: 잠재 능력을 180 이상으로, 현재 능력과 능력치를 나이에 맞게, 거기까지 성장하게 해 줄 숨겨진 능력치와 성격을 맞춥니다. " +
+        "이미 더 높은 값은 그대로 둡니다. 포지션, 발, 특성, 계약은 건드리지 않습니다.",
+      injuryProof: "부상 빈도를 1로, 타고난 체력을 20으로, 지구력을 15 이상으로 하고 현재 부상을 치료합니다.",
+      longCareer:
+        "게임이 예정한 은퇴를 계획에서 빼고, 계약이 적어도 3년 더 이어지게 하며, 하락을 늦추는 타고난 체력을 20으로, 프로 의식을 18 이상으로 올립니다. " +
+        "능력치는 나이가 들면서 여전히 떨어질 수 있습니다. 에디터가 열려 있는 동안에는 '능력치 고정'이 유지해 줍니다.",
+      richClub:
+        "보유 금액, 이적 예산, 두 급료 예산을 가장 부유한 구단 수준으로 올립니다. 이미 그보다 많은 돈은 그대로 둡니다.",
+      topFacilities: "구단의 다섯 시설을 모두 20으로 합니다.",
+    },
+    tooOld: (oldest: number) => `${oldest}세 이하 선수용`,
+    command: (recipe: string) => `레시피: ${recipe}`,
+    working: "변경 사항을 계산하는 중…",
+    summary: (changes: number, kept: number, left: number) =>
+      [changeCount(changes), kept > 0 && `이미 충분한 값 ${format(kept)}개`, left > 0 && valuesLeftAlone(left)]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "레시피가 만들 변경 사항",
+    keptHeading: (count: number) => `그대로 두는 값 ${format(count)}개: 이미 충분함`,
+    keptLabel: "이미 충분한 값",
+    valueColumn: "값",
+    leftLabel: "레시피가 그대로 두는 것",
+    undo: "이 레시피 되돌리기",
+    undoTitle: "이 레시피가 바꾼 모든 것을 게임에 다시 씁니다",
   },
 
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */

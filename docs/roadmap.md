@@ -216,6 +216,38 @@ before trusting them.
   team action and one batch, undone with one Undo; attributes and bans stay. A step that cannot run (nobody
   injured, a lock, a build where Max tactics is off) is skipped and named, and the others still run (#227).
 - [ ] Team at its best for one player, in his profile.
+- [x] Recipes: named sets of edits to one player or one club, worked out as one plan from the values the game holds,
+  previewed value by value, written as one batch and undone with one Undo. They are data (`RECIPES` in
+  `recipes.rs`): steps over the fields the editor already writes, each a floor (or a ceiling, where lower is better)
+  as the game shows the value, by age where the recipe says so, plus healing and keeping a player from retiring as
+  those are written elsewhere. No step makes a value worse; a value the game already shows as asked stays (an
+  attribute stored as 98 is a 20), and the preview lists what changes, what stays because it is as good already, and
+  what is left alone and why. A build the editor does not know, or a save loaded since the lists were read, refuses
+  the recipe; a failed check of one part of the game leaves that part's values alone and says so. The five:
+  - Make a wonderkid, for a player of 21 or younger (an older one is refused, as is one whose age is not known):
+    potential ability at least 180; current ability at least 110 at 15 or younger, 120 at 16, 130 at 17, 140 at 18,
+    150 at 19, 155 at 20, 160 at 21; every technical (for a goalkeeper, goalkeeping), mental and physical attribute
+    at least 10 at 15 or younger, 11 at 16, 12 at 17 and 18, 13 at 19 and 20, 14 at 21; determination at least 16;
+    consistency and important matches at least 15; injury proneness at most 6; ambition at least 16, professionalism
+    at least 17, pressure at least 15. Positions, feet, traits, the other hidden attributes, contract and reputation
+    stay.
+  - Injury-proof: injury proneness 1, natural fitness 20, stamina at least 15, and his current injuries healed.
+  - Extend his career: the retirement the game plans taken out of its plans, with the trait "Will play football as
+    long as possible" in place of "Will retire at top"; his contract run on by whole years until it ends three years
+    after the game's date at least (a new operation of the mass edit's kind, which keeps its day); natural fitness 20
+    and professionalism at least 18. It does not freeze his attributes: a freeze is the app's, held only while it is
+    open, and would not go back with the recipe's Undo.
+  - Make the club rich: balance at least £500,000,000, transfer budget at least £200,000,000, both wage budgets at
+    least £6,000,000 a week.
+  - Top facilities: training, youth facilities, youth coaching, youth recruitment and corporate facilities at 20.
+
+  In the interface they have no tab and no block of their own: a Recipes button at the end of the row of Max
+  attributes in a player's profile, and in the header of a club's (before Edit, gone while the club is edited),
+  opens a menu of them, the squad's More actions menu by another name; a recipe that is not for the player is
+  dimmed and says whom it is for. The command palette finds the recipes of the profile on show once something is
+  typed. The dialog is the mass edit's preview for one subject: the changes, the values that stay behind a line
+  that opens them, what is left alone with the reasons, Apply, and Undo.
+- [ ] Recipes for a whole team from the squad's More actions menu, and recipes of the user's own.
 - [x] Destroy in the squad tab, the other way: morale 1, happiness and playing time happiness -100, no energy,
   35% match sharpness, jadedness 1000, cohesion 1 and the tactic known at its least (where a human picks it), as
   one team action and one batch after a question, undone with one Undo. No value is made better than it was (a

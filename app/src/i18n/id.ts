@@ -267,6 +267,10 @@ const errors: ErrorTexts = {
   "mass.noOperations": () => "Pilih setidaknya satu kolom untuk diubah.",
   "mass.tooMany": (p) =>
     `Ada ${p.count} hasil. Persempit pencarian atau filter hingga paling banyak ${p.limit} untuk edit massal.`,
+  "recipe.tooOld": (p) =>
+    `Pemain ini berusia ${p.age} tahun: resep ini untuk pemain berusia ${p.oldest} tahun atau lebih muda.`,
+  "recipe.ageUnknown": () => "Usia pemain tidak diketahui, padahal resep ini bergantung padanya.",
+  "recipe.outOfDate": () => "Pratinjau ini sudah usang. Buka lagi resepnya.",
   "mass.outOfDate": () => "Pratinjau ini sudah usang. Buat ulang pratinjau edit massal.",
 };
 
@@ -3027,6 +3031,50 @@ export const id: Strings = {
       unwanted: () => "Status skuad: tidak lagi dibutuhkan",
       listed: () => "Sudah masuk daftar transfer",
     } as Record<string, (value: string) => string>,
+  },
+
+  /** Recipes (`RecipeMenu`): see `en.ts`. */
+  recipes: {
+    button: "Resep",
+    buttonTitle: "Kumpulan perubahan siap pakai, masing-masing dengan pratinjau sebelum ada yang ditulis",
+    names: {
+      wonderkid: "Jadikan wonderkid",
+      injuryProof: "Kebal cedera",
+      longCareer: "Perpanjang kariernya",
+      richClub: "Jadikan klub kaya",
+      topFacilities: "Fasilitas terbaik",
+    },
+    notes: {
+      wonderkid:
+        "Untuk pemain berusia 21 tahun atau lebih muda: kemampuan potensial minimal 180, kemampuan saat ini dan " +
+        "atribut yang sesuai usianya, serta atribut tersembunyi dan kepribadian untuk mencapainya. Nilai yang sudah " +
+        "lebih tinggi dibiarkan; posisi, kaki, sifat, dan kontrak tidak disentuh.",
+      injuryProof:
+        "Kerentanan cedera jadi 1, kebugaran natural jadi 20, stamina minimal 15, dan cedera yang sedang dialaminya " +
+        "disembuhkan.",
+      longCareer:
+        "Menghapus pensiun yang direncanakan game untuknya, membuat kontraknya berjalan minimal tiga tahun lagi, " +
+        "serta menaikkan kebugaran natural jadi 20 dan profesionalisme minimal 18, yang memperlambat penurunannya. " +
+        "Atributnya tetap bisa turun seiring usia: Bekukan atribut menahannya selama editor terbuka.",
+      richClub:
+        "Menaikkan saldo, anggaran transfer, dan kedua anggaran gaji ke tingkat klub-klub terkaya. Uang klub yang " +
+        "sudah lebih dari itu dibiarkan.",
+      topFacilities: "Kelima fasilitas klub jadi 20.",
+    },
+    tooOld: (oldest: number) => `Untuk pemain berusia ${oldest} tahun atau lebih muda`,
+    command: (recipe: string) => `Resep: ${recipe}`,
+    working: "Menghitung perubahan…",
+    summary: (changes: number, kept: number, left: number) =>
+      [changeCount(changes), kept > 0 && `${format(kept)} nilai sudah sebaik itu`, left > 0 && valuesLeftAlone(left)]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "Perubahan yang akan dibuat resep",
+    keptHeading: (count: number) => `${format(count)} nilai dibiarkan apa adanya: sudah sebaik itu`,
+    keptLabel: "Nilai yang sudah sebaik itu",
+    valueColumn: "Nilai",
+    leftLabel: "Yang dibiarkan resep",
+    undo: "Urungkan resep ini",
+    undoTitle: "Tulis kembali ke game semua yang diubah resep ini",
   },
 
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */

@@ -66,6 +66,10 @@ signed: [Code signing policy](#code-signing-policy).
   inspires and refreshes a whole team and takes its cohesion and tactic to the top in one press,
   and **Destroy**, after a question, does the other way round; one Undo takes either back.
   **Batch traits** gives every player of a team the traits you pick, or takes them away.
+- **Recipes**: ready-made sets of changes for one player or one club, each shown value by value
+  before anything is written and taken back with one Undo. Make a wonderkid (21 or younger),
+  Injury-proof and Extend his career for a player; Make the club rich and Top facilities for a
+  club. A recipe only ever raises a value to what it gives: one that is better already stays.
 - Freeze a player's attributes, energy and match sharpness, a whole team's from its squad
   tab, or a club's money: while the app runs, they do not go down, and the app freezes them
   again when you connect to that save another time.

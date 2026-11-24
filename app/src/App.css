@@ -1231,6 +1231,21 @@ input::placeholder {
   position: static;
 }
 
+/* Recipes, the ready-made sets of changes, at the end of that row: the squad's More actions button by another name. */
+.attribute-buttons .recipe-toggle {
+  margin-left: auto;
+}
+
+/* A recipe's dialog lists one player's or one club's values: narrower than a mass edit's, which names who as well. */
+.modal.recipe-dialog {
+  width: min(640px, 100%);
+}
+
+.recipe-changes td:first-child,
+.recipe-changes th:first-child {
+  width: 50%;
+}
+
 .attribute-actions > :not(:first-child):not(:empty) {
   margin: 8px 0 0;
 }

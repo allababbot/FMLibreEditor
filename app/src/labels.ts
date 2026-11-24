@@ -316,6 +316,9 @@ export const scoutingText = strings.scouting;
 /** "My club", the page the app opens on (see `MyClub`). */
 export const homeText = strings.home;
 
+/** Recipes: ready-made sets of changes to one player or one club (see `RecipeMenu`). */
+export const recipeText = strings.recipes;
+
 /** The command palette and the keyboard shortcuts (see `CommandPalette` and `shortcuts.ts`). */
 export const paletteText = strings.palette;
 

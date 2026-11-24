@@ -27,6 +27,8 @@ import type {
   MassOperation,
   MassPreview,
   MassReport,
+  RecipeInfo,
+  RecipePreview,
   MovePreview,
   MoveTerms,
   NameKind,
@@ -263,6 +265,31 @@ export const planMassEdit = (entity: Entity, query: string, filters: MassFilters
 
 /** Writes the mass edit previewed as `id`, exactly as shown; each change only if the value is still the one previewed. */
 export const applyMassEdit = (id: number) => call<MassReport>("apply_mass_edit", { id });
+
+/** The recipes there are, in the order to offer them. They never change while the app runs, so they are asked once. */
+let recipeList: Promise<RecipeInfo[]> | null = null;
+export function recipes(): Promise<RecipeInfo[]> {
+  if (recipeList === null) {
+    const asked = call<RecipeInfo[]>("recipes");
+    recipeList = asked;
+    // A failed call is not kept: the next one asks again.
+    asked.catch(() => {
+      if (recipeList === asked) {
+        recipeList = null;
+      }
+    });
+  }
+  return recipeList;
+}
+
+/**
+ * Works out the recipe `recipe` for the player or club `uid` from the values the game holds now. Nothing is written
+ * until `applyRecipe`; a recipe that is not for him (a wonderkid older than 21) is refused, and the error says why.
+ */
+export const planRecipe = (recipe: string, uid: number) => call<RecipePreview>("plan_recipe", { recipe, uid });
+
+/** Writes the recipe previewed as `id`, exactly as shown, as one batch that `undoBatch` takes back. */
+export const applyRecipe = (id: number) => call<MassReport>("apply_recipe", { id });
 
 /** Undoes every change of a mass edit that is not undone yet. */
 export const undoBatch = (batch: number) => call<BatchUndo>("undo_batch", { batch });

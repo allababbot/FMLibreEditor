@@ -435,6 +435,10 @@ const errors: ErrorTexts = {
   "mass.noOperations": () => "Scegli almeno un campo da cambiare.",
   "mass.tooMany": (p) =>
     `Ci sono ${p.count} risultati. Per una modifica multipla, restringi la ricerca o i filtri a ${p.limit} al massimo.`,
+  "recipe.tooOld": (p) =>
+    `Il giocatore ha ${p.age} anni: questa ricetta è per giocatori di ${p.oldest} anni o meno.`,
+  "recipe.ageUnknown": () => "L'età del giocatore non è nota, e questa ricetta dipende da essa.",
+  "recipe.outOfDate": () => "Questa anteprima non è più aggiornata. Apri di nuovo la ricetta.",
   "mass.outOfDate": () => "Questa anteprima non è più aggiornata. Genera di nuovo l'anteprima della modifica multipla.",
 };
 
@@ -3198,6 +3202,58 @@ export const it: Strings = {
       unwanted: () => "Stato in rosa: in esubero",
       listed: () => "Già in lista trasferimenti",
     },
+  },
+
+  /** Recipes (`RecipeMenu`): see `en.ts`. */
+  recipes: {
+    button: "Ricette",
+    buttonTitle: "Insiemi di modifiche già pronti, ciascuno con un'anteprima prima di scrivere qualcosa",
+    names: {
+      wonderkid: "Crea un wonderkid",
+      injuryProof: "A prova di infortuni",
+      longCareer: "Allunga la carriera",
+      richClub: "Rendi ricca la società",
+      topFacilities: "Strutture al massimo",
+    },
+    notes: {
+      wonderkid:
+        "Per un giocatore di 21 anni o meno: abilità potenziale almeno a 180, un'abilità attuale e attributi adatti " +
+        "alla sua età, e gli attributi nascosti e la personalità per arrivarci. I valori più alti restano; ruoli, " +
+        "piedi, caratteristiche e contratto non vengono toccati.",
+      injuryProof:
+        "Propensione agli infortuni a 1, integrità fisica a 20 e resistenza almeno a 15, e guarisce gli infortuni " +
+        "che ha ora.",
+      longCareer:
+        "Toglie dai piani del gioco il ritiro previsto per lui, fa durare il contratto almeno altri tre anni e " +
+        "porta l'integrità fisica a 20 e la professionalità almeno a 18, che ne rallentano il declino. I suoi " +
+        "attributi possono comunque calare con l'età: Congela gli attributi li mantiene finché l'editor è aperto.",
+      richClub:
+        "Porta il saldo, il budget trasferimenti e i due budget stipendi al livello delle società più ricche. Il " +
+        "denaro che la società ha in più resta.",
+      topFacilities: "Tutte e cinque le strutture della società a 20.",
+    },
+    tooOld: (oldest: number) => `Per giocatori di ${oldest} anni o meno`,
+    command: (recipe: string) => `Ricetta: ${recipe}`,
+    working: "Calcolo delle modifiche…",
+    summary: (changes: number, kept: number, left: number) =>
+      [
+        changeCount(changes),
+        kept > 0 &&
+          (kept === 1 ? "1 valore è già altrettanto buono" : `${format(kept)} valori sono già altrettanto buoni`),
+        left > 0 && valuesLeftAlone(left),
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "Modifiche che farebbe la ricetta",
+    keptHeading: (count: number) =>
+      count === 1
+        ? "1 valore resta com'è: è già altrettanto buono"
+        : `${format(count)} valori restano come sono: sono già altrettanto buoni`,
+    keptLabel: "Valori già altrettanto buoni",
+    valueColumn: "Valore",
+    leftLabel: "Ciò che la ricetta lascia invariato",
+    undo: "Annulla questa ricetta",
+    undoTitle: "Riscrive nel gioco tutto ciò che questa ricetta ha modificato",
   },
 
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */

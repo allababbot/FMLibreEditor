@@ -278,6 +278,9 @@ const errors: ErrorTexts = {
   "mass.noOperations": () => "Değiştirilecek en az bir alan seçin.",
   "mass.tooMany": (p) =>
     `${p.count} sonuç var. Toplu düzenleme için aramayı ya da filtreleri en fazla ${p.limit} sonuca daraltın.`,
+  "recipe.tooOld": (p) => `Oyuncu ${p.age} yaşında: bu tarif ${p.oldest} yaş ve altındaki oyuncular için.`,
+  "recipe.ageUnknown": () => "Oyuncunun yaşı bilinmiyor; bu tarif yaşa göre çalışır.",
+  "recipe.outOfDate": () => "Bu önizleme eskidi. Tarifi yeniden açın.",
   "mass.outOfDate": () => "Bu önizleme eskidi. Toplu düzenlemeyi yeniden önizleyin.",
 };
 
@@ -3106,6 +3109,53 @@ export const tr: Strings = {
       unwanted: () => "Forma süresi: ihtiyaç fazlası",
       listed: () => "Zaten transfer listesinde",
     },
+  },
+
+  /** Recipes (`RecipeMenu`): see `en.ts`. */
+  recipes: {
+    button: "Tarifler",
+    buttonTitle: "Hazır değişiklik setleri: hiçbir şey yazılmadan önce her biri önizlenir",
+    names: {
+      wonderkid: "Geleceğin yıldızı yap",
+      injuryProof: "Sakatlanmaz yap",
+      longCareer: "Kariyerini uzat",
+      richClub: "Kulübü zengin yap",
+      topFacilities: "Tesisleri en üst düzeye çıkar",
+    },
+    notes: {
+      wonderkid:
+        "21 yaş ve altındaki oyuncu için: potansiyel yetenek en az 180, yaşına uygun mevcut yetenek ve özellikler, " +
+        "oraya ulaşmasını sağlayacak gizli özellikler ve kişilik. Daha yüksek değerler olduğu gibi kalır; " +
+        "pozisyonlara, ayaklara ve sözleşmeye dokunulmaz.",
+      injuryProof:
+        "Sakatlık eğilimi 1, doğal kondisyon 20, dayanıklılık en az 15 olur; şu anki sakatlıkları iyileştirilir.",
+      longCareer:
+        "Oyunun onun için planladığı emekliliği planlardan çıkarır, sözleşmesini en az üç yıl daha sürecek şekilde " +
+        "uzatır, düşüşünü yavaşlatan doğal kondisyonu 20'ye ve profesyonelliği en az 18'e çıkarır. Özellikleri yaşla " +
+        "birlikte yine de düşebilir: editör açıkken onları Özellikleri dondur tutar.",
+      richClub:
+        "Bakiyeyi, transfer bütçesini ve iki maaş bütçesini en zengin kulüplerin düzeyine çıkarır. Kulübün bundan " +
+        "fazla parası varsa olduğu gibi kalır.",
+      topFacilities: "Kulübün beş tesisinin hepsi 20 olur.",
+    },
+    tooOld: (oldest: number) => `${oldest} yaş ve altındaki oyuncular için`,
+    command: (recipe: string) => `Tarif: ${recipe}`,
+    working: "Değişiklikler hesaplanıyor…",
+    summary: (changes: number, kept: number, left: number) =>
+      [
+        changeCount(changes),
+        kept > 0 && `${format(kept)} değer zaten yeterince iyi`,
+        left > 0 && valuesLeftAlone(left),
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "Tarifin yapacağı değişiklikler",
+    keptHeading: (count: number) => `${format(count)} değer olduğu gibi kalıyor: zaten yeterince iyi`,
+    keptLabel: "Zaten yeterince iyi olan değerler",
+    valueColumn: "Değer",
+    leftLabel: "Tarifin dokunmadıkları",
+    undo: "Bu tarifi geri al",
+    undoTitle: "Bu tarifin değiştirdiği her şeyi oyuna geri yaz",
   },
 
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */

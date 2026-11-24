@@ -1,7 +1,8 @@
 // Stand-ins for the Rust commands so the UI can be developed in a plain browser
 // (`npm run dev`) without the game or Tauri. Every player here is made up.
 
-import { dateFromNumber, numberFromDate, plusYears } from "../editing";
+import { dateFromNumber, numberFromDate, plusYears, shownValue, storedValue } from "../editing";
+import { GOALKEEPING, MENTAL, PHYSICAL, TECHNICAL } from "../playerAttributes";
 import { fold } from "../format";
 import { scoutingOpportunities, scoutingOverview, scoutingSimilar, scoutingSuggest, youthIntakes } from "./mockScouting";
 import type {
@@ -84,6 +85,8 @@ import type {
   MassOperationKind,
   MassPreview,
   MassReport,
+  RecipeInfo,
+  RecipePreview,
   ArrangedPreview,
   ClubName,
   MovePreview,
@@ -994,7 +997,7 @@ function retiresOf(uid: number): FmDate | null {
 }
 
 /** `keep_playing`: the fixture player's retirement is taken out of the plans, logged as a change of his `retirement`. */
-function keepPlaying(uid: number): LoggedChange {
+function keepPlaying(uid: number, batch: number | null = null): LoggedChange {
   const player = players.find((p) => p.uid === uid);
   if (!player) {
     throw notFound("player", uid);
@@ -1016,7 +1019,7 @@ function keepPlaying(uid: number): LoggedChange {
     undoneAt: null,
     earlier: false,
     undoable: true,
-    batch: null,
+    batch,
   };
   changes.push(logged);
   return { ...logged };
@@ -3399,6 +3402,203 @@ function undoMassBatch(batch: number): BatchUndo {
   return report;
 }
 
+// Recipes ------------------------------------------------------------------------------------------------------------
+
+/** One field step of a fixture recipe: the field, a floor or a ceiling or a date that many years ahead, as shown. */
+type RecipeStep = [field: string, how: "atLeast" | "atMost" | "yearsAhead", shown: number];
+
+/** A value by age: the one beside the first age the player is not older than, and the last one's past the list. */
+const byAge = (age: number, table: [number, number][]) =>
+  (table.find(([oldest]) => age <= oldest) ?? table[table.length - 1])[1];
+
+/**
+ * The fixture recipes: the keys, ages and steps of the real ones (`RECIPES` in recipes.rs), with their values as the
+ * game shows them.
+ */
+const RECIPES: (RecipeInfo & {
+  heals?: true;
+  keepsPlaying?: true;
+  steps: (age: number, goalkeeper: boolean) => RecipeStep[];
+})[] = [
+  {
+    key: "wonderkid",
+    entity: "player",
+    oldest: 21,
+    steps: (age, goalkeeper) => {
+      const least = byAge(age, [[15, 10], [16, 11], [18, 12], [20, 13], [21, 14]]);
+      const ability = byAge(age, [[15, 110], [16, 120], [17, 130], [18, 140], [19, 150], [20, 155], [21, 160]]);
+      const groups = [...(goalkeeper ? GOALKEEPING : TECHNICAL), ...MENTAL, ...PHYSICAL];
+      return [
+        ["potential_ability", "atLeast", 180],
+        ["current_ability", "atLeast", ability],
+        ...groups
+          .filter((key) => key !== "determination")
+          .map((key): RecipeStep => [`attribute.${key}`, "atLeast", least]),
+        ["attribute.determination", "atLeast", 16],
+        ["attribute.consistency", "atLeast", 15],
+        ["attribute.important_matches", "atLeast", 15],
+        ["attribute.injury_proneness", "atMost", 6],
+        ["personality.ambition", "atLeast", 16],
+        ["personality.professionalism", "atLeast", 17],
+        ["personality.pressure", "atLeast", 15],
+      ];
+    },
+  },
+  {
+    key: "injuryProof",
+    entity: "player",
+    oldest: null,
+    heals: true,
+    steps: () => [
+      ["attribute.injury_proneness", "atMost", 1],
+      ["attribute.natural_fitness", "atLeast", 20],
+      ["attribute.stamina", "atLeast", 15],
+    ],
+  },
+  {
+    key: "longCareer",
+    entity: "player",
+    oldest: null,
+    keepsPlaying: true,
+    steps: () => [
+      ["contract.expires", "yearsAhead", 3],
+      ["attribute.natural_fitness", "atLeast", 20],
+      ["personality.professionalism", "atLeast", 18],
+    ],
+  },
+  {
+    key: "richClub",
+    entity: "club",
+    oldest: null,
+    steps: () => [
+      ["finance.balance", "atLeast", 500_000_000],
+      ["finance.transfer_budget", "atLeast", 200_000_000],
+      ["finance.wage_budget", "atLeast", 6_000_000],
+      ["finance.total_wage_budget", "atLeast", 6_000_000],
+    ],
+  },
+  {
+    key: "topFacilities",
+    entity: "club",
+    oldest: null,
+    steps: () =>
+      ["training", "youth_facilities", "youth_coaching", "youth_recruitment", "corporate"].map(
+        (key): RecipeStep => [`facilities.${key}`, "atLeast", 20],
+      ),
+  },
+];
+
+/** The recipe last previewed, until it is applied or replaced. */
+let pendingRecipe: RecipePreview | null = null;
+
+/** `plan_recipe`, with the real command's refusals: nothing is written. */
+function planRecipe(key: string, uid: number): RecipePreview {
+  const recipe = RECIPES.find((r) => r.key === key);
+  if (!recipe) {
+    throw failure("recipe.unknown", `there is no recipe ${key}`, { recipe: key });
+  }
+  const { entity, oldest } = recipe;
+  const player = entity === "player" ? players.find((p) => p.uid === uid) : undefined;
+  const subject = player ?? (entity === "club" ? clubs.find((c) => c.uid === uid) : undefined);
+  if (!subject) {
+    throw notFound(entity, uid);
+  }
+  const age = player?.age ?? null;
+  if (oldest !== null && age === null) {
+    throw failure("recipe.ageUnknown", "the player's age is not known, and this recipe goes by it", { recipe: key });
+  }
+  if (oldest !== null && age !== null && age > oldest) {
+    const message = `the player is ${age}: this recipe is for players of ${oldest} or younger`;
+    throw failure("recipe.tooOld", message, { recipe: key, age, oldest });
+  }
+  const table = fieldTable(entity);
+  const values = currentValues(entity, uid);
+  const preview: RecipePreview = {
+    id: nextMassId++,
+    recipe: key,
+    entity,
+    uid,
+    name: subject.name,
+    changes: 0,
+    rows: [],
+    kept: [],
+    skipped: [],
+    heals: null,
+    keepsPlaying: null,
+    left: [],
+  };
+  for (const [fieldKey, how, shown] of recipe.steps(age ?? 0, (ratings[uid]?.gk ?? 0) >= 15)) {
+    const field = table.find((f) => f.key === fieldKey);
+    const old: number | undefined = values[fieldKey];
+    if (!field || old === undefined) {
+      const reason = `${fieldKey} cannot be changed here: its record is missing or does not check out`;
+      preview.skipped.push({ uid, name: subject.name, field: fieldKey, reason, code: "edit.noRecord", params: { field: fieldKey } });
+      continue;
+    }
+    let value: number;
+    if (how === "yearsAhead") {
+      // By whole years, keeping its day, until it is that many years after the game's date at least.
+      const until = numberFromDate(plusYears(GAME_DATE, shown));
+      let date = dateFromNumber(old)!;
+      while (numberFromDate(date) < until) {
+        date = plusYears(date, 1);
+      }
+      value = numberFromDate(date);
+    } else {
+      const stored = storedValue(field, shown);
+      value = how === "atLeast" ? Math.max(old, stored) : Math.min(old, stored);
+    }
+    // A value the game already shows as asked stays: an attribute stored as 98 is a 20.
+    if (value === old || (field.scale !== "plain" && shownValue(field, old) === shownValue(field, value))) {
+      preview.kept.push({ field: fieldKey, value: old });
+    } else {
+      preview.rows.push({ uid, name: subject.name, field: fieldKey, old, new: value });
+    }
+  }
+  if (recipe.heals) {
+    const injuries = injuriesOf(uid).length;
+    if (injuries > 0) {
+      preview.heals = injuries;
+    } else {
+      const reason = "the player has no injury to heal";
+      preview.left.push({ step: "heal", reason, code: "heal.notInjured", params: {} });
+    }
+  }
+  if (recipe.keepsPlaying) {
+    const retires = retiresOf(uid);
+    if (retires !== null) {
+      preview.keepsPlaying = { retires };
+    } else {
+      const reason = "the game has not planned the player's retirement, and he already means to play on";
+      preview.left.push({ step: "keepPlaying", reason, code: "retirement.none", params: {} });
+    }
+  }
+  preview.changes = preview.rows.length + Number(preview.heals !== null) + Number(preview.keepsPlaying !== null);
+  pendingRecipe = preview;
+  return preview;
+}
+
+/** `apply_recipe`: what the preview showed, logged as one batch. */
+function applyRecipe(id: number): MassReport {
+  if (!pendingRecipe || pendingRecipe.id !== id) {
+    throw failure("recipe.outOfDate", "This preview is out of date. Open the recipe again.");
+  }
+  const preview = pendingRecipe;
+  pendingRecipe = null;
+  const report: MassReport = { batch: nextMassId++, applied: 0, failed: [] };
+  if (preview.heals !== null) {
+    healPlayer(preview.uid, report.batch);
+    report.applied++;
+  }
+  if (preview.keepsPlaying !== null) {
+    keepPlaying(preview.uid, report.batch);
+    report.applied++;
+  }
+  const values = preview.rows.map((row): [string, number] => [row.field, row.new]);
+  setValues({ uid: preview.uid, name: preview.name }, values, report, preview.entity);
+  return report;
+}
+
 /** The nation each fixture club is from, in the order of `CLUBS`: two of them play in England. */
 const CLUB_NATIONS = ["England", "Spain", "Portugal", "Germany", "Türkiye", "England"];
 
@@ -4548,6 +4748,12 @@ export async function mockInvoke<T>(command: string, args?: Record<string, unkno
       ) as T;
     case "apply_mass_edit":
       return applyMass(Number(args?.id)) as T;
+    case "recipes":
+      return RECIPES.map(({ key, entity, oldest }) => ({ key, entity, oldest })) as T;
+    case "plan_recipe":
+      return planRecipe(String(args?.recipe ?? ""), Number(args?.uid)) as T;
+    case "apply_recipe":
+      return applyRecipe(Number(args?.id)) as T;
     case "undo_batch":
       return undoMassBatch(Number(args?.batch)) as T;
     case "plan_club_move": {

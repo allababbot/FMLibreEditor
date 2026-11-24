@@ -453,6 +453,10 @@ const errors: ErrorTexts = {
   "mass.tooMany": (p) =>
     `Es gibt ${p.count} Treffer. Grenzen Sie die Suche oder die Filter für eine Massenbearbeitung auf höchstens ` +
     `${p.limit} ein.`,
+  "recipe.tooOld": (p) =>
+    `Der Spieler ist ${p.age}: Dieses Rezept ist für Spieler von höchstens ${p.oldest} Jahren.`,
+  "recipe.ageUnknown": () => "Das Alter des Spielers ist nicht bekannt, und dieses Rezept richtet sich danach.",
+  "recipe.outOfDate": () => "Diese Vorschau ist nicht mehr aktuell. Öffnen Sie das Rezept erneut.",
   "mass.outOfDate": () =>
     "Diese Vorschau ist nicht mehr aktuell. Erstellen Sie die Vorschau der Massenbearbeitung erneut.",
 };
@@ -3270,6 +3274,59 @@ export const de: Strings = {
       unwanted: () => "Teamstatus: Nicht benötigt",
       listed: () => "Bereits auf der Transferliste",
     },
+  },
+
+  /** Recipes (`RecipeMenu`): see `en.ts`. */
+  recipes: {
+    button: "Rezepte",
+    buttonTitle: "Fertige Sätze von Änderungen, jeweils mit Vorschau, bevor etwas geschrieben wird",
+    names: {
+      wonderkid: "Zum Wunderkind machen",
+      injuryProof: "Verletzungsfest machen",
+      longCareer: "Karriere verlängern",
+      richClub: "Verein reich machen",
+      topFacilities: "Beste Einrichtungen",
+    },
+    notes: {
+      wonderkid:
+        "Für einen Spieler von höchstens 21 Jahren: potenzielle Fähigkeit auf mindestens 180, eine derzeitige " +
+        "Fähigkeit und Attribute, die zu seinem Alter passen, und die verborgenen Attribute und die Persönlichkeit, " +
+        "um dorthin zu kommen. Höhere Werte bleiben; Positionen, Füße, Spielereigenschaften und Vertrag werden nicht " +
+        "angerührt.",
+      injuryProof:
+        "Verletzungsanfälligkeit auf 1, Grundfitness auf 20 und Ausdauer auf mindestens 15; seine jetzigen " +
+        "Verletzungen werden geheilt.",
+      longCareer:
+        "Nimmt das Karriereende, das das Spiel für ihn plant, aus dessen Plänen, lässt seinen Vertrag noch " +
+        "mindestens drei Jahre laufen und hebt Grundfitness auf 20 und Professionalität auf mindestens 18, die " +
+        "seinen Abbau bremsen. Seine Attribute können mit dem Alter trotzdem sinken: „Attribute einfrieren“ hält " +
+        "sie, solange der Editor offen ist.",
+      richClub:
+        "Hebt Kontostand, Transferbudget und beide Gehaltsbudgets auf das Niveau der reichsten Vereine. Hat der " +
+        "Verein schon mehr Geld, bleibt es dabei.",
+      topFacilities: "Alle fünf Einrichtungen des Vereins auf 20.",
+    },
+    tooOld: (oldest: number) => `Für Spieler von höchstens ${oldest} Jahren`,
+    command: (recipe: string) => `Rezept: ${recipe}`,
+    working: "Änderungen werden berechnet…",
+    summary: (changes: number, kept: number, left: number) =>
+      [
+        changeCount(changes),
+        kept > 0 && (kept === 1 ? "1 Wert ist schon so gut" : `${format(kept)} Werte sind schon so gut`),
+        left > 0 && valuesLeftAlone(left),
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "Änderungen, die das Rezept vornehmen würde",
+    keptHeading: (count: number) =>
+      count === 1
+        ? "1 Wert bleibt, wie er ist: schon so gut"
+        : `${format(count)} Werte bleiben, wie sie sind: schon so gut`,
+    keptLabel: "Werte, die schon so gut sind",
+    valueColumn: "Wert",
+    leftLabel: "Was das Rezept unverändert lässt",
+    undo: "Dieses Rezept rückgängig machen",
+    undoTitle: "Schreibt alles, was dieses Rezept geändert hat, zurück ins Spiel",
   },
 
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */

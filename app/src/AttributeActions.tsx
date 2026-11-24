@@ -1,5 +1,5 @@
 // Above the attributes of a player or a member of staff while the profile is read: Max attributes, which sets every one
-// of them to its best at once, and the box that freezes them.
+// of them to its best at once, the box that freezes them, and for a player the Recipes button (see `RecipeMenu`).
 
 import { useContext, useEffect, useRef, useState } from "react";
 import {
@@ -16,6 +16,7 @@ import { describeError } from "./format";
 import { InfoTip } from "./InfoTip";
 import { appText, fieldLabel, massEditText, profileText } from "./labels";
 import { undoFailureLines } from "./massDraft";
+import { RecipeMenu } from "./RecipeMenu";
 import type { PlayerDetails, StaffDetails } from "./types";
 import { EditorContext, useEditSession } from "./useProfileEditing";
 
@@ -183,6 +184,8 @@ export function AttributeActions({
             <InfoTip label={appText.freezeInfo.label} note={appText.freezeInfo.note} />
           </span>
         )}
+        {/* Last in the row, at its end: the ready-made sets of changes, of which Max attributes is the plainest. */}
+        {entity === "player" && <RecipeMenu entity="player" uid={uid} name={details.name} age={details.age} />}
       </div>
       {/* A live region that is always there, so that it is read out when it fills; it takes no room while empty. */}
       <div ref={resultBox} className="squad-result" role="status" tabIndex={-1}>

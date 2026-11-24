@@ -18,11 +18,12 @@ use fmlibre_core::{
     NameChange, NameKind, Nation, NationalIndex, NationalSide, NationalTeamSummary, NationalUnavailable, NewContract,
     NewStaffContract, Operation, Paid, People, PersonNames, Picture, Planned, PlayerDetails, PlayerFilter, PlayerIndex,
     PlayerOrder, PlayerSummary, PrizeAmount, PrizeChange, PrizeError, PrizeMoney, PrizeReadError, PrizeUnavailable,
-    ROLES, RelationSet, RetirementSet, Role, RuleChange, RuleError, RuleReadError, RuleUnavailable, SCOUT_POSITIONS,
-    SENIOR_KIND, ScoutError, ScoutPosition, ScoutRequest, Scouted, SearchIndex, Season, Session, SessionError, Skipped,
-    Sponsorship, SponsorshipReadError, SponsorshipUnavailable, SquadMember, SquadReport, SquadRule, StadiumName,
-    StadiumRename, StaffChange, StaffDetails, StaffFilter, StaffIndex, StaffOrder, StaffPlan, StaffSummary, TacticsSet,
-    Target, Tie, TieTarget, competition_prizes, diagnostics_report, find_game, nations, sort_players, sort_staff,
+    RECIPES, ROLES, Recipe, RecipeError, RecipePlan, RelationSet, RetirementSet, Role, RuleChange, RuleError,
+    RuleReadError, RuleUnavailable, SCOUT_POSITIONS, SENIOR_KIND, ScoutError, ScoutPosition, ScoutRequest, Scouted,
+    SearchIndex, Season, Session, SessionError, Skipped, Sponsorship, SponsorshipReadError, SponsorshipUnavailable,
+    SquadMember, SquadReport, SquadRule, StadiumName, StadiumRename, StaffChange, StaffDetails, StaffFilter,
+    StaffIndex, StaffOrder, StaffPlan, StaffSummary, Subject, TacticsSet, Target, Tie, TieTarget, competition_prizes,
+    diagnostics_report, find_game, nations, sort_players, sort_staff,
 };
 use fmlibre_mem::{Process, find_processes, is_current_process_elevated, list_modules};
 use serde::{Deserialize, Serialize};
@@ -65,6 +66,8 @@ struct Connection {
     history: History,
     /// The mass edit last previewed, until it is applied or replaced.
     mass: Option<PendingMass>,
+    /// The recipe that was worked out and shown last, waiting to be applied as it was shown.
+    recipe: Option<PendingRecipe>,
     /// The next id for a mass-edit preview or batch.
     next_id: u32,
     frozen: Frozen,
@@ -688,6 +691,12 @@ struct PendingMass {
     planned: Vec<Planned>,
 }
 
+/// A recipe that was worked out and shown, waiting to be applied as it was shown.
+struct PendingRecipe {
+    id: u32,
+    plan: RecipePlan,
+}
+
 impl Connection {
     /// Reads every list. The change log is the one `kept` by a reload while the game has the same career, or else the
     /// one the history of the career in `folder` lists (see `History`), checked against the game (see
@@ -730,6 +739,7 @@ impl Connection {
             log,
             history,
             mass: None,
+            recipe: None,
             next_id,
             frozen,
             save,
@@ -1478,8 +1488,8 @@ impl Connection {
     }
 
     /// Logs keeping a player from retiring just written, as a change of his `retirement` from the date he was to retire
-    /// on (0 when the game had planned none) to 0.
-    fn log_retirement(&mut self, done: RetirementSet) -> LoggedChange {
+    /// on (0 when the game had planned none) to 0; `batch` groups it with the other changes of a recipe.
+    fn log_retirement(&mut self, done: RetirementSet, batch: Option<u32>) -> LoggedChange {
         let change = Change {
             entity: Entity::Player,
             uid: done.player,
@@ -1487,7 +1497,7 @@ impl Connection {
             old: done.date.map_or(0, FmDate::to_number),
             new: 0,
         };
-        let entry = self.entry(change, self.player_name(done.player), None);
+        let entry = self.entry(change, self.player_name(done.player), batch);
         self.push_log(LoggedChange { undo: Some(Undo::Retirement(done)), ..entry })
     }
 
@@ -3190,7 +3200,7 @@ macro_rules! coded_failures {
     )*};
 }
 
-coded_failures!(EditError, MoveError, PrizeError, RuleError, ScoutError, SessionError, fmlibre_mem::Error);
+coded_failures!(EditError, MoveError, PrizeError, RecipeError, RuleError, ScoutError, SessionError, fmlibre_mem::Error);
 
 impl<T> From<std::sync::PoisonError<T>> for Failure {
     fn from(err: std::sync::PoisonError<T>) -> Self {
@@ -4856,7 +4866,7 @@ fn keep_playing(state: State<'_, AppState>, uid: u32) -> Result<LoggedChange, Fa
     let player = connection.players.get(uid).ok_or_else(|| not_found(Entity::Player, uid))?;
     let plan = connection.session.plan_keep_playing(player)?;
     let done = connection.session.apply_retirement(&plan)?;
-    Ok(connection.log_retirement(done))
+    Ok(connection.log_retirement(done, None))
 }
 
 /// Points the tie `index` of the player `uid` at the nation `nation` or the club `club` (by UID), and gives a
@@ -5712,6 +5722,129 @@ fn apply_mass_edit(state: State<'_, AppState>, id: u32) -> Result<MassReport, Fa
     Ok(connection.write_planned(pending.entity, pending.planned, batch))
 }
 
+/// What a recipe would do to one player or club, as `plan_recipe` worked it out: every value that changes, from what
+/// to what, the values that stay because they are as good already, the ones left alone and why, and the steps on the
+/// game's own lists (healing, keeping him from retiring) with the ones that have nothing to do.
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+struct RecipePreview {
+    /// What `apply_recipe` takes to write exactly these changes.
+    id: u32,
+    recipe: &'static str,
+    entity: Entity,
+    uid: u32,
+    name: String,
+    /// How many changes Apply logs: one for each value, and one for each step on the game's lists.
+    changes: usize,
+    rows: Vec<Planned>,
+    kept: Vec<fmlibre_core::Kept>,
+    skipped: Vec<Skipped>,
+    /// How many injuries it heals, where it heals any.
+    heals: Option<usize>,
+    /// Where it keeps him from retiring: what the game had planned.
+    keeps_playing: Option<KeepsPlaying>,
+    left: Vec<fmlibre_core::LeftOut>,
+}
+
+/// Keeping a player from retiring as a recipe's step: the day the game planned him to retire on, none where it had
+/// planned nothing and he only gets the trait "Will play football as long as possible".
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+struct KeepsPlaying {
+    retires: Option<FmDate>,
+}
+
+/// The recipes there are, in the order to offer them: each one's key, and whether it is a player's or a club's.
+#[tauri::command]
+fn recipes() -> &'static [Recipe] {
+    RECIPES
+}
+
+/// Works out the recipe `recipe` for the player or the club `uid` (as the recipe is for one or the other), from the
+/// values the game holds now. Nothing is written; the plan waits for `apply_recipe` with the preview's id.
+#[tauri::command]
+fn plan_recipe(state: State<'_, AppState>, recipe: String, uid: u32) -> Result<RecipePreview, Failure> {
+    let mut guard = state.0.lock()?;
+    let connection = guard.as_mut().ok_or_else(not_connected)?;
+    let found = fmlibre_core::recipe(&recipe)?;
+    let entity = found.entity;
+    let plan = match entity {
+        Entity::Player => {
+            let player = connection.players.get(uid).ok_or_else(|| not_found(entity, uid))?;
+            connection.session.plan_recipe(found, Subject::Player(player))?
+        }
+        Entity::Club => {
+            let club = connection.clubs.get(uid).ok_or_else(|| not_found(entity, uid))?;
+            connection.session.plan_recipe(found, Subject::Club(club))?
+        }
+        // Recipes are for players and for clubs.
+        _ => return Err(RecipeError::WrongEntity { recipe: found.key, entity }.into()),
+    };
+    let id = connection.fresh_id();
+    let preview = RecipePreview {
+        id,
+        recipe: found.key,
+        entity,
+        uid: plan.uid,
+        name: plan.name.clone(),
+        changes: plan.changes(),
+        rows: plan.planned.clone(),
+        kept: plan.kept.clone(),
+        skipped: plan.skipped.clone(),
+        heals: plan.heal.as_ref().map(|heal| heal.injuries),
+        keeps_playing: plan.retirement.as_ref().map(|retirement| KeepsPlaying { retires: retirement.date }),
+        left: plan.left.clone(),
+    };
+    connection.recipe = Some(PendingRecipe { id, plan });
+    Ok(preview)
+}
+
+/// Writes the recipe previewed as `id`, exactly as it was shown: each value only while the game still holds the one it
+/// was planned from, and each step on the game's lists only while they are as the plan found them. Everything is
+/// logged as one batch, which `undo_batch` takes back.
+#[tauri::command]
+fn apply_recipe(state: State<'_, AppState>, id: u32) -> Result<MassReport, Failure> {
+    let mut guard = state.0.lock()?;
+    let connection = guard.as_mut().ok_or_else(not_connected)?;
+    let plan = match connection.recipe.take() {
+        Some(pending) if pending.id == id => pending.plan,
+        other => {
+            connection.recipe = other;
+            return Err(Failure::new("recipe.outOfDate", "This preview is out of date. Open the recipe again."));
+        }
+    };
+    let batch = connection.fresh_id();
+    // The steps on the game's lists first: keeping him from retiring writes two of his traits, which no value of a
+    // recipe is.
+    let (mut applied, mut failed) = (0, Vec::new());
+    let mut fail = |field: &str, error: Failure| {
+        failed.push(MassFailure { uid: plan.uid, name: plan.name.clone(), field: field.to_owned(), error });
+    };
+    if let Some(heal) = &plan.heal {
+        match connection.session.apply_heal(heal) {
+            Ok(done) => {
+                connection.log_heal(done, Some(batch));
+                applied += 1;
+            }
+            Err(err) => fail("injuries", err.into()),
+        }
+    }
+    if let Some(retirement) = &plan.retirement {
+        match connection.session.apply_retirement(retirement) {
+            Ok(done) => {
+                connection.log_retirement(done, Some(batch));
+                applied += 1;
+            }
+            Err(err) => fail("retirement", err.into()),
+        }
+    }
+    let mut report = connection.write_planned(plan.recipe.entity, plan.planned, batch);
+    report.applied += applied;
+    failed.append(&mut report.failed);
+    report.failed = failed;
+    Ok(report)
+}
+
 /// Undoes every change of the mass edit `batch` that is not undone yet, newest first.
 /// Changes the game has changed since are left as they are and reported. Refused at once
 /// while the game has loaded a save since the lists were read, as each undo would be.
@@ -5847,6 +5980,9 @@ pub fn run() {
             undo_change,
             plan_mass_edit,
             apply_mass_edit,
+            recipes,
+            plan_recipe,
+            apply_recipe,
             undo_batch,
             plan_club_move,
             room_makers,

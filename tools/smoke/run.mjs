@@ -30,6 +30,8 @@ import * as move from "./tests/move.mjs";
 import * as moveall from "./tests/moveall.mjs";
 import * as palette from "./tests/palette.mjs";
 import * as prizes from "./tests/prizes.mjs";
+import * as recipes from "./tests/recipes.mjs";
+import * as recipesapply from "./tests/recipesapply.mjs";
 import * as release from "./tests/release.mjs";
 import * as rules from "./tests/rules.mjs";
 import * as scouting from "./tests/scouting.mjs";
@@ -43,7 +45,8 @@ import * as whatsnew from "./tests/whatsnew.mjs";
 
 /** In the order they run: the ones that only read first. */
 const TESTS = [
-  connect, home, dialog, palette, scouting, clubs, nationals, prizes, rules, whatsnew, edit, history, mass, changes, contract, move, arrange, sign, medical, loan, stadium, names, ties,
+  connect, home, dialog, palette, scouting, clubs, nationals, prizes, rules, recipes, whatsnew, edit, history, mass, changes, contract, move, arrange, sign, medical,
+  recipesapply, loan, stadium, names, ties,
   staff, release, moveall, tactics, best, destroy, freeze, unknown,
 ];
 
