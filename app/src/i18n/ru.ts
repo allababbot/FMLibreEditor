@@ -3071,6 +3071,31 @@ export const ru: Strings = {
     },
   },
 
+  /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */
+  progress: {
+    tabsLabel: "Разделы профиля игрока",
+    tabs: { overview: "Профиль", progress: "Развитие" },
+    lockedWhileEdited: "Завершите редактирование, чтобы открыть эту вкладку",
+    openTab: "Открыть вкладку «Развитие»",
+    loading: "Чтение записей…",
+    failed: (reason: string) => `Не удалось прочитать записи: ${reason}`,
+    since: (date: string) => `с ${date}`,
+    change: (from: string, to: string, date: string) => `${from} → ${to} с ${date}`,
+    rangeLabel: "Период",
+    ranges: { quarter: "3 месяца", year: "1 год", all: "Всё" },
+    recorded: (count: number, first: string) => `Записей: ${count} · первая от ${first}`,
+    abilityTitle: "Уровень",
+    valueTitle: "Стоимость",
+    attributesTitle: "Изменившиеся атрибуты",
+    noAttributeChanges: (date: string) => `С ${date} ни один атрибут не изменился.`,
+    emptyTitle: "Пока не с чем сравнивать",
+    emptyText:
+      "Приложение записывает уровень, стоимость и атрибуты всех игроков примерно раз в неделю игрового времени, каждый раз, когда читает данные игры. Продолжайте играть, прочитайте данные заново — и здесь появится развитие этого игрока.",
+    offTitle: "Для этого сохранения записей нет",
+    offText:
+      "Приложение ведёт записи для сохранения, в котором есть ваш менеджер, на версии игры, данные которой проходят его проверки.",
+  },
+
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */
   palette: {
     button: "Поиск",

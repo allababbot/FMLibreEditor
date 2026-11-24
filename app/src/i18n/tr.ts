@@ -3108,6 +3108,31 @@ export const tr: Strings = {
     },
   },
 
+  /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */
+  progress: {
+    tabsLabel: "Oyuncu profilinin bölümleri",
+    tabs: { overview: "Profil", progress: "Gelişim" },
+    lockedWhileEdited: "Bu sekmeyi açmak için düzenlemeyi bitirin",
+    openTab: "Gelişim sekmesini aç",
+    loading: "Kayıtlar okunuyor…",
+    failed: (reason: string) => `Kayıtlar okunamadı: ${reason}`,
+    since: (date: string) => `${date} tarihinden beri`,
+    change: (from: string, to: string, date: string) => `${date} tarihinden beri ${from} → ${to}`,
+    rangeLabel: "Dönem",
+    ranges: { quarter: "3 ay", year: "1 yıl", all: "Tümü" },
+    recorded: (count: number, first: string) => `Kayıt: ${count} · ilk kayıt ${first}`,
+    abilityTitle: "Yetenek",
+    valueTitle: "Değer",
+    attributesTitle: "Değişen özellikler",
+    noAttributeChanges: (date: string) => `${date} tarihinden beri hiçbir özellik değişmedi.`,
+    emptyTitle: "Henüz karşılaştırılacak kayıt yok",
+    emptyText:
+      "Uygulama, oyun verilerini her okuduğunda, oyun zamanıyla yaklaşık haftada bir, bütün oyuncuların yeteneklerini, değerini ve özelliklerini not eder. Oyunda ilerleyip verileri yeniden okuyun; bu oyuncunun gelişimi burada görünür.",
+    offTitle: "Bu kariyer için gelişim kaydı tutulmuyor",
+    offText:
+      "Uygulama gelişim kaydını, sizin yönettiğiniz bir menajerin bulunduğu kariyerlerde ve verileri denetimlerinden geçen oyun sürümlerinde tutar.",
+  },
+
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */
   palette: {
     button: "Ara",

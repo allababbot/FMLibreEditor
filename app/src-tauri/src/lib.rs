@@ -10,19 +10,20 @@ use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 use fmlibre_core::{
-    Arranged, ArrangedPlan, ArraySource, Buyer, COHESION_RANGE, CaptainRole, CaptainSet, Change, ChangeRow, Clause,
-    ClauseSet, ClubDetails, ClubFilter, ClubIndex, ClubMove, ClubSummary, Coded, CohesionSet, CompetitionPrizes,
-    CompetitionRules, DIRECTOR_OF_FOOTBALL, EditError, Entity, EntityArrays, ExportFormat, ExportHeader, Exported,
-    FeePlan, Field, FmDate, GAME_EXE, GAME_PLUGIN, GameInfo, GraphicsCounts, GraphicsIndex, HOMEGROWN_RULES, Healed,
-    Health, Kind, LOAN_EXPIRES, LOAN_OPTION_FEE, Lifted, Listed, Loan, Lock, MANAGER, MoveError, MovePlan, MoveTerms,
-    NameChange, NameKind, Nation, NationalIndex, NationalSide, NationalTeamSummary, NationalUnavailable, NewContract,
-    NewStaffContract, Operation, Paid, People, PersonNames, Picture, Planned, PlayerDetails, PlayerFilter, PlayerIndex,
-    PlayerOrder, PlayerSummary, PrizeAmount, PrizeChange, PrizeError, PrizeMoney, PrizeReadError, PrizeUnavailable,
-    ROLES, RelationSet, RetirementSet, Role, RuleChange, RuleError, RuleReadError, RuleUnavailable, SCOUT_POSITIONS,
-    SENIOR_KIND, ScoutError, ScoutPosition, ScoutRequest, Scouted, SearchIndex, Season, Session, SessionError, Skipped,
-    Sponsorship, SponsorshipReadError, SponsorshipUnavailable, SquadMember, SquadReport, SquadRule, StadiumName,
-    StadiumRename, StaffChange, StaffDetails, StaffFilter, StaffIndex, StaffOrder, StaffPlan, StaffSummary, TacticsSet,
-    Target, Tie, TieTarget, competition_prizes, diagnostics_report, find_game, nations, sort_players, sort_staff,
+    Arranged, ArrangedPlan, ArraySource, Buyer, COHESION_RANGE, CaptainRole, CaptainSet, Change, ChangeRow, Check,
+    Clause, ClauseSet, ClubDetails, ClubFilter, ClubIndex, ClubMove, ClubSummary, Coded, CohesionSet,
+    CompetitionPrizes, CompetitionRules, DIRECTOR_OF_FOOTBALL, Earlier, EditError, Entity, EntityArrays, ExportFormat,
+    ExportHeader, Exported, FeePlan, Field, FmDate, GAME_EXE, GAME_PLUGIN, GameInfo, GraphicsCounts, GraphicsIndex,
+    HOMEGROWN_RULES, Healed, Health, Kind, LOAN_EXPIRES, LOAN_OPTION_FEE, Lifted, Listed, Loan, Lock, MANAGER,
+    MoveError, MovePlan, MoveTerms, NameChange, NameKind, Nation, NationalIndex, NationalSide, NationalTeamSummary,
+    NationalUnavailable, NewContract, NewStaffContract, Operation, Paid, People, PersonNames, Picture, Planned,
+    PlayerDetails, PlayerFilter, PlayerIndex, PlayerOrder, PlayerSummary, PrizeAmount, PrizeChange, PrizeError,
+    PrizeMoney, PrizeReadError, PrizeUnavailable, Progress, ROLES, RelationSet, RetirementSet, Role, RuleChange,
+    RuleError, RuleReadError, RuleUnavailable, SCOUT_POSITIONS, SENIOR_KIND, ScoutError, ScoutPosition, ScoutRequest,
+    Scouted, SearchIndex, Season, Session, SessionError, Skipped, Sponsorship, SponsorshipReadError,
+    SponsorshipUnavailable, SquadMember, SquadReport, SquadRule, StadiumName, StadiumRename, StaffChange, StaffDetails,
+    StaffFilter, StaffIndex, StaffOrder, StaffPlan, StaffSummary, TacticsSet, Target, Tie, TieTarget, Timeline,
+    competition_prizes, diagnostics_report, find_game, nations, sort_players, sort_staff, timeline_values,
 };
 use fmlibre_mem::{Process, find_processes, is_current_process_elevated, list_modules};
 use serde::{Deserialize, Serialize};
@@ -35,7 +36,7 @@ const GRAPHICS_FOLDER: &str = "FMLIBRE_GRAPHICS";
 
 /// The environment variable that names the folder the app keeps its own files in, instead of its data folder
 /// (`%APPDATA%\io.github.tozmoz.fmlibreeditor` on Windows): what was frozen in each save, and the history of the
-/// changes written to each career.
+/// changes written to each career, and the records of how its players develop.
 const DATA_FOLDER: &str = "FMLIBRE_DATA";
 
 /// The file in that folder that remembers what was frozen in each save (see `Remembered`).
@@ -43,6 +44,12 @@ const FROZEN_FILE: &str = "frozen.json";
 
 /// The folder in that folder that keeps the history of the changes written to each career (see `History`).
 const HISTORY_FOLDER: &str = "history";
+
+/// The folder in that folder that keeps the records of how each career's players develop (see `Records`).
+const TIMELINE_FOLDER: &str = "timeline";
+
+/// How far back a player is compared with what he is now, in days of the game's time: a year.
+const PROGRESS_DAYS: i64 = 365;
 
 /// The environment variable that names the folder exports are written to, instead of `FMLibreEditor\Exports` in the
 /// documents folder.
@@ -63,6 +70,8 @@ struct Connection {
     log: Vec<LoggedChange>,
     /// Where the log is kept for the next connection to this career.
     history: History,
+    /// How the career's players developed, as recorded each week or so of the game's time the app read them.
+    records: Records,
     /// The mass edit last previewed, until it is applied or replaced.
     mass: Option<PendingMass>,
     /// The next id for a mass-edit preview or batch.
@@ -545,15 +554,74 @@ impl StoredChange {
     }
 }
 
-/// What a reload keeps of the connection before while the game has the same career: its change log and its history.
+/// The records of how the players of one career develop (see `fmlibre_core::Timeline`), in a file of its own, named
+/// as the career's history is. A record is added to its end when one is due, as the lists are read: the file is never
+/// written whole.
+struct Records {
+    /// The file; none without a data folder or a known career, and then nothing is recorded.
+    path: Option<PathBuf>,
+    timeline: Timeline,
+}
+
+impl Records {
+    /// The records of the career `save` in `folder`. A record cut short at the end of the file, by a crash say, is
+    /// cut off, so that the next one follows the last whole one.
+    fn open(folder: Option<&Path>, save: Option<&str>) -> Self {
+        let path = folder.zip(save).map(|(folder, save)| folder.join(timeline_file_name(save)));
+        let Some(bytes) = path.as_deref().and_then(|path| std::fs::read(path).ok()) else {
+            return Self { path, timeline: Timeline::new() };
+        };
+        let (timeline, taken) = Timeline::read(&bytes);
+        if taken < bytes.len()
+            && let Some(file) = path.as_deref().and_then(|path| OpenOptions::new().write(true).open(path).ok())
+        {
+            let _ = file.set_len(taken as u64);
+        }
+        Self { path, timeline }
+    }
+
+    /// Takes the record of `date`, the game's date, when one is due (see `Timeline::record`), from `players` as the
+    /// lists have them (their UIDs and `timeline_values`), and adds it to the file. A file that cannot be written only
+    /// means that it lacks the record.
+    fn take(&mut self, date: FmDate, players: impl IntoIterator<Item = (u32, Vec<Option<i32>>)>) {
+        let Some(path) = &self.path else {
+            return;
+        };
+        let Some(record) = self.timeline.record(date, now_ms(), players) else {
+            return;
+        };
+        if let Some(folder) = path.parent() {
+            let _ = std::fs::create_dir_all(folder);
+        }
+        // The whole record in one write, added to the end of the file.
+        if let Ok(mut file) = OpenOptions::new().create(true).append(true).open(path) {
+            let _ = file.write_all(&record);
+        }
+    }
+}
+
+/// The name of the file of the records of the career `save`, such as `Steam-12345.jsonl.gz`: the name of its history
+/// (see `history_file_name`), and what the file is, lines of JSON, each compressed on its own.
+fn timeline_file_name(save: &str) -> String {
+    format!("{}.gz", history_file_name(save))
+}
+
+/// What a reload keeps of the connection before while the game has the same career: its change log, its history and
+/// the records of its players.
 struct Kept {
     save: Option<String>,
     log: Vec<LoggedChange>,
     history: History,
+    records: Records,
 }
 
-/// Where the app keeps the history of each career's changes (see `History`); none when it has no data folder.
-struct HistoryFolder(Option<PathBuf>);
+/// Where the app keeps the history of each career's changes (see `History`) and the records of how its players
+/// develop (see `Records`); none when it has no data folder.
+#[derive(Clone)]
+struct DataFolders {
+    history: Option<PathBuf>,
+    timeline: Option<PathBuf>,
+}
 
 /// Where the app remembers what was frozen in each save; none when it has no data folder.
 struct FrozenFile(Option<PathBuf>);
@@ -692,8 +760,8 @@ impl Connection {
     /// Reads every list. The change log is the one `kept` by a reload while the game has the same career, or else the
     /// one the history of the career in `folder` lists (see `History`), checked against the game (see
     /// `check_earlier`). A mass edit previewed before is dropped, since its people may have moved. Nothing is frozen
-    /// yet.
-    fn load(session: Session, folder: Option<&Path>, kept: Option<Kept>) -> Result<Self, Failure> {
+    /// yet. A record of the players is taken when one is due (see `take_record`).
+    fn load(session: Session, folders: &DataFolders, kept: Option<Kept>) -> Result<Self, Failure> {
         // The game may have loaded a save or moved on since the checks last ran; the date the lists' ages are worked
         // out from is one of them.
         session.recheck();
@@ -706,9 +774,12 @@ impl Connection {
         let staff = StaffIndex::new(staff);
         let clubs = ClubIndex::new(session.clubs()?);
         let nationals = session.national_teams().map(NationalIndex::new);
-        let (history, log) = match kept {
-            Some(kept) if kept.save == save => (kept.history, kept.log),
-            _ => History::open(folder, save.as_deref()),
+        let (history, log, records) = match kept {
+            Some(kept) if kept.save == save => (kept.history, kept.log, kept.records),
+            _ => {
+                let (history, log) = History::open(folders.history.as_deref(), save.as_deref());
+                (history, log, Records::open(folders.timeline.as_deref(), save.as_deref()))
+            }
         };
         let next_id = log.iter().filter_map(|logged| logged.batch).max().unwrap_or(0) + 1;
         let frozen = Frozen::default();
@@ -729,6 +800,7 @@ impl Connection {
             human_clubs,
             log,
             history,
+            records,
             mass: None,
             next_id,
             frozen,
@@ -739,7 +811,26 @@ impl Connection {
             rules: None,
         };
         connection.check_earlier();
+        connection.take_record();
         Ok(connection)
+    }
+
+    /// Whether the players as the lists have them are recorded: the app has a file for the career, the game's date is
+    /// known, and the checks of the players' own values and of their attributes pass. On a build whose layout does
+    /// not check out nothing is recorded, as nothing is written there.
+    fn records_players(&self) -> bool {
+        let health = self.session.health();
+        self.records.path.is_some()
+            && self.session.game_date().is_some()
+            && health.passed(Check::Players)
+            && health.passed(Check::Attributes)
+    }
+
+    /// Takes the record of the players for the game's date, when one is due (see `Records::take`).
+    fn take_record(&mut self) {
+        if let Some(date) = self.session.game_date().filter(|_| self.records_players()) {
+            self.records.take(date, self.players.iter().map(|player| (player.uid, timeline_values(player))));
+        }
     }
 
     /// For each change listed from before this connection: whether Undo may take it back, and, unless it is undone,
@@ -3247,16 +3338,16 @@ fn inspect(pid: u32) -> DetectedGame {
 async fn connect(
     state: State<'_, AppState>,
     file: State<'_, FrozenFile>,
-    history: State<'_, HistoryFolder>,
+    folders: State<'_, DataFolders>,
 ) -> Result<ConnectionInfo, Failure> {
     let started = Instant::now();
     let path = file.0.clone();
-    let folder = history.0.clone();
+    let folders = DataFolders::clone(&folders);
     let (connection, refrozen) = tauri::async_runtime::spawn_blocking(move || -> Result<_, Failure> {
         let pid = find_game(None)?;
         let process = Process::open_read_write(pid).or_else(|_| Process::open_read(pid))?;
         let session = Session::connect(process, ArraySource::ProfileFirst)?;
-        let mut connection = Connection::load(session, folder.as_deref(), None)?;
+        let mut connection = Connection::load(session, &folders, None)?;
         let refrozen = connection.restore_frozen(path.as_deref());
         Ok((connection, refrozen))
     })
@@ -3304,16 +3395,16 @@ fn save_changed(state: State<'_, AppState>) -> Result<bool, Failure> {
 async fn reload(
     state: State<'_, AppState>,
     file: State<'_, FrozenFile>,
-    history: State<'_, HistoryFolder>,
+    folders: State<'_, DataFolders>,
 ) -> Result<ReloadInfo, Failure> {
     let old = state.0.lock()?.take().ok_or_else(not_connected)?;
     let path = file.0.clone();
-    let folder = history.0.clone();
+    let folders = DataFolders::clone(&folders);
     let (connection, refrozen) = tauri::async_runtime::spawn_blocking(move || -> Result<_, Failure> {
-        let Connection { mut session, save, frozen, log, history, .. } = old;
+        let Connection { mut session, save, frozen, log, history, records, .. } = old;
         session.find_missing_arrays();
-        let kept = Kept { save: save.clone(), log, history };
-        let mut connection = Connection::load(session, folder.as_deref(), Some(kept))?;
+        let kept = Kept { save: save.clone(), log, history, records };
+        let mut connection = Connection::load(session, &folders, Some(kept))?;
         if connection.save == save {
             connection.frozen = frozen;
             // A save loaded again has its stadiums' own names back: the ones the editor gave are given again now. So
@@ -3969,6 +4060,46 @@ fn player_details(state: State<'_, AppState>, uid: u32) -> Result<PlayerDetails,
         });
     }
     Ok(details)
+}
+
+/// How a player's abilities, value and attributes went, for his profile.
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+struct PlayerProgress {
+    /// The records that hold him and what he is now (see `fmlibre_core::Progress`): what he is now alone, on the
+    /// game's date, while there is no record of him. Nothing where the game's date is not known.
+    #[serde(flatten)]
+    progress: Progress,
+    /// Whether the app keeps records of this career: not without a data folder, a manager of the user's in the save,
+    /// or the checks of the players' values.
+    recording: bool,
+}
+
+/// How the player with `uid` developed, from the records of the career (see `Records`). Reads no memory: what he is
+/// now is what the lists have of him.
+#[tauri::command]
+fn player_progress(state: State<'_, AppState>, uid: u32) -> Result<PlayerProgress, Failure> {
+    let guard = state.0.lock()?;
+    let connection = guard.as_ref().ok_or_else(not_connected)?;
+    let player = connection.players.get(uid).ok_or_else(|| not_found(Entity::Player, uid))?;
+    let progress = match connection.session.game_date() {
+        Some(today) => connection.records.timeline.progress(uid, today, &timeline_values(player)),
+        None => Progress { dates: Vec::new(), series: BTreeMap::new() },
+    };
+    Ok(PlayerProgress { progress, recording: connection.records_players() })
+}
+
+/// For each of the players `uids` the records hold, his current ability at the record to compare him with: the oldest
+/// of the last year of the game's time, or the last one where all are older (see `Timeline::earlier`). None for a
+/// player no record before the game's date holds. Reads no memory.
+#[tauri::command]
+fn squad_progress(state: State<'_, AppState>, uids: Vec<u32>) -> Result<Vec<Earlier>, Failure> {
+    let guard = state.0.lock()?;
+    let connection = guard.as_ref().ok_or_else(not_connected)?;
+    Ok(match connection.session.game_date() {
+        Some(today) => connection.records.timeline.earlier(&uids, today, PROGRESS_DAYS),
+        None => Vec::new(),
+    })
 }
 
 /// The full profile of the member of staff with `uid`. Only reads memory.
@@ -5203,8 +5334,8 @@ fn club_squads(state: State<'_, AppState>, uid: u32) -> Result<Vec<TeamView>, Fa
     let teams = connection.session.club_teams(club, &connection.players)?;
     // Cohesion is shown only where the lists checked out: a build that moved them would read other bytes. So is how
     // well the players know the tactic.
-    let cohesion_read = connection.session.health().passed(fmlibre_core::Check::Cohesion);
-    let tactics_read = connection.session.health().passed(fmlibre_core::Check::Tactics);
+    let cohesion_read = connection.session.health().passed(Check::Cohesion);
+    let tactics_read = connection.session.health().passed(Check::Tactics);
     // Who the club's players hold reasons to be unhappy about, across its teams.
     let members: BTreeSet<u32> = teams.iter().flat_map(|team| team.players.iter().map(|member| member.uid)).collect();
     let members: Vec<&PlayerSummary> = members.iter().filter_map(|&uid| connection.players.get(uid)).collect();
@@ -5760,7 +5891,10 @@ pub fn run() {
                 None => user_data.ok().map(|folder| GraphicsIndex::default_root(&folder, 27)),
             };
             let data = std::env::var_os(DATA_FOLDER).map(PathBuf::from).or_else(|| app.path().app_data_dir().ok());
-            app.manage(HistoryFolder(data.as_ref().map(|folder| folder.join(HISTORY_FOLDER))));
+            app.manage(DataFolders {
+                history: data.as_ref().map(|folder| folder.join(HISTORY_FOLDER)),
+                timeline: data.as_ref().map(|folder| folder.join(TIMELINE_FOLDER)),
+            });
             app.manage(FrozenFile(data.map(|folder| folder.join(FROZEN_FILE))));
             let exports = std::env::var_os(EXPORTS_FOLDER)
                 .map(PathBuf::from)
@@ -5822,6 +5956,8 @@ pub fn run() {
             open_export,
             show_export,
             player_details,
+            player_progress,
+            squad_progress,
             staff_details,
             club_details,
             list_nations,
@@ -6051,6 +6187,48 @@ mod tests {
         let folder = std::env::temp_dir().join(format!("fmlibre-{name}-{}", std::process::id()));
         let _ = std::fs::remove_dir_all(&folder);
         folder
+    }
+
+    #[test]
+    fn the_records_of_a_career_are_added_to_its_file_and_read_again() {
+        let folder = test_folder("timeline");
+        let career = Some("Steam:1");
+        let date = |day| FmDate { year: 2026, month: 7, day };
+        let player = |ability| [(7, vec![Some(ability), Some(160)])];
+        assert_eq!(timeline_file_name("Steam:1"), "Steam-1.jsonl.gz");
+
+        let mut records = Records::open(Some(&folder), career);
+        assert!(records.timeline.is_empty());
+        records.take(date(1), player(100));
+        // Within a week nothing is due, and nothing is added.
+        records.take(date(3), player(101));
+        let path = folder.join("Steam-1.jsonl.gz");
+        let first = std::fs::metadata(&path).expect("the file of the records").len();
+        records.take(date(8), player(102));
+        assert!(std::fs::metadata(&path).expect("the file").len() > first);
+
+        // Another connection reads both, and its record follows them.
+        let mut again = Records::open(Some(&folder), career);
+        assert_eq!((again.timeline.len(), again.timeline.last_date()), (2, Some(date(8))));
+        again.take(date(15), player(103));
+        let whole = std::fs::metadata(&path).expect("the file").len();
+
+        // A record cut short at the end is cut off, and the next one follows the last whole one.
+        let mut file = OpenOptions::new().append(true).open(&path).expect("the file");
+        file.write_all(&[0x1F, 0x8B, 8, 0, 0]).expect("written");
+        drop(file);
+        let mut repaired = Records::open(Some(&folder), career);
+        assert_eq!(repaired.timeline.len(), 3);
+        assert_eq!(std::fs::metadata(&path).expect("the file").len(), whole);
+        repaired.take(date(22), player(104));
+        assert_eq!(Records::open(Some(&folder), career).timeline.len(), 4);
+
+        // Another career has its own file; without a folder or a career nothing is kept.
+        assert!(Records::open(Some(&folder), Some("Steam:2")).timeline.is_empty());
+        let mut nowhere = Records::open(None, career);
+        nowhere.take(date(1), player(100));
+        assert!(nowhere.timeline.is_empty());
+        let _ = std::fs::remove_dir_all(&folder);
     }
 
     #[test]

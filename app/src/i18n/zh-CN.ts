@@ -3437,6 +3437,31 @@ export const zhCN: Strings = {
     } as Record<string, (value: string) => string>,
   },
 
+  /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */
+  progress: {
+    tabsLabel: "球员档案的分区",
+    tabs: { overview: "档案", progress: "成长" },
+    lockedWhileEdited: "完成编辑后才能打开此标签页",
+    openTab: "打开“成长”标签页",
+    loading: "正在读取记录…",
+    failed: (reason: string) => `无法读取记录：${reason}`,
+    since: (date: string) => `自 ${date} 起`,
+    change: (from: string, to: string, date: string) => `自 ${date} 起 ${from} → ${to}`,
+    rangeLabel: "时间段",
+    ranges: { quarter: "3 个月", year: "1 年", all: "全部" },
+    recorded: (count: number, first: string) => `记录：${count} 条 · 首条记录于 ${first}`,
+    abilityTitle: "能力",
+    valueTitle: "身价",
+    attributesTitle: "发生变化的属性",
+    noAttributeChanges: (date: string) => `自 ${date} 起没有属性发生变化。`,
+    emptyTitle: "暂时没有可比较的记录",
+    emptyText:
+      "每次读取游戏数据时，应用会按游戏内时间大约每周一次，记下所有球员的能力、身价和属性。继续游戏并重新读取数据，这名球员的成长就会显示在这里。",
+    offTitle: "这个存档没有记录",
+    offText:
+      "只有存档里有你操控的主教练，并且游戏版本的数据通过了应用的检查时，应用才会保存记录。",
+  },
+
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */
   palette: {
     button: "搜索",

@@ -3641,6 +3641,44 @@ export const en = {
   },
 
   /**
+   * A player's development, from the records the app keeps of a career (`PlayerProgress`): the Development tab of his
+   * profile, the note under his abilities in its header, and the change beside an ability in a squad's table.
+   */
+  progress: {
+    /** The name of the profile's tabs, and the two tabs. */
+    tabsLabel: "Sections of the player's profile",
+    tabs: { overview: "Profile", progress: "Development" },
+    /** Hover text of the Development tab while the player is edited. */
+    lockedWhileEdited: "Finish editing to open this tab",
+    /** Hover text of the note under the abilities, under what changed. */
+    openTab: "Open the Development tab",
+    loading: "Reading the records…",
+    failed: (reason: string) => `Could not read the records: ${reason}`,
+    /** After a change: "+6 since 1 Jul 2026". `date` is a date as the language writes it. */
+    since: (date: string) => `since ${date}`,
+    /** A change in words, for hover texts and screen readers: "120 → 126 since 1 Jul 2026". */
+    change: (from: string, to: string, date: string) => `${from} → ${to} since ${date}`,
+    /** The periods to look back over, where the records reach back far enough for a choice. */
+    rangeLabel: "Period",
+    ranges: { quarter: "3 months", year: "1 year", all: "All" },
+    /** How many records there are of the player, and the date of the first. */
+    recorded: (count: number, first: string) => `Records: ${count} · first on ${first}`,
+    /** The headings: current and potential ability over time, the transfer value, and the attributes. */
+    abilityTitle: "Ability",
+    valueTitle: "Value",
+    attributesTitle: "Attributes that changed",
+    noAttributeChanges: (date: string) => `No attribute has changed since ${date}.`,
+    /** With no record before today's: how the records come about. */
+    emptyTitle: "Nothing to compare with yet",
+    emptyText:
+      "The app notes every player's abilities, value and attributes about once a week of the game's time, whenever it reads the game's data. Play on, read the data again, and how this player develops shows here.",
+    /** Where the app keeps no records: a save without a manager of the user's, or data that fails the checks. */
+    offTitle: "No records for this save",
+    offText:
+      "The app keeps records for a save with a manager of yours, on a version of the game whose data passes its checks.",
+  },
+
+  /**
    * The command palette (`CommandPalette`): one box that finds players, staff, clubs and the app's commands. The
    * keyboard shortcuts (`shortcuts.ts`) take their key names from here.
    */

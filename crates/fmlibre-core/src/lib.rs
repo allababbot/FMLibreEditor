@@ -54,6 +54,7 @@ mod staff;
 mod staff_move;
 mod tactical_areas;
 mod text;
+mod timeline;
 mod transfer;
 mod tree;
 mod youth_intake;
@@ -139,6 +140,7 @@ pub use staff_move::{
 };
 pub use tactical_areas::area_options;
 pub use text::{fold, is_name_like, read_fm_string, read_name_entry};
+pub use timeline::{Earlier, Progress, RECORD_EVERY_DAYS, Timeline, timeline_fields, timeline_values};
 pub use transfer::{Amounts, ClubMoney, ClubMove, FeePlan, MAX_FEE, MoveError, MovePlan, MoveTerms, Paid, RoomMaker};
 pub use tree::Tree;
 pub use youth_intake::{City, INTAKE_AGE, Intake, IntakePlayer, IntakeTeam, MADE_BY_GAME, YouthIntakes};

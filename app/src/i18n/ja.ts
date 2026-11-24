@@ -3056,6 +3056,31 @@ export const ja: Strings = {
     } as Record<string, (value: string) => string>,
   },
 
+  /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */
+  progress: {
+    tabsLabel: "選手プロフィールのセクション",
+    tabs: { overview: "プロフィール", progress: "成長" },
+    lockedWhileEdited: "このタブを開くには編集を終了してください",
+    openTab: "成長タブを開く",
+    loading: "記録を読み込み中…",
+    failed: (reason: string) => `記録を読み込めませんでした：${reason}`,
+    since: (date: string) => `${date}以降`,
+    change: (from: string, to: string, date: string) => `${date}以降 ${from} → ${to}`,
+    rangeLabel: "期間",
+    ranges: { quarter: "3か月", year: "1年", all: "すべて" },
+    recorded: (count: number, first: string) => `記録：${count}件 · 最初の記録 ${first}`,
+    abilityTitle: "能力",
+    valueTitle: "市場価値",
+    attributesTitle: "変化した能力値",
+    noAttributeChanges: (date: string) => `${date}以降、変化した能力値はありません。`,
+    emptyTitle: "比較できる記録がまだありません",
+    emptyText:
+      "アプリはゲームのデータを読み込むたびに、ゲーム内時間でおよそ週に1回、全選手の能力、市場価値、能力値を記録します。ゲームを進めてデータを再読み込みすると、この選手の成長がここに表示されます。",
+    offTitle: "このセーブの記録はありません",
+    offText:
+      "アプリが記録を残すのは、あなたが操作する監督がいるセーブで、データがアプリのチェックに通るゲームバージョンの場合です。",
+  },
+
   /** The command palette and the names of the keys in the keyboard shortcuts (see en.ts). */
   palette: {
     button: "検索",

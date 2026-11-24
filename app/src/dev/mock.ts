@@ -15,6 +15,7 @@ import type {
   CaptainRole,
   City,
   ClubTeam,
+  EarlierAbility,
   EditEntity,
   NationalProfile,
   NationalSide,
@@ -62,6 +63,7 @@ import type {
   PlayerFilter,
   PlayerOrder,
   PlayerPage,
+  PlayerProgress,
   PlayerSummary,
   NameKind,
   PersonNames,
@@ -4184,6 +4186,68 @@ const notSetUp = (): BridgeInfo => ({
 });
 let mockBridge = notSetUp();
 
+/**
+ * The records the app keeps of the career: `?norecords` for a career whose first record is today's, and
+ * `?recordsoff` for one it keeps none of. Otherwise fourteen, four weeks apart, the last a week ago; of every fifth
+ * player only the last three, as of one who joined the game lately.
+ */
+const recordsAsked = new URLSearchParams(window.location.search);
+const RECORDS = recordsAsked.has("recordsoff") ? "off" : recordsAsked.has("norecords") ? "none" : "kept";
+
+/**
+ * How a fixture player developed: the young rose, the old fell, the rest hardly moved, and a few attributes went with
+ * them. The last point is what he is now, so the profile and the records agree.
+ */
+function playerProgress(player: PlayerSummary): PlayerProgress {
+  if (gameDate === null) {
+    return { dates: [], series: {}, recording: false };
+  }
+  const now = details(player);
+  const next = random(player.uid + 77);
+  const count = RECORDS !== "kept" ? 0 : player.uid % 5 === 0 ? 3 : 14;
+  const dates = Array.from({ length: count }, (_, at) => addDays(GAME_DATE, -7 - 28 * (count - 1 - at)));
+  dates.push(GAME_DATE);
+  const age = player.age ?? 26;
+  const perRecord = age < 24 ? 1.5 : age > 31 ? -1.1 : 0.15;
+  // Walked back from what he is now: the value on each date, the last being today's.
+  const back = (today: number, step: number, least: number, most: number) =>
+    dates.map((_, at) => Math.max(least, Math.min(most, Math.round(today - step * (count - at)))));
+  const ability = back(now.currentAbility, perRecord, 1, 200);
+  const series: PlayerProgress["series"] = {
+    current_ability: ability,
+    potential_ability: dates.map(() => now.potentialAbility),
+    // The value follows the ability, steeply.
+    value: ability.map((value) => Math.round((value / 100) ** 5 * 900_000)),
+  };
+  for (const key of ATTRIBUTES) {
+    const today = now.attributes[key]?.value;
+    if (today === undefined) {
+      continue;
+    }
+    // One attribute in four moved, by one or two, at one of the records.
+    const moved = next() < 0.25 && count > 0;
+    const [by, at] = [1 + Math.floor(next() * 2), Math.floor(next() * count)];
+    const before = Math.max(1, Math.min(20, today - Math.sign(perRecord) * by));
+    series[key] = dates.map((_, index) => (moved && index <= at ? before : today));
+  }
+  return { dates, series, recording: RECORDS !== "off" };
+}
+
+/** What the current ability of each of the players `uids` was at the oldest record of the last year. */
+function squadProgress(uids: number[]): EarlierAbility[] {
+  const day = (date: FmDate) => Date.UTC(date.year, date.month - 1, date.day) / 86_400_000;
+  return uids.flatMap((uid) => {
+    const player = players.find((p) => p.uid === uid);
+    const progress = player && playerProgress(player);
+    if (!progress || progress.dates.length < 2) {
+      return [];
+    }
+    const at = progress.dates.findIndex((date) => day(date) >= day(GAME_DATE) - 365);
+    const currentAbility = progress.series.current_ability[at];
+    return currentAbility === null ? [] : [{ uid, date: progress.dates[at], currentAbility }];
+  });
+}
+
 export async function mockInvoke<T>(command: string, args?: Record<string, unknown>): Promise<T> {
   await new Promise((resolve) => setTimeout(resolve, 150));
   switch (command) {
@@ -4402,6 +4466,16 @@ export async function mockInvoke<T>(command: string, args?: Record<string, unkno
       }
       return details(player) as T;
     }
+    case "player_progress": {
+      const uid = Number(args?.uid);
+      const player = players.find((p) => p.uid === uid);
+      if (!player) {
+        throw notFound("player", uid);
+      }
+      return playerProgress(player) as T;
+    }
+    case "squad_progress":
+      return squadProgress((args?.uids as number[] | undefined) ?? []) as T;
     case "edit_fields":
       return fieldTable(args?.entity as EditEntity) as T;
     case "freeze_money": {
