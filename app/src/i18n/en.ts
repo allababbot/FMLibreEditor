@@ -1310,6 +1310,17 @@ export const en = {
     /** The name of the squad table for assistive technology; `team` is the name of the team picked. */
     squadLabel: (team: string) => `Players of the national team: ${team}`,
     squadNote: "The players the game lists for this team, in its order. Calling players up, captains and the manager's contract are not edited here.",
+    /** What the profile shows of the nation and its federation, read from the game; the staff's heading has how many there are. */
+    details: {
+      nation: "Nation",
+      founded: "Federation founded",
+      continent: "Continent",
+      staff: (count: number) => `Federation staff (${format(count)})`,
+      noStaff: "No staff of the federation found.",
+      job: "Job in the national team",
+      team: "Team",
+      staffNote: "Read from the game; not edited here. The job is the one each has with the federation, not the one at a club.",
+    },
     /** Beside Heal all, Inspire all and Refresh all, which the senior team has: whom they cover, and where undoing is. */
     actionsHint: "The actions cover every player the senior team lists. Undo is in the Changes view as well.",
     /** For a nation the game keeps no team for. */

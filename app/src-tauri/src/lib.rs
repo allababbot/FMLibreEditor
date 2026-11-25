@@ -3984,11 +3984,13 @@ struct NationalProfile {
     team: NationalTeamSummary,
     teams: Vec<NationalSide>,
     squad: TeamView,
+    /// What the profile shows of the nation and its federation; none where the layout does not place it.
+    nation: Option<fmlibre_core::NationDetails>,
 }
 
 /// The national team `uid` with its teams, and the players of its team of kind `kind` (its senior team when none is
-/// asked for, or the first of its teams when it has no senior team), read now: each one's list row. Captains, cohesion
-/// and tactics are not read.
+/// asked for, or the first of its teams when it has no senior team), read now: each one's list row; and what the profile
+/// shows of its nation and federation. Captains, cohesion and tactics are not read.
 #[tauri::command]
 fn national_squad(state: State<'_, AppState>, uid: u32, kind: Option<u8>) -> Result<NationalProfile, Failure> {
     let guard = state.0.lock()?;
@@ -4043,7 +4045,8 @@ fn national_squad(state: State<'_, AppState>, uid: u32, kind: Option<u8>) -> Res
             })
             .collect(),
     };
-    Ok(NationalProfile { team: team.clone(), teams, squad })
+    let nation = connection.session.nation_details(team, &connection.staff)?;
+    Ok(NationalProfile { team: team.clone(), teams, squad, nation })
 }
 
 /// The full profile of the player with `uid`. Only reads memory.

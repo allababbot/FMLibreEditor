@@ -1,4 +1,4 @@
-# FM27 on Steam for macOS (app 4530370, build 26797085), the update of 25 November 2026 (version 27.1.1.2511875): the
+# FM27 on Steam for macOS (app 4530370, build 26797085), the update of 24 November 2026 (version 27.1.1.2511875): the
 # arm64 half of the universal game_plugin, which Apple silicon Macs run natively. Worked out by `fmlibre-probe profile`
 # on a running save (18 July 2027), as for a build without a profile, and all 12 checks passed. __DATA starts 0x10000
 # further on (0x5784000); the date, the retirement manager's static and the game's own object kept their place in it,
@@ -34,6 +34,11 @@ prize_money = true
 # read on this build on the save of 18 July 2027: 550 competitions being played, 426 with squad rules and 451 kinds of
 # rule named, as on build 26620374.
 squad_rules = true
+
+# A club's sponsorship deals (layout-macos.toml, [sponsorship]; #114) were read on this build on the save of 18 July
+# 2027 and matched the game's Sponsorship screen for Arsenal: its seven deals, by kind, amount per season and in all
+# (at the save's rate), end date and term.
+sponsorships = true
 
 # game_plugin as mapped in memory: its LC_UUID identifies the build and the architecture.
 [plugin]

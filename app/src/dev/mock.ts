@@ -18,6 +18,7 @@ import type {
   ClubTeam,
   EarlierAbility,
   EditEntity,
+  NationDetails,
   NationalProfile,
   NationalSide,
   NationalStatus,
@@ -3670,6 +3671,31 @@ function mockNationalStatus(): NationalStatus {
 }
 
 /**
+ * What the profile shows of a fixture nation and its federation: made-up numbers, and members of the fixture's staff
+ * with no club as its departments. A nation with an odd UID has no year of foundation, as some of the game's have none.
+ */
+function mockNationDetails(team: NationalTeamSummary): NationDetails {
+  const free = staff.filter((member) => member.clubUid === null);
+  // A manager, a goalkeeping coach, a physio and a scout at the senior team, a manager at the under-21s.
+  const jobs: [number, number][] = [
+    [16, 0],
+    [34, 0],
+    [12, 0],
+    [14, 0],
+    [16, 10],
+  ];
+  const offset = team.women ? jobs.length : 0;
+  return {
+    founded: team.nationUid % 2 === 1 ? null : 1880 + (team.nationUid % 90),
+    continent: "Europe",
+    staff: jobs.flatMap(([job, teamKind], at) => {
+      const member = free[offset + at];
+      return member ? [{ member, job, teamKind }] : [];
+    }),
+  };
+}
+
+/**
  * A national team with its teams, and the players of the one of kind `kind` (the senior team by default): the fixture's
  * players of its nation, those under the age limit for a youth team, as the game lists a squad.
  */
@@ -3729,6 +3755,7 @@ function nationalProfile(uid: number, kind: number | null): NationalProfile {
       humanClub: false,
       players: squad,
     },
+    nation: mockNationDetails(team),
   };
 }
 
@@ -4352,9 +4379,14 @@ function mockReport(connection: ConnectionInfo): string {
     `Game: FM27 Game Pass ${game.packageVersion}`,
     "game_plugin.dll build: size of image 0x175da000, link timestamp 0x6ae563a1",
     `Build profile: ${connection.profile ?? "none for this build"}`,
+    connection.knownBuild
+      ? "Object layout: as the build profile says"
+      : "Object layout: as FM27 0.9.2524.0 (Game Pass) lays it out, the newest build of this kind, club_finance.corporate 0x8ad, tactics.current 0x1030, tactics.tactics 0x1018",
     `Writing: the system lets the app write to the game${allowed}`,
     `In-game date: ${connection.gameDate ? "2026-09-09 (game_plugin.dll+0x56257c8, from the build profile)" : "none"}`,
     "Retirement manager: game_plugin.dll+0x5675060 (from the build profile)",
+    "Tactics manager: game_plugin.dll+0x5675130 (from the build profile)",
+    "Training manager: game_plugin.dll+0x56716f0 (from the build profile)",
     arrays.fromProfile ? "Entity arrays (from the build profile, checked):" : "Entity arrays:",
     array("players", arrays.players),
     array("staff", arrays.staff),

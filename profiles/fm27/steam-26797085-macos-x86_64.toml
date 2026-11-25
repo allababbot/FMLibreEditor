@@ -1,4 +1,4 @@
-# FM27 on Steam for macOS (app 4530370, build 26797085), the update of 25 November 2026 (version 27.1.1.2511875): the
+# FM27 on Steam for macOS (app 4530370, build 26797085), the update of 24 November 2026 (version 27.1.1.2511875): the
 # Intel half of the universal game_plugin, which Intel Macs run, and Apple silicon Macs under Rosetta. Found in the file,
 # not read in a running game: __DATA starts 0x6000 earlier (0x5D20000), and the code's RIP-relative loads peak where
 # build 26620374's did, moved with it (the date and the retirement manager's static 0x20 more back, the arrays and the
