@@ -15,10 +15,9 @@ use fmlibre_core::{
     ATTRIBUTE_GROUPS, ArrayCandidate, ArrayRvas, ArraySource, AttributeBound, BuildProfile, Buyer, CaptainRole,
     ClubIndex, Entity, ExportFormat, ExportHeader, Exported, Field, FmDate, Found, GAME_EXE, GAME_PLUGIN, GameInfo,
     GraphicsIndex, Kind, Loan, LoanDeal, MANAGER, Manager, MoveTerms, NameKind, PERSONALITY, POSITIONS, PersonNames,
-    Picture,
-    PlayerFilter, PlayerIndex, PlayerOrder, PlayerSort, PrizeAmount, PrizeMoney, PrizeStage, ProfileNotes, Purpose,
-    STAFF_ATTRIBUTE_GROUPS, SUPPORTER_MIX, SUPPORTER_TRAITS, Scale, ScanOptions, ScoutOrder, ScoutRequest, Season,
-    Session, SessionError, SponsorshipReadError, SquadRule, StaffIndex, Target, Tie, TieTarget, date_line,
+    Picture, PlayerFilter, PlayerIndex, PlayerOrder, PlayerSort, PrizeAmount, PrizeMoney, PrizeStage, ProfileNotes,
+    Purpose, STAFF_ATTRIBUTE_GROUPS, SUPPORTER_MIX, SUPPORTER_TRAITS, Scale, ScanOptions, ScoutOrder, ScoutRequest,
+    Season, Session, SessionError, SponsorshipReadError, SquadRule, StaffIndex, Target, Tie, TieTarget, date_line,
     diagnostics_report, find_game, job_name, layout_line, manager_line, nations, profile_text, retirement_line,
     saves_loaded_line, scan_object_arrays, sort_players,
 };
