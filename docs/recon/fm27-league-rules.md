@@ -344,8 +344,8 @@ back and lets go of the rule; once the game has made the list anew and the app h
 the undo is made as a new change back.
 
 Only on the builds whose profile says `squad_rules = true`, as the prize money and the sponsorship deals have their
-flags: Game Pass 0.9.2524.0 and the Apple silicon half of Steam build 26620374 so far. The others say why the tab is
-empty.
+flags: Game Pass 0.9.2524.0 and the Apple silicon halves of Steam builds 26620374 and 26797085 so far (the second read
+as the first on the same save). The others say why the tab is empty.
 
 The game names 451 kinds of rule by keys such as `all_foreign_players_in_match_squad`; the lists read on the save
 above use 174 of them. The app words the commonest from the key (whom a rule counts, and where: the squad, the match
