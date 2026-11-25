@@ -47,8 +47,8 @@ signed: [Code signing policy](#code-signing-policy).
 - **Freeze:** a player's attributes, energy and match sharpness, or a club's money, so they do
   not go down while the app runs.
 - **Move people:** transfer, swap or release players, sign free agents, move staff between
-  clubs. A transfer can also be left for the game to make, so it shows in the player's career
-  history.
+  clubs. A transfer or a loan can also be left for the game to make, so it shows in the
+  player's career history.
 - **Change the rules:** a league's prize money, and a competition's squad rules, such as how
   many foreign players a squad may register.
 - **Follow your club:** the app opens on the club you manage and who needs a look there, and

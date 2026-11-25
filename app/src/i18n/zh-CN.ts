@@ -95,6 +95,12 @@ export type ErrorTexts = Partial<Record<string, (params: Readonly<Record<string,
 /** The name of the field a failure names. */
 const field = (key: string | undefined) => fieldName(zhCN, key ?? "");
 
+/** A day the commands name as "20280131", written out in the language's own way. */
+const dayText = (value: string | undefined) => {
+  const [y, m, d] = [Number(value?.slice(0, 4)), Number(value?.slice(4, 6)), Number(value?.slice(6, 8))];
+  return new Date(y, m - 1, d).toLocaleDateString("zh-CN", { day: "numeric", month: "long", year: "numeric" });
+};
+
 /** What a check is about, from the key a failure gives, with a capital: "Contracts". */
 const checkName = (key: string | undefined) => {
   const name = (zhCN.checks as Partial<Record<string, string>>)[key ?? ""] ?? key ?? "";
@@ -145,6 +151,8 @@ const errors: ErrorTexts = {
   "edit.implausible": (p) => `${field(p.field)}的值 ${p.value} 超出合理范围；为安全起见，保留原值。`,
   "edit.notApplied": (p) => `${field(p.field)}：写入值为 ${p.wrote}，但读回值为 ${p.read}。`,
   "edit.conflict": (p) => `${field(p.field)}当前为 ${p.found}，预期为 ${p.expected}；游戏已在此期间修改了它。`,
+  "loan.end": (p) => `租借必须在球员加入之后结束，且不晚于其合同到期日：${dayText(p.earliest)} 至 ${dayText(p.latest)}。`,
+  "loan.noModel": () => "游戏当前没有进行中的自有租借可供参照。请在游戏中过一天后再试。",
   "move.outOfRange": (p) => `${p.value} 不是有效的${field(p.field)}；取值范围为 ${p.min}–${p.max}。`,
   "export.failed": (p) => `无法写入文件：${p.reason}`,
   "export.notAllowed": (p) =>
@@ -607,6 +615,9 @@ export const zhCN: Strings = {
     cohesion: "凝聚力",
     tactics: "战术熟悉度",
     "contract.wage": "周薪",
+    wageShare: "承担周薪比例",
+    monthlyFee: "月租借费",
+    optionFee: "买断选项",
     "contract.loyalty_bonus": "每周忠诚奖金",
     "contract.happiness": "满意度",
     "contract.playing_time_happiness": "出场时间满意度",
@@ -1866,6 +1877,7 @@ export const zhCN: Strings = {
     /** Under a transfer that had a fee: the amount, written out. */
     fee: (amount: string) => `转会费 ${amount}`,
     arranged: (date: string) => `游戏会在 ${date} 办理调动`,
+    arrangedLoan: (day: string, until: string) => `游戏会在 ${day} 办理租借，至 ${until}`,
     /** Under a recall from loan that took the loan's option to buy away, which its undo writes back. */
     optionRemoved: (amount: string) => `已移除买断选项（${amount}）`,
     /** What a heal changed, in the place of its values: `count` is how many injuries the player had. */
@@ -2209,7 +2221,7 @@ export const zhCN: Strings = {
 
     // The switch at the top of the dialog: a move to a club, or a swap with one of its players.
     /** Its name for assistive technology. */
-    modeLabel: "转会、立即调动或交换",
+    modeLabel: "转会、租借、立即调动或交换",
     modeMove: "立即调动",
     modeSwap: "与球员互换",
     modeArrange: "转会",
@@ -2231,6 +2243,32 @@ export const zhCN: Strings = {
       "记录在“改动记录”中，到那天之前一次撤销即可取消",
     ],
     arrangeButton: "安排转会",
+
+    modeLoan: "租借",
+    loanNote: "游戏会在下一天办理租借，和它自己的租借一样；之后球员回到原俱乐部。",
+    loanChecking: "正在检查租借…",
+    loanOn: (date: string) => `游戏会在 ${date} 办理租借`,
+    loanUntil: (date: string) => `租借至 ${date}`,
+    loanWage: (money: string, share: number) => `俱乐部每周支付 ${money}（其周薪的 ${format(share)}%）`,
+    loanMonthlyFee: (money: string) => `月租借费 ${money}`,
+    loanOption: (money: string) => `买断选项 ${money}`,
+    loanDoes: [
+      "现已约定：游戏到下一天时办理租借",
+      "球员履历会记录这次租借，最后一天的次日回到原俱乐部",
+      "俱乐部支付其分担的周薪；设置了月租借费也一并支付",
+      "设有买断选项时，租借结束后租借球队可按该金额将其买断",
+    ],
+    loanDoesHeading: "租借会做什么",
+    loanHint: "点击“安排租借”后才会修改游戏。",
+    loanButton: "安排租借",
+    loanLastDay: "租借最后一天",
+    loanLastDayHint: "次日回到原俱乐部",
+    loanShare: "承担周薪比例",
+    loanShareHint: "由接收俱乐部支付，其余由原俱乐部承担",
+    loanShareInvalid: "请输入 0 至 100 之间的整数",
+    loanMonthly: "月租借费",
+    loanOptionFee: "买断选项",
+    loanOptionFeeHint: "租借结束时，租借球队可按此金额将其买断；留空表示没有",
 
     // Choosing the club
     /** The name of the search box, and of the list of clubs under it, for assistive technology. */

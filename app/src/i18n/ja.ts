@@ -76,6 +76,12 @@ const CONTRACT_TYPES: Partial<Record<number, string>> = {
 /** The name of the field a failure names. */
 const field = (key: string | undefined) => fieldName(ja, key ?? "");
 
+/** A day the commands name as "20280131", written out in the language's own way. */
+const dayText = (value: string | undefined) => {
+  const [y, m, d] = [Number(value?.slice(0, 4)), Number(value?.slice(4, 6)), Number(value?.slice(6, 8))];
+  return new Date(y, m - 1, d).toLocaleDateString("ja-JP", { day: "numeric", month: "long", year: "numeric" });
+};
+
 /** What a check is about, from the key a failure gives. */
 const checkName = (key: string | undefined) => (ja.checks as Partial<Record<string, string>>)[key ?? ""] ?? key ?? "";
 
@@ -156,6 +162,8 @@ const errors: ErrorTexts = {
   "arrange.made": () => "ゲームはすでにこの移籍を行ったか、手配で書き込まれた内容を変更したため、元に戻せません。",
   "sign.noModel": () => "このクラブのトップチームには、新しい契約の手本にできる通常の契約選手がいません。",
   "sign.noDate": () => "新しい契約の開始日となるゲーム内の日付を、エディターが読み取れませんでした。",
+  "loan.end": (p) => `レンタルは加入後、契約満了までに終了する必要があります：${dayText(p.earliest)}〜${dayText(p.latest)}。`,
+  "loan.noModel": () => "ゲームには、これの手本にできる進行中の自前のレンタルがありません。ゲーム内で1日進めてからもう一度お試しください。",
   "move.outOfRange": (p) => `${p.value} は${field(p.field)}として無効な値です。${p.min}〜${p.max} の範囲で入力してください。`,
   "move.changed": () => `その後、ゲームが該当するメモリを変更しました。${reload}。`,
   "move.notApplied": () => "メモリに書き込みましたが、読み戻すと別の値が入っていました。",
@@ -590,6 +598,9 @@ export const ja: Strings = {
     jadedness: "疲労蓄積",
     morale: "士気",
     "contract.wage": "週給",
+    wageShare: "給与の負担割合",
+    monthlyFee: "月額レンタル料",
+    optionFee: "買い取りオプション",
     "contract.loyalty_bonus": "週あたりのロイヤルティボーナス",
     "contract.happiness": "満足度",
     "contract.playing_time_happiness": "出場時間への満足度",
@@ -1680,6 +1691,7 @@ export const ja: Strings = {
     released: (name: string) => `${name}を契約解除`,
     fee: (amount: string) => `移籍金 ${amount}`,
     arranged: (date: string) => `ゲームは${date}に移動を行います`,
+    arrangedLoan: (day: string, until: string) => `ゲームは${day}にレンタル移籍を行います（${until}まで）`,
     optionRemoved: (amount: string) => `買い取りオプション（${amount}）を削除`,
     healed: (count: number) => `負傷${format(count)}件を治療`,
     lifted: (count: number) => `出場停止${format(count)}件を解除`,
@@ -1952,7 +1964,7 @@ export const ja: Strings = {
     from: "移籍元",
     to: "移籍先",
 
-    modeLabel: "移籍、今すぐ移動、またはトレード",
+    modeLabel: "移籍、レンタル、今すぐ移動、またはトレード",
     modeMove: "今すぐ移動",
     modeSwap: "選手とトレード",
     modeArrange: "移籍",
@@ -1977,6 +1989,32 @@ export const ja: Strings = {
       "変更履歴に記録され、当日まではワンクリックの元に戻す操作で取り消せます",
     ],
     arrangeButton: "移籍を手配",
+
+    modeLoan: "レンタル",
+    loanNote: "ゲームは次の日に、自前の移籍と同様にレンタルを実行し、終了後は元のクラブに戻ります。",
+    loanChecking: "レンタルを確認しています…",
+    loanOn: (date: string) => `ゲームは${date}にレンタルを行います`,
+    loanUntil: (date: string) => `レンタルは${date}までです`,
+    loanWage: (money: string, share: number) => `クラブは週${money}を支払います（給与の${format(share)}%）`,
+    loanMonthlyFee: (money: string) => `月額レンタル料 ${money}`,
+    loanOption: (money: string) => `買い取りオプション ${money}`,
+    loanDoes: [
+      "今すぐ合意：ゲームは次の日になるとレンタルを行います",
+      "履歴にレンタルが載り、最終日の翌日に元のクラブへ戻ります",
+      "クラブは給与の負担分を支払い、設定した場合は月額レンタル料も支払います",
+      "オプションがあれば、レンタル終了時に移籍先クラブがその金額で買い取ることができます",
+    ],
+    loanDoesHeading: "レンタル移籍で行われること",
+    loanHint: "「レンタルを手配」を押すまで、ゲーム内では何も変わりません。",
+    loanButton: "レンタルを手配",
+    loanLastDay: "レンタル最終日",
+    loanLastDayHint: "翌日に元のクラブへ戻ります",
+    loanShare: "給与の負担割合",
+    loanShareHint: "加入先クラブが支払う割合。残りは元のクラブが負担します",
+    loanShareInvalid: "0〜100の整数を入力してください",
+    loanMonthly: "月額レンタル料",
+    loanOptionFee: "買い取りオプション",
+    loanOptionFeeHint: "レンタル終了時、移籍先クラブがこの金額で買い取ることができます。空欄ならなし",
 
     // Choosing the club
     searchLabel: "移籍先のクラブを検索",

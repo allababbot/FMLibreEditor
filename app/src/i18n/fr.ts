@@ -108,6 +108,12 @@ const CONTRACT_TYPES: Partial<Record<number, string>> = {
 /** The name of the field a failure names. */
 const field = (key: string | undefined) => fieldName(fr, key ?? "");
 
+/** A day the commands name as "20280131", written out in the language's own way. */
+const dayText = (value: string | undefined) => {
+  const [y, m, d] = [Number(value?.slice(0, 4)), Number(value?.slice(4, 6)), Number(value?.slice(6, 8))];
+  return new Date(y, m - 1, d).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+};
+
 /** The same in quotes, for the middle of a sentence: « Finition ». */
 const quoted = (key: string | undefined) => `«\u00a0${field(key)}\u00a0»`;
 
@@ -340,6 +346,8 @@ const errors: ErrorTexts = {
   "sign.noModel": () =>
     "Le club n'a aucun joueur sous simple contrat avec son équipe première sur lequel calquer le nouveau contrat.",
   "sign.noDate": () => "L'éditeur ne parvient pas à lire la date du jeu, à laquelle commence le nouveau contrat.",
+  "loan.end": (p) => `Le prêt doit se terminer après son arrivée et au plus tard avec son contrat\u00a0: entre le ${dayText(p.earliest)} et le ${dayText(p.latest)}.`,
+  "loan.noModel": () => "Le jeu n'a pas de prêt à lui en cours sur lequel modeler celui-ci. Réessayez après un jour de jeu.",
   "move.outOfRange": (p) =>
     `${p.value} n'est pas une valeur valide pour ${quoted(p.field)}\u00a0: ce champ accepte de ${p.min} à ${p.max}.`,
   "move.changed": () => `Le jeu a modifié cette mémoire entre-temps\u00a0; ${reload}.`,
@@ -683,6 +691,9 @@ export const fr: Strings = {
     jadedness: "Fatigue",
     morale: "Moral",
     "contract.wage": "Salaire hebdomadaire",
+    wageShare: "part du salaire",
+    monthlyFee: "frais mensuels",
+    optionFee: "option d'achat",
     "contract.loyalty_bonus": "Prime de fidélité hebdomadaire",
     "contract.happiness": "État d'esprit",
     "contract.playing_time_happiness": "Satisfaction temps de jeu",
@@ -1831,6 +1842,7 @@ export const fr: Strings = {
     released: (name) => `Libération ${de(name)}`,
     fee: (amount) => `Montant\u00a0: ${amount}`,
     arranged: (date) => `Le jeu effectue le déplacement le ${date}`,
+    arrangedLoan: (day, until) => `Le jeu effectue le prêt le ${day}, jusqu’au ${until}`,
     optionRemoved: (amount) => `Option d'achat (${amount}) supprimée`,
     healed: (count) => counted(count, "blessure soignée", "blessures soignées"),
     lifted: (count) => counted(count, "suspension levée", "suspensions levées"),
@@ -2127,7 +2139,7 @@ export const fr: Strings = {
     from: "De",
     to: "Vers",
 
-    modeLabel: "Transfert, déplacer maintenant ou échange",
+    modeLabel: "Transfert, prêt, déplacer maintenant ou échange",
     modeMove: "Déplacer maintenant",
     modeSwap: "Échanger avec un joueur",
     modeArrange: "Transfert",
@@ -2153,6 +2165,32 @@ export const fr: Strings = {
       "Indiqué dans Modifications, où une seule annulation le retire jusqu'à ce jour",
     ],
     arrangeButton: "Préparer le transfert",
+
+    modeLoan: "Prêt",
+    loanNote: "Le jeu effectue le prêt à son prochain jour, comme les siens\u00a0; il retourne ensuite à son club.",
+    loanChecking: "Vérification du prêt…",
+    loanOn: (date: string) => `Le jeu effectue le prêt le ${date}`,
+    loanUntil: (date: string) => `Le prêt dure jusqu'au ${date}`,
+    loanWage: (money: string, share: number) => `Le club paie ${money} par semaine (${format(share)}\u00a0% de son salaire)`,
+    loanMonthlyFee: (money: string) => `Frais mensuels ${money}`,
+    loanOption: (money: string) => `Option d'achat à ${money}`,
+    loanDoes: [
+      "Convenu maintenant\u00a0: le jeu effectue le prêt à son prochain jour",
+      "Son historique indique le prêt, et il retourne à son club le lendemain du dernier jour",
+      "Le club paie sa part du salaire, et les frais mensuels si vous en fixez",
+      "Avec une option, le club qui l'accueille peut le recruter à ce montant à la fin du prêt",
+    ],
+    loanDoesHeading: "Ce que fait le prêt",
+    loanHint: "Rien ne change dans le jeu tant que vous n'appuyez pas sur Préparer le prêt.",
+    loanButton: "Préparer le prêt",
+    loanLastDay: "Dernier jour du prêt",
+    loanLastDayHint: "Il retourne à son club le lendemain",
+    loanShare: "Part du salaire payée",
+    loanShareHint: "Payée par le club qui l'accueille\u00a0; le reste par son club",
+    loanShareInvalid: "Saisissez un nombre entier de 0 à 100",
+    loanMonthly: "Frais mensuels",
+    loanOptionFee: "Option d'achat",
+    loanOptionFeeHint: "À la fin du prêt, le club qui l'accueille peut le recruter à ce montant\u00a0; vide\u00a0: aucune",
 
     // Le choix du club
     searchLabel: "Rechercher le club où le transférer",

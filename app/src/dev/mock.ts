@@ -91,6 +91,8 @@ import type {
   RecipeInfo,
   RecipePreview,
   ArrangedPreview,
+  LoanPreview,
+  LoanRequest,
   ClubName,
   MovePreview,
   OpportunityRequest,
@@ -2589,6 +2591,110 @@ function arrangePlayer(uid: number, clubUid: number, terms: MoveTerms, fee?: num
   return { ...logged };
 }
 
+/**
+ * `season_loan_end`: 29 June at least 30 days after the game's date, no later than his contract runs, as the app works
+ * it out.
+ */
+function seasonLoanEnd(uid: number): number | null {
+  const own = currentValues("player", uid);
+  const soonest = numberFromDate(addDays(GAME_DATE, 30));
+  let end = GAME_DATE.year * 10_000 + 629;
+  if (end < soonest) {
+    end = (GAME_DATE.year + 1) * 10_000 + 629;
+  }
+  const contractEnds = own["contract.expires"];
+  return contractEnds !== undefined && contractEnds > numberFromDate(GAME_DATE) ? Math.min(end, contractEnds) : end;
+}
+
+/**
+ * `plan_arranged_loan`: the checks of a move that the fixtures can have, and the loan's own: a share of the wage of
+ * 100% at most, fees of nothing or more, and a last day after the day he joins and no later than his contract runs.
+ */
+function planLoan(uid: number, clubUid: number, loan: LoanRequest): LoanPreview {
+  const player = players.find((p) => p.uid === uid);
+  if (!player) {
+    throw notFound("player", uid);
+  }
+  if (player.clubUid === null) {
+    throw failure("move.freeAgent", "the player is a free agent, with no club to leave or swap");
+  }
+  const moved = planMove(uid, clubUid, {});
+  if (!(loan.wageShare >= 0 && loan.wageShare <= 100)) {
+    throw failure("move.outOfRange", "the share of the wage must be between 0 and 100", {
+      field: "wageShare",
+      value: String(loan.wageShare),
+      min: "0",
+      max: "100",
+    });
+  }
+  // As the real check: a monthly fee from nothing, an option to buy from £1.
+  for (const [field, fee, min] of [
+    ["monthlyFee", loan.monthlyFee, 0],
+    ["optionFee", loan.optionFee, 1],
+  ] as const) {
+    if (fee !== null && !(fee >= min && fee <= 2_000_000_000)) {
+      throw failure("move.outOfRange", `${field} must be between ${min} and 2000000000`, {
+        field,
+        value: String(fee),
+        min: String(min),
+        max: "2000000000",
+      });
+    }
+  }
+  const own = currentValues("player", uid);
+  const moveDay = numberFromDate(addDays(GAME_DATE, 1));
+  const earliest = numberFromDate(addDays(GAME_DATE, 2));
+  const latest = own["contract.expires"] ?? 0;
+  if (loan.until < earliest || loan.until > latest) {
+    throw failure(
+      "loan.end",
+      `the loan must end between ${earliest} and ${latest}: after the day he joins, and no later than his contract does`,
+      { earliest: String(earliest), latest: String(latest) },
+    );
+  }
+  const wage = Math.floor(((own["contract.wage"] ?? 0) * loan.wageShare) / 100);
+  return {
+    from: moved.from!,
+    to: moved.to,
+    moveDay,
+    until: loan.until,
+    wage,
+    wageShare: loan.wageShare,
+    monthlyFee: loan.monthlyFee,
+    ...(loan.optionFee !== null && { optionFee: loan.optionFee }),
+    squadStatus: own["contract.squad_status"] ?? 4,
+  };
+}
+
+/** `arrange_loan`: logs the loan as a change of the player's `club`, as an arranged transfer is, and leaves him where he is. */
+function arrangeLoan(uid: number, clubUid: number, loan: LoanRequest): LoggedChange {
+  const preview = planLoan(uid, clubUid, loan);
+  const player = players.find((p) => p.uid === uid)!;
+  const id = changes.length + 1;
+  moveUndo.set(id, {
+    row: { club: player.club, clubUid: player.clubUid, contractExpires: player.contractExpires },
+    written: written.get(`player:${uid}`),
+    paid: [],
+  });
+  const logged: LoggedChange = {
+    id,
+    at: Date.now(),
+    name: player.name,
+    entity: "player",
+    uid,
+    field: "club",
+    old: preview.from.uid,
+    new: preview.to.uid,
+    undoneAt: null,
+    earlier: false,
+    undoable: true,
+    batch: null,
+    moved: { from: preview.from.name, to: preview.to.name, arranged: preview.moveDay, loanUntil: preview.until },
+  };
+  changes.push(logged);
+  return { ...logged };
+}
+
 /** `plan_release`: the checks of the real command that the fixtures can have, with its messages; names his club. */
 function planRelease(uid: number): ClubName {
   const player = players.find((p) => p.uid === uid);
@@ -4538,6 +4644,7 @@ export async function mockInvoke<T>(command: string, args?: Record<string, unkno
         // The fixtures know who is a woman, as a layout that places the gender flags does.
         genderKnown: true,
         arrangesTransfers: true,
+        arrangesLoans: true,
         health: mockHealth(),
       };
       mockConnection = info;
@@ -4874,6 +4981,12 @@ export async function mockInvoke<T>(command: string, args?: Record<string, unkno
       const terms = (args?.terms ?? {}) as MoveTerms;
       return arrangePlayer(Number(args?.uid), Number(args?.club), terms, args?.fee as number) as T;
     }
+    case "season_loan_end":
+      return seasonLoanEnd(Number(args?.uid)) as T;
+    case "plan_arranged_loan":
+      return planLoan(Number(args?.uid), Number(args?.club), args?.loan as LoanRequest) as T;
+    case "arrange_loan":
+      return arrangeLoan(Number(args?.uid), Number(args?.club), args?.loan as LoanRequest) as T;
     case "move_player": {
       const terms = (args?.terms ?? {}) as MoveTerms;
       return movePlayer(Number(args?.uid), Number(args?.club), terms, args?.fee as number, args?.release as number) as T;

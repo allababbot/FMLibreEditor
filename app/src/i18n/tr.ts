@@ -80,6 +80,12 @@ const CONTRACT_TYPES: Partial<Record<number, string>> = {
 /** The name of the field a failure names. The sentences put no ending on it: "için" and a colon need none. */
 const field = (key: string | undefined) => fieldName(tr, key ?? "");
 
+/** A day the commands name as "20280131", written out in the language's own way. */
+const dayText = (value: string | undefined) => {
+  const [y, m, d] = [Number(value?.slice(0, 4)), Number(value?.slice(4, 6)), Number(value?.slice(6, 8))];
+  return new Date(y, m - 1, d).toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" });
+};
+
 /** The noun of the kind of record a failure names, or "kayıt" when it names none. */
 const recordNoun = (entity: string | undefined) =>
   entity === "player" || entity === "staff" || entity === "club" ? nouns[entity].plain : "kayıt";
@@ -163,6 +169,8 @@ const errors: ErrorTexts = {
   "sign.noModel": () =>
     "Kulübün A takımında yeni sözleşmeye örnek alınacak, olağan sözleşmeli bir oyuncu yok.",
   "sign.noDate": () => "Düzenleyici oyun içi tarihi okuyamıyor; yeni sözleşme o tarihte başlar.",
+  "loan.end": (p) => `Kiralık, oyuncu katıldıktan sonra ve sözleşmesinden geç olmayacak şekilde bitmeli: ${dayText(p.earliest)} ile ${dayText(p.latest)} arası.`,
+  "loan.noModel": () => "Oyunun bunu örnek alacağı, süren kendi kiralığı yok; oyunda bir gün geçince yeniden deneyin.",
   "move.outOfRange": (p) => `${field(p.field)} için ${p.value} geçersiz: ${p.min} ile ${p.max} arasında olmalı.`,
   "move.changed": () => `Oyun bu belleği o zamandan beri değiştirmiş; ${reload}.`,
   "move.notApplied": () => "Belleğe yazıldı ama geri okunan farklı çıktı.",
@@ -593,6 +601,9 @@ export const tr: Strings = {
     jadedness: "Yorgunluk",
     morale: "Moral",
     "contract.wage": "Haftalık maaş",
+    wageShare: "maaş payı",
+    monthlyFee: "aylık bedel",
+    optionFee: "satın alma opsiyonu",
     "contract.loyalty_bonus": "Haftalık sadakat primi",
     "contract.happiness": "Mutluluk",
     "contract.playing_time_happiness": "Forma süresi mutluluğu",
@@ -1698,6 +1709,7 @@ export const tr: Strings = {
     released: (name) => `${name} serbest bırakıldı`,
     fee: (amount) => `Bedel ${amount}`,
     arranged: (date) => `Oyun transferi ${date} tarihinde yapar`,
+    arrangedLoan: (day, until) => `Oyun kiralığı ${day} tarihinde yapar; ${until} tarihine kadar sürer`,
     optionRemoved: (amount) => `Satın alma opsiyonu (${amount}) kaldırıldı`,
     healed: (count) => `${format(count)} sakatlık iyileştirildi`,
     lifted: (count) => `${format(count)} ceza kaldırıldı`,
@@ -1998,7 +2010,7 @@ export const tr: Strings = {
     to: "Yeni kulüp",
 
     // The switch at the top of the dialog
-    modeLabel: "Transfer, şimdi taşı veya takas",
+    modeLabel: "Transfer, kiralık, şimdi taşı veya takas",
     modeMove: "Şimdi taşı",
     modeSwap: "Oyuncuyla takas et",
     modeArrange: "Transfer",
@@ -2023,6 +2035,32 @@ export const tr: Strings = {
       "Değişiklikler'de listelenir; o güne kadar tek bir geri alma transferi iptal eder",
     ],
     arrangeButton: "Transferi ayarla",
+
+    modeLoan: "Kiralık",
+    loanNote: "Oyun kiralığı, kendi kiralıkları gibi ertesi gün yapar; son günden sonra oyuncu kulübüne döner.",
+    loanChecking: "Kiralık kontrol ediliyor…",
+    loanOn: (date: string) => `Oyun kiralığı ${date} tarihinde yapar`,
+    loanUntil: (date: string) => `Kiralık ${date} tarihine kadar sürer`,
+    loanWage: (money: string, share: number) => `Kulüp haftalık ${money} öder (maaş payı %${format(share)})`,
+    loanMonthlyFee: (money: string) => `Aylık bedel ${money}`,
+    loanOption: (money: string) => `Satın alma opsiyonu: ${money}`,
+    loanDoes: [
+      "Şimdi anlaşıldı: oyun, ertesi güne ulaşınca kiralığı yapar",
+      "Oyuncunun geçmişinde kiralık görünür; son günün ertesinde kendi kulübüne döner",
+      "Kulüp maaşın payını öder; aylık bedel girdiyseniz onu da öder",
+      "Opsiyon varsa, kiralık bitince katıldığı kulüp onu bu bedelle alabilir",
+    ],
+    loanDoesHeading: "Kiralık ne yapar",
+    loanHint: "Siz Kiralığı ayarla'ya basmadan oyunda hiçbir şey değişmez.",
+    loanButton: "Kiralığı ayarla",
+    loanLastDay: "Kiralığın son günü",
+    loanLastDayHint: "Ertesi gün kendi kulübüne döner",
+    loanShare: "Ödenen maaş payı",
+    loanShareHint: "Katıldığı kulüp öder, kalanını kendi kulübü öder",
+    loanShareInvalid: "0 ile 100 arasında bir tam sayı girin",
+    loanMonthly: "Aylık kiralık bedeli",
+    loanOptionFee: "Satın alma opsiyonu",
+    loanOptionFeeHint: "Kiralık bitince katıldığı kulüp onu bu bedelle alabilir; boşsa opsiyon yok",
 
     // Choosing the club
     searchLabel: "Transfer edileceği kulübü ara",

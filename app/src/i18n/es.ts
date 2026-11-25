@@ -77,6 +77,12 @@ const CONTRACT_TYPES: Partial<Record<number, string>> = {
 /** The name of the field a failure names. */
 const field = (key: string | undefined) => fieldName(es, key ?? "");
 
+/** A day the commands name as "20280131", written out in the language's own way. */
+const dayText = (value: string | undefined) => {
+  const [y, m, d] = [Number(value?.slice(0, 4)), Number(value?.slice(4, 6)), Number(value?.slice(6, 8))];
+  return new Date(y, m - 1, d).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
+};
+
 /** The noun of the kind of record a failure names, or "registro" when it names none. */
 const recordNoun = (entity: string | undefined) =>
   entity === "player" || entity === "staff" || entity === "club" ? nouns[entity].one : "registro";
@@ -286,6 +292,8 @@ const errors: ErrorTexts = {
   "sign.noModel": () =>
     "El club no tiene en su primer equipo ningún jugador con un contrato corriente en el que basar el nuevo.",
   "sign.noDate": () => "El editor no puede leer la fecha del juego, que es cuando empieza el nuevo contrato.",
+  "loan.end": (p) => `La cesión debe acabar después de su llegada y no más tarde que su contrato: entre el ${dayText(p.earliest)} y el ${dayText(p.latest)}.`,
+  "loan.noModel": () => "El juego no tiene una cesión propia en curso en la que basar esta. Inténtalo de nuevo tras un día de juego.",
   "move.outOfRange": (p) => `${p.value} no es un valor válido para ${field(p.field)}: admite de ${p.min} a ${p.max}.`,
   "move.changed": () => `El juego ha cambiado esa memoria desde entonces; ${reload}.`,
   "move.notApplied": () => "Se escribió en la memoria, pero al releerla dio otra cosa.",
@@ -597,6 +605,9 @@ export const es: Strings = {
     jadedness: "Fatiga",
     morale: "Moral",
     "contract.wage": "Salario semanal",
+    wageShare: "parte del salario",
+    monthlyFee: "cuota mensual",
+    optionFee: "opción de compra",
     "contract.loyalty_bonus": "Prima de fidelidad semanal",
     "contract.happiness": "Felicidad",
     "contract.playing_time_happiness": "Felicidad con los minutos",
@@ -1736,6 +1747,7 @@ export const es: Strings = {
     released: (name) => `Contrato rescindido: ${name}`,
     fee: (amount) => `Traspaso: ${amount}`,
     arranged: (date) => `El juego hace el movimiento el ${date}`,
+    arrangedLoan: (day, until) => `El juego hace la cesión el ${day}, hasta el ${until}`,
     optionRemoved: (amount) => `Opción de compra (${amount}) eliminada`,
     healed: (count) => (count === 1 ? "1 lesión curada" : `${format(count)} lesiones curadas`),
     lifted: (count) => (count === 1 ? "1 sanción levantada" : `${format(count)} sanciones levantadas`),
@@ -2039,7 +2051,7 @@ export const es: Strings = {
     from: "Origen",
     to: "Destino",
 
-    modeLabel: "Traspaso, mover ahora o intercambio",
+    modeLabel: "Traspaso, cesión, mover ahora o intercambio",
     modeMove: "Mover ahora",
     modeSwap: "Intercambiar por un jugador",
     modeArrange: "Traspaso",
@@ -2064,6 +2076,32 @@ export const es: Strings = {
       "Aparece en Cambios, donde un solo Deshacer lo anula hasta ese día",
     ],
     arrangeButton: "Preparar traspaso",
+
+    modeLoan: "Cesión",
+    loanNote: "El juego hace la cesión en su próximo día, como las suyas; después vuelve a su club.",
+    loanChecking: "Comprobando la cesión…",
+    loanOn: (date: string) => `El juego hace la cesión el ${date}`,
+    loanUntil: (date: string) => `La cesión dura hasta el ${date}`,
+    loanWage: (money: string, share: number) => `El club paga ${money} a la semana (${format(share)} % de su salario)`,
+    loanMonthlyFee: (money: string) => `Cuota mensual ${money}`,
+    loanOption: (money: string) => `Opción de compra por ${money}`,
+    loanDoes: [
+      "Acordada ahora: el juego hace la cesión cuando llega a su próximo día",
+      "Su historial recoge la cesión, y vuelve a su club el día siguiente al último",
+      "El club paga su parte del salario y la cuota mensual, si la pones",
+      "Con opción, el club que lo recibe puede ficharlo por su importe al acabar la cesión",
+    ],
+    loanDoesHeading: "Qué hace la cesión",
+    loanHint: "Nada cambia en el juego hasta que pulsas Preparar cesión.",
+    loanButton: "Preparar cesión",
+    loanLastDay: "Último día de la cesión",
+    loanLastDayHint: "Al día siguiente vuelve a su propio club",
+    loanShare: "Parte del salario que paga",
+    loanShareHint: "Lo que paga el club al que va; el resto, el suyo",
+    loanShareInvalid: "Introduce un número entero de 0 a 100",
+    loanMonthly: "Cuota mensual",
+    loanOptionFee: "Opción de compra",
+    loanOptionFeeHint: "Al acabar la cesión, el club que lo recibe puede ficharlo por este importe; vacío: sin opción",
 
     // El club
     searchLabel: "Buscar el club al que traspasar",

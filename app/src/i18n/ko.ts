@@ -102,6 +102,12 @@ const CONTRACT_TYPES: Partial<Record<number, string>> = {
 /** The name of the field a failure names. */
 const field = (key: string | undefined) => fieldName(ko, key ?? "");
 
+/** A day the commands name as "20280131", written out in the language's own way. */
+const dayText = (value: string | undefined) => {
+  const [y, m, d] = [Number(value?.slice(0, 4)), Number(value?.slice(4, 6)), Number(value?.slice(6, 8))];
+  return new Date(y, m - 1, d).toLocaleDateString("ko-KR", { day: "numeric", month: "long", year: "numeric" });
+};
+
 /** What a check is about, from the key a failure gives. */
 const checkName = (key: string | undefined) => (ko.checks as Partial<Record<string, string>>)[key ?? ""] ?? key ?? "";
 
@@ -301,6 +307,8 @@ const errors: ErrorTexts = {
   "arrange.made": () => "게임이 이미 이 이적을 진행했거나 예약 시 기록한 내용을 바꿔서 되돌릴 수 없습니다.",
   "sign.noModel": () => "이 구단 1군에는 새 계약의 본보기로 삼을 일반 계약 선수가 없습니다.",
   "sign.noDate": () => "새 계약의 시작일이 되는 게임 내 날짜를 에디터가 읽지 못했습니다.",
+  "loan.end": (p) => `임대는 선수가 합류한 뒤에 끝나야 하며 계약 기간을 넘길 수 없습니다: ${dayText(p.earliest)}부터 ${dayText(p.latest)}까지.`,
+  "loan.noModel": () => "게임에 이 임대의 기준으로 삼을 진행 중인 자체 임대가 없습니다. 게임에서 하루가 지난 뒤 다시 시도하세요.",
   "move.outOfRange": (p) =>
     `${p.value}: ${field(p.field)}에 쓸 수 없는 값입니다. ${p.min}에서 ${p.max}까지 입력할 수 있습니다.`,
   "move.changed": () => `그사이 게임이 해당 메모리를 바꿨습니다. ${reload}.`,
@@ -620,6 +628,9 @@ export const ko: Strings = {
     jadedness: "피로도",
     morale: "사기",
     "contract.wage": "주급",
+    wageShare: "급여 부담 비율",
+    monthlyFee: "월 임대료",
+    optionFee: "완전 이적 옵션",
     "contract.loyalty_bonus": "로열티 보너스(주당)",
     "contract.happiness": "만족도",
     "contract.playing_time_happiness": "출전 시간 만족도",
@@ -1713,6 +1724,7 @@ export const ko: Strings = {
     released: (name) => `${name} 방출됨`,
     fee: (amount) => `이적료 ${amount}`,
     arranged: (date) => `게임이 ${date}에 이동을 진행합니다`,
+    arrangedLoan: (day, until) => `게임이 ${day}에 임대를 진행합니다 (${until}까지)`,
     optionRemoved: (amount) => `완전 영입 옵션(${amount}) 제거됨`,
     healed: (count) => `부상 ${format(count)}건 치료`,
     lifted: (count) => `출장 정지 ${format(count)}건 해제`,
@@ -1988,7 +2000,7 @@ export const ko: Strings = {
     from: "출발",
     to: "도착",
 
-    modeLabel: "이적, 바로 이동 또는 맞교환",
+    modeLabel: "이적, 임대, 바로 이동 또는 맞교환",
     modeMove: "바로 이동",
     modeSwap: "선수와 맞교환",
     modeArrange: "이적",
@@ -2013,6 +2025,32 @@ export const ko: Strings = {
       "변경 내역에 기록되며, 당일까지는 되돌리기 한 번으로 취소할 수 있습니다",
     ],
     arrangeButton: "이적 예약",
+
+    modeLoan: "임대",
+    loanNote: "게임이 다음 날 자체 임대처럼 임대를 진행하며, 이후 선수는 원래 구단으로 돌아갑니다.",
+    loanChecking: "임대를 확인하는 중…",
+    loanOn: (date: string) => `게임이 ${date}에 임대를 진행합니다`,
+    loanUntil: (date: string) => `임대는 ${date}까지입니다`,
+    loanWage: (money: string, share: number) => `구단이 주급 ${money} 지급 (급여의 ${format(share)}%)`,
+    loanMonthlyFee: (money: string) => `월 임대료 ${money}`,
+    loanOption: (money: string) => `완전 이적 옵션 ${money}`,
+    loanDoes: [
+      "지금 합의: 게임이 다음 날이 되면 임대를 진행합니다",
+      "선수 기록에 임대가 남고, 마지막 날 다음 날 원래 구단으로 복귀합니다",
+      "구단이 급여 분담분을 지급하며, 월 임대료를 정하면 함께 지급합니다",
+      "옵션이 있으면 임대 종료 시 임대 구단이 그 금액으로 완전 영입할 수 있습니다",
+    ],
+    loanDoesHeading: "임대가 하는 일",
+    loanHint: "'임대 예약'을 누르기 전까지 게임은 아무것도 바뀌지 않습니다.",
+    loanButton: "임대 예약",
+    loanLastDay: "임대 마지막 날",
+    loanLastDayHint: "다음 날 원래 구단으로 복귀합니다",
+    loanShare: "급여 부담 비율",
+    loanShareHint: "영입 구단이 내는 비율이며, 나머지는 원래 구단이 부담합니다",
+    loanShareInvalid: "0에서 100 사이의 정수를 입력하세요",
+    loanMonthly: "월 임대료",
+    loanOptionFee: "완전 이적 옵션",
+    loanOptionFeeHint: "임대가 끝나면 임대 구단이 이 금액으로 완전 영입할 수 있습니다. 비우면 없음",
 
     // Choosing the club
     searchLabel: "이적할 구단 검색",

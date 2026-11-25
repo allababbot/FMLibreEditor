@@ -96,6 +96,12 @@ const CONTRACT_TYPES: Partial<Record<number, string>> = {
 /** The name of the field a failure names. */
 const field = (key: string | undefined) => fieldName(de, key ?? "");
 
+/** A day the commands name as "20280131", written out in the language's own way. */
+const dayText = (value: string | undefined) => {
+  const [y, m, d] = [Number(value?.slice(0, 4)), Number(value?.slice(4, 6)), Number(value?.slice(6, 8))];
+  return new Date(y, m - 1, d).toLocaleDateString("de-DE", { day: "numeric", month: "long", year: "numeric" });
+};
+
 /** The noun of the kind of record a failure names, or "Eintrag" when it names none; each of them is masculine. */
 const recordNoun = (entity: string | undefined) =>
   entity === "player" || entity === "staff" || entity === "club" ? nouns[entity].one : "Eintrag";
@@ -317,6 +323,8 @@ const errors: ErrorTexts = {
     "Der Verein hat in seiner 1. Mannschaft keinen Spieler mit einem gewöhnlichen Vertrag, nach dessen Vorbild der " +
     "neue Vertrag entstehen könnte.",
   "sign.noDate": () => "Der Editor kann das Spieldatum nicht lesen, mit dem ein neuer Vertrag beginnt.",
+  "loan.end": (p) => `Die Leihe muss nach seinem Wechsel enden, spätestens mit seinem Vertrag: zwischen ${dayText(p.earliest)} und ${dayText(p.latest)}.`,
+  "loan.noModel": () => "Das Spiel hat keine eigene laufende Leihe als Vorlage für diese. Versuchen Sie es nach einem Tag erneut.",
   "move.outOfRange": (p) =>
     `${p.value} ist kein gültiger Wert für ${field(p.field)}: Erlaubt sind ${p.min} bis ${p.max}.`,
   "move.changed": () => `Das Spiel hat diesen Speicher inzwischen geändert; ${reload}.`,
@@ -658,6 +666,9 @@ export const de: Strings = {
     jadedness: "Erschöpfung",
     morale: "Moral",
     "contract.wage": "Gehalt pro Woche",
+    wageShare: "Gehaltsanteil",
+    monthlyFee: "monatliche Gebühr",
+    optionFee: "Kaufoption",
     "contract.loyalty_bonus": "Loyalitätsbonus pro Woche",
     "contract.happiness": "Zufriedenheit",
     "contract.playing_time_happiness": "Zufriedenheit mit Einsatzzeiten",
@@ -1816,6 +1827,7 @@ export const de: Strings = {
     released: (name) => `Vertrag von ${name} aufgelöst`,
     fee: (amount) => `Ablöse ${amount}`,
     arranged: (date) => `Das Spiel führt den Wechsel am ${date} aus`,
+    arrangedLoan: (day, until) => `Das Spiel führt die Leihe am ${day} aus, bis ${until}`,
     optionRemoved: (amount) => `Kaufoption (${amount}) entfernt`,
     healed: (count) => (count === 1 ? "1 Verletzung geheilt" : `${format(count)} Verletzungen geheilt`),
     lifted: (count) => (count === 1 ? "1 Sperre aufgehoben" : `${format(count)} Sperren aufgehoben`),
@@ -2114,7 +2126,7 @@ export const de: Strings = {
     from: "Von",
     to: "Zu",
 
-    modeLabel: "Transfer, jetzt verschieben oder Tausch",
+    modeLabel: "Transfer, Leihe, jetzt verschieben oder Tausch",
     modeMove: "Jetzt verschieben",
     modeSwap: "Gegen einen Spieler tauschen",
     modeArrange: "Transfer",
@@ -2140,6 +2152,32 @@ export const de: Strings = {
       "Unter Änderungen aufgeführt; ein Rückgängig nimmt den Transfer bis zu diesem Tag zurück",
     ],
     arrangeButton: "Transfer vereinbaren",
+
+    modeLoan: "Leihe",
+    loanNote: "Das Spiel führt die Leihe an seinem nächsten Tag aus, wie bei seinen eigenen; danach ist er wieder bei seinem Verein.",
+    loanChecking: "Leihe wird geprüft…",
+    loanOn: (date: string) => `Das Spiel führt die Leihe am ${date} aus`,
+    loanUntil: (date: string) => `Die Leihe dauert bis ${date}`,
+    loanWage: (money: string, share: number) => `Der Verein zahlt ${money} pro Woche (${format(share)} % seines Gehalts)`,
+    loanMonthlyFee: (money: string) => `Monatliche Gebühr ${money}`,
+    loanOption: (money: string) => `Kaufoption über ${money}`,
+    loanDoes: [
+      "Jetzt vereinbart: Das Spiel führt die Leihe aus, wenn es seinen nächsten Tag erreicht",
+      "Seine Historie führt die Leihe auf; am Tag nach dem letzten Tag kehrt er zu seinem Verein zurück",
+      "Der Verein zahlt seinen Anteil am Gehalt und, falls gesetzt, die monatliche Gebühr",
+      "Mit Kaufoption kann der aufnehmende Verein ihn am Ende der Leihe zu deren Betrag verpflichten",
+    ],
+    loanDoesHeading: "Was die Leihe bewirkt",
+    loanHint: "Im Spiel ändert sich nichts, bis Sie auf Leihe vereinbaren klicken.",
+    loanButton: "Leihe vereinbaren",
+    loanLastDay: "Letzter Tag der Leihe",
+    loanLastDayHint: "Am nächsten Tag ist er wieder bei seinem Verein",
+    loanShare: "Übernommener Gehaltsanteil",
+    loanShareHint: "Das zahlt der aufnehmende Verein; den Rest sein Verein",
+    loanShareInvalid: "Geben Sie eine ganze Zahl von 0 bis 100 ein",
+    loanMonthly: "Monatliche Leihgebühr",
+    loanOptionFee: "Kaufoption",
+    loanOptionFeeHint: "Der aufnehmende Verein kann ihn am Ende der Leihe zu dieser Ablöse verpflichten; leer: keine",
 
     // Die Wahl des Vereins
     searchLabel: "Verein suchen, zu dem der Spieler wechselt",

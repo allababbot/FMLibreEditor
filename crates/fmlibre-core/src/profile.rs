@@ -196,6 +196,59 @@ pub struct TransfersLayout {
     pub player_offer_numbers: u64,
     pub player_entries: u64,
     pub record_size: u64,
+    /// How the game keeps a loan agreed for a later day; none where it has not been read.
+    #[serde(default)]
+    pub loan: Option<LoanOfferLayout>,
+}
+
+/// A loan agreed for a later day (see `arranged.rs`): an offer of a class of its own, laid out as a transfer offer up to
+/// its state and kind ([`TransfersLayout`]; its fee is the monthly fee, and it has no `offer_payment`), with the loan's
+/// terms after them; and the contract the player is to have at the club he joins, a loan contract ([`LoanLayout`] and
+/// [`LoanTermsLayout`] place its terms).
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct LoanOfferLayout {
+    /// The offer's class, as written in C++, and its size.
+    pub offer_class: String,
+    pub offer_size: u64,
+    /// Pointers, and lists of them, that the offer may hold (its add-ons among them), left empty in the one the editor
+    /// makes: 8 bytes each.
+    pub offer_cleared: Vec<u64>,
+    /// `u32` flags, as the loan contract's ([`LoanTermsLayout::flags`]).
+    pub offer_flags: u64,
+    /// `i32` pounds a week: the part of his wage the club he joins pays, in each place that holds it.
+    pub offer_wage: Vec<u64>,
+    /// `i32` pounds: the monthly fee when he is not used, and the future fee (-1 for none).
+    pub offer_unused_fee: u64,
+    pub offer_option_fee: u64,
+    /// `u8`, in the offer and in the loan contract, which the game copies it to: the kind of the future fee, 0xFF where
+    /// there is none and 0xFE for an option the club he joins may take up; a mandatory fee holds others.
+    pub offer_fee_kind: u64,
+    pub contract_fee_kind: u64,
+    /// `i32` places that hold -1 where there is no such term.
+    pub offer_unset: Vec<u64>,
+    /// Places not known, and what most of the game's loan offers hold there: `u8` places and their values, and places of
+    /// 8 bytes of zero. A model that holds the same is the better one.
+    pub offer_usual: Vec<(u64, u8)>,
+    pub offer_usual_zero: Vec<u64>,
+    /// `u16`: the part of his wage the club he joins pays, in percent, in each place that holds it.
+    pub offer_share: Vec<u64>,
+    /// `u32`: how long the loan runs, in the offer and in the loan contract: until the end of the season, or until a day
+    /// of its own, which the loan contract's end holds.
+    pub offer_length: u64,
+    pub contract_length: u64,
+    /// The loan contract's size.
+    pub contract_size: u64,
+    /// `u8`: the squad status again.
+    pub contract_status_again: u64,
+    /// `i32`: the wage again.
+    pub contract_wage_again: u64,
+    /// Pointers the loan contract may hold (its add-ons, its reasons to be unhappy), left empty in the one the editor
+    /// makes: 8 bytes each.
+    pub contract_cleared: Vec<u64>,
+    /// `i32` places that hold -1, and `u32` places that hold 0, in every loan contract not yet in force.
+    pub contract_unset: Vec<u64>,
+    pub contract_zero: Vec<u64>,
 }
 
 /// How the game keeps a nation's national teams (see `national.rs`): each nation has two containers, one for its men's
@@ -1618,6 +1671,8 @@ mod tests {
             ..t.clone()
         };
         assert_eq!(shared(m), shared(w));
+        // So are the game's loan offers and the loan contracts they offer.
+        assert!(m.loan.is_some());
 
         // The records the people point at are laid out alike. The kind of contract is left out of a layout until it
         // has been read on that system; where both have it, it sits at the same place.

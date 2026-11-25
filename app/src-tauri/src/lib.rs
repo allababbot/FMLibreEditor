@@ -14,17 +14,17 @@ use fmlibre_core::{
     Clause, ClauseSet, ClubDetails, ClubFilter, ClubIndex, ClubMove, ClubSummary, Coded, CohesionSet,
     CompetitionPrizes, CompetitionRules, DIRECTOR_OF_FOOTBALL, Earlier, EditError, Entity, EntityArrays, ExportFormat,
     ExportHeader, Exported, FeePlan, Field, FmDate, GAME_EXE, GAME_PLUGIN, GameInfo, GraphicsCounts, GraphicsIndex,
-    HOMEGROWN_RULES, Healed, Health, Kind, LOAN_EXPIRES, LOAN_OPTION_FEE, Lifted, Listed, Loan, Lock, MANAGER,
-    MoveError, MovePlan, MoveTerms, NameChange, NameKind, Nation, NationalIndex, NationalSide, NationalTeamSummary,
-    NationalUnavailable, NewContract, NewStaffContract, Operation, Paid, People, PersonNames, Picture, Planned,
-    PlayerDetails, PlayerFilter, PlayerIndex, PlayerOrder, PlayerSummary, PrizeAmount, PrizeChange, PrizeError,
-    PrizeMoney, PrizeReadError, PrizeUnavailable, Progress, RECIPES, ROLES, Recipe, RecipeError, RecipePlan,
-    RelationSet, RetirementSet, Role, RuleChange, RuleError, RuleReadError, RuleUnavailable, SCOUT_POSITIONS,
-    SENIOR_KIND, ScoutError, ScoutPosition, ScoutRequest, Scouted, SearchIndex, Season, Session, SessionError, Skipped,
-    Sponsorship, SponsorshipReadError, SponsorshipUnavailable, SquadMember, SquadReport, SquadRule, StadiumName,
-    StadiumRename, StaffChange, StaffDetails, StaffFilter, StaffIndex, StaffOrder, StaffPlan, StaffSummary, Subject,
-    TacticsSet, Target, Tie, TieTarget, Timeline, competition_prizes, diagnostics_report, find_game, nations,
-    sort_players, sort_staff, timeline_values,
+    HOMEGROWN_RULES, Healed, Health, Kind, LOAN_EXPIRES, LOAN_OPTION_FEE, Lifted, Listed, Loan, LoanDeal, Lock,
+    MANAGER, MoveError, MovePlan, MoveTerms, NameChange, NameKind, Nation, NationalIndex, NationalSide,
+    NationalTeamSummary, NationalUnavailable, NewContract, NewStaffContract, Operation, Paid, People, PersonNames,
+    Picture, Planned, PlayerDetails, PlayerFilter, PlayerIndex, PlayerOrder, PlayerSummary, PrizeAmount, PrizeChange,
+    PrizeError, PrizeMoney, PrizeReadError, PrizeUnavailable, Progress, RECIPES, ROLES, Recipe, RecipeError,
+    RecipePlan, RelationSet, RetirementSet, Role, RuleChange, RuleError, RuleReadError, RuleUnavailable,
+    SCOUT_POSITIONS, SENIOR_KIND, ScoutError, ScoutPosition, ScoutRequest, Scouted, SearchIndex, Season, Session,
+    SessionError, Skipped, Sponsorship, SponsorshipReadError, SponsorshipUnavailable, SquadMember, SquadReport,
+    SquadRule, StadiumName, StadiumRename, StaffChange, StaffDetails, StaffFilter, StaffIndex, StaffOrder, StaffPlan,
+    StaffSummary, Subject, TacticsSet, Target, Tie, TieTarget, Timeline, competition_prizes, diagnostics_report,
+    find_game, nations, sort_players, sort_staff, timeline_values,
 };
 use fmlibre_mem::{Process, find_processes, is_current_process_elevated, list_modules};
 use serde::{Deserialize, Serialize};
@@ -1378,6 +1378,7 @@ impl Connection {
             known_build: self.session.known_build(),
             gender_known: self.session.layout.player.gender.is_some() && self.session.layout.staff.gender.is_some(),
             arranges_transfers: self.session.arranges_transfers(),
+            arranges_loans: self.session.arranges_loans(),
             health: Health::clone(&self.session.health()),
             refrozen: None,
         }
@@ -1801,7 +1802,15 @@ impl Connection {
         let change = Change { entity: Entity::Staff, uid: done.member, field: field.to_owned(), old, new };
         let entry = self.entry(change, name, batch);
         self.push_log(LoggedChange {
-            moved: moved.then_some(MovedClubs { from, to, with: None, released: None, fee: None, arranged: None }),
+            moved: moved.then_some(MovedClubs {
+                from,
+                to,
+                with: None,
+                released: None,
+                fee: None,
+                arranged: None,
+                loan_until: None,
+            }),
             undo: Some(Undo::Staff(LoggedStaff { done, club, club_uid, job, contract_expires })),
             ..entry
         })
@@ -1842,6 +1851,14 @@ impl Connection {
         Ok(self.session.plan_arranged_transfer(player, to, terms, fee, &self.human_clubs)?)
     }
 
+    /// Works out arranging the loan of the player `uid` to the club `club` from the next day, on the terms `loan`, for
+    /// the game to make on that day.
+    fn plan_loan(&self, uid: u32, club: u32, loan: LoanDeal) -> Result<ArrangedPlan, Failure> {
+        let player = self.players.get(uid).ok_or_else(|| not_found(Entity::Player, uid))?;
+        let to = self.clubs.get(club).ok_or_else(|| not_found(Entity::Club, club))?;
+        Ok(self.session.plan_arranged_loan(player, to, loan, &self.human_clubs)?)
+    }
+
     /// Refuses moving any of the players `uids` while a transfer this connection arranged for him waits for its day:
     /// the game makes it on that day from the club he is at, so he stays there until then, or until it is undone.
     fn refuse_while_arranged(&self, uids: &[u32]) -> Result<(), Failure> {
@@ -1870,6 +1887,7 @@ impl Connection {
             released: None,
             fee: (plan.fee > 0).then_some(plan.fee),
             arranged: Some(plan.move_day.to_number()),
+            loan_until: plan.loan.map(|loan| loan.until),
         };
         let change = Change {
             entity: Entity::Player,
@@ -2176,7 +2194,7 @@ impl Connection {
         };
         let entry = self.entry(change, name, None);
         self.push_log(LoggedChange {
-            moved: Some(MovedClubs { from, to: Some(to), with, released, fee, arranged: None }),
+            moved: Some(MovedClubs { from, to: Some(to), with, released, fee, arranged: None, loan_until: None }),
             undo: Some(Undo::Move(before)),
             ..entry
         })
@@ -2206,6 +2224,7 @@ impl Connection {
             released: None,
             fee: None,
             arranged: None,
+            loan_until: None,
         };
         let entry = self.entry(change, self.player_name(done.player), None);
         self.push_log(LoggedChange {
@@ -2905,6 +2924,9 @@ struct MovedClubs {
     /// fee and moves him on that day.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     arranged: Option<i64>,
+    /// For a loan arranged for the game to make: its last day, as a number like 20280629.
+    #[serde(rename = "loanUntil", default, skip_serializing_if = "Option::is_none")]
+    loan_until: Option<i64>,
 }
 
 /// A move as the log keeps it: the writes to undo, and what the list rows of the players it
@@ -2962,6 +2984,50 @@ struct ArrangedPreview {
     /// The day the game makes the move, as a number like 20261019.
     move_day: i64,
     contract: NewContract,
+}
+
+/// A loan the game is to make the next day, as the plan has it: the clubs, the day, and the loan's terms.
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+struct LoanPreview {
+    from: ClubName,
+    to: ClubName,
+    /// The day the game makes the loan, and its last day, as numbers like 20261019.
+    move_day: i64,
+    until: i64,
+    /// Pounds a week of his wage the club he joins pays, and the part of his wage that is, in percent.
+    wage: i64,
+    wage_share: u8,
+    /// Pounds a month the club he joins pays his own.
+    monthly_fee: i64,
+    /// Pounds for which the club he joins may sign him for good when the loan ends: an option to buy; none for none.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    option_fee: Option<i64>,
+    /// His squad status at the club he joins.
+    squad_status: u8,
+}
+
+/// A loan's terms as the dialog sends them.
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct LoanRequest {
+    until: i64,
+    wage_share: u8,
+    #[serde(default)]
+    monthly_fee: i64,
+    #[serde(default)]
+    option_fee: Option<i64>,
+}
+
+impl From<LoanRequest> for LoanDeal {
+    fn from(loan: LoanRequest) -> Self {
+        LoanDeal {
+            until: loan.until,
+            wage_share: loan.wage_share,
+            monthly_fee: loan.monthly_fee,
+            option_fee: loan.option_fee,
+        }
+    }
 }
 
 /// The filter of the list a mass edit applies to; only the one for its entity is used.
@@ -3213,6 +3279,8 @@ struct ConnectionInfo {
     /// Whether a transfer can be arranged for the game to make the next day: this version of the game's layout places
     /// its transfers, and the editor can take blocks of the game's heap (Windows).
     arranges_transfers: bool,
+    /// Whether a loan can be arranged the same way: the layout places the game's loan offers too.
+    arranges_loans: bool,
     /// What the checks the editor makes before it writes found on this game.
     health: Health,
     /// Only from `connect`: what it froze again of what was frozen in this save before, when there was any.
@@ -4634,6 +4702,64 @@ async fn arrange_transfer(
         let mut guard = state.0.lock()?;
         let connection = guard.as_mut().ok_or_else(not_connected)?;
         let plan = connection.plan_arranged(uid, club, terms, fee.unwrap_or(0))?;
+        let done = connection.session.apply_arranged_transfer(&plan)?;
+        Ok(connection.log_arranged(done, &plan))
+    })
+    .await?
+}
+
+/// The last day of a loan of the player `uid` agreed now until the end of the season: 29 June, at least a month away,
+/// and no later than his contract runs; none without an in-game date.
+#[tauri::command]
+fn season_loan_end(state: tauri::State<'_, AppState>, uid: u32) -> Result<Option<i64>, Failure> {
+    let guard = state.0.lock()?;
+    let connection = guard.as_ref().ok_or_else(not_connected)?;
+    let player = connection.players.get(uid).ok_or_else(|| not_found(Entity::Player, uid))?;
+    Ok(connection.session.season_loan_end(player))
+}
+
+/// Checks that the loan of the player `uid` to the club `club` can be arranged for the game to make the next day, on
+/// the terms `loan`, and says what it would be; the error says why it cannot. Nothing is written. Off the window's
+/// thread: the first time, finding the game's transfers takes a few seconds.
+#[tauri::command]
+async fn plan_arranged_loan(
+    app: tauri::AppHandle,
+    uid: u32,
+    club: u32,
+    loan: LoanRequest,
+) -> Result<LoanPreview, Failure> {
+    tauri::async_runtime::spawn_blocking(move || -> Result<LoanPreview, Failure> {
+        let state = app.state::<AppState>();
+        let guard = state.0.lock()?;
+        let connection = guard.as_ref().ok_or_else(not_connected)?;
+        let loan = LoanDeal::from(loan);
+        let plan = connection.plan_loan(uid, club, loan)?;
+        let name = |uid: u32| ClubName { uid, name: connection.club_name(uid) };
+        Ok(LoanPreview {
+            from: name(plan.from_club),
+            to: name(plan.to_club),
+            move_day: plan.move_day.to_number(),
+            until: loan.until,
+            wage: plan.terms.wage,
+            wage_share: loan.wage_share,
+            monthly_fee: loan.monthly_fee,
+            option_fee: loan.option_fee,
+            squad_status: plan.terms.squad_status,
+        })
+    })
+    .await?
+}
+
+/// Arranges the loan of the player `uid` to the club `club` for the game to make the next day, on the terms `loan`,
+/// worked out again from the game as it is now, and logs it. The game makes the loan on that day, as it makes its own;
+/// until then one undo takes it back. Off the window's thread.
+#[tauri::command]
+async fn arrange_loan(app: tauri::AppHandle, uid: u32, club: u32, loan: LoanRequest) -> Result<LoggedChange, Failure> {
+    tauri::async_runtime::spawn_blocking(move || -> Result<LoggedChange, Failure> {
+        let state = app.state::<AppState>();
+        let mut guard = state.0.lock()?;
+        let connection = guard.as_mut().ok_or_else(not_connected)?;
+        let plan = connection.plan_loan(uid, club, LoanDeal::from(loan))?;
         let done = connection.session.apply_arranged_transfer(&plan)?;
         Ok(connection.log_arranged(done, &plan))
     })
@@ -6128,6 +6254,9 @@ pub fn run() {
             move_player,
             plan_arranged_transfer,
             arrange_transfer,
+            season_loan_end,
+            plan_arranged_loan,
+            arrange_loan,
             plan_loan_permanent,
             make_loan_permanent,
             plan_release,
@@ -6408,6 +6537,7 @@ mod tests {
             released: None,
             fee: None,
             arranged: None,
+            loan_until: None,
         });
         second.add(&HistoryLine::Change(Box::new(moved)));
         second.add(&line(&logged(2, "morale", 9, 20, Some(1)), "second"));

@@ -104,6 +104,12 @@ const CONTRACT_TYPES: Partial<Record<number, string>> = {
 /** The name of the field a failure names. */
 const field = (key: string | undefined) => fieldName(ru, key ?? "");
 
+/** A day the commands name as "20280131", written out in the language's own way. */
+const dayText = (value: string | undefined) => {
+  const [y, m, d] = [Number(value?.slice(0, 4)), Number(value?.slice(4, 6)), Number(value?.slice(6, 8))];
+  return new Date(y, m - 1, d).toLocaleDateString("ru-RU", { day: "numeric", month: "long", year: "numeric" });
+};
+
 /** What a check is about, from the key a failure gives, with a capital: "Контракты". */
 const checkName = (key: string | undefined) => {
   const name = (ru.checks as Partial<Record<string, string>>)[key ?? ""] ?? key ?? "";
@@ -196,6 +202,8 @@ const errors: ErrorTexts = {
   "sign.noModel": () =>
     "В основной команде клуба нет игрока с обычным контрактом, по образцу которого можно составить новый.",
   "sign.noDate": () => "Редактор не может прочитать игровую дату, с которой начинается новый контракт.",
+  "loan.end": (p) => `Аренда должна закончиться после перехода игрока и не позже его контракта: от ${dayText(p.earliest)} до ${dayText(p.latest)}.`,
+  "loan.noModel": () => "У игры нет собственной аренды в процессе, по образцу которой можно оформить эту. Повторите через игровой день.",
   "move.outOfRange": (p) =>
     `${p.value} — недопустимое значение для поля «${field(p.field)}»: допустимо от ${p.min} до ${p.max}.`,
   "move.changed": () => `Игра успела изменить эти данные; ${reload}.`,
@@ -634,6 +642,9 @@ export const ru: Strings = {
     jadedness: "Усталость",
     morale: "Мораль",
     "contract.wage": "Зарплата в неделю",
+    wageShare: "Доля зарплаты",
+    monthlyFee: "Ежемесячный платёж",
+    optionFee: "Опция выкупа",
     "contract.loyalty_bonus": "Бонус за лояльность в неделю",
     "contract.happiness": "Удовлетворённость",
     "contract.playing_time_happiness": "Удовлетворённость игровым временем",
@@ -1722,6 +1733,7 @@ export const ru: Strings = {
     released: (name) => `${name} отпущен`,
     fee: (amount) => `Сумма ${amount}`,
     arranged: (date) => `Игра проведёт перемещение ${date}`,
+    arrangedLoan: (day, until) => `Игра оформит аренду ${day}, до ${until}`,
     optionRemoved: (amount) => `Опция выкупа (${amount}) убрана`,
     healed: (count) => `Вылечено: ${counted(count, "травма", "травмы", "травм")}`,
     lifted: (count) => `Снято: ${counted(count, "дисквалификация", "дисквалификации", "дисквалификаций")}`,
@@ -1988,7 +2000,7 @@ export const ru: Strings = {
     from: "Откуда",
     to: "Куда",
 
-    modeLabel: "Трансфер, переместить сейчас или обмен",
+    modeLabel: "Трансфер, аренда, переместить сейчас или обмен",
     modeMove: "Переместить сейчас",
     modeSwap: "Обмен на игрока",
     modeArrange: "Трансфер",
@@ -2012,6 +2024,32 @@ export const ru: Strings = {
       "Записывается в «Изменения», где одна отмена возвращает всё как было, пока этот день не наступил",
     ],
     arrangeButton: "Оформить трансфер",
+
+    modeLoan: "Аренда",
+    loanNote: "Игра оформит аренду на своём следующем дне, как свои; затем игрок вернётся в свой клуб.",
+    loanChecking: "Проверка аренды…",
+    loanOn: (date: string) => `Игра оформит аренду ${date}`,
+    loanUntil: (date: string) => `Аренда до ${date}`,
+    loanWage: (money: string, share: number) => `Клуб платит ${money} в неделю (${format(share)}% зарплаты)`,
+    loanMonthlyFee: (money: string) => `Ежемесячный платёж ${money}`,
+    loanOption: (money: string) => `Опция выкупа за ${money}`,
+    loanDoes: [
+      "Договорено сразу: игра оформит аренду, когда дойдёт до своего следующего дня",
+      "В истории игрока будет аренда; на следующий день после последнего он вернётся в свой клуб",
+      "Клуб платит свою долю зарплаты и ежемесячный платёж, если вы его задали",
+      "При опции клуб, куда он уходит, может выкупить его за эту сумму, когда аренда закончится",
+    ],
+    loanDoesHeading: "Что делает аренда",
+    loanHint: "В игре ничего не меняется, пока вы не нажмёте «Оформить аренду».",
+    loanButton: "Оформить аренду",
+    loanLastDay: "Последний день аренды",
+    loanLastDayHint: "На следующий день он вернётся в свой клуб",
+    loanShare: "Оплачиваемая доля зарплаты",
+    loanShareHint: "Платит клуб, куда он идёт; остальное — его клуб",
+    loanShareInvalid: "Введите целое число от 0 до 100",
+    loanMonthly: "Ежемесячный платёж",
+    loanOptionFee: "Опция выкупа",
+    loanOptionFeeHint: "Когда аренда закончится, клуб, куда он уходит, может выкупить его за эту сумму; пусто — без опции",
 
     searchLabel: "Поиск клуба для трансфера",
     resultsLabel: "Найденные клубы",

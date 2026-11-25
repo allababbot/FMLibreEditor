@@ -94,6 +94,8 @@ export interface ConnectionInfo {
    * its transfers, and the editor can take memory of the game's own (Windows).
    */
   arrangesTransfers: boolean;
+  /** Whether a loan can be arranged the same way (`arrange_loan`): the layout places the game's loan offers too. */
+  arrangesLoans: boolean;
   /** What the checks the editor makes before it writes found on this game. */
   health: Health;
   /** Only from `connect`: what it froze again of what was frozen in this save before, when there was any. */
@@ -1163,6 +1165,8 @@ export interface LoggedChange {
      * 20261019. The game moves him and pays the fee on that day; until then he is at his club.
      */
     arranged?: number;
+    /** For a loan arranged for the game to make (`arrange_loan`): its last day, as a number like 20280629. */
+    loanUntil?: number;
   };
   /**
    * Set for a change to a player's ties, which is logged as a change of his field `tie.nationality`,
@@ -1382,6 +1386,36 @@ export interface ArrangedPreview {
   moveDay: number;
   /** The contract he is to have. */
   contract: NewContract;
+}
+
+/** A loan's terms, as the dialog sends them (`plan_arranged_loan`, `arrange_loan`). */
+export interface LoanRequest {
+  /** The loan's last day, as a number like 20280629: he is back at his club the next day. */
+  until: number;
+  /** The part of his wage the club he joins pays, in percent (0 to 100). */
+  wageShare: number;
+  /** Pounds a month the club he joins pays his own club. */
+  monthlyFee: number;
+  /** Pounds for which the club he joins signs him for good when the loan ends; null for none. */
+  optionFee: number | null;
+}
+
+/** A loan the game is to make the next day, as the plan has it (`plan_arranged_loan`). */
+export interface LoanPreview {
+  from: ClubName;
+  to: ClubName;
+  /** The day the game makes the loan, and its last day, as numbers like 20261019. */
+  moveDay: number;
+  until: number;
+  /** Pounds a week of his wage the club he joins pays, and the part of his wage that is, in percent. */
+  wage: number;
+  wageShare: number;
+  /** Pounds a month the club he joins pays his own. */
+  monthlyFee: number;
+  /** Pounds for which the club he joins signs him when the loan ends; absent for none. */
+  optionFee?: number;
+  /** His squad status at the club he joins. */
+  squadStatus: number;
 }
 
 /** The contract the editor makes for a member of staff who has no club, as the plan has it. */

@@ -68,6 +68,12 @@ const CONTRACT_TYPES: Partial<Record<number, string>> = {
 
 const field = (key: string | undefined) => fieldName(id, key ?? "");
 
+/** A day the commands name as "20280131", written out in the language's own way. */
+const dayText = (value: string | undefined) => {
+  const [y, m, d] = [Number(value?.slice(0, 4)), Number(value?.slice(4, 6)), Number(value?.slice(6, 8))];
+  return new Date(y, m - 1, d).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+};
+
 /** The noun of the kind of record a failure names, or "data" when it names none. */
 const recordNoun = (entity: string | undefined) =>
   entity === "player" || entity === "staff" || entity === "club" ? nouns[entity] : "data";
@@ -151,6 +157,8 @@ const errors: ErrorTexts = {
     "Game sudah melakukan transfer ini, atau mengubah apa yang ditulis saat mengaturnya: tidak bisa diurungkan.",
   "sign.noModel": () => "Tim senior klub tidak punya pemain dengan kontrak biasa untuk dijadikan contoh kontrak baru.",
   "sign.noDate": () => "Editor tidak bisa membaca tanggal dalam game; kontrak baru dimulai pada tanggal itu.",
+  "loan.end": (p) => `Peminjaman harus berakhir setelah ia bergabung dan paling lambat saat kontraknya habis: antara ${dayText(p.earliest)} dan ${dayText(p.latest)}.`,
+  "loan.noModel": () => "Game tidak punya peminjaman sendiri yang sedang berjalan untuk dijadikan contoh. Coba lagi setelah satu hari game berlalu.",
   "move.outOfRange": (p) => `${p.value} bukan nilai ${field(p.field)} yang valid: harus dari ${p.min} sampai ${p.max}.`,
   "move.changed": () => `Game sudah mengubah memori ini sejak itu; ${reload}.`,
   "move.notApplied": () => "Sudah ditulis ke memori, tetapi yang terbaca kembali berbeda.",
@@ -571,6 +579,9 @@ export const id: Strings = {
     jadedness: "Keletihan",
     morale: "Moral",
     "contract.wage": "Gaji per minggu",
+    wageShare: "bagian gaji",
+    monthlyFee: "biaya bulanan",
+    optionFee: "opsi beli",
     "contract.loyalty_bonus": "Bonus loyalitas per minggu",
     "contract.happiness": "Kebahagiaan",
     "contract.playing_time_happiness": "Kebahagiaan waktu bermain",
@@ -1660,6 +1671,7 @@ export const id: Strings = {
     released: (name: string) => `${name} dilepas`,
     fee: (amount: string) => `Biaya ${amount}`,
     arranged: (date: string) => `Game melakukan perpindahan pada ${date}`,
+    arrangedLoan: (day: string, until: string) => `Game melakukan peminjaman pada ${day}, sampai ${until}`,
     optionRemoved: (amount: string) => `Opsi beli (${amount}) dihapus`,
     healed: (count: number) => `${format(count)} cedera disembuhkan`,
     lifted: (count: number) => `${format(count)} larangan bermain dicabut`,
@@ -1934,7 +1946,7 @@ export const id: Strings = {
     from: "Dari",
     to: "Ke",
 
-    modeLabel: "Transfer, pindah sekarang, atau tukar",
+    modeLabel: "Transfer, pinjaman, pindah sekarang, atau tukar",
     modeMove: "Pindah sekarang",
     modeSwap: "Tukar dengan pemain",
     modeArrange: "Transfer",
@@ -1960,6 +1972,32 @@ export const id: Strings = {
       "Tercatat di Perubahan, tempat satu kali Urungkan membatalkannya sampai hari itu",
     ],
     arrangeButton: "Atur transfer",
+
+    modeLoan: "Pinjaman",
+    loanNote: "Game melakukan peminjaman pada hari berikutnya, seperti miliknya sendiri; setelah itu ia kembali ke klubnya.",
+    loanChecking: "Memeriksa peminjaman…",
+    loanOn: (date: string) => `Game melakukan peminjaman pada ${date}`,
+    loanUntil: (date: string) => `Peminjaman berlangsung sampai ${date}`,
+    loanWage: (money: string, share: number) => `Klub membayar ${money} per minggu (${format(share)}% dari gajinya)`,
+    loanMonthlyFee: (money: string) => `Biaya bulanan ${money}`,
+    loanOption: (money: string) => `Opsi beli seharga ${money}`,
+    loanDoes: [
+      "Disepakati sekarang: game melakukan peminjaman saat mencapai hari berikutnya",
+      "Riwayatnya mencatat peminjaman, dan ia kembali ke klubnya sehari setelah hari terakhir",
+      "Klub membayar bagian gajinya, dan biaya bulanan jika kamu mengaturnya",
+      "Dengan opsi, klub peminjam boleh membelinya seharga itu saat peminjaman berakhir",
+    ],
+    loanDoesHeading: "Yang dilakukan peminjaman",
+    loanHint: "Tidak ada yang berubah di game sampai kamu menekan Atur peminjaman.",
+    loanButton: "Atur peminjaman",
+    loanLastDay: "Hari terakhir peminjaman",
+    loanLastDayHint: "Keesokan harinya ia kembali ke klubnya",
+    loanShare: "Bagian gaji yang dibayar",
+    loanShareHint: "Dibayar klub tujuan; sisanya klubnya sendiri",
+    loanShareInvalid: "Masukkan bilangan bulat dari 0 sampai 100",
+    loanMonthly: "Biaya bulanan",
+    loanOptionFee: "Opsi beli",
+    loanOptionFeeHint: "Saat peminjaman berakhir, klub peminjam boleh membelinya seharga ini; kosong: tanpa opsi",
 
     searchLabel: "Cari klub tujuan transfer",
     resultsLabel: "Klub yang ditemukan",

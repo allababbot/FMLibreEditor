@@ -629,6 +629,36 @@ player_offer_numbers = 0x2E0 # 0x320 on Windows
 player_entries = 0x2E8       # 0x328 on Windows
 record_size = 0x18           # (begin, end, capacity), in a block of 24 of the game's; 0x28 on Windows
 
+# A loan agreed for a later day, laid out as on Windows (see layout.toml). Read on Steam build 26797085, Apple silicon,
+# on the Arsenal save of 18 July 2027: 406 LOAN_OFFERs, 0x128 bytes apart in a pool of their own, and 317 loan
+# contracts, 0x100 apart in theirs. Of the 165 loans the game had made, 140 players are still on them, and each one's
+# loan contract holds what his offer holds where the Windows layout places it: the wage, the monthly fee (twice), how
+# long it runs, the future fee and its kind (0xFF none in 109, 0xFE an option in 15, mandatory 0x64, 0x14 or 0x19 in
+# 16), and +0x114 as the contract's +0xC8. Where an offer's two wages differ (3 loans), +0x108 is the contract's wage
+# and +0x100 its +0xD4.
+[transfers.loan]
+offer_class = "LOAN_OFFER"
+offer_size = 0x128
+offer_cleared = [0xB0, 0xB8, 0xC0, 0xC8, 0xD0, 0xD8, 0xE0, 0xE8]
+offer_flags = 0xF8
+offer_wage = [0x100, 0x108]
+offer_unused_fee = 0x104
+offer_option_fee = 0x110
+offer_fee_kind = 0x124
+contract_fee_kind = 0xF7
+offer_unset = [0x114]
+offer_usual = [[0x87, 1], [0x88, 0]]
+offer_usual_zero = [0x118]
+offer_share = [0x120, 0x122]
+offer_length = 0x10C
+contract_length = 0xE8
+contract_size = 0x100
+contract_status_again = 0x56
+contract_wage_again = 0xD4
+contract_cleared = [0x28, 0x30, 0x60, 0x68]
+contract_unset = [0xC4, 0xC8, 0xD8, 0xDC, 0xE0]
+contract_zero = [0xE4]
+
 # The rules a competition's squads are registered under (see layout.toml, crates/fmlibre-core/src/rules.rs and
 # docs/recon/fm27-league-rules.md), read on the Mac (Steam build 26620374, Apple silicon, the Arsenal save of 18 July
 # 2027). A competition as it is played starts with a lock, pthread's ('MUTX'), which takes 0x18 bytes more than the
