@@ -715,8 +715,7 @@ export const es: Strings = {
     joined: "Incorporación",
     extendContract: (years: number) => `Ampliar ${years} años`,
     extendingContract: "Ampliando…",
-    extendContractTitle: (years: number, until: string) =>
-      `El contrato dura ${years} años más, hasta el ${until}; se puede deshacer en Cambios`,
+    extendContractTitle: (years: number, until: string) => `El contrato dura ${years} años más, hasta el ${until}`,
     squadStatus: "Estatus en la plantilla",
     squadStatusName: (status) => SQUAD_STATUSES[status] ?? `Estatus ${status}`,
     contractType: "Tipo de contrato",
@@ -743,8 +742,7 @@ export const es: Strings = {
     keepPlaying: "Evitar la retirada",
     keepingPlaying: "Evitando…",
     keepPlayingTitle:
-      "Quita su retirada de los planes del juego y le da la característica «Jugará al fútbol tanto tiempo como " +
-      "pueda» en lugar de «Se retirará en lo más alto»; se puede deshacer en Cambios",
+      "Cancela su retirada prevista y le da la característica «Jugará al fútbol tanto tiempo como pueda»",
 
     // Médico
     morale: (value) => `${value} / 20`,
@@ -755,10 +753,9 @@ export const es: Strings = {
     noUnhappiness: "Nada le hace estar descontento",
     removeUnhappiness: "Quitar todo",
     removingUnhappiness: "Quitando…",
-    removeUnhappinessTitle:
-      "Quita de su lista todos los motivos de descontento, como hace Quitar todo en FMRTE; se puede deshacer en Cambios",
+    removeUnhappinessTitle: "Quita de su lista todos los motivos de descontento",
     removeUnhappinessFollows:
-      "Los motivos de descontento que sus compañeros tienen con él terminan solos cuando el juego avanza: pulsa Continuar en el juego",
+      "Los motivos de sus compañeros con él terminan cuando el juego avanza: pulsa Continuar en el juego",
     concernSince: (date) => `desde el ${date}`,
     concernAbout: (name) => `sobre ${name}`,
     concernKind: (kind) => (kind === 1 ? "Preocupado" : kind === 2 ? "Interno" : `Tipo ${kind}`),
@@ -777,13 +774,13 @@ export const es: Strings = {
     loanUntil: "Hasta",
     loanNumber: "Dorsal allí",
     recall: "Repescar de la cesión",
-    recallTitle: "Devolverlo a su club: la cesión termina hoy. Pregunta antes de cambiar nada",
+    recallTitle: "Devolverlo hoy a su club; pregunta antes",
     recallAgain: "Repescar de nuevo",
     makePermanent: "Hacer definitiva",
-    makePermanentTitle: "Que se quede en el club donde está cedido, con contrato con él. Pregunta antes de cambiar nada",
+    makePermanentTitle: "Que se quede en el club donde está cedido, con contrato con él; pregunta antes",
     recalledWaiting: "Repescado · vuelta pendiente",
     endsTodayWaiting: "Termina hoy · vuelta pendiente",
-    pendingTitle: (parent) => `Hoy es el último día de la cesión: avanza un día en el juego y estará de vuelta en ${parent}.`,
+    pendingTitle: (parent) => `La cesión termina hoy: avanza un día en el juego y estará de vuelta en ${parent}`,
     endPassed: (date) =>
       `La cesión debía terminar el ${date}, pero el juego no lo ha devuelto. Repéscalo de nuevo y avanza un día.`,
     loanCanRecall: "Se puede repescar",
@@ -835,11 +832,9 @@ export const es: Strings = {
     clauseProfitShare: (percent, amount) => `${percent} del beneficio por encima de ${amount}`,
     clauseWage: (amount) => `${amount} a la semana`,
     moraleTitle:
-      "El juego muestra la moral como la felicidad general del jugador: satisfecho con 10, algo feliz con 11, " +
-      "extremadamente feliz con 15 y 20",
+      "La felicidad general en el juego: satisfecho con 10, algo feliz con 11, extremadamente feliz con 15 y 20",
     jadednessTitle:
-      "Cuánto desgaste acumula el jugador por jugar, que el descanso reduce: -500 es estar totalmente descansado y, " +
-      "cuanto más alto, más necesita un descanso",
+      "Cuánto desgaste acumula por jugar: -500 es totalmente descansado y, cuanto más alto, más necesita descansar",
     noInjuries: "Sin lesiones",
     unknownInjury: "Lesión desconocida",
     injuryStarted: (date) => `Desde el ${date}`,
@@ -854,8 +849,7 @@ export const es: Strings = {
 
     // Sobre los atributos, mientras se lee el perfil
     maxAttributes: "Atributos al máximo",
-    maxAttributesTitle:
-      "Poner cada atributo de este jugador en su mejor valor: 20, y 1 para la propensión a lesiones y el juego sucio",
+    maxAttributesTitle: "Poner cada atributo en su mejor valor: 20, y 1 para la propensión a lesiones y el juego sucio",
     maxAttributesDone: (count) =>
       count === 0
         ? "Todos sus atributos ya están en su mejor valor"
@@ -868,20 +862,14 @@ export const es: Strings = {
     undoMaxTitle: "Volver a escribir en el juego sus atributos anteriores",
     freezeAttributes: "Congelar los atributos",
     freezeAttributesNote:
-      "Mientras la aplicación esté abierta y conectada, sus atributos no empeoran: lo que el juego quita se devuelve, " +
-      "y las mejoras siguen contando. La aplicación lo recuerda para esta partida y vuelve a congelarlos al " +
-      "conectarse a ella.",
+      "Sus atributos no empeoran mientras la aplicación esté abierta y conectada; las mejoras siguen contando",
     maxStaffAttributesTitle: "Poner cada atributo de este miembro del personal en su mejor valor: 20",
     undoMaxStaffTitle: "Volver a escribir en el juego los atributos anteriores",
     freezeStaffAttributesNote:
-      "Mientras la aplicación esté abierta y conectada, sus atributos no empeoran: lo que el juego quita se devuelve, " +
-      "y las mejoras siguen contando. La aplicación lo recuerda para esta partida y vuelve a congelarlos al " +
-      "conectarse a ella.",
+      "Sus atributos no empeoran mientras la aplicación esté abierta y conectada; las mejoras siguen contando",
     freezeFitness: "Congelar energía y ritmo",
     freezeFitnessNote:
-      "Mientras la aplicación esté abierta y conectada, su energía y su ritmo de competición no bajan: lo que el " +
-      "juego quita se devuelve, y lo que gana sigue contando, así que al 100 % se queda ahí. La aplicación lo " +
-      "recuerda para esta partida.",
+      "Su energía y su ritmo de competición no bajan con la aplicación abierta y conectada; lo que gana cuenta",
     freezePositions: "Congelar",
     freezePositionsInfo: "¿Qué hace congelar las posiciones?",
     freezePositionsNote:
@@ -1083,9 +1071,7 @@ export const es: Strings = {
     perWeek: "por semana",
     noFinances: "FM solo guarda las finanzas de los clubes de las ligas en juego.",
     freeze: "Congelar el dinero",
-    freezeNote:
-      "Mientras la aplicación esté abierta y conectada, el saldo no baja: lo que el juego quita se devuelve, y los " +
-      "ingresos siguen contando. La aplicación lo recuerda para esta partida y vuelve a congelarlo al conectarse a ella.",
+    freezeNote: "El saldo no baja mientras la aplicación esté abierta y conectada; los ingresos siguen contando",
 
     // Estadio
     stadium: "Estadio",
@@ -1093,14 +1079,12 @@ export const es: Strings = {
     seating: "Con asientos",
     used: "En uso",
     usedAll: "Todo",
-    usedTitle:
-      "La parte del aforo que el juego deja usar cuando la limita (por ejemplo, con asientos cerrados); 0 significa " +
-      "todo",
+    usedTitle: "La parte del aforo que el juego deja usar cuando la limita; 0 significa todo",
     expansion: "Ampliable hasta",
     noStadium: "No se ha podido leer el estadio de este club.",
     stadiumName: "Nombre",
     rename: "Cambiar nombre",
-    renameTitle: "Da al estadio otro nombre; se escribe en el acto y Cambios puede deshacerlo",
+    renameTitle: "Da al estadio otro nombre; se escribe en el acto",
     renameInfoLabel: "¿Cómo funciona el cambio de nombre?",
     renameInfo:
       "El juego no guarda los nombres de los estadios en las partidas: los toma de su base de datos cada vez que carga " +
@@ -1134,7 +1118,7 @@ export const es: Strings = {
 
     actionsLabel: "Acciones sobre todo el personal",
     releaseAll: (count) => (count === 0 ? "Rescindir a todo el personal" : `Rescindir a todo el personal (${format(count)})`),
-    releaseAllTitle: "Rescindir de una vez a todo el personal del club, salvo a ti y a la directiva; antes lo pregunta una ventana",
+    releaseAllTitle: "Rescindir a todo el personal del club, salvo a ti y a la directiva; pregunta antes",
     releaseNone: "No se puede rescindir a nadie del personal de este club",
     hint: "Todos salvo tú y la directiva dejan el club al momento. Deshacer también está en la vista Cambios.",
     released: (count) => (count === 1 ? "1 empleado rescindido" : `${format(count)} empleados rescindidos`),
@@ -1171,8 +1155,7 @@ export const es: Strings = {
     cancel: "Cancelar",
 
     moveAll: "Traspasar a todo el personal",
-    moveAllTitle:
-      "Traspasar de una vez a todo el personal del club a otro club, salvo a ti y a la directiva; antes lo pregunta una ventana",
+    moveAllTitle: "Traspasar a otro club a todo el personal del club, salvo a ti y a la directiva; pregunta antes",
     moveNone: "No se puede traspasar a nadie del personal de este club",
     moved: (count, club) =>
       count === 1 ? `1 empleado traspasado a ${club}` : `${format(count)} empleados traspasados a ${club}`,
@@ -1352,9 +1335,9 @@ export const es: Strings = {
     term: "Duración",
     years: (count) => (count === 1 ? "1 año" : `${format(count)} años`),
     unnamed: (kind) => `Tipo ${format(kind)}`,
-    unnamedTitle: "Nadie ha asociado todavía este tipo de acuerdo con un nombre de la pantalla del juego, y puede que la pantalla no lo muestre.",
+    unnamedTitle: "Este tipo de acuerdo aún no se ha asociado con un nombre de la pantalla del juego",
     ended: "Terminado",
-    endedTitle: "El acuerdo terminó antes de la fecha del juego. La pantalla de patrocinios del juego ya no lo muestra.",
+    endedTitle: "Terminó antes de la fecha del juego: la pantalla de patrocinios del juego ya no lo muestra",
     falls: (percent) => `Baja un ${format(percent)} % si el club desciende`,
     rises: (percent) => `Sube un ${format(percent)} % si el club asciende a la máxima categoría`,
     note: "Solo lectura. Son los importes que el juego guarda para cada acuerdo. Su pantalla de patrocinios muestra los acuerdos que no han terminado.",
@@ -1468,14 +1451,17 @@ export const es: Strings = {
     },
     yearsTitle: "Las temporadas para las que las reglas del país dan esta regla, según el año en que empieza cada temporada",
     leftAlone: "Se deja como está",
-    notSavedTitle: "Las reglas del país tal como las guarda una partida no tienen esa regla, así que un cambio desaparecería al cargar la partida: el editor la deja como está.",
+    notSavedTitle:
+      "La partida no guarda esa regla, así que un cambio desaparecería al cargarla: el editor la deja como está",
     notACountTitle: "Es una cantidad de dinero, no un número de jugadores: el editor la deja como está.",
     noneChangeable: "Estas reglas aún no se pueden cambiar, en ninguna fecha: el editor solo cambia una regla si la encuentra también en las reglas que guarda la partida, para que el cambio siga ahí al cargarla, y no ha encontrado ahí las de esta competición. Por ahora ocurre con las ligas femeninas, la Major League Soccer y algunas copas.",
     unsavedNote: "El juego no guarda las reglas de esta competición en ninguna partida: las crea él mismo cada vez que carga una, y de nuevo en cada temporada. Por eso el editor mantiene un cambio aquí: lo escribe en el juego en marcha, lo recuerda para esta carrera y lo vuelve a escribir cada vez que se conecta o vuelve a leer los datos. Después de cargar una partida, conecta el editor (o pulsa Recargar datos) una vez para que el cambio vuelva. Deshacer en Cambios lo suelta.",
     heldTag: "Mantenida",
-    heldTitle: (original) => `El editor mantiene este número y lo vuelve a escribir cada vez que lee el juego. El del juego es ${format(original)}.`,
+    heldTitle: (original) =>
+      `El editor mantiene este número y lo reescribe cada vez que lee el juego; el del juego es ${format(original)}`,
     savedDiffers: (value) => `Las reglas de la partida tienen ${format(value)}`,
-    savedDiffersTitle: "El juego se rige por la lista y la crea a partir de las reglas de la partida al cargarla. Guardar un cambio aquí fija ambas.",
+    savedDiffersTitle:
+      "El juego se rige por la lista y la crea con las reglas de la partida al cargarla; un cambio aquí fija ambas",
     edit: "Cambiar reglas",
     editTitle: "Cambiar los números de las reglas de plantilla de esta competición",
     save: "Guardar reglas",
@@ -1509,8 +1495,7 @@ export const es: Strings = {
     previewTag: "vista previa en el navegador · datos de ejemplo",
     noDate: "Sin fecha del juego",
     noDateTitle:
-      "FMLibreEditor no pudo leer la fecha del juego en esta versión del juego, así que no se muestran las edades y " +
-      "los filtros de edad no encuentran a nadie. Busca actualizaciones.",
+      "No se pudo leer la fecha del juego: sin edades, y los filtros de edad no encuentran a nadie. Busca actualizaciones.",
     reload: "Recargar datos",
     refresh: "Actualizar",
     detecting: "Buscando Football Manager…",
@@ -1619,14 +1604,13 @@ export const es: Strings = {
       names.length <= 1 ? names.join("") : `${names.slice(0, -1).join(", ")} y ${names[names.length - 1]}`,
     allow: "Editar de todos modos",
     allowTitle:
-      "Activa la edición hasta que se cierre FMLibreEditor o se vuelva a conectar. Haz antes una copia de tu partida.",
+      "Activa la edición hasta que la aplicación se cierre o se vuelva a conectar. Haz antes una copia de tu partida.",
   },
 
   diagnostics: {
     copy: "Copiar diagnóstico",
     copyTitle:
-      "Copia lo que FMLibreEditor ha encontrado en el juego, para pegarlo en un informe de error. No contiene " +
-      "nombres ni rutas.",
+      "Copia lo que la aplicación ha encontrado en el juego, para un informe de error; no contiene nombres ni rutas",
     copied: "Copiado",
     failed: (reason) => `No se ha podido copiar el diagnóstico: ${reason}`,
   },
@@ -1651,7 +1635,7 @@ export const es: Strings = {
     youHave: (version) => `Tienes la versión ${version}.`,
     download: "Descargar",
     install: "Actualizar",
-    installTitle: "Descargar e instalar la nueva versión; FMLibreEditor se cierra y vuelve a abrirse con ella",
+    installTitle: "Descargar e instalar la nueva versión; la aplicación se cierra y vuelve a abrirse con ella",
     preparing: "Preparando…",
     downloading: (percent) => (percent === null ? "Descargando…" : `Descargando… ${percent} %`),
     installing: "Instalando: FMLibreEditor se cerrará y volverá a abrirse con la nueva versión.",
@@ -1730,7 +1714,8 @@ export const es: Strings = {
     inGame: "En el juego",
     inGameTitle: "El juego tenía este valor cuando se leyeron los datos por última vez",
     notInGame: "No está en el juego",
-    notInGameTitle: "El juego no tenía este valor cuando se leyeron los datos por última vez: no se guardó la partida tras el cambio, o el juego ha cambiado el valor desde entonces",
+    notInGameTitle:
+      "No estaba en el juego en la última lectura: no se guardó tras el cambio, o el juego lo ha cambiado después",
     /** In the place of Undo for an earlier change that cannot be undone from here, and its hover text. */
     historyOnly: "Historial",
     historyOnlyTitle: "Hecho antes de la última conexión de la aplicación: deshacerlo requería la memoria del juego tal como estaba entonces",
@@ -1738,7 +1723,7 @@ export const es: Strings = {
     batchNotInGame: (count) => `${format(count)} no están en el juego`,
     /** Empties the list and the history of the career; the question that asks first, and its two answers. */
     clearHistory: "Borrar historial",
-    clearHistoryTitle: "Vacía esta lista y olvida el historial de esta carrera. Los cambios siguen en el juego.",
+    clearHistoryTitle: "Vacía esta lista y olvida el historial de esta carrera; los cambios siguen en el juego",
     confirmClear: "¿Borrar el historial de esta carrera? Los cambios siguen en el juego, pero ya no se podrán deshacer desde aquí.",
     keepHistory: "Conservar",
     clearConfirm: "Borrar",
@@ -1817,10 +1802,9 @@ export const es: Strings = {
   export: {
     button: "Exportar",
     buttonTitle: {
-      player:
-        "Escribir los jugadores que muestra la lista en un archivo CSV o JSON, para una hoja de cálculo o un script",
-      staff: "Escribir el personal que muestra la lista en un archivo CSV o JSON, para una hoja de cálculo o un script",
-      club: "Escribir los clubes que muestra la lista en un archivo CSV o JSON, para una hoja de cálculo o un script",
+      player: "Escribir los jugadores que muestra la lista en un archivo CSV o JSON",
+      staff: "Escribir el personal que muestra la lista en un archivo CSV o JSON",
+      club: "Escribir los clubes que muestra la lista en un archivo CSV o JSON",
     },
     title: { player: "Exportar jugadores", staff: "Exportar personal", club: "Exportar clubes" },
     scope: (entity, count) =>
@@ -1874,7 +1858,7 @@ export const es: Strings = {
 
     /** The export of the Changes view: a CSV file of the changes its search and filters show. */
     changes: {
-      buttonTitle: "Escribir los cambios que muestra la lista en un archivo CSV, para una hoja de cálculo o un script",
+      buttonTitle: "Escribir los cambios que muestra la lista en un archivo CSV",
       title: "Exportar cambios",
       /** What the export covers: everything the list's search and filters select, or, with none on, the whole history. */
       scope: (count, filtering) =>
@@ -1953,8 +1937,7 @@ export const es: Strings = {
     percentTitle:
       "Un porcentaje del valor actual: 100 lo mantiene, 110 lo sube una décima parte, 50 lo reduce a la mitad",
     addYearsTitle:
-      "Años sumados a cada fecha, que conserva su día y su mes; un número negativo la lleva atrás. " +
-      "El 29 de febrero pasa a ser el 28 en un año que no lo tiene",
+      "Años sumados a cada fecha; un número negativo la lleva atrás, y el 29 de febrero puede pasar a ser el 28",
     years: "años",
     invalidAdd: (min, max) => `Introduce un número entero de ${format(min)} a ${format(max)}`,
     invalidPercent: (min, max) => `Introduce un porcentaje entero de ${min} a ${max}`,
@@ -2501,48 +2484,40 @@ export const es: Strings = {
     liftAllTitle: "Levantar todas las sanciones de todos los jugadores de este equipo",
     liftNone: "Nadie en este equipo está sancionado",
     inspireAll: "Motivar a todos",
-    inspireAllTitle: "Poner la moral de todos los jugadores de este equipo en 20, la más alta",
+    inspireAllTitle: "Poner la moral de todos los jugadores en 20, la más alta, y quitar sus motivos de descontento",
     maxCohesion: "Máxima cohesión",
     maxCohesionTitle:
-      "Poner en 100, la más alta, la cohesión con el club de todos los jugadores de este equipo. El juego la muestra en la página de Dinámicas cuando avanza: pulsa Continuar en el juego",
+      "Poner en 100, la más alta, la cohesión con el club de todos los jugadores; el juego la muestra cuando avanza",
     cohesionNone:
-      "El editor no puede leer la cohesión de este equipo: esta versión del juego no se ha comprobado, o ninguno de sus jugadores tiene cohesión con el club",
+      "No se puede leer: esta versión del juego no se ha comprobado, o ningún jugador tiene cohesión con el club",
     cohesionWithout: (count: number) =>
       count === 1
         ? "1 jugador aún no tiene cohesión con el club"
         : `${format(count)} jugadores aún no tienen cohesión con el club`,
     maxTactics: "Táctica al máximo",
     maxTacticsTitle:
-      "Hacer que cada jugador de este equipo conozca al máximo la táctica que juega, en las ocho áreas de la pantalla de Eficacia táctica, como lo harían semanas de entrenamiento. Los atributos no cambian. Las áreas vuelven a bajar a medida que el entrenamiento envejece, al cabo de unas seis semanas, y otra táctica necesita otra pulsación. El juego las muestra cuando avanza: pulsa Continuar en el juego",
+      "Que cada jugador conozca al máximo la táctica del equipo; baja en unas seis semanas, como el entrenamiento",
     tacticsNone:
-      "El editor no puede leer cuánto conoce este equipo su táctica: esta versión del juego no se ha comprobado, o el equipo no juega una táctica que elijas tú",
+      "No se puede leer: esta versión del juego no se ha comprobado, o el equipo no juega una táctica que elijas tú",
     tacticsUntrained: (count: number) =>
       count === 1
         ? "1 jugador no entrena (por ejemplo, por lesión): su historial de entrenamiento se queda como está"
         : `${format(count)} jugadores no entrenan (por ejemplo, por lesión): su historial de entrenamiento se queda como está`,
     refreshAll: "Recuperar a todos",
     refreshAllTitle:
-      "Poner la energía y el ritmo de competición de todos los jugadores de este equipo al 100 % y dejarlos " +
-      "totalmente descansados (fatiga -500)",
+      "Poner la energía y el ritmo de competición de todos los jugadores al 100 % y dejarlos descansados (fatiga -500)",
     batchTraits: "Características del lote",
     batchTraitsTitle: "Añade o quita características a los jugadores de este equipo",
     maxAll: "Atributos al máximo",
     maxAllTitle:
-      "Poner cada atributo de cada jugador de este equipo en su mejor valor: 20, y 1 para la propensión a lesiones y " +
-      "el juego sucio",
+      "Poner cada atributo de cada jugador en su mejor valor: 20, y 1 para la propensión a lesiones y el juego sucio",
     atItsBest: "Equipo al máximo",
     atItsBestTitle:
-      "«Curar a todos», «Motivar a todos», «Recuperar a todos», «Máxima cohesión» y «Táctica al máximo» con una sola " +
-      "pulsación, que un solo «Deshacer» revierte. Los atributos y las sanciones se quedan como están. Un paso que " +
-      "no se puede dar, como «Curar a todos» cuando nadie está lesionado, se omite, y el resultado lo indica. Las " +
-      "áreas de la táctica vuelven a bajar a medida que el entrenamiento envejece, al cabo de unas seis semanas, y " +
-      "otra táctica necesita otra pulsación. El juego muestra los cambios cuando avanza: pulsa Continuar en el juego",
+      "Curar, motivar y recuperar a todos, máxima cohesión y táctica al máximo con una pulsación; un «Deshacer» lo revierte",
     atItsBestSkipped: (step, reason) => `Se omitió «${step}»: ${reason}`,
     destroy: "Equipo por los suelos",
     destroyTitle:
-      "Llevar a cada jugador de este equipo a lo peor: moral y felicidad, energía, ritmo de competición y fatiga, " +
-      "cohesión con el club y, si eliges tú la táctica del equipo, cuánto la conoce. Ningún valor mejora; los " +
-      "atributos, las lesiones y las sanciones se quedan como están. Pregunta antes, y un solo «Deshacer» lo revierte todo",
+      "Llevar a lo peor la moral, la forma, la cohesión y el conocimiento táctico de cada jugador; pregunta antes",
     destroySteps: {
       demoralize: "Moral y felicidad",
       exhaust: "Energía y ritmo",
@@ -2573,17 +2548,13 @@ export const es: Strings = {
     freezeLabel: "Congelar todo el equipo",
     freezeAttributes: "Congelar los atributos",
     freezeAttributesTitle:
-      "Mientras la aplicación esté abierta y conectada, los atributos de todos los jugadores de este equipo no " +
-      "empeoran: lo que el juego quita se devuelve, y las mejoras siguen contando",
+      "Los atributos de todos los jugadores de este equipo no empeoran con la aplicación abierta y conectada",
     freezeFitness: "Congelar energía y ritmo",
     freezeFitnessTitle:
-      "Mientras la aplicación esté abierta y conectada, la energía y el ritmo de competición de todos los jugadores " +
-      "de este equipo no bajan: lo que el juego quita se devuelve. Pulsa antes Recuperar a todos para mantenerlos al " +
-      "100 %",
+      "La energía y el ritmo de competición de todos no bajan con la aplicación conectada; pulsa antes Recuperar a todos",
     freezePositions: "Congelar posiciones",
     freezePositionsTitle:
-      "Mientras la aplicación esté abierta y conectada, las valoraciones por posición de todos los jugadores " +
-      "de este equipo se quedan como están: lo que el juego sube o baja se devuelve",
+      "Las valoraciones por posición de todos los jugadores se quedan como están con la aplicación abierta y conectada",
     frozenCount: (frozen, total) => `${format(frozen)} de ${format(total)}`,
     freezeHint:
       "Congelar abarca a todos los jugadores de la lista y acompaña a cada uno vaya donde vaya. La aplicación lo " +
@@ -2667,8 +2638,8 @@ export const es: Strings = {
     unrest: "Malestar",
     unrestTitle: (count) =>
       count === 1
-        ? "1 compañero tiene un motivo de descontento con él. «Quitar todo», en su perfil, lo resuelve cuando el juego avanza"
-        : `${format(count)} compañeros tienen un motivo de descontento con él. «Quitar todo», en su perfil, los resuelve cuando el juego avanza`,
+        ? "1 compañero está descontento con él; «Quitar todo», en su perfil, lo resuelve cuando el juego avanza"
+        : `${format(count)} compañeros están descontentos con él; «Quitar todo», en su perfil, lo resuelve cuando el juego avanza`,
     onLoan: "Cedido",
     onLoanTitle: "Cedido a otro club",
     loanee: "En préstamo",

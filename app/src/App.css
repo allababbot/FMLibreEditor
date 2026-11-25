@@ -4743,13 +4743,14 @@ button.destroy[aria-disabled="true"]:hover {
   background: transparent;
 }
 
-/* What an item of the menu does, beside the menu while the pointer or the keys are on the item (see TeamActionMenu):
-   printed in reverse like the note of an (i), and narrow, so that it wraps into a small box that fits a small window. */
-.menu-note {
+/* The note of a control, while the pointer rests on it or the keys are on it (see Tips): printed in reverse like the
+   note of an (i), over everything, dialogs too, and narrow, so that it wraps into a small box that fits a small
+   window. A line break in the text is one in the box. */
+.tip {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 51;
+  z-index: 200;
   width: max-content;
   max-width: min(15rem, calc(100vw - 8px));
   padding: 8px 10px;
@@ -4758,7 +4759,11 @@ button.destroy[aria-disabled="true"]:hover {
   box-shadow: 0 6px 18px rgb(0 0 0 / 0.25);
   color: var(--panel);
   font-size: 12.5px;
+  font-weight: 400;
   line-height: 1.45;
+  text-align: start;
+  white-space: pre-line;
+  overflow-wrap: break-word;
   pointer-events: none;
 }
 

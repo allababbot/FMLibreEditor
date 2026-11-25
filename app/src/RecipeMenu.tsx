@@ -477,7 +477,7 @@ function RecipeDialog({ recipe, uid, name, onClose }: RecipeDialogProps) {
               type="button"
               className="mass-undo"
               disabled={busy !== null}
-              title={text.undoTitle}
+              data-tip={text.undoTitle}
               onClick={() => void undo()}
             >
               {busy === "undo" ? massEditText.undoing : text.undo}
@@ -488,7 +488,7 @@ function RecipeDialog({ recipe, uid, name, onClose }: RecipeDialogProps) {
               type="button"
               className="primary mass-apply"
               disabled={preview.changes === 0 || busy !== null}
-              title={applyTitle}
+              data-tip={applyTitle}
               onClick={() => void apply()}
             >
               {busy === "apply" ? massEditText.applying : massEditText.apply}

@@ -59,7 +59,7 @@ export function UpdateNotice({ release, current, selfUpdate, onLater }: UpdateNo
             type="button"
             className="primary"
             disabled={busy}
-            title={text.installTitle}
+            data-tip={text.installTitle}
             // Edits pending in the open profile would be lost when the app closes: it asks first.
             onClick={() => askToLeave(() => void install())}
           >

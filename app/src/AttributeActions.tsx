@@ -165,14 +165,14 @@ export function AttributeActions({
           disabled={!editable}
           aria-disabled={busy || undefined}
           aria-busy={busy || undefined}
-          title={editable ? (staff ? profileText.maxStaffAttributesTitle : profileText.maxAttributesTitle) : readOnlyNote}
+          data-tip={editable ? (staff ? profileText.maxStaffAttributesTitle : profileText.maxAttributesTitle) : readOnlyNote}
           onClick={() => void max()}
         >
           {profileText.maxAttributes}
         </button>
         {frozen !== null && (
           <span className="freeze-line">
-            <label className="freeze-toggle" title={editable ? freezeNote : readOnlyNote}>
+            <label className="freeze-toggle" data-tip={editable ? freezeNote : readOnlyNote}>
               <input
                 type="checkbox"
                 checked={frozen}
@@ -198,7 +198,7 @@ export function AttributeActions({
                   type="button"
                   className="max-toggle"
                   aria-disabled={busy || undefined}
-                  title={staff ? profileText.undoMaxStaffTitle : profileText.undoMaxTitle}
+                  data-tip={staff ? profileText.undoMaxStaffTitle : profileText.undoMaxTitle}
                   onClick={() => outcome.batch !== null && void undo(outcome.batch)}
                 >
                   {profileText.undoMax}
