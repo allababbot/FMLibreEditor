@@ -68,8 +68,8 @@ Apple silicon:
 
 | Build | Prize money | Sponsorship deals | Squad rules | National teams |
 | --- | --- | --- | --- | --- |
-| 26797085 | yes | – | yes | yes |
-| 26620374 | yes | – | yes | yes |
+| 26797085 | yes | yes | yes | yes |
+| 26620374 | yes | yes | yes | yes |
 | 26577676 | – | – | – | – |
 | 26385295 | yes | yes | – | yes |
 | 26340721 | yes | – | – | – |
