@@ -3269,6 +3269,36 @@ export const tr: Strings = {
     link: "Yenilikler",
     command: "Bu sürümdeki yenilikler",
     versions: {
+      "0.5.5": [
+        {
+          title: "FM 27.1.1.",
+          text: "24 Kasım güncellemesi Game Pass, Steam ve Mac'te tanınıyor; her şey onda da eskisi gibi çalışıyor. İleride yeni bir güncelleme çıktığında, onu tanıyan sürüm gelene kadar kulüp finansları ve oynanan taktik okunmaya devam ediyor.",
+        },
+        {
+          title: "Organizasyonlar sekmesi.",
+          text: "Her organizasyonun kadro kurallarını gör ve değiştir; örneğin bir kadroya kaç yabancı oyuncu yazdırılabileceğini, bu sezon ve gelecek sezon için ayrı ayrı. Windows'ta ve Apple silicon Mac'lerde.",
+        },
+        {
+          title: "Kiralama.",
+          text: "Transfer penceresindeki yeni Kiralık seçeneği, kiralamayı oyunun ertesi gününe ayarlıyor; transfer döneminde de dışında da. Son gününü, maaşın karşı kulübün ödeyeceği payını, aylık ücreti ve istersen satın alma opsiyonunu sen belirliyorsun. Windows'ta ve Apple silicon Mac'lerde.",
+        },
+        {
+          title: "Tarifler.",
+          text: "Bir oyuncu ya da kulüp için hazır değişiklik setleri: Geleceğin yıldızı yap, Sakatlanmaz yap, Kariyerini uzat, Kulübü zengin yap ve Tesisleri en üst düzeye çıkar. Her biri bir şey yazmadan önce neyi değiştireceğini gösteriyor; tek bir Geri al hepsini geri alıyor.",
+        },
+        {
+          title: "Gelişim.",
+          text: "Uygulama oyunu okudukça her oyuncunun haftalık kaydını tutuyor; oyuncu profilindeki yeni Gelişim sekmesi de yeteneğinin, potansiyelinin, değerinin ve özelliklerinin kariyerin boyunca nasıl değiştiğini gösteriyor.",
+        },
+        {
+          title: "B takımları.",
+          text: "Bir kulübün Kadro sekmesi kendi takımlarından sonra B takımlarını da gösteriyor, örneğin Real Madrid için Castilla'yı; takım işlemleri onlarda da çalışıyor.",
+        },
+        {
+          title: "Daha kısa notlar.",
+          text: "Düğmelerin notları artık tek satır; pencere boyunca uzanan bir şerit yerine küçük bir kutuda çıkıyor.",
+        },
+      ],
       "0.5.4": [
         {
           title: "Transferler oyuncunun geçmişinde.",

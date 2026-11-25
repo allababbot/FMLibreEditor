@@ -3362,6 +3362,36 @@ export const it: Strings = {
     link: "Novità",
     command: "Novità di questa versione",
     versions: {
+      "0.5.5": [
+        {
+          title: "FM 27.1.1.",
+          text: "L'aggiornamento del 24 novembre è riconosciuto su Game Pass, Steam e Mac, e tutto funziona come prima. Quando uscirà un aggiornamento futuro, l'app continuerà a leggere le finanze delle società e la tattica in uso finché non arriverà una versione che lo conosce.",
+        },
+        {
+          title: "Scheda Competizioni.",
+          text: "Vedi e modifica le regole sulla rosa di ogni competizione, come quanti giocatori stranieri può registrare una rosa, per questa stagione e la prossima separatamente. Su Windows e sui Mac con Apple silicon.",
+        },
+        {
+          title: "Prestiti.",
+          text: "La nuova opzione Prestito della finestra Trasferimento prepara un prestito per il giorno dopo nel gioco, durante una sessione di mercato o fuori. Scegli tu l'ultimo giorno, la quota dello stipendio pagata dall'altra società, un compenso mensile e, se vuoi, un'opzione d'acquisto. Su Windows e sui Mac con Apple silicon.",
+        },
+        {
+          title: "Ricette.",
+          text: "Insiemi di modifiche già pronti per un giocatore o una società: Crea un wonderkid, A prova di infortuni, Allunga la carriera, Rendi ricca la società e Strutture al massimo. Ognuna mostra cosa cambierà prima di scrivere qualsiasi cosa, e un solo Ripristina la annulla.",
+        },
+        {
+          title: "Sviluppo.",
+          text: "L'app registra ogni giocatore una volta per settimana di gioco quando legge il gioco, e il profilo del giocatore lo mostra nella nuova scheda Sviluppo: abilità, potenziale, valore e attributi lungo la tua carriera.",
+        },
+        {
+          title: "Squadre B.",
+          text: "La scheda Rosa di una società mostra le sue squadre B dopo le proprie squadre, come il Castilla per il Real Madrid, e le azioni di squadra funzionano anche su di esse.",
+        },
+        {
+          title: "Note più brevi.",
+          text: "Le note dei pulsanti occupano una riga ciascuna, in un piccolo riquadro invece che in una lunga striscia attraverso la finestra.",
+        },
+      ],
       "0.5.4": [
         {
           title: "I trasferimenti nella carriera del giocatore.",
