@@ -14,12 +14,12 @@ use clap::{Args, Parser, Subcommand, ValueEnum};
 use fmlibre_core::{
     ATTRIBUTE_GROUPS, ArrayCandidate, ArrayRvas, ArraySource, AttributeBound, BuildProfile, Buyer, CaptainRole,
     ClubIndex, Entity, ExportFormat, ExportHeader, Exported, Field, FmDate, Found, GAME_EXE, GAME_PLUGIN, GameInfo,
-    GraphicsIndex, Kind, Loan, MANAGER, MoveTerms, NameKind, PERSONALITY, POSITIONS, PersonNames, Picture,
+    GraphicsIndex, Kind, Loan, MANAGER, Manager, MoveTerms, NameKind, PERSONALITY, POSITIONS, PersonNames, Picture,
     PlayerFilter, PlayerIndex, PlayerOrder, PlayerSort, PrizeAmount, PrizeMoney, PrizeStage, ProfileNotes, Purpose,
     STAFF_ATTRIBUTE_GROUPS, SUPPORTER_MIX, SUPPORTER_TRAITS, Scale, ScanOptions, ScoutOrder, ScoutRequest, Season,
     Session, SessionError, SponsorshipReadError, SquadRule, StaffIndex, Target, Tie, TieTarget, date_line,
-    diagnostics_report, find_game, job_name, nations, profile_text, retirement_line, saves_loaded_line,
-    scan_object_arrays, sort_players,
+    diagnostics_report, find_game, job_name, layout_line, manager_line, nations, profile_text, retirement_line,
+    saves_loaded_line, scan_object_arrays, sort_players,
 };
 #[cfg(target_os = "macos")]
 use fmlibre_mem::MachImage;
@@ -827,11 +827,11 @@ enum Command {
     },
     /// Show the team's tactical familiarity as the Tactical Effectiveness screen works it out: from the history of
     /// training the training manager keeps for each of the human manager's players (the `TRAINING_MANAGER` the build
-    /// profile places, and in it what the layout's `[familiarity]` places: its managers' list, each manager's club and
-    /// his map of players by person id, each player's 12-byte entries in his node). Each entry adds to its area
-    /// a weight for its age (12 in its first week down to 0 after 251 days), times how close its option is to the
-    /// tactic's (1 less 0.1 a step), times three factors for the session and the player; an area holds at most 100.
-    /// With --max, rewrites each player's entries so that every area adds up to 100: this writes.
+    /// profile places, or else the one found, and in it what the layout's `[familiarity]` places: its managers' list,
+    /// each manager's club and his map of players by person id, each player's 12-byte entries in his node). Each entry
+    /// adds to its area a weight for its age (12 in its first week down to 0 after 251 days), times how close its
+    /// option is to the tactic's (1 less 0.1 a step), times three factors for the session and the player; an area
+    /// holds at most 100. With --max, rewrites each player's entries so that every area adds up to 100: this writes.
     TrainingHistory {
         /// The club's UID.
         club: u32,
@@ -3501,6 +3501,11 @@ fn health(session: &Session) -> Result<()> {
         Some(profile) => println!("Build profile: {}", profile.name),
         None => println!("Build profile: none for this build: the editor does not write to it unless allowed"),
     }
+    // Not the fields (`calibrate` lists them): the smoke tests take the first line that names the tactics for the
+    // check's.
+    if let Some(lender) = &session.layout_from {
+        println!("Object layout: as {lender} lays it out");
+    }
     let started = Instant::now();
     let health = session.recheck();
     println!("Checks ({:.0?}):", started.elapsed());
@@ -3521,8 +3526,11 @@ fn calibrate(session: &Session) -> Result<()> {
         Some(profile) => println!("Build profile: {}", profile.name),
         None => println!("Build profile: none for this build"),
     }
+    println!("Object layout: {}", layout_line(session));
     println!("In-game date: {}", date_line(session));
     println!("Retirement manager: {}", retirement_line(session));
+    println!("Tactics manager: {}", manager_line(session, Manager::Tactics));
+    println!("Training manager: {}", manager_line(session, Manager::Training));
     println!("Saves loaded: {}", saves_loaded_line(session));
     print_arrays(session);
     Ok(())
@@ -3643,9 +3651,33 @@ fn profile(session: &Session, out: Option<&Path>) -> Result<()> {
         }
     };
 
+    // The managers Max tactics reads, found as the retirement manager is, where the layout places what they keep.
+    let mut managers = [None, None];
+    for (slot, manager) in managers.iter_mut().zip([Manager::Tactics, Manager::Training]) {
+        let started = Instant::now();
+        let guesses = fmlibre_core::manager_guesses(session, manager);
+        let guessed: Vec<u64> =
+            guesses.iter().copied().filter(|&rva| fmlibre_core::holds_manager(session, manager, rva)).collect();
+        let searched = fmlibre_core::search_manager(session, manager);
+        println!("{} ({:.1} s):", manager.class(), started.elapsed().as_secs_f64());
+        println!(
+            "  as far from the players' array as in other builds: {} of {} guesses hold it",
+            guessed.len(),
+            guesses.len()
+        );
+        println!("  pointers to it in the plugin's writable data: {}", hex(&searched));
+        if guessed.first().is_some_and(|rva| !searched.contains(rva)) {
+            println!("  note: the guess is not among the pointers the search found");
+        }
+        println!("  -> {}", manager_line(session, manager));
+        *slot = session.manager_place(manager);
+    }
+
     println!("Checks with what was found:");
     print_checks(&health);
-    // Not one of the checks: a finance record laid out otherwise leaves only the finances unread, which is easy to miss.
+    // Not one of the checks: a finance record or a team's tactics laid out otherwise leave only the finances or the
+    // tactic in use unread, which is easy to miss.
+    println!("Object layout: {}", layout_line(session));
     match session.finance_class() {
         Some(_) => println!("Club finances: the class of the full finance record is found."),
         None => println!(
@@ -3653,6 +3685,23 @@ fn profile(session: &Session, out: Option<&Path>) -> Result<()> {
              game keeps finances for the clubs of the leagues being played, the record has moved (see `fields club \
              --stats` and DEVELOPING.md)."
         ),
+    }
+    let club_index = ClubIndex::new(session.clubs()?);
+    let members = session.staff()?;
+    let human: Vec<&fmlibre_core::ClubSummary> =
+        members.iter().filter(|member| member.is_human).filter_map(|member| club_index.get(member.club_uid?)).collect();
+    if human.is_empty() {
+        println!("Tactic in use: no human manager has a club, so none tells whether a team's tactics read right.");
+    }
+    for club in human {
+        match session.senior_area_options(club) {
+            Ok(Some(options)) => println!("Tactic in use: found for {}'s senior team, options {options:?}.", club.name),
+            _ => println!(
+                "Tactic in use: none found for {}'s senior team; where a human manager picks its tactic, a team's \
+                 tactics have moved (see `training-history` and DEVELOPING.md).",
+                club.name
+            ),
+        }
     }
 
     let edition = session.layout.edition;
@@ -3676,17 +3725,16 @@ fn profile(session: &Session, out: Option<&Path>) -> Result<()> {
         current_date: date.map(|place| place.rva),
         retirement_manager: retirement.map(|place| place.rva),
         game_ui: game_ui.map(|place| place.rva),
-        // Not looked for: kept from the built-in profile.
-        tactics_manager: session.profile.as_ref().and_then(|profile| profile.tactics_manager),
-        training_manager: session.profile.as_ref().and_then(|profile| profile.training_manager),
+        tactics_manager: managers[0].map(|place| place.rva),
+        training_manager: managers[1].map(|place| place.rva),
         // Checked against the game's screens, not looked for: kept from the built-in profile.
         prize_money: session.profile.as_ref().is_some_and(|profile| profile.prize_money),
         sponsorships: session.profile.as_ref().is_some_and(|profile| profile.sponsorships),
         squad_rules: session.profile.as_ref().is_some_and(|profile| profile.squad_rules),
         national_teams: session.profile.as_ref().and_then(|profile| profile.national_teams),
-        // What the build lays out otherwise (the finances: `fields club --stats` says whether their class is found; a
-        // team's tactics: `training-history` finds the one in use), not looked for: kept from the built-in profile.
-        layout: session.profile.as_ref().map(|profile| profile.layout.clone()).unwrap_or_default(),
+        // What the build lays out otherwise, as the session reads it: its profile's, or for a new build the newest
+        // build's of its kind, which the finance record's class and the tactic in use found above vouch for.
+        layout: session.overrides.clone(),
     };
 
     let failed = health.failed();
@@ -3768,6 +3816,14 @@ fn profile(session: &Session, out: Option<&Path>) -> Result<()> {
                     hex_or_none(built_in.game_ui),
                     hex_or_none(found.game_ui)
                 ));
+            }
+            for (name, built, seen) in [
+                ("tactics_manager", built_in.tactics_manager, found.tactics_manager),
+                ("training_manager", built_in.training_manager, found.training_manager),
+            ] {
+                if built != seen {
+                    differences.push(format!("{name} {} built in, {} found", hex_or_none(built), hex_or_none(seen)));
+                }
             }
             if differences.is_empty() {
                 println!("Built-in profile \"{}\": the same places.", built_in.name);
@@ -7887,7 +7943,7 @@ fn training_history(
         .training_histories(club)?
         .with_context(|| {
             format!(
-                "the training manager keeps no history for {}, or the layout or the build profile does not place it",
+                "the training manager keeps no history for {}, or the layout does not place it, or it is not found",
                 club.name
             )
         })?

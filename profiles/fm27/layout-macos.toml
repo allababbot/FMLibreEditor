@@ -500,6 +500,8 @@ youth_facilities = 0x12B
 youth_coaching = 0x12C
 youth_recruitment = 0x12D
 
+# The class of the full record by its name on Windows (see layout.toml), which only a build without a profile asks for;
+# not yet read on the Mac (`fmlibre-probe types FINANC` lists the classes).
 [club_finance]
 balance = 0x0C
 transfer_budget = 0x7C4
@@ -507,6 +509,7 @@ total_wage_budget = 0x808
 wage_budget = 0x814
 ticket_price = 0x864
 corporate = 0x8A9
+class = "db::CLUB_FINANCE"
 
 [nation]
 uid = 0x0C                # Argentina: 1649

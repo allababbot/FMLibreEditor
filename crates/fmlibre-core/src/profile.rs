@@ -424,7 +424,9 @@ pub struct TacticLayout {
 /// leads to an object with a list `(begin, end)` at `managers`, one object per human manager; each has a map
 /// at `teams`, from a team's id to the team's tactics: nodes laid out as the C++ library's (`tree`, see
 /// [`crate::Tree`]), the id at `key` and the team's tactics at `value`. There, `tactics` holds the list `(begin, end)` of pointers to the
-/// tactics and `current` the index of the one in use. A tactic keeps its team instructions at `instructions`.
+/// tactics and `current` the index of the one in use: both of a `simatch::PREPARED_TACTICS_CREATOR_ARRAY`, the class
+/// of the selections ([`SelectionLayout`]), whose list is at the selection's `list` and its index 0x18 after it. A
+/// tactic keeps its team instructions at `instructions`.
 #[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct TacticsLayout {
@@ -1055,6 +1057,11 @@ pub struct ClubFinanceLayout {
     pub wage_budget: u64,
     pub ticket_price: u64,
     pub corporate: u64,
+    /// The class of the full record, as written in C++: the clubs outside the leagues being played have a smaller one,
+    /// which values read past its end can make look real. A build without a profile reads only records of this class
+    /// (see `Session::finance_class`); none where the layout does not name it.
+    #[serde(default)]
+    pub class: Option<String>,
 }
 
 impl ClubFinanceLayout {
@@ -1155,10 +1162,11 @@ pub struct BuildProfile {
     /// loaded tells a load from a save: 0x3C80 before the players pair on Game Pass 0.9.2409.0 and Steam build 26340721.
     pub game_ui: Option<u64>,
     /// RVA in the game plugin of the static pointer to the tactics the human managers keep for their teams
-    /// ([`TacticsLayout`]).
+    /// ([`TacticsLayout`]). Where it does not point at the manager, or for a build without a profile, the editor looks
+    /// for it as for the retirement manager's (see `crate::locate`).
     pub tactics_manager: Option<u64>,
     /// RVA in the game plugin of the static pointer to the training manager (`TRAINING_MANAGER`), which keeps the
-    /// history of training of the human managers' players.
+    /// history of training of the human managers' players; looked for as [`BuildProfile::tactics_manager`] is.
     pub training_manager: Option<u64>,
     /// Whether the prize money competitions pay ([`PrizeMoneyLayout`]) was read on this build and found to be what the
     /// game shows. The app shows and changes it only on such builds; the probe reads it on any.
@@ -1197,6 +1205,13 @@ pub struct NationalArrays {
 /// What a build lays out otherwise than the edition's layout (`layout.toml`), as its profile's `[layout.<section>]`
 /// tables give it: offsets by the layout's section and field, each put in place of the layout's (see [`layout_of`]).
 /// A layout that changed with an update can only change for the builds since: the builds before keep it as it was.
+///
+/// A build without a profile reads its layout with the overrides of the newest build of its kind ([`layout_lender`]),
+/// which nobody has read on it. So each field named here must be one a check guards: read from the wrong place, it has
+/// to leave something unread, not show or write it wrong. Corporate facilities are read only where the whole finance
+/// record looks real (`finances_look_real` in `clubs.rs`), and a team's tactics, on such a build, only where their
+/// list is the one of the class that keeps it (`tactical_areas.rs`). A unit test refuses an override of any other
+/// field until it has such a check.
 #[derive(Debug, Clone, Default, PartialEq, Eq, Deserialize)]
 #[serde(transparent)]
 pub struct LayoutOverrides(pub BTreeMap<String, BTreeMap<String, u64>>);
@@ -1235,6 +1250,13 @@ impl PluginFingerprint {
         let image = fmlibre_mem::MachImage::read(process, plugin.base)?;
         let uuid = image.uuid.ok_or(fmlibre_mem::Error::InvalidMachO { base: plugin.base, reason: "no LC_UUID" })?;
         Ok(Self::MachO { uuid })
+    }
+
+    /// Whether `other` is the fingerprint of the same kind of plugin: both of Windows (PE) or both of macOS (Mach-O).
+    /// Only those profiles say anything about each other's builds: the others' statics are in another binary, and
+    /// their overrides are of another layout file.
+    pub fn same_kind(self, other: PluginFingerprint) -> bool {
+        std::mem::discriminant(&self) == std::mem::discriminant(&other)
     }
 }
 
@@ -1338,6 +1360,39 @@ pub fn layout_of(edition: u32, overrides: &LayoutOverrides) -> Option<Layout> {
 /// The built-in build profile matching `fingerprint`, if there is one.
 pub fn profile_for(fingerprint: PluginFingerprint) -> Option<BuildProfile> {
     built_in_profiles().find(|profile| profile.plugin == fingerprint)
+}
+
+/// The profile whose [`BuildProfile::layout`] a build without a profile reads its objects with: of `profiles`, the
+/// newest for the same edition and kind of plugin as the build's `fingerprint`, of its `storefront` where there is one
+/// (a storefront's next build replaces its newest), its own left out, so that [`crate::IGNORE_PROFILES`] rehearses an
+/// update on a build the editor knows. An update far likelier keeps what the build before it laid out otherwise than
+/// goes back to the layout of the first builds: the update of 24 November 2026 kept both places that of 17 November
+/// moved. On Windows the newest is the last linked, by the time stamp of the PE header; a Mach-O fingerprint holds no
+/// time, and the newest is the last listed, as [`BUILDS`] lists a storefront's builds in the order they came out (a
+/// unit test keeps it so). `None` where `profiles` hold none of the kind.
+///
+/// Nobody has read the overrides on that build, so each must be a field a check guards (see [`LayoutOverrides`]):
+/// where the build moved it again, it is left unread, as without them.
+pub fn layout_lender(
+    edition: u32,
+    fingerprint: PluginFingerprint,
+    storefront: Storefront,
+    profiles: impl IntoIterator<Item = BuildProfile>,
+) -> Option<BuildProfile> {
+    profiles
+        .into_iter()
+        .enumerate()
+        .filter(|(_, profile)| {
+            profile.edition == edition && profile.plugin != fingerprint && profile.plugin.same_kind(fingerprint)
+        })
+        .max_by_key(|(listed, profile)| {
+            let linked = match profile.plugin {
+                PluginFingerprint::Pe { link_timestamp, .. } => link_timestamp,
+                PluginFingerprint::MachO { .. } => 0,
+            };
+            (profile.storefront == storefront, linked, *listed)
+        })
+        .map(|(_, profile)| profile)
 }
 
 /// Every built-in build profile, those of macOS among them.
@@ -2085,6 +2140,129 @@ mod tests {
             assert_eq!(laid.club_finance.corporate, 0x8AD, "{}", profile.name);
             assert_eq!((laid_tactics.tactics, laid_tactics.current), (0x1008, 0x1020), "{}", profile.name);
             assert_eq!((layout.club_finance.corporate, tactics.tactics, tactics.current), (0x8A9, 0x1000, 0x1018));
+        }
+    }
+
+    /// A build without a profile reads its objects as the newest build of its kind lays them out: the latest linked on
+    /// Windows, of its own storefront where it has one, and the last listed on the Mac; never as its own profile, so
+    /// that ignoring the profiles rehearses an update.
+    #[test]
+    fn a_build_without_a_profile_borrows_the_newest_layout_of_its_kind() {
+        let base = built_in_profiles().next().expect("a profile");
+        let fake =
+            |name: &str, storefront, plugin| BuildProfile { name: name.to_owned(), storefront, plugin, ..base.clone() };
+        let pe = |link_timestamp| PluginFingerprint::Pe { size_of_image: 0x1000, link_timestamp };
+        let mac = |byte| PluginFingerprint::MachO { uuid: [byte; 16] };
+        let profiles = [
+            fake("old Steam", Storefront::Steam, pe(10)),
+            fake("new Game Pass", Storefront::GamePass, pe(30)),
+            fake("new Steam", Storefront::Steam, pe(20)),
+            fake("new Mac", Storefront::Steam, mac(1)),
+            fake("newer Mac", Storefront::Steam, mac(0)),
+        ];
+        let lender = |edition, plugin, storefront| {
+            layout_lender(edition, plugin, storefront, profiles.iter().cloned()).map(|profile| profile.name)
+        };
+        // The newest of its storefront, though another storefront's was linked later.
+        assert_eq!(lender(27, pe(40), Storefront::Steam).as_deref(), Some("new Steam"));
+        assert_eq!(lender(27, pe(40), Storefront::GamePass).as_deref(), Some("new Game Pass"));
+        // For a storefront no profile is for, the latest linked of all.
+        assert_eq!(lender(27, pe(40), Storefront::Epic).as_deref(), Some("new Game Pass"));
+        // Never its own: with its profile ignored, the build before it.
+        assert_eq!(lender(27, pe(20), Storefront::Steam).as_deref(), Some("old Steam"));
+        // On the Mac the last listed, whatever its UUID, and never a Windows build.
+        assert_eq!(lender(27, mac(9), Storefront::Steam).as_deref(), Some("newer Mac"));
+        assert_eq!(lender(27, mac(0), Storefront::Steam).as_deref(), Some("new Mac"));
+        // Nor one of another edition, whose layout is another.
+        assert_eq!(lender(28, pe(40), Storefront::Steam), None);
+        assert_eq!(layout_lender(27, mac(9), Storefront::Steam, profiles[..3].iter().cloned()), None);
+
+        // The built-in profiles: a new build on any storefront reads its objects as the update of 17 November 2026 laid
+        // them out, and as its builds and those since lay them out (see `builds_lay_out_what_their_profiles_say`).
+        let moved = |profile: &BuildProfile, section: &str, field: &str| {
+            profile.layout.0.get(section).and_then(|fields| fields.get(field)).copied()
+        };
+        let places = |profile: &BuildProfile| {
+            (
+                moved(profile, "club_finance", "corporate"),
+                moved(profile, "tactics", "tactics"),
+                moved(profile, "tactics", "current"),
+            )
+        };
+        let new_pe = PluginFingerprint::Pe { size_of_image: 0, link_timestamp: u32::MAX };
+        for storefront in [Storefront::GamePass, Storefront::Steam, Storefront::Epic, Storefront::Unknown] {
+            let lent = layout_lender(27, new_pe, storefront, built_in_profiles()).expect("a Windows profile");
+            assert!(
+                storefront == Storefront::Unknown || lent.storefront == storefront,
+                "{storefront:?}: {}",
+                lent.name
+            );
+            assert_eq!(places(&lent), (Some(0x8AD), Some(0x1018), Some(0x1030)), "{storefront:?}: {}", lent.name);
+        }
+        let new_mac = PluginFingerprint::MachO { uuid: [0; 16] };
+        let lent = layout_lender(27, new_mac, Storefront::Steam, built_in_profiles()).expect("a Mac profile");
+        assert_eq!(places(&lent), (Some(0x8AD), Some(0x1008), Some(0x1020)), "{}", lent.name);
+    }
+
+    /// A Mach-O fingerprint holds no time, so [`layout_lender`] takes the Mac build listed last for the newest: BUILDS
+    /// lists the Mac builds in the order they came out, by their Steam build numbers. The two halves of a build lay out
+    /// their objects alike, with one layout file, so whichever of them is listed last lends the same.
+    #[test]
+    fn mac_builds_are_listed_in_the_order_they_came_out() {
+        let mac: Vec<BuildProfile> =
+            built_in_profiles().filter(|profile| matches!(profile.plugin, PluginFingerprint::MachO { .. })).collect();
+        let build = |profile: &BuildProfile| -> u32 {
+            let number = profile.name.split("Steam build ").nth(1).and_then(|rest| rest.split(' ').next());
+            number.and_then(|number| number.parse().ok()).unwrap_or_else(|| panic!("{}: no Steam build", profile.name))
+        };
+        let names: Vec<&str> = mac.iter().map(|profile| profile.name.as_str()).collect();
+        assert!(mac.windows(2).all(|pair| build(&pair[0]) <= build(&pair[1])), "{names:?}");
+        for pair in mac.windows(2).filter(|pair| build(&pair[0]) == build(&pair[1])) {
+            assert_eq!(pair[0].layout, pair[1].layout, "{} and {}", pair[0].name, pair[1].name);
+        }
+    }
+
+    /// What a profile's `[layout.*]` may name: the fields a check guards, so that a build without a profile, which
+    /// borrows them ([`layout_lender`]), leaves them unread where its update moved them again, rather than read wrong
+    /// (see [`LayoutOverrides`]). Add one here only with such a check, and say in docs/DEVELOPING.md which it is.
+    #[test]
+    fn every_override_is_a_field_a_check_guards() {
+        // The field, and what keeps it from being read from the wrong place.
+        const GUARDED: [(&str, &str, &str); 3] = [
+            ("club_finance", "corporate", "finances_look_real: the whole record looks real, corporate facilities 1-20"),
+            (
+                "tactics",
+                "tactics",
+                "Session::tactic_in_use: the list of a PREPARED_TACTICS_CREATOR_ARRAY, by its vtable",
+            ),
+            ("tactics", "current", "Session::tactic_in_use: within that list, as far after it as the class keeps it"),
+        ];
+        for profile in built_in_profiles() {
+            for (section, fields) in &profile.layout.0 {
+                for field in fields.keys() {
+                    let guarded = GUARDED.iter().any(|&(s, f, _)| s == section && f == field);
+                    assert!(guarded, "{}: [layout.{section}] {field} has no check that guards it", profile.name);
+                }
+            }
+        }
+    }
+
+    /// The index of the tactic in use is the `simatch::PREPARED_TACTICS_CREATOR_ARRAY`'s own, 0x18 after its list,
+    /// which starts 8 bytes into the object, after its vtable, as in a selection: so in both layouts, and as every profile
+    /// moves them. An override moves both or neither, and the class found before the list vouches for the index too.
+    #[test]
+    fn the_tactic_in_use_is_indexed_beside_its_list() {
+        for text in [WINDOWS, MACOS] {
+            let layout: Layout = parse(text);
+            let tactics = layout.tactics.expect("the layout places the tactics");
+            assert_eq!(tactics.current, tactics.tactics + 0x18);
+            assert_eq!(layout.selection.expect("the layout places the selections").list, 8);
+        }
+        for profile in built_in_profiles() {
+            if let Some(fields) = profile.layout.0.get("tactics") {
+                let (list, index) = (fields.get("tactics").copied(), fields.get("current").copied());
+                assert_eq!(index, list.map(|list| list + 0x18), "{}", profile.name);
+            }
         }
     }
 

@@ -567,6 +567,9 @@ youth_recruitment = 0x12D
 
 # Only clubs in the leagues being played have the full finance record; the others
 # use a smaller class, so readers check that these values look sane before use.
+# The full record is a db::CLUB_FINANCE (386 on the Game Pass save of 4 August 2027), the smaller one a
+# db::CLUB_FINANCE_BASE (33,790). Read with corporate facilities misplaced at 0x8B1 on Game Pass 0.9.2562.0, 10 of the
+# smaller records looked real, values read past their end; so a build without a profile reads only records of `class`.
 [club_finance]
 balance = 0x0C            # i32 pounds
 transfer_budget = 0x7C4   # i32 pounds
@@ -574,6 +577,7 @@ total_wage_budget = 0x808 # i32 pounds per week
 wage_budget = 0x814       # i32 pounds per week, the spending wage budget
 ticket_price = 0x864      # f32 pounds, average match ticket
 corporate = 0x8A9         # u8 1..20, corporate facilities
+class = "db::CLUB_FINANCE"
 
 [nation]
 uid = 0x0C                # u32 (Argentina: 1649, as graphics packs map its flag)
