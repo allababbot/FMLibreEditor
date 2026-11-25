@@ -3000,6 +3000,9 @@ struct LoanPreview {
     wage_share: u8,
     /// Pounds a month the club he joins pays his own.
     monthly_fee: i64,
+    /// Pounds for which the club he joins may sign him for good when the loan ends: an option to buy; none for none.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    option_fee: Option<i64>,
     /// His squad status at the club he joins.
     squad_status: u8,
 }
@@ -3012,11 +3015,18 @@ struct LoanRequest {
     wage_share: u8,
     #[serde(default)]
     monthly_fee: i64,
+    #[serde(default)]
+    option_fee: Option<i64>,
 }
 
 impl From<LoanRequest> for LoanDeal {
     fn from(loan: LoanRequest) -> Self {
-        LoanDeal { until: loan.until, wage_share: loan.wage_share, monthly_fee: loan.monthly_fee }
+        LoanDeal {
+            until: loan.until,
+            wage_share: loan.wage_share,
+            monthly_fee: loan.monthly_fee,
+            option_fee: loan.option_fee,
+        }
     }
 }
 
@@ -4733,6 +4743,7 @@ async fn plan_arranged_loan(
             wage: plan.terms.wage,
             wage_share: loan.wage_share,
             monthly_fee: loan.monthly_fee,
+            option_fee: loan.option_fee,
             squad_status: plan.terms.squad_status,
         })
     })

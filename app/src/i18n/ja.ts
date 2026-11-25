@@ -600,6 +600,7 @@ export const ja: Strings = {
     "contract.wage": "週給",
     wageShare: "給与の負担割合",
     monthlyFee: "月額レンタル料",
+    optionFee: "買い取りオプション",
     "contract.loyalty_bonus": "週あたりのロイヤルティボーナス",
     "contract.happiness": "満足度",
     "contract.playing_time_happiness": "出場時間への満足度",
@@ -1996,10 +1997,12 @@ export const ja: Strings = {
     loanUntil: (date: string) => `レンタルは${date}までです`,
     loanWage: (money: string, share: number) => `クラブは週${money}を支払います（給与の${format(share)}%）`,
     loanMonthlyFee: (money: string) => `月額レンタル料 ${money}`,
+    loanOption: (money: string) => `買い取りオプション ${money}`,
     loanDoes: [
       "今すぐ合意：ゲームは次の日になるとレンタルを行います",
       "履歴にレンタルが載り、最終日の翌日に元のクラブへ戻ります",
       "クラブは給与の負担分を支払い、設定した場合は月額レンタル料も支払います",
+      "オプションがあれば、レンタル終了時に移籍先クラブがその金額で買い取ることができます",
     ],
     loanDoesHeading: "レンタル移籍で行われること",
     loanHint: "「レンタルを手配」を押すまで、ゲーム内では何も変わりません。",
@@ -2010,6 +2013,8 @@ export const ja: Strings = {
     loanShareHint: "加入先クラブが支払う割合。残りは元のクラブが負担します",
     loanShareInvalid: "0〜100の整数を入力してください",
     loanMonthly: "月額レンタル料",
+    loanOptionFee: "買い取りオプション",
+    loanOptionFeeHint: "レンタル終了時、移籍先クラブがこの金額で買い取ることができます。空欄ならなし",
 
     // Choosing the club
     searchLabel: "移籍先のクラブを検索",

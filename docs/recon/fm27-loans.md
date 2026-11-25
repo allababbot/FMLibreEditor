@@ -144,18 +144,38 @@ What the game made of the loans the editor arranged:
 | Rodrigo Mendoza | Atlético Madrid, Lyon | 20 October 2026, Steam | a £12M future fee, the same | closed the offer as made (state 20) and left him where he was |
 | Romeo Akachukwu | Southampton, Altrincham | 24 October 2026, Steam | a £500K future fee, the same | the same |
 | Romeo Akachukwu | Southampton, Southend United | 22 October 2026, Steam | a £500K future fee, the same | refused it: the offer in state 16, the entry in state 4 |
+| Endrick | Real Madrid, Juventus | 31 October 2026, Steam | 80% of the wage, £50,000 a month, an option to buy for £40M (kind 0xFE) | made it on the loan contract itself, shown with an "Optional Future Fee" of €46.5M; the entry gone. With the loan's end moved to that day, he was back at Real Madrid on his own contract, nothing of the loan left |
 
 So the game makes a loan with no future fee on any day, in a transfer window or out of one, as it makes an arranged
-transfer: Lyon's window was closed on 28 October 2026. A loan with a future fee keeps its entry for the day the fee is
-paid, and the game then signs him on the contract the entry holds: with the loan contract there (Ngumoha's, his loan
-ended early with the fee kept), it signed him for good for €29M on the loan's wage, until the loan's old end. The
-game's own loans with a future fee hold a full contract there instead, with the club he is on loan at, from the loan's
-last day, for three to five seasons (75 of its 98 made ones with a fee; O'Riley's, from Brighton to Lyon, to 30 June
+transfer: Lyon's window was closed on 28 October 2026. A future fee is of one of two kinds
+([below](#optional-and-mandatory-future-fees)): an option to buy, which the club he joins may take up when the loan
+ends, and a mandatory fee. For a mandatory one the game keeps the entry until the fee is paid, and then signs him on
+the contract the entry holds. The editor's first
+tries left the kind as their model's, the one of no fee, which the game took as a mandatory fee: with the loan contract
+in the entry (Ngumoha's, his loan ended early with the fee kept), it signed him for good for €29M on the loan's wage,
+until the loan's old end, and showed Hato's fee as "Mandatory", as it shows O'Riley's (one of its own). The game's own
+mandatory loans hold a full contract there instead, with the club he is on loan at, from the loan's last day, for
+three to five seasons (75 of its 98 made ones with a fee on Game Pass; O'Riley's, from Brighton to Lyon, to 30 June
 2032); with one there, the game made Hato's loan on Game Pass in August but closed the offers of the two on Steam in
 October and moved neither. Southend already had six players on loan, the National League's most (`max_players`, 6 in
-its loan rules), which likely refused Akachukwu's. So the editor agrees a loan with no future fee; the game shows such
-a fee as "Mandatory" in its own loans too (O'Riley's, the same screen), and made the transfer on its own when
-Ngumoha's loan ended.
+its loan rules), which likely refused Akachukwu's. So the editor agrees no mandatory fee, only an option to buy, of
+the option's kind: the game made Endrick's loan as it makes its own with an option, and kept no entry.
+
+### Optional and mandatory future fees
+
+On the Steam save of 30 October 2026 (build 26797085), the game had made 388 loans whose players still held their loan
+contract. In every one the offer's `+0x124` and the loan contract's `+0xF7` hold the same byte, the kind of the future
+fee:
+
+| Kind | Made loans | The future fee | The player's entry for it |
+| --- | --- | --- | --- |
+| 0xFF | 331, with no fee (2 more with no fee hold 0xFE) | none | gone |
+| 0xFE | 24 | an option to buy: the game shows an "Optional Future Fee" (Mathias Kvistgaarden, from Norwich to Brøndby; Jamie Gittens, from Chelsea to Everton; Adam Hložek, from Hoffenheim to Leeds) | gone |
+| 0x64, 0x14 or 0xFF | 17, 9 and 4 | mandatory: a "Mandatory Future Fee" (Malo Gusto, from Chelsea to Juventus) | kept, in state 2, holding the full contract he signs when it is paid |
+
+The offer's `+0x88` (0, 1 or 2) does not tell them apart: Hložek's holds 0, as every mandatory one does. What 0x64
+(100) and 0x14 (20) say of a mandatory fee, a condition perhaps, is not known; nor `+0x125`, which varies in loans
+with no future fee too.
 
 The undo takes an arranged loan back until the day; the app refuses to move, swap or release the player another way
 until then.

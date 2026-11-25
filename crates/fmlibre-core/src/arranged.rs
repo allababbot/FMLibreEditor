@@ -26,10 +26,11 @@
 //! kind 1. Both start from one of the game's own loans: an offer it made, and the loan contract of that offer's player.
 //! On the day the game makes the loan as it makes its own: he plays for the club he joins and stays under contract with
 //! his own, which the history shows as a loan. It does so outside a transfer window too, as it makes an arranged
-//! transfer (Rodrigo Mendoza to Lyon on 28 October 2026, on Steam). A loan the editor agrees has no future fee: with one,
-//! the game keeps the entry for the day the fee is paid and signs him then on the contract it holds, which a loan
-//! contract does not make a good one, and with a contract for that day there instead, the game made the loan on Game
-//! Pass in August but on Steam in October closed the offer and left him where he was (docs/recon/fm27-loans.md).
+//! transfer (Rodrigo Mendoza to Lyon on 28 October 2026, on Steam). A loan may hold an option to buy: a future fee the
+//! club he joins may pay when the loan ends, if it wants to, which the game shows as an "Optional Future Fee"; the
+//! offer marks its kind (0xFE), and the game copies it into the loan contract, as it does for its own. The editor never
+//! agrees a mandatory one: for those the game keeps the entry until the fee is paid and signs him then on the contract
+//! the entry holds (docs/recon/fm27-loans.md).
 //!
 //! The entry, the move due and any record or list the editor makes or grows are blocks of the game's heap, taken by the
 //! game's C runtime (see `heap.rs`): the game gives some of them back to the runtime's `free()`. Until the day, an undo
@@ -81,6 +82,12 @@ const WAITING: u8 = 2;
 const TRANSFER_KIND: u8 = 2;
 const LOAN_KIND: u8 = 1;
 
+/// The kinds of future fee a loan offer and its loan contract hold: none, and an option the club he joins may take up
+/// when the loan ends, which the game shows as an "Optional Future Fee". A mandatory one, which the editor does not
+/// agree, holds others.
+const NO_FUTURE_FEE: u8 = 0xFF;
+const OPTIONAL_FUTURE_FEE: u8 = 0xFE;
+
 /// The day of the year a loan agreed until the end of the season ends on by default, as most of the game's do: 29 June,
 /// the day before contracts run out (day 180, or 181 in a leap year).
 const SEASON_LOAN_ENDS: (u8, u8) = (6, 29);
@@ -129,6 +136,16 @@ pub struct LoanDeal {
     pub wage_share: u8,
     /// Pounds a month the club he joins pays his own, whether he plays or not.
     pub monthly_fee: i64,
+    /// An option to buy: pounds for which the club he joins may sign him for good when the loan ends, if it wants to.
+    /// None for no option.
+    pub option_fee: Option<i64>,
+}
+
+impl LoanDeal {
+    /// The kind of future fee the offer and the loan contract hold.
+    fn fee_kind(&self) -> u8 {
+        if self.option_fee.is_some() { OPTIONAL_FUTURE_FEE } else { NO_FUTURE_FEE }
+    }
 }
 
 /// What the game is to make: a transfer for a fee, on a contract with these terms, or a loan.
@@ -265,7 +282,8 @@ fn loan_offer_bytes(
     }
     put(l.offer_length, &SEASON_LOAN.to_le_bytes());
     put(l.offer_unused_fee, &monthly.to_le_bytes());
-    put(l.offer_option_fee, &(-1i32).to_le_bytes());
+    put(l.offer_option_fee, &loan.option_fee.map_or(-1, fees).to_le_bytes());
+    put(l.offer_fee_kind, &[loan.fee_kind()]);
     for &at in &l.offer_unset {
         put(at, &(-1i32).to_le_bytes());
     }
@@ -324,7 +342,8 @@ fn loan_contract_bytes(
     }
     put(l.contract_length, &SEASON_LOAN.to_le_bytes());
     put(terms.flags, &LOAN_FLAGS.to_le_bytes());
-    put(terms.option_fee, &(-1i32).to_le_bytes());
+    put(terms.option_fee, &loan.option_fee.map_or(-1, fees).to_le_bytes());
+    put(l.contract_fee_kind, &[loan.fee_kind()]);
     put(terms.monthly_fee, &fees(loan.monthly_fee).to_le_bytes());
     put(terms.unused_fee, &fees(loan.monthly_fee).to_le_bytes());
     bytes
@@ -397,7 +416,8 @@ fn due_bytes(t: &TransfersLayout, person: u64, day: FmDate, number: u32) -> Vec<
     due
 }
 
-/// Checks a loan's terms: a share of his wage of 100% at most, and a monthly fee from nothing to [`MAX_FEE`].
+/// Checks a loan's terms: a share of his wage of 100% at most, a monthly fee from nothing to [`MAX_FEE`], and an option
+/// to buy, if any, from £1 to [`MAX_FEE`].
 fn check_loan(loan: &LoanDeal) -> Result<(), MoveError> {
     if loan.wage_share > 100 {
         let value = i64::from(loan.wage_share);
@@ -406,6 +426,9 @@ fn check_loan(loan: &LoanDeal) -> Result<(), MoveError> {
     if !(0..=MAX_FEE).contains(&loan.monthly_fee) {
         let value = loan.monthly_fee;
         return Err(MoveError::OutOfRange { field: "monthlyFee", value, min: 0, max: MAX_FEE });
+    }
+    if let Some(value) = loan.option_fee.filter(|fee| !(1..=MAX_FEE).contains(fee)) {
+        return Err(MoveError::OutOfRange { field: "optionFee", value, min: 1, max: MAX_FEE });
     }
     Ok(())
 }
@@ -995,7 +1018,7 @@ mod tests {
     }
 
     /// The loan of the first live test on Game Pass 0.9.2562.0: 80% of £82,454 a week and £50,000 a month.
-    const LOAN: LoanDeal = LoanDeal { until: 20280629, wage_share: 80, monthly_fee: 50_000 };
+    const LOAN: LoanDeal = LoanDeal { until: 20280629, wage_share: 80, monthly_fee: 50_000, option_fee: None };
 
     #[test]
     fn a_loan_offer_holds_the_monthly_fee_and_the_terms() {
@@ -1010,8 +1033,9 @@ mod tests {
         assert_eq!(half(t.offer_flags), TRANSFER_FLAGS);
         assert_eq!(half(l.offer_flags), u32::from(LOAN_FLAGS));
         assert!(l.offer_wage.iter().all(|&at| half(at) == 65_963));
-        // No future fee: the place holds -1.
+        // No future fee: the place holds -1, and its kind none.
         assert_eq!((half(l.offer_unused_fee), half(l.offer_option_fee)), (50_000, u32::MAX));
+        assert_eq!(offer[l.offer_fee_kind as usize], NO_FUTURE_FEE);
         assert!(l.offer_unset.iter().all(|&at| half(at) == u32::MAX));
         assert!(l.offer_share.iter().all(|&at| short(at) == 80));
         assert_eq!(half(l.offer_length), SEASON_LOAN);
@@ -1051,6 +1075,34 @@ mod tests {
             (half(terms.option_fee), half(terms.monthly_fee), half(terms.unused_fee)),
             (u32::MAX, 50_000, 50_000)
         );
+        assert_eq!(contract[l.contract_fee_kind as usize], NO_FUTURE_FEE);
+    }
+
+    #[test]
+    fn an_option_to_buy_is_marked_optional_in_the_offer_and_the_loan_contract() {
+        let (t, l, c, terms) = loan_layouts();
+        let loan = LoanDeal { option_fee: Some(30_000_000), ..LOAN };
+        let today = FmDate::from_number(20261030).expect("a date");
+        // Models of a mandatory fee's kind, which the editor's loan does not keep.
+        let mut template = vec![0xAA; l.offer_size as usize];
+        template[l.offer_fee_kind as usize] = 0x64;
+        let offer = loan_offer_bytes(&t, &l, &template, agreed(today), &loan, 65_963);
+        let half =
+            |bytes: &[u8], at: u64| u32::from_le_bytes(bytes[at as usize..at as usize + 4].try_into().expect("4"));
+        assert_eq!(half(&offer, l.offer_option_fee), 30_000_000);
+        assert_eq!(offer[l.offer_fee_kind as usize], OPTIONAL_FUTURE_FEE);
+        let mut model = vec![0x55; l.contract_size as usize];
+        model[l.contract_fee_kind as usize] = 0x64;
+        let contract =
+            loan_contract_bytes(&c, &l, &terms, &model, 0x1ff5e7deae8, 0x1ff55d9c1d0, &loan, 65_963, 3, today);
+        assert_eq!(half(&contract, terms.option_fee), 30_000_000);
+        assert_eq!(contract[l.contract_fee_kind as usize], OPTIONAL_FUTURE_FEE);
+        // An option of nothing, or of more than the editor writes, is refused.
+        for fee in [0, MAX_FEE + 1] {
+            let refused = check_loan(&LoanDeal { option_fee: Some(fee), ..LOAN });
+            assert!(matches!(refused, Err(MoveError::OutOfRange { field: "optionFee", .. })), "{fee}");
+        }
+        assert!(check_loan(&loan).is_ok());
     }
 
     #[test]

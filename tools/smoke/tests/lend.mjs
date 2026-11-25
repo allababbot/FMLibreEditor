@@ -1,10 +1,10 @@
 // A loan arranged for the game to make on its next day: a player of one of the best known clubs, to the next one, until
-// the end of the season, with 80% of his wage paid by the club he joins and a monthly fee. The game makes such a loan
-// in a transfer window or out of one (see docs/recon/fm27-loans.md). The plan names the clubs, the next day, the loan's
-// last day and the wage the club pays; a last day past his contract and a share over 100% are refused; arranging it
-// logs a change of his club with that day and the loan's end, while he stays at his club until then (the probe reads
-// him there, not on loan); a second deal for him is refused while the first stands; the undo takes it back. The game
-// itself is not moved on: what it does on the day is checked in the game.
+// the end of the season, with 80% of his wage paid by the club he joins, a monthly fee and an option to buy. The game
+// makes such a loan in a transfer window or out of one (see docs/recon/fm27-loans.md). The plan names the clubs, the next
+// day, the loan's last day, the wage the club pays and the option; a last day past his contract, a share over 100% and
+// an option of nothing are refused; arranging it logs a change of his club with that day and the loan's end, while he
+// stays at his club until then (the probe reads him there, not on loan); a second deal for him is refused while the
+// first stands; the undo takes it back. The game itself is not moved on: what it does on the day is checked in the game.
 import { clubPlayers, topClubs } from "../lib/witness.mjs";
 
 export const name = "lend";
@@ -43,7 +43,7 @@ export async function run({ app, report, probe }) {
     if (until === null) {
       continue;
     }
-    const loan = { until, wageShare: 80, monthlyFee: 25_000 };
+    const loan = { until, wageShare: 80, monthlyFee: 25_000, optionFee: 30_000_000 };
     const plan = await app.invoke("plan_arranged_loan", { uid: player.uid, club: to.uid, loan });
     if (plan.ok) {
       found = { player, loan, plan: plan.value };
@@ -76,6 +76,13 @@ export async function run({ app, report, probe }) {
       plan.monthlyFee === 25_000 &&
       (typeof ownWage !== "number" || plan.wage === Math.floor((ownWage * 80) / 100)),
     `£${plan.wage} a week of £${ownWage}`,
+  );
+  report.check("and the option to buy", plan.optionFee === 30_000_000, `${plan.optionFee}`);
+  const free = await app.invoke("plan_arranged_loan", { uid: player.uid, club: to.uid, loan: { ...loan, optionFee: 0 } });
+  report.check(
+    "an option to buy for nothing is refused",
+    !free.ok && free.error.code === "move.outOfRange",
+    free.ok ? "planned" : free.error.code,
   );
   const late = await app.invoke("plan_arranged_loan", {
     uid: player.uid,

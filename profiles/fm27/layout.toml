@@ -703,6 +703,12 @@ offer_flags = 0xF8        # u32, as the loan contract's flags ([loan.terms])
 offer_wage = [0x100, 0x108] # i32 pounds a week, the part of his wage the club he joins pays
 offer_unused_fee = 0x104  # i32 pounds a month when he is not used
 offer_option_fee = 0x110  # i32 pounds, -1 for none
+# u8, the kind of the future fee, which the game copies into the loan contract (in all 388 loans made on Steam 26797085,
+# save of 30 October 2026): 0xFF where there is none (331 of 333), 0xFE an option the club he joins may take up (all 24,
+# which keep no entry; the game shows an "Optional Future Fee"), and 0x64, 0x14 or 0xFF a mandatory one (30, which keep
+# an entry holding the contract he signs when the fee is paid; a "Mandatory Future Fee").
+offer_fee_kind = 0x124
+contract_fee_kind = 0xF7
 offer_unset = [0x114]     # i32 -1 (482,245 on one loan of 608)
 # Not known, and what the 227 made or accepted loans whose club pays a part of the wage mostly hold: 1 at +0x87 (222),
 # and where the flags are 0x40 (93), 0 at +0x88 and 8 bytes of zero at +0x118, as other loans do not.

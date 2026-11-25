@@ -2627,13 +2627,19 @@ function planLoan(uid: number, clubUid: number, loan: LoanRequest): LoanPreview 
       max: "100",
     });
   }
-  if (!(loan.monthlyFee >= 0 && loan.monthlyFee <= 2_000_000_000)) {
-    throw failure("move.outOfRange", "monthlyFee must be between 0 and 2000000000", {
-      field: "monthlyFee",
-      value: String(loan.monthlyFee),
-      min: "0",
-      max: "2000000000",
-    });
+  // As the real check: a monthly fee from nothing, an option to buy from £1.
+  for (const [field, fee, min] of [
+    ["monthlyFee", loan.monthlyFee, 0],
+    ["optionFee", loan.optionFee, 1],
+  ] as const) {
+    if (fee !== null && !(fee >= min && fee <= 2_000_000_000)) {
+      throw failure("move.outOfRange", `${field} must be between ${min} and 2000000000`, {
+        field,
+        value: String(fee),
+        min: String(min),
+        max: "2000000000",
+      });
+    }
   }
   const own = currentValues("player", uid);
   const moveDay = numberFromDate(addDays(GAME_DATE, 1));
@@ -2655,6 +2661,7 @@ function planLoan(uid: number, clubUid: number, loan: LoanRequest): LoanPreview 
     wage,
     wageShare: loan.wageShare,
     monthlyFee: loan.monthlyFee,
+    ...(loan.optionFee !== null && { optionFee: loan.optionFee }),
     squadStatus: own["contract.squad_status"] ?? 4,
   };
 }

@@ -1396,6 +1396,8 @@ export interface LoanRequest {
   wageShare: number;
   /** Pounds a month the club he joins pays his own club. */
   monthlyFee: number;
+  /** Pounds for which the club he joins signs him for good when the loan ends; null for none. */
+  optionFee: number | null;
 }
 
 /** A loan the game is to make the next day, as the plan has it (`plan_arranged_loan`). */
@@ -1410,6 +1412,8 @@ export interface LoanPreview {
   wageShare: number;
   /** Pounds a month the club he joins pays his own. */
   monthlyFee: number;
+  /** Pounds for which the club he joins signs him when the loan ends; absent for none. */
+  optionFee?: number;
   /** His squad status at the club he joins. */
   squadStatus: number;
 }

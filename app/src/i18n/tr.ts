@@ -603,6 +603,7 @@ export const tr: Strings = {
     "contract.wage": "Haftalık maaş",
     wageShare: "maaş payı",
     monthlyFee: "aylık bedel",
+    optionFee: "satın alma opsiyonu",
     "contract.loyalty_bonus": "Haftalık sadakat primi",
     "contract.happiness": "Mutluluk",
     "contract.playing_time_happiness": "Forma süresi mutluluğu",
@@ -2042,10 +2043,12 @@ export const tr: Strings = {
     loanUntil: (date: string) => `Kiralık ${date} tarihine kadar sürer`,
     loanWage: (money: string, share: number) => `Kulüp haftalık ${money} öder (maaş payı %${format(share)})`,
     loanMonthlyFee: (money: string) => `Aylık bedel ${money}`,
+    loanOption: (money: string) => `Satın alma opsiyonu: ${money}`,
     loanDoes: [
       "Şimdi anlaşıldı: oyun, ertesi güne ulaşınca kiralığı yapar",
       "Oyuncunun geçmişinde kiralık görünür; son günün ertesinde kendi kulübüne döner",
       "Kulüp maaşın payını öder; aylık bedel girdiyseniz onu da öder",
+      "Opsiyon varsa, kiralık bitince katıldığı kulüp onu bu bedelle alabilir",
     ],
     loanDoesHeading: "Kiralık ne yapar",
     loanHint: "Siz Kiralığı ayarla'ya basmadan oyunda hiçbir şey değişmez.",
@@ -2056,6 +2059,8 @@ export const tr: Strings = {
     loanShareHint: "Katıldığı kulüp öder, kalanını kendi kulübü öder",
     loanShareInvalid: "0 ile 100 arasında bir tam sayı girin",
     loanMonthly: "Aylık kiralık bedeli",
+    loanOptionFee: "Satın alma opsiyonu",
+    loanOptionFeeHint: "Kiralık bitince katıldığı kulüp onu bu bedelle alabilir; boşsa opsiyon yok",
 
     // Choosing the club
     searchLabel: "Transfer edileceği kulübü ara",

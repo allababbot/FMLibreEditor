@@ -607,6 +607,7 @@ export const es: Strings = {
     "contract.wage": "Salario semanal",
     wageShare: "parte del salario",
     monthlyFee: "cuota mensual",
+    optionFee: "opción de compra",
     "contract.loyalty_bonus": "Prima de fidelidad semanal",
     "contract.happiness": "Felicidad",
     "contract.playing_time_happiness": "Felicidad con los minutos",
@@ -2083,10 +2084,12 @@ export const es: Strings = {
     loanUntil: (date: string) => `La cesión dura hasta el ${date}`,
     loanWage: (money: string, share: number) => `El club paga ${money} a la semana (${format(share)} % de su salario)`,
     loanMonthlyFee: (money: string) => `Cuota mensual ${money}`,
+    loanOption: (money: string) => `Opción de compra por ${money}`,
     loanDoes: [
       "Acordada ahora: el juego hace la cesión cuando llega a su próximo día",
       "Su historial recoge la cesión, y vuelve a su club el día siguiente al último",
       "El club paga su parte del salario y la cuota mensual, si la pones",
+      "Con opción, el club que lo recibe puede ficharlo por su importe al acabar la cesión",
     ],
     loanDoesHeading: "Qué hace la cesión",
     loanHint: "Nada cambia en el juego hasta que pulsas Preparar cesión.",
@@ -2097,6 +2100,8 @@ export const es: Strings = {
     loanShareHint: "Lo que paga el club al que va; el resto, el suyo",
     loanShareInvalid: "Introduce un número entero de 0 a 100",
     loanMonthly: "Cuota mensual",
+    loanOptionFee: "Opción de compra",
+    loanOptionFeeHint: "Al acabar la cesión, el club que lo recibe puede ficharlo por este importe; vacío: sin opción",
 
     // El club
     searchLabel: "Buscar el club al que traspasar",

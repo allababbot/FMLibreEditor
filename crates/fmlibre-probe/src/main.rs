@@ -335,6 +335,9 @@ enum Command {
         /// Pounds a month the club he joins pays his own.
         #[arg(long, default_value_t = 0)]
         monthly_fee: i64,
+        /// An option to buy: pounds for which the club he joins may sign him for good when the loan ends, if it wants.
+        #[arg(long)]
+        option_fee: Option<i64>,
         /// Only work it out and say what it would be (or why the editor refuses it): nothing is written.
         #[arg(long)]
         plan: bool,
@@ -1451,10 +1454,10 @@ fn run(cli: Cli) -> Result<()> {
             let session = connect(process, ArraySource::ProfileFirst)?;
             arrange_transfer(&session, uid, club, MoveTerms { wage, expires }, fee, restore.then_some(hold))
         }
-        Command::ArrangeLoan { uid, club, until, share, monthly_fee, plan, restore, hold } => {
+        Command::ArrangeLoan { uid, club, until, share, monthly_fee, option_fee, plan, restore, hold } => {
             let until = until.as_deref().map(parse_iso_date).transpose()?.map(FmDate::to_number);
             let session = connect(process, ArraySource::ProfileFirst)?;
-            let terms = (until, share, monthly_fee);
+            let terms = (until, share, monthly_fee, option_fee);
             arrange_loan(&session, uid, club, terms, plan, restore.then_some(hold))
         }
         Command::Permanent { uid, wage, expires, restore, hold } => {
@@ -5233,17 +5236,17 @@ fn arrange_transfer(
 }
 
 /// Arranges the loan of the player `uid` to the club `club` from the next day on `terms` (the loan's last day, the end
-/// of the season by default; the part of his wage the club pays; the monthly fee), shows what it would write with
-/// `plan_only`, else writes it, and with `restore_after` takes it back and checks it.
+/// of the season by default; the part of his wage the club pays; the monthly fee; an option to buy, if any), shows
+/// what it would write with `plan_only`, else writes it, and with `restore_after` takes it back and checks it.
 fn arrange_loan(
     session: &Session,
     uid: u32,
     club: u32,
-    terms: (Option<i64>, u8, i64),
+    terms: (Option<i64>, u8, i64, Option<i64>),
     plan_only: bool,
     restore_after: Option<u64>,
 ) -> Result<()> {
-    let (until, wage_share, monthly_fee) = terms;
+    let (until, wage_share, monthly_fee, option_fee) = terms;
     let players = PlayerIndex::new(session.players()?);
     let clubs = ClubIndex::new(session.clubs()?);
     let player = players.get(uid).with_context(|| format!("no player with UID {uid}"))?;
@@ -5253,13 +5256,15 @@ fn arrange_loan(
         Some(until) => until,
         None => session.season_loan_end(player).context("no in-game date to count the season from")?,
     };
-    let loan = LoanDeal { until, wage_share, monthly_fee };
+    let loan = LoanDeal { until, wage_share, monthly_fee, option_fee };
     let started = std::time::Instant::now();
     let plan = session.plan_arranged_loan(player, to, loan, &human)?;
     let from = clubs.get(plan.from_club).map_or("?", |club| club.name.as_str());
+    let option =
+        option_fee.map_or_else(|| "no option to buy".to_string(), |fee| format!("an option to buy for £{fee}"));
     println!(
         "{} (UID {uid}): {from} -> {} on loan from {} until {until}: the club pays £{} a week ({wage_share}%) and \
-         £{monthly_fee} a month, squad status {}, offer {} (planned in {:.1} s)",
+         £{monthly_fee} a month, {option}, squad status {}, offer {} (planned in {:.1} s)",
         player.name,
         to.name,
         plan.move_day.to_number(),

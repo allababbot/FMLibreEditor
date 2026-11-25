@@ -218,9 +218,13 @@ pub struct LoanOfferLayout {
     pub offer_flags: u64,
     /// `i32` pounds a week: the part of his wage the club he joins pays, in each place that holds it.
     pub offer_wage: Vec<u64>,
-    /// `i32` pounds: the monthly fee when he is not used, and the option to buy (-1 for none).
+    /// `i32` pounds: the monthly fee when he is not used, and the future fee (-1 for none).
     pub offer_unused_fee: u64,
     pub offer_option_fee: u64,
+    /// `u8`, in the offer and in the loan contract, which the game copies it to: the kind of the future fee, 0xFF where
+    /// there is none and 0xFE for an option the club he joins may take up; a mandatory fee holds others.
+    pub offer_fee_kind: u64,
+    pub contract_fee_kind: u64,
     /// `i32` places that hold -1 where there is no such term.
     pub offer_unset: Vec<u64>,
     /// Places not known, and what most of the game's loan offers hold there: `u8` places and their values, and places of
