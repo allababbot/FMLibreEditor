@@ -107,6 +107,12 @@ export type ErrorTexts = Partial<Record<string, (params: Readonly<Record<string,
 /** The name of the field a failure names. */
 const field = (key: string | undefined) => fieldName(en, key ?? "");
 
+/** A day the commands name as "20280131", written out: "31 January 2028". */
+const dayText = (value: string | undefined) => {
+  const [y, m, d] = [Number(value?.slice(0, 4)), Number(value?.slice(4, 6)), Number(value?.slice(6, 8))];
+  return new Date(y, m - 1, d).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+};
+
 /** What a check is about, from the key a failure gives, with a capital: "Contracts". */
 const checkName = (key: string | undefined) => {
   const name = (en.checks as Partial<Record<string, string>>)[key ?? ""] ?? key ?? "";
@@ -132,6 +138,9 @@ const errors: ErrorTexts = {
   "edit.notApplied": (p) => `${field(p.field)}: wrote ${p.wrote} but read back ${p.read}.`,
   "edit.conflict": (p) => `${field(p.field)} is now ${p.found}, not ${p.expected}: the game has changed it since.`,
   "move.outOfRange": (p) => `${p.value} is not a valid ${field(p.field)}: it takes ${p.min} to ${p.max}.`,
+  "loan.end": (p) => `The loan must end after he joins, and no later than his contract: from ${dayText(p.earliest)} to ${dayText(p.latest)}.`,
+  "loan.noModel": () =>
+    "The game has no loan of its own under way to model this one on. Try again after a day has passed in the game.",
   "names.unknown": () =>
     "The editor cannot find where the game keeps people's names in this version of the game, so it cannot change them.",
   "names.noRoom": (p) =>
@@ -496,6 +505,9 @@ export const en = {
     jadedness: "Jadedness",
     morale: "Morale",
     "contract.wage": "Wage per week",
+    wageShare: "share of the wage",
+    monthlyFee: "monthly fee",
+    optionFee: "option to buy",
     "contract.loyalty_bonus": "Loyalty bonus per week",
     "contract.happiness": "Happiness",
     "contract.playing_time_happiness": "Playing time happiness",
@@ -1932,6 +1944,8 @@ export const en = {
     fee: (amount: string) => `Fee ${amount}`,
     /** Under a transfer arranged for the game to make: the day it moves him (and pays the fee). */
     arranged: (date: string) => `The game makes the move on ${date}`,
+    /** Under a loan arranged for the game to make: the day it sends him there, and the loan's last day. */
+    arrangedLoan: (day: string, until: string) => `The game makes the loan on ${day}, until ${until}`,
     /** Under a recall from loan that took the loan's option to buy away, which its undo writes back. */
     optionRemoved: (amount: string) => `Option to buy (${amount}) taken away`,
     /** What a heal changed, in the place of its values: `count` is how many injuries the player had. */
@@ -2300,7 +2314,7 @@ export const en = {
     // The switch at the top of the dialog: a transfer the game makes the next day, a move to a club now, or a swap with
     // one of its players.
     /** Its name for assistive technology. */
-    modeLabel: "Transfer, move now or swap",
+    modeLabel: "Transfer, loan, move now or swap",
     modeArrange: "Transfer",
     modeMove: "Move now",
     modeSwap: "Swap with a player",
@@ -2334,6 +2348,41 @@ export const en = {
     ],
     /** The button of the foot. */
     arrangeButton: "Arrange transfer",
+
+    // A loan the game makes the next day
+    /** The choice of the switch. */
+    modeLoan: "Loan",
+    /** Under the switch in loan mode. */
+    loanNote: "The game makes the loan on its next day, as it makes its own; he is back at his club after it.",
+    /** While the loan's plan is worked out. */
+    loanChecking: "Checking the loan…",
+    /** The plan's lines: the day the game makes the loan, its last day, what the club pays, the monthly fee, the option. */
+    loanOn: (date: string) => `The game makes the loan on ${date}`,
+    loanUntil: (date: string) => `The loan lasts until ${date}`,
+    loanWage: (money: string, share: number) => `The club pays ${money} a week (${format(share)}% of his wage)`,
+    loanMonthlyFee: (money: string) => `Monthly fee ${money}`,
+    loanOption: (money: string) => `Option to buy for ${money}`,
+    /** What arranging the loan does, one line each, in the place of `does`. */
+    loanDoes: [
+      "Agreed now: the game makes the loan when it reaches its next day",
+      "His history lists the loan, and he returns to his own club the day after the last day",
+      "The club pays its share of his wage, and the monthly fee if you set one",
+      "With an option, the game makes the transfer for its fee when the loan ends",
+    ],
+    /** The heading of `loanDoes`. */
+    loanDoesHeading: "What the loan does",
+    /** The foot's hint and button in loan mode. */
+    loanHint: "Nothing changes in the game until you press Arrange loan.",
+    loanButton: "Arrange loan",
+    /** The loan's inputs: label, and the short hint under it. */
+    loanLastDay: "Last day of the loan",
+    loanLastDayHint: "He is back at his own club the next day",
+    loanShare: "Share of his wage paid",
+    loanShareHint: "What the club he joins pays; his own club pays the rest",
+    loanShareInvalid: "Enter a whole number from 0 to 100",
+    loanMonthly: "Monthly fee",
+    loanOptionFee: "Option to buy",
+    loanOptionFeeHint: "When the loan ends, the game makes the transfer for this fee; empty for none",
 
     // Choosing the club
     /** The name of the search box, and of the list of clubs under it, for assistive technology. */

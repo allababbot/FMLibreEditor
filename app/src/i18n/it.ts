@@ -94,6 +94,12 @@ const CONTRACT_TYPES: Partial<Record<number, string>> = {
 /** The name of the field a failure names. */
 const field = (key: string | undefined) => fieldName(it, key ?? "");
 
+/** A day the commands name as "20280131", written out in the language's own way. */
+const dayText = (value: string | undefined) => {
+  const [y, m, d] = [Number(value?.slice(0, 4)), Number(value?.slice(4, 6)), Number(value?.slice(6, 8))];
+  return new Date(y, m - 1, d).toLocaleDateString("it-IT", { day: "numeric", month: "long", year: "numeric" });
+};
+
 /** The noun of the kind of record a failure names, or "record" when it names none. */
 const recordNoun = (entity: string | undefined) =>
   entity === "player" || entity === "staff" || entity === "club" ? nouns[entity].one : "record";
@@ -313,6 +319,8 @@ const errors: ErrorTexts = {
   "sign.noModel": () =>
     "La società non ha in prima squadra nessun giocatore con un contratto normale su cui modellare quello nuovo.",
   "sign.noDate": () => "L'editor non riesce a leggere la data del gioco, da cui parte il nuovo contratto.",
+  "loan.end": (p) => `Il prestito deve finire dopo il suo arrivo e non oltre il suo contratto: tra il ${dayText(p.earliest)} e il ${dayText(p.latest)}.`,
+  "loan.noModel": () => "Il gioco non ha un prestito proprio in corso su cui modellare questo. Riprova dopo un giorno di gioco.",
   "move.outOfRange": (p) => `${p.value} non è un valore valido per ${field(p.field)}: accetta da ${p.min} a ${p.max}.`,
   "move.changed": () => `Il gioco ha cambiato quella memoria nel frattempo; ${reload}.`,
   "move.notApplied": () => "La memoria è stata scritta, ma rileggendola contiene altro.",
@@ -639,6 +647,9 @@ export const it: Strings = {
     jadedness: "Stanchezza",
     morale: "Morale",
     "contract.wage": "Stipendio settimanale",
+    wageShare: "quota di stipendio",
+    monthlyFee: "canone mensile",
+    optionFee: "opzione d'acquisto",
     "contract.loyalty_bonus": "Bonus fedeltà settimanale",
     "contract.happiness": "Felicità",
     "contract.playing_time_happiness": "Felicità per il minutaggio",
@@ -1775,6 +1786,7 @@ export const it: Strings = {
     released: (name) => `${name} svincolato`,
     fee: (amount) => `Costo ${amount}`,
     arranged: (date) => `Il gioco fa lo spostamento il ${date}`,
+    arrangedLoan: (day, until) => `Il gioco fa il prestito il ${day}, fino al ${until}`,
     optionRemoved: (amount) => `Diritto di riscatto (${amount}) tolto`,
     healed: (count) => (count === 1 ? "1 infortunio guarito" : `${format(count)} infortuni guariti`),
     lifted: (count) => (count === 1 ? "1 squalifica revocata" : `${format(count)} squalifiche revocate`),
@@ -2063,7 +2075,7 @@ export const it: Strings = {
     from: "Da",
     to: "A",
 
-    modeLabel: "Trasferimento, sposta subito o scambio",
+    modeLabel: "Trasferimento, prestito, sposta subito o scambio",
     modeMove: "Sposta subito",
     modeSwap: "Scambia con un giocatore",
     modeArrange: "Trasferimento",
@@ -2089,6 +2101,32 @@ export const it: Strings = {
       "Riportato in Modifiche, dove un solo ripristino lo annulla fino a quel giorno",
     ],
     arrangeButton: "Prepara trasferimento",
+
+    modeLoan: "Prestito",
+    loanNote: "Il gioco fa il prestito al suo giorno successivo, come i suoi; poi torna al suo club.",
+    loanChecking: "Controllo del prestito…",
+    loanOn: (date: string) => `Il gioco fa il prestito il ${date}`,
+    loanUntil: (date: string) => `Il prestito dura fino al ${date}`,
+    loanWage: (money: string, share: number) => `Il club paga ${money} a settimana (${format(share)}% del suo stipendio)`,
+    loanMonthlyFee: (money: string) => `Canone mensile ${money}`,
+    loanOption: (money: string) => `Opzione d'acquisto a ${money}`,
+    loanDoes: [
+      "Concordato ora: il gioco fa il prestito quando arriva al giorno successivo",
+      "La sua storia riporta il prestito, e il giorno dopo l'ultimo torna al suo club",
+      "Il club paga la sua parte di stipendio e il canone mensile, se lo imposti",
+      "Con un'opzione, a fine prestito il gioco fa il trasferimento a quell'importo",
+    ],
+    loanDoesHeading: "Cosa fa il prestito",
+    loanHint: "Nel gioco non cambia nulla finché non premi Prepara prestito.",
+    loanButton: "Prepara prestito",
+    loanLastDay: "Ultimo giorno del prestito",
+    loanLastDayHint: "Il giorno dopo torna al suo club",
+    loanShare: "Quota di stipendio pagata",
+    loanShareHint: "La paga il club che lo accoglie; il resto il suo club",
+    loanShareInvalid: "Inserisci un numero intero da 0 a 100",
+    loanMonthly: "Canone mensile",
+    loanOptionFee: "Opzione d'acquisto",
+    loanOptionFeeHint: "A fine prestito il gioco fa il trasferimento a questo importo; vuoto: nessuna",
 
     // La scelta del club
     searchLabel: "Cerca la società in cui trasferirlo",

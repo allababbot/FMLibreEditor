@@ -5,6 +5,8 @@ import { converts, toPounds, toShown } from "./currency";
 import type {
   ApplyReport,
   ArrangedPreview,
+  LoanPreview,
+  LoanRequest,
   BatchUndo,
   CaptainRole,
   Scouted,
@@ -457,6 +459,27 @@ export const planArrangedTransfer = (uid: number, club: number, terms: MoveTerms
  */
 export const arrangeTransfer = (uid: number, club: number, terms: MoveTerms, fee?: number) =>
   call<LoggedChange>("arrange_transfer", { uid, club, terms, fee });
+
+/**
+ * The last day of a loan of the player `uid` agreed now until the end of the season, as a number like 20280629: 29
+ * June at least a month away, no later than his contract runs; null without an in-game date.
+ */
+export const seasonLoanEnd = (uid: number) => call<number | null>("season_loan_end", { uid });
+
+/**
+ * Checks that the loan of the player `uid` to the club `club` can be arranged for the game to make the next day, on
+ * the terms `loan`, and says what it would be. Nothing is written; when it cannot, the error says why.
+ */
+export const planArrangedLoan = (uid: number, club: number, loan: LoanRequest) =>
+  call<LoanPreview>("plan_arranged_loan", { uid, club, loan });
+
+/**
+ * Arranges the loan for the game to make the next day: on that day the game sends him to the club, on loan from his
+ * own, as it makes its own loans, and his history shows it. Logged as a change of his club with `moved.arranged` and
+ * `moved.loanUntil`; one undo takes it back until the day.
+ */
+export const arrangeLoan = (uid: number, club: number, loan: LoanRequest) =>
+  call<LoggedChange>("arrange_loan", { uid, club, loan });
 
 /**
  * Checks that the players `uid` and `other` can swap clubs, each joining the other's senior team on his own contract,
