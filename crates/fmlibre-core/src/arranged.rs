@@ -111,6 +111,15 @@ pub struct OfferClasses {
     loan: Vec<u64>,
 }
 
+impl OfferClasses {
+    /// Whether the offer whose first word is `vtable` may be the model of a transfer: one of the game's transfer
+    /// offers, or any offer where the game's names do not give that class, as before the class was checked (no Mac
+    /// save has been read for it).
+    fn transfer_model(&self, vtable: u64) -> bool {
+        self.transfer.is_empty() || self.transfer.contains(&vtable)
+    }
+}
+
 /// A loan's terms, as the editor agrees them.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct LoanDeal {
@@ -561,7 +570,7 @@ impl Session {
             number = number.max(half(t.offer_number));
             count = count.max(half(t.offer_count));
             let rank = match loan_layouts {
-                None if classes.transfer.contains(&word(0)) => model_rank(t, &bytes),
+                None if classes.transfer_model(word(0)) => model_rank(t, &bytes),
                 Some((_, l, _)) if classes.loan.contains(&word(0)) => process
                     .read_bytes(offer, l.offer_size as usize)
                     .ok()
@@ -918,6 +927,15 @@ mod tests {
         assert_eq!(day(t.offer_lapses), Some(20261115));
         // What the layout does not name is the model's.
         assert_eq!(offer[t.offer_size as usize - 1], 0xAA);
+    }
+
+    #[test]
+    fn the_model_of_a_transfer_is_a_transfer_offer_once_the_class_is_known() {
+        let known = OfferClasses { transfer: vec![0x10], loan: vec![0x20] };
+        assert!(known.transfer_model(0x10));
+        assert!(!known.transfer_model(0x20));
+        // Where the game's names do not give the class, any offer may be the model, as before.
+        assert!(OfferClasses::default().transfer_model(0x20));
     }
 
     #[test]
