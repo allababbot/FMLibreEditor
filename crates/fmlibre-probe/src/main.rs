@@ -736,6 +736,19 @@ enum Command {
         /// The club's UID.
         club: u32,
     },
+    /// Show the teams of other clubs a club runs beside its own (its B team, which the game keeps as a club of its
+    /// own), as the editor reads them from the club's list of linked teams. Without a club, check that list over every
+    /// club: how many hold how many teams, what the entries are, and which the editor leaves out. Only reads memory.
+    LinkedTeams {
+        /// The club's UID.
+        club: Option<u32>,
+        /// Where the club holds the list, for a layout that has not placed it (hexadecimal).
+        #[arg(long, value_name = "HEX")]
+        offset: Option<String>,
+        /// How many clubs to name of each sort.
+        #[arg(long, default_value_t = 8)]
+        show: usize,
+    },
     /// Show a club's youth intakes: the players the game made who began their careers there, by the day they joined.
     Youth {
         /// The club's UID.
@@ -1598,6 +1611,13 @@ fn run(cli: Cli) -> Result<()> {
             scout(&session, club, request, squad, tactics)
         }
         Command::Teams { club } => teams(&connect(process, ArraySource::ProfileFirst)?, club),
+        Command::LinkedTeams { club, offset, show } => {
+            let mut session = connect(process, ArraySource::ProfileFirst)?;
+            if let Some(offset) = offset.as_deref().map(parse_hex).transpose()? {
+                session.layout.club.linked_teams = Some(offset);
+            }
+            linked_teams(&session, club, show)
+        }
         Command::Youth { club } => youth(&connect(process, ArraySource::ProfileFirst)?, club),
         Command::Room { club, max } => room(&connect(process, ArraySource::ProfileFirst)?, club, max),
         Command::Captain { club, uid, vice, team, restore, hold } => {
@@ -6990,6 +7010,104 @@ fn teams(session: &Session, uid: u32) -> Result<()> {
                 tags.join(", ")
             );
         }
+    }
+    Ok(())
+}
+
+/// `linked-teams`: one club's linked teams as the editor reads them, or the list checked over every club.
+fn linked_teams(session: &Session, uid: Option<u32>, show: usize) -> Result<()> {
+    let process = &session.process;
+    let (c, t) = (&session.layout.club, &session.layout.team);
+    let offset = c.linked_teams.context("the layout does not place the clubs' linked teams: give --offset")?;
+    let clubs = ClubIndex::new(session.clubs()?);
+    let age = |limit: Option<u8>| limit.map_or_else(|| "no age limit".to_owned(), |age| format!("under {age}"));
+
+    if let Some(uid) = uid {
+        let players = PlayerIndex::new(session.players()?);
+        let club = clubs.get(uid).with_context(|| format!("no club with UID {uid}"))?;
+        let linked = session.linked_teams(club, &clubs);
+        println!("{} (UID {}): {} linked teams at +{offset:#x}", club.name, club.uid, linked.len());
+        for link in linked {
+            let team = session.club_team_at(link.club, link.index, &players)?;
+            println!(
+                "  {} (UID {}) team {} (kind {}, {}): {} players",
+                link.club.name,
+                link.club.uid,
+                link.index,
+                team.kind,
+                age(team.age_limit),
+                team.players.len()
+            );
+        }
+        return Ok(());
+    }
+
+    let by_address: HashMap<u64, &fmlibre_core::ClubSummary> = clubs.iter().map(|club| (club.address, club)).collect();
+    // How many clubs hold how many entries, and what the entries are.
+    let mut sizes: BTreeMap<usize, usize> = BTreeMap::new();
+    let (mut entries, mut read) = (0usize, 0usize);
+    let mut left_out: BTreeMap<&str, Vec<String>> = BTreeMap::new();
+    // The teams read, by their place in their own club's list and their kind.
+    let mut places: BTreeMap<(usize, u8), usize> = BTreeMap::new();
+    let mut parents: Vec<(i32, String)> = Vec::new();
+    // The clubs whose team another club lists, with how many list it.
+    let mut listed: HashMap<u32, usize> = HashMap::new();
+    for club in clubs.iter() {
+        let raw = list_entries(process, club.address + offset, 8);
+        *sizes.entry(raw.len()).or_default() += 1;
+        if raw.is_empty() {
+            continue;
+        }
+        entries += raw.len();
+        let linked = session.linked_teams(club, &clubs);
+        read += linked.len();
+        for entry in &raw {
+            let team = u64::from_le_bytes(entry[..8].try_into().expect("8 bytes"));
+            let owner = is_user_pointer(team).then(|| process.read_u64(team + t.club).ok()).flatten();
+            let why = match owner {
+                None => "not a team",
+                Some(owner) if owner == club.address => "the club's own team",
+                Some(owner) => match by_address.get(&owner) {
+                    None => "a team of no club the editor lists",
+                    Some(other) if linked.iter().any(|link| link.club.uid == other.uid) => continue,
+                    Some(_) => "not in its club's list of teams",
+                },
+            };
+            left_out.entry(why).or_default().push(club.name.clone());
+        }
+        let mut names = Vec::new();
+        for link in &linked {
+            let kind = process.read_bytes(link.address + t.kind, 1)?[0];
+            *places.entry((link.index, kind)).or_default() += 1;
+            *listed.entry(link.club.uid).or_default() += 1;
+            names.push(format!("{} (UID {}) team {}", link.club.name, link.club.uid, link.index));
+        }
+        if !names.is_empty() {
+            let line = format!("{} (UID {}): {}", club.name, club.uid, names.join(", "));
+            parents.push((club.reputation.map_or(-1, i32::from), line));
+        }
+    }
+
+    println!("Linked teams at club +{offset:#x}, over {} clubs:", clubs.len());
+    for (size, count) in &sizes {
+        println!("  {count:>6} clubs hold {size}");
+    }
+    println!("{entries} entries, {read} read as a team of another club:");
+    for ((index, kind), count) in &places {
+        println!("  {count:>6} at place {index} of their club's teams, kind {kind}");
+    }
+    for (why, names) in &left_out {
+        let some: Vec<&str> = names.iter().take(show).map(String::as_str).collect();
+        println!("  {:>6} left out, {why}: {}", names.len(), some.join("; "));
+    }
+    let shared = listed.values().filter(|&&count| count > 1).count();
+    let lists_one = |uid: u32| clubs.get(uid).is_some_and(|club| !session.linked_teams(club, &clubs).is_empty());
+    let back = listed.keys().filter(|&&uid| lists_one(uid)).count();
+    println!("{} clubs are listed; {shared} by more than one club, {back} list a team themselves", listed.len());
+    parents.sort_by(|a, b| b.0.cmp(&a.0).then_with(|| a.1.cmp(&b.1)));
+    println!("The best known of the {} clubs that list one:", parents.len());
+    for (_, line) in parents.iter().take(show) {
+        println!("  {line}");
     }
     Ok(())
 }

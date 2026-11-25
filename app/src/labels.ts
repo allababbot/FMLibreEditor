@@ -226,14 +226,20 @@ export interface TeamId {
   index: number;
   kind?: number;
   ageLimit?: number | null;
+  /** For a linked team (see `ClubTeam`), the name of the club it belongs to. */
+  linkedClub?: string | null;
 }
 
 /**
  * The name of a club's team as its squad screen shows it: the first team, a team by its age limit ("U21"), a B team,
  * and any other by its place in the club's list ("Team 3"). Where only the place is known, as in the Changes view, a
- * team other than the first is named by it alone.
+ * team other than the first is named by it alone. A linked team goes by its club's name ("FC Nürnberg II"), with the
+ * team's own after it where it is not that club's first.
  */
-export function teamLabel({ index, kind, ageLimit }: TeamId): string {
+export function teamLabel({ index, kind, ageLimit, linkedClub }: TeamId): string {
+  if (linkedClub) {
+    return index === 0 ? linkedClub : `${linkedClub} · ${teamLabel({ index, kind, ageLimit })}`;
+  }
   if (index === 0) {
     return squadText.teams.first;
   }

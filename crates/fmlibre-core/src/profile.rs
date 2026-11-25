@@ -1068,6 +1068,11 @@ pub struct ClubLayout {
     /// in England); unset where the layout has not placed it.
     #[serde(default)]
     pub nation: Option<u64>,
+    /// The teams the club runs that belong to other clubs, a list of team pointers as `(begin, end, capacity)`: the
+    /// game keeps a B team as a club of its own (1. FC Nürnberg II), and its parent lists that club's senior team
+    /// here. Unset where the layout has not placed it: the club then shows its own teams only.
+    #[serde(default)]
+    pub linked_teams: Option<u64>,
 }
 
 impl ClubLayout {
@@ -1085,6 +1090,7 @@ impl ClubLayout {
             self.scouting_staff + 24,
             self.director_of_football.map_or(0, |at| at + 8),
             self.nation.map_or(0, |at| at + 8),
+            self.linked_teams.map_or(0, |at| at + 24),
         ]
         .into_iter()
         .max()

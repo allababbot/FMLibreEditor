@@ -2286,7 +2286,7 @@ const FULL_CLUB = 500 + (CLUBS.length - 1) * 7;
  * neither injured nor a captain first, the weakest first among each.
  */
 function roomMakers(clubUid: number): RoomMaker[] {
-  const teams = clubSquads(clubUid);
+  const teams = ownSquads(clubUid);
   const captains = new Set(teams.flatMap((team) => [team.captain, team.viceCaptain]));
   const makers = teams[0].players
     .filter((member) => member.loan === null)
@@ -2946,8 +2946,29 @@ function captainsOf(clubUid: number, index: number, uids: number[]): CaptainPair
   return index === 0 ? { captain: uids[0] ?? null, viceCaptain: uids[1] ?? null } : { captain: null, viceCaptain: null };
 }
 
-/** `club_squads`: the fixture club's teams with their players' list rows and live values. */
+/**
+ * The fixture clubs that run a team of another club, as a club in the game runs its B team, which is a club of its own:
+ * Northbridge FC lists the senior team of Kuzey Spor as a linked team.
+ */
+const LINKED_CLUBS: Record<number, number> = { 500: 500 + 4 * 7 };
+
+/**
+ * `club_squads`: the fixture club's teams with their players' list rows and live values, then the senior team of the
+ * club it links to, named by that club and read and written as that club's.
+ */
 function clubSquads(clubUid: number): ClubTeam[] {
+  const own = ownSquads(clubUid);
+  const linked = clubs.find((c) => c.uid === LINKED_CLUBS[clubUid]);
+  if (!linked) {
+    return own;
+  }
+  const [team] = ownSquads(linked.uid);
+  // A linked team is the user's own when its parent club is.
+  return [...own, { ...team, linkedClub: linked.shortName ?? linked.name, humanClub: team.humanClub || own[0].humanClub }];
+}
+
+/** The fixture club's own teams with their players' list rows and live values. */
+function ownSquads(clubUid: number): ClubTeam[] {
   if (!clubs.some((c) => c.uid === clubUid)) {
     throw notFound("club", clubUid);
   }
@@ -2962,6 +2983,8 @@ function clubSquads(clubUid: number): ClubTeam[] {
   }
   const humanClub = staff.some((member) => member.isHuman && member.clubUid === clubUid);
   return fixtureTeams(clubUid).map((team, index) => ({
+    clubUid,
+    linkedClub: null,
     index,
     kind: team.kind,
     ageLimit: team.ageLimit,
@@ -3023,7 +3046,7 @@ function freezeTeam(clubUid: number, index: number, kind: FreezeKind, frozen: bo
 
 /** The team at `index` of the fixture club, or the real command's failure. */
 function fixtureTeam(clubUid: number, index: number): ClubTeam {
-  const team = clubSquads(clubUid).find((t) => t.index === index);
+  const team = ownSquads(clubUid).find((t) => t.index === index);
   if (!team) {
     throw failure("squad.noTeam", `the club has no team number ${index} that checks out`, { index });
   }
@@ -3853,6 +3876,8 @@ function nationalProfile(uid: number, kind: number | null): NationalProfile {
     team: { ...team, players: ofNation.length },
     teams,
     squad: {
+      clubUid: team.uid,
+      linkedClub: null,
       index: shown.index,
       kind: shown.kind,
       ageLimit,
