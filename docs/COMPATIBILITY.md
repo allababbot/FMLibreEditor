@@ -46,7 +46,7 @@ works from the release after it.
 
 | Build | Prize money | Sponsorship deals | Squad rules | National teams |
 | --- | --- | --- | --- | --- |
-| 26797085 | yes | – | – | yes |
+| 26797085 | yes | yes | yes | yes |
 | 26620374 | yes | – | – | yes |
 | 26577676 | yes | – | – | yes |
 | 26385295 | – | – | – | – |
