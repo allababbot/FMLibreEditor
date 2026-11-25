@@ -435,6 +435,10 @@ const errors: ErrorTexts = {
   "mass.noOperations": () => "Scegli almeno un campo da cambiare.",
   "mass.tooMany": (p) =>
     `Ci sono ${p.count} risultati. Per una modifica multipla, restringi la ricerca o i filtri a ${p.limit} al massimo.`,
+  "recipe.tooOld": (p) =>
+    `Il giocatore ha ${p.age} anni: questa ricetta è per giocatori di ${p.oldest} anni o meno.`,
+  "recipe.ageUnknown": () => "L'età del giocatore non è nota, e questa ricetta dipende da essa.",
+  "recipe.outOfDate": () => "Questa anteprima non è più aggiornata. Apri di nuovo la ricetta.",
   "mass.outOfDate": () => "Questa anteprima non è più aggiornata. Genera di nuovo l'anteprima della modifica multipla.",
 };
 
@@ -3198,6 +3202,52 @@ export const it: Strings = {
       unwanted: () => "Stato in rosa: in esubero",
       listed: () => "Già in lista trasferimenti",
     },
+  },
+
+  /** Recipes (`RecipeMenu`): see `en.ts`. */
+  recipes: {
+    button: "Ricette",
+    buttonTitle: "Insiemi di modifiche già pronti, con anteprima",
+    names: {
+      wonderkid: "Crea un wonderkid",
+      injuryProof: "A prova di infortuni",
+      longCareer: "Allunga la carriera",
+      richClub: "Rendi ricca la società",
+      topFacilities: "Strutture al massimo",
+    },
+    notes: {
+      wonderkid:
+        "Fino a 21 anni: abilità potenziale almeno a 180, abilità attuale e attributi adatti all'età. I valori più " +
+        "alti restano.",
+      injuryProof: "Propensione agli infortuni a 1, integrità fisica a 20, resistenza almeno a 15, infortuni guariti.",
+      longCareer:
+        "Nessun ritiro previsto, contratto per almeno altri tre anni, integrità fisica a 20, professionalità " +
+        "almeno a 18.",
+      richClub: "Saldo, budget trasferimenti e budget stipendi al livello delle società più ricche.",
+      topFacilities: "Tutte e cinque le strutture a 20.",
+    },
+    tooOld: (oldest: number) => `Per giocatori di ${oldest} anni o meno`,
+    command: (recipe: string) => `Ricetta: ${recipe}`,
+    working: "Calcolo delle modifiche…",
+    summary: (changes: number, kept: number, left: number) =>
+      [
+        changeCount(changes),
+        kept > 0 &&
+          (kept === 1 ? "1 valore è già altrettanto buono" : `${format(kept)} valori sono già altrettanto buoni`),
+        left > 0 && valuesLeftAlone(left),
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "Modifiche che farebbe la ricetta",
+    keptHeading: (count: number) =>
+      count === 1
+        ? "1 valore resta com'è: è già altrettanto buono"
+        : `${format(count)} valori restano come sono: sono già altrettanto buoni`,
+    keptLabel: "Valori già altrettanto buoni",
+    valueColumn: "Valore",
+    leftLabel: "Ciò che la ricetta lascia invariato",
+    undo: "Annulla questa ricetta",
+    undoTitle: "Riscrive nel gioco tutto ciò che questa ricetta ha modificato",
   },
 
   /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */

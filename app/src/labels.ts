@@ -316,6 +316,9 @@ export const scoutingText = strings.scouting;
 /** "My club", the page the app opens on (see `MyClub`). */
 export const homeText = strings.home;
 
+/** Recipes: ready-made sets of changes to one player or one club (see `RecipeMenu`). */
+export const recipeText = strings.recipes;
+
 /** A player's development: the Development tab of his profile, the note under his abilities, a squad's changes. */
 export const progressText = strings.progress;
 

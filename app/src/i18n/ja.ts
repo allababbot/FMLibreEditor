@@ -273,6 +273,9 @@ const errors: ErrorTexts = {
   "mass.noOperations": () => "変更する項目を1つ以上選んでください。",
   "mass.tooMany": (p) =>
     `該当が ${p.count} 件あります。一括編集するには、検索やフィルターで ${p.limit} 件以下に絞り込んでください。`,
+  "recipe.tooOld": (p) => `この選手は${p.age}歳です：このレシピは${p.oldest}歳以下の選手向けです。`,
+  "recipe.ageUnknown": () => "この選手の年齢がわからないため、年齢をもとにするこのレシピは使えません。",
+  "recipe.outOfDate": () => "このプレビューは最新ではありません。レシピをもう一度開いてください。",
   "mass.outOfDate": () => "このプレビューは最新ではありません。一括編集のプレビューをもう一度実行してください。",
 };
 
@@ -3054,6 +3057,40 @@ export const ja: Strings = {
       unwanted: () => "チーム内の立場：構想外",
       listed: () => "すでに移籍リスト入り",
     } as Record<string, (value: string) => string>,
+  },
+
+  /** Recipes (`RecipeMenu`): see `en.ts`. */
+  recipes: {
+    button: "レシピ",
+    buttonTitle: "用意された変更のセット。書き込む前にプレビューします",
+    names: {
+      wonderkid: "ワンダーキッドにする",
+      injuryProof: "負傷しにくくする",
+      longCareer: "キャリアを延ばす",
+      richClub: "クラブを裕福にする",
+      topFacilities: "施設を最高にする",
+    },
+    notes: {
+      wonderkid: "21歳以下：潜在能力を180以上、現在能力と能力値を年齢相応に。すでに高い値はそのまま。",
+      injuryProof: "負傷しやすさ1、回復力20、スタミナ15以上、現在の負傷を治療。",
+      longCareer: "予定された引退を取り消し、契約をあと3年以上、回復力20、プロ意識18以上。",
+      richClub: "残高、移籍予算、給与予算を最も裕福なクラブの水準に。",
+      topFacilities: "5つの施設をすべて20に。",
+    },
+    tooOld: (oldest: number) => `${oldest}歳以下の選手向け`,
+    command: (recipe: string) => `レシピ：${recipe}`,
+    working: "変更を計算中…",
+    summary: (changes: number, kept: number, left: number) =>
+      [changeCount(changes), kept > 0 && `${format(kept)}件はすでに十分な値`, left > 0 && valuesLeftAlone(left)]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "レシピで行われる変更",
+    keptHeading: (count: number) => `${format(count)}件の値はそのまま：すでに十分`,
+    keptLabel: "すでに十分な値",
+    valueColumn: "値",
+    leftLabel: "レシピで変更しないもの",
+    undo: "このレシピを元に戻す",
+    undoTitle: "このレシピが変更したすべてをゲームに書き戻します",
   },
 
   /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */

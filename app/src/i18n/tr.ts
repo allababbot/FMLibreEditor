@@ -278,6 +278,9 @@ const errors: ErrorTexts = {
   "mass.noOperations": () => "Değiştirilecek en az bir alan seçin.",
   "mass.tooMany": (p) =>
     `${p.count} sonuç var. Toplu düzenleme için aramayı ya da filtreleri en fazla ${p.limit} sonuca daraltın.`,
+  "recipe.tooOld": (p) => `Oyuncu ${p.age} yaşında: bu tarif ${p.oldest} yaş ve altındaki oyuncular için.`,
+  "recipe.ageUnknown": () => "Oyuncunun yaşı bilinmiyor; bu tarif yaşa göre çalışır.",
+  "recipe.outOfDate": () => "Bu önizleme eskidi. Tarifi yeniden açın.",
   "mass.outOfDate": () => "Bu önizleme eskidi. Toplu düzenlemeyi yeniden önizleyin.",
 };
 
@@ -3106,6 +3109,46 @@ export const tr: Strings = {
       unwanted: () => "Forma süresi: ihtiyaç fazlası",
       listed: () => "Zaten transfer listesinde",
     },
+  },
+
+  /** Recipes (`RecipeMenu`): see `en.ts`. */
+  recipes: {
+    button: "Tarifler",
+    buttonTitle: "Hazır değişiklik setleri; önce önizlenir",
+    names: {
+      wonderkid: "Geleceğin yıldızı yap",
+      injuryProof: "Sakatlanmaz yap",
+      longCareer: "Kariyerini uzat",
+      richClub: "Kulübü zengin yap",
+      topFacilities: "Tesisleri en üst düzeye çıkar",
+    },
+    notes: {
+      wonderkid:
+        "21 yaş ve altı: potansiyel yetenek en az 180, yaşına uygun yetenek ve özellikler. Yüksek değerler kalır.",
+      injuryProof: "Sakatlık eğilimi 1, doğal kondisyon 20, dayanıklılık en az 15; sakatlıkları iyileşir.",
+      longCareer:
+        "Planlanan emeklilik kalkar, sözleşme en az 3 yıl sürer, doğal kondisyon 20, profesyonellik en az 18.",
+      richClub: "Bakiye, transfer bütçesi ve maaş bütçeleri en zengin kulüplerin düzeyine çıkar.",
+      topFacilities: "Beş tesisin hepsi 20 olur.",
+    },
+    tooOld: (oldest: number) => `${oldest} yaş ve altındaki oyuncular için`,
+    command: (recipe: string) => `Tarif: ${recipe}`,
+    working: "Değişiklikler hesaplanıyor…",
+    summary: (changes: number, kept: number, left: number) =>
+      [
+        changeCount(changes),
+        kept > 0 && `${format(kept)} değer zaten yeterince iyi`,
+        left > 0 && valuesLeftAlone(left),
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "Tarifin yapacağı değişiklikler",
+    keptHeading: (count: number) => `${format(count)} değer olduğu gibi kalıyor: zaten yeterince iyi`,
+    keptLabel: "Zaten yeterince iyi olan değerler",
+    valueColumn: "Değer",
+    leftLabel: "Tarifin dokunmadıkları",
+    undo: "Bu tarifi geri al",
+    undoTitle: "Bu tarifin değiştirdiği her şeyi oyuna geri yaz",
   },
 
   /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */

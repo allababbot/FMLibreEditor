@@ -1489,6 +1489,53 @@ export interface MassReport {
   failed: { uid: number; name: string; field: string; error: Failure }[];
 }
 
+/** A recipe there is, from `recipes`: a named set of edits to one player or one club (see `RecipeMenu`). */
+export interface RecipeInfo {
+  /** What its name and its note are filed under: "wonderkid", "richClub". */
+  key: string;
+  entity: "player" | "club";
+  /** The oldest player it is for; null when age does not matter to it. */
+  oldest: number | null;
+}
+
+/** A value a recipe leaves as it is because it is as good already, or better; as stored. */
+export interface KeptValue {
+  field: string;
+  value: number;
+}
+
+/** A step on the game's own lists that a recipe leaves out, and why, as a `Failure` says it. */
+export interface LeftOutStep {
+  step: "heal" | "keepPlaying";
+  reason: string;
+  code: string;
+  params: Record<string, string>;
+}
+
+/** From `plan_recipe`: what applying the recipe would do to one player or club. Nothing is written yet. */
+export interface RecipePreview {
+  /** Pass to `apply_recipe` to write exactly these changes. */
+  id: number;
+  recipe: string;
+  entity: "player" | "club";
+  uid: number;
+  name: string;
+  /** How many changes Apply logs: one for each value, and one for each step on the game's lists. */
+  changes: number;
+  /** The values that change. */
+  rows: PlannedChange[];
+  /** The values that stay, as good already as the recipe would make them. */
+  kept: KeptValue[];
+  /** The values left alone, and why. */
+  skipped: SkippedField[];
+  /** How many injuries it heals; null where it heals none. */
+  heals: number | null;
+  /** Where it keeps him from retiring: the day the game had planned, null where it had planned none. */
+  keepsPlaying: { retires: FmDate | null } | null;
+  /** The steps on the game's lists with nothing to do, or that cannot run. */
+  left: LeftOutStep[];
+}
+
 /** From `team_action`: a mass report, and the steps of Team at its best it left out (none for any other action). */
 export interface TeamReport extends MassReport {
   skipped: { action: TeamAction; reason: Failure }[];

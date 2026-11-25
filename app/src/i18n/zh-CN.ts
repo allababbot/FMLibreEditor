@@ -278,6 +278,9 @@ const errors: ErrorTexts = {
 
   // Mass edits and exports
   "mass.noOperations": () => "请至少选择一个要修改的字段。",
+  "recipe.tooOld": (p) => `该球员 ${p.age} 岁：此配方适用于 ${p.oldest} 岁或以下的球员。`,
+  "recipe.ageUnknown": () => "不知道该球员的年龄，而此配方需要按年龄计算。",
+  "recipe.outOfDate": () => "此预览已过期。请重新打开配方。",
   "mass.outOfDate": () => "此预览已过期。请重新生成批量编辑的预览。",
   "mass.tooMany": (p) => `共有 ${p.count} 个结果。批量编辑一次最多处理 ${p.limit} 个，请缩小搜索或筛选范围。`,
   "export.noFolder": () => "没有可导出到的文件夹。",
@@ -3435,6 +3438,40 @@ export const zhCN: Strings = {
       unwanted: () => "队内定位：冗员",
       listed: () => "已列入转会名单",
     } as Record<string, (value: string) => string>,
+  },
+
+  /** Recipes (`RecipeMenu`): see `en.ts`. */
+  recipes: {
+    button: "配方",
+    buttonTitle: "现成的成套改动，写入前先预览",
+    names: {
+      wonderkid: "打造妖人",
+      injuryProof: "不易受伤",
+      longCareer: "延长职业生涯",
+      richClub: "让俱乐部变富",
+      topFacilities: "顶级设施",
+    },
+    notes: {
+      wonderkid: "21 岁或以下：潜力至少 180，当前能力和属性与年龄相称。更高的值保持不变。",
+      injuryProof: "受伤倾向 1，自然体能 20，耐力至少 15，治愈当前伤病。",
+      longCareer: "取消预定的退役，合同至少再续三年，自然体能 20，职业素养至少 18。",
+      richClub: "余额、转会预算和工资预算提高到最富有俱乐部的水平。",
+      topFacilities: "五项设施全部改为 20。",
+    },
+    tooOld: (oldest: number) => `适用于 ${oldest} 岁或以下的球员`,
+    command: (recipe: string) => `配方：${recipe}`,
+    working: "正在计算改动…",
+    summary: (changes: number, kept: number, left: number) =>
+      [changeCount(changes), kept > 0 && `${format(kept)} 个值已经够好`, left > 0 && valuesLeftAlone(left)]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "配方将进行的改动",
+    keptHeading: (count: number) => `${format(count)} 个值保持不变：已经够好`,
+    keptLabel: "已经够好的值",
+    valueColumn: "数值",
+    leftLabel: "配方保留不变的内容",
+    undo: "撤销本次配方",
+    undoTitle: "将本次配方改动的内容全部写回游戏。",
   },
 
   /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */

@@ -393,6 +393,10 @@ const errors: ErrorTexts = {
   "mass.noOperations": () => "Elige al menos un campo que cambiar.",
   "mass.tooMany": (p) =>
     `Hay ${p.count} resultados. Para una edición masiva, acota la búsqueda o los filtros a ${p.limit} como máximo.`,
+  "recipe.tooOld": (p) =>
+    `El jugador tiene ${p.age} años: esta receta es para jugadores de ${p.oldest} años o menos.`,
+  "recipe.ageUnknown": () => "No se conoce la edad del jugador, y esta receta depende de ella.",
+  "recipe.outOfDate": () => "Esta vista previa está desfasada. Vuelve a abrir la receta.",
   "mass.outOfDate": () => "Esta vista previa está desfasada. Vuelve a generar la vista previa de la edición masiva.",
 };
 
@@ -3180,6 +3184,52 @@ export const es: Strings = {
       unwanted: () => "Estatus: no entra en los planes",
       listed: () => "Ya está en la lista de traspasos",
     },
+  },
+
+  /** Recipes (`RecipeMenu`): see `en.ts`. */
+  recipes: {
+    button: "Recetas",
+    buttonTitle: "Conjuntos de cambios ya preparados, con vista previa",
+    names: {
+      wonderkid: "Convertir en promesa",
+      injuryProof: "A prueba de lesiones",
+      longCareer: "Alargar su carrera",
+      richClub: "Hacer rico al club",
+      topFacilities: "Instalaciones al máximo",
+    },
+    notes: {
+      wonderkid:
+        "Hasta 21 años: habilidad potencial de 180 como mínimo, habilidad y atributos acordes a su edad. Los " +
+        "valores más altos se quedan.",
+      injuryProof:
+        "Propensión a lesiones a 1, recuperación física a 20, resistencia a 15 como mínimo, lesiones curadas.",
+      longCareer:
+        "Sin retirada prevista, contrato de al menos tres años más, recuperación física a 20, profesionalidad a 18 " +
+        "como mínimo.",
+      richClub: "Saldo, presupuesto de fichajes y presupuestos salariales al nivel de los clubes más ricos.",
+      topFacilities: "Las cinco instalaciones a 20.",
+    },
+    tooOld: (oldest: number) => `Para jugadores de ${oldest} años o menos`,
+    command: (recipe: string) => `Receta: ${recipe}`,
+    working: "Calculando los cambios…",
+    summary: (changes: number, kept: number, left: number) =>
+      [
+        changeCount(changes),
+        kept > 0 && (kept === 1 ? "1 valor ya es igual de bueno" : `${format(kept)} valores ya son igual de buenos`),
+        left > 0 && valuesLeftAlone(left),
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "Cambios que haría la receta",
+    keptHeading: (count: number) =>
+      count === 1
+        ? "1 valor se queda como está: ya es igual de bueno"
+        : `${format(count)} valores se quedan como están: ya son igual de buenos`,
+    keptLabel: "Valores que ya son igual de buenos",
+    valueColumn: "Valor",
+    leftLabel: "Lo que la receta deja sin tocar",
+    undo: "Deshacer esta receta",
+    undoTitle: "Volver a escribir en el juego todo lo que cambió esta receta",
   },
 
   /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */

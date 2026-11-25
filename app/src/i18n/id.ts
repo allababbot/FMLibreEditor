@@ -267,6 +267,10 @@ const errors: ErrorTexts = {
   "mass.noOperations": () => "Pilih setidaknya satu kolom untuk diubah.",
   "mass.tooMany": (p) =>
     `Ada ${p.count} hasil. Persempit pencarian atau filter hingga paling banyak ${p.limit} untuk edit massal.`,
+  "recipe.tooOld": (p) =>
+    `Pemain ini berusia ${p.age} tahun: resep ini untuk pemain berusia ${p.oldest} tahun atau lebih muda.`,
+  "recipe.ageUnknown": () => "Usia pemain tidak diketahui, padahal resep ini bergantung padanya.",
+  "recipe.outOfDate": () => "Pratinjau ini sudah usang. Buka lagi resepnya.",
   "mass.outOfDate": () => "Pratinjau ini sudah usang. Buat ulang pratinjau edit massal.",
 };
 
@@ -3027,6 +3031,44 @@ export const id: Strings = {
       unwanted: () => "Status skuad: tidak lagi dibutuhkan",
       listed: () => "Sudah masuk daftar transfer",
     } as Record<string, (value: string) => string>,
+  },
+
+  /** Recipes (`RecipeMenu`): see `en.ts`. */
+  recipes: {
+    button: "Resep",
+    buttonTitle: "Kumpulan perubahan siap pakai, dengan pratinjau",
+    names: {
+      wonderkid: "Jadikan wonderkid",
+      injuryProof: "Kebal cedera",
+      longCareer: "Perpanjang kariernya",
+      richClub: "Jadikan klub kaya",
+      topFacilities: "Fasilitas terbaik",
+    },
+    notes: {
+      wonderkid:
+        "Usia 21 tahun atau lebih muda: kemampuan potensial minimal 180, kemampuan dan atribut sesuai usianya. " +
+        "Nilai yang lebih tinggi dibiarkan.",
+      injuryProof: "Kerentanan cedera 1, kebugaran natural 20, stamina minimal 15, cedera disembuhkan.",
+      longCareer:
+        "Rencana pensiun dihapus, kontrak minimal tiga tahun lagi, kebugaran natural 20, profesionalisme minimal " +
+        "18.",
+      richClub: "Saldo, anggaran transfer, dan anggaran gaji naik ke tingkat klub-klub terkaya.",
+      topFacilities: "Kelima fasilitas jadi 20.",
+    },
+    tooOld: (oldest: number) => `Untuk pemain berusia ${oldest} tahun atau lebih muda`,
+    command: (recipe: string) => `Resep: ${recipe}`,
+    working: "Menghitung perubahan…",
+    summary: (changes: number, kept: number, left: number) =>
+      [changeCount(changes), kept > 0 && `${format(kept)} nilai sudah sebaik itu`, left > 0 && valuesLeftAlone(left)]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "Perubahan yang akan dibuat resep",
+    keptHeading: (count: number) => `${format(count)} nilai dibiarkan apa adanya: sudah sebaik itu`,
+    keptLabel: "Nilai yang sudah sebaik itu",
+    valueColumn: "Nilai",
+    leftLabel: "Yang dibiarkan resep",
+    undo: "Urungkan resep ini",
+    undoTitle: "Tulis kembali ke game semua yang diubah resep ini",
   },
 
   /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */

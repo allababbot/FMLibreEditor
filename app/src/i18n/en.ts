@@ -3641,6 +3641,61 @@ export const en = {
   },
 
   /**
+   * Recipes (`RecipeMenu`): ready-made sets of changes to one player or one club. The Recipes button opens a menu of
+   * them; the dialog of the one picked lists what it would write, like the preview of a mass edit, whose words for
+   * Apply, the columns and the outcome it shares.
+   */
+  recipes: {
+    /** The button beside Max attributes in a player's profile, and in the header of a club's. */
+    button: "Recipes",
+    buttonTitle: "Ready-made sets of changes, previewed first",
+    /** The recipes by key, as the menu and the title of the dialog name them. */
+    names: {
+      wonderkid: "Make a wonderkid",
+      injuryProof: "Injury-proof",
+      longCareer: "Extend his career",
+      richClub: "Make the club rich",
+      topFacilities: "Top facilities",
+    },
+    /** What each one does, kept short: the note beside its menu item, and the line under the dialog's title. */
+    notes: {
+      wonderkid:
+        "21 or younger: potential ability at least 180, ability and attributes to suit his age. Higher values " +
+        "stay.",
+      injuryProof: "Injury proneness 1, natural fitness 20, stamina at least 15, injuries healed.",
+      longCareer:
+        "No planned retirement, three more years of contract, natural fitness 20, professionalism at least 18.",
+      richClub: "Balance, transfer budget and wage budgets up to the level of the richest clubs.",
+      topFacilities: "All five facilities to 20.",
+    },
+    /** The note of a recipe that is dimmed: the player is older than `oldest`, or his age is not known. */
+    tooOld: (oldest: number) => `For players of ${oldest} or younger`,
+    /** A recipe as the command palette lists it for the profile on show. */
+    command: (recipe: string) => `Recipe: ${recipe}`,
+    /** In the dialog while the recipe is worked out. */
+    working: "Working out the changes…",
+    /** "14 changes · 30 values as good already · 2 values left alone". */
+    summary: (changes: number, kept: number, left: number) =>
+      [
+        changeCount(changes),
+        kept > 0 && (kept === 1 ? "1 value as good already" : `${format(kept)} values as good already`),
+        left > 0 && valuesLeftAlone(left),
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "Changes the recipe would make",
+    /** The line that opens the list of the values that stay because they are as good already, or better. */
+    keptHeading: (count: number) =>
+      count === 1 ? "1 value stays as it is: as good already" : `${format(count)} values stay as they are: as good already`,
+    keptLabel: "Values that are as good already",
+    /** The head of the column of those values. */
+    valueColumn: "Value",
+    leftLabel: "What the recipe leaves alone",
+    undo: "Undo this recipe",
+    undoTitle: "Write everything this recipe changed back to the game",
+  },
+
+  /**
    * A player's development, from the records the app keeps of a career (`PlayerProgress`): the Development tab of his
    * profile, the note under his abilities in its header, and the change beside an ability in a squad's table.
    */

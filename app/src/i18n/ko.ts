@@ -417,6 +417,9 @@ const errors: ErrorTexts = {
   "mass.noOperations": () => "변경할 항목을 하나 이상 선택하세요.",
   "mass.tooMany": (p) =>
     `결과가 ${p.count}건입니다. 일괄 편집을 하려면 검색이나 필터로 ${p.limit}건 이하로 줄이세요.`,
+  "recipe.tooOld": (p) => `이 선수는 ${p.age}세입니다. 이 레시피는 ${p.oldest}세 이하 선수용입니다.`,
+  "recipe.ageUnknown": () => "선수의 나이를 알 수 없습니다. 이 레시피는 나이를 기준으로 합니다.",
+  "recipe.outOfDate": () => "이 미리보기는 더 이상 최신이 아닙니다. 레시피를 다시 여세요.",
   "mass.outOfDate": () => "이 미리보기는 더 이상 최신이 아닙니다. 일괄 편집 미리보기를 다시 실행하세요.",
 };
 
@@ -3099,6 +3102,40 @@ export const ko: Strings = {
       unwanted: () => "팀 내 위상: 잉여 자원",
       listed: () => "이미 이적 명단에 등록됨",
     },
+  },
+
+  /** Recipes (`RecipeMenu`): see `en.ts`. */
+  recipes: {
+    button: "레시피",
+    buttonTitle: "미리 준비된 변경 묶음. 쓰기 전에 미리보기",
+    names: {
+      wonderkid: "유망주로 만들기",
+      injuryProof: "부상에 강하게",
+      longCareer: "선수 생활 연장",
+      richClub: "구단을 부자로",
+      topFacilities: "최고 시설",
+    },
+    notes: {
+      wonderkid: "21세 이하: 잠재 능력 180 이상, 현재 능력과 능력치를 나이에 맞게. 더 높은 값은 그대로.",
+      injuryProof: "부상 빈도 1, 타고난 체력 20, 지구력 15 이상, 현재 부상 치료.",
+      longCareer: "예정된 은퇴 취소, 계약 3년 이상 연장, 타고난 체력 20, 프로 의식 18 이상.",
+      richClub: "보유 금액, 이적 예산, 급료 예산을 가장 부유한 구단 수준으로.",
+      topFacilities: "다섯 시설을 모두 20으로.",
+    },
+    tooOld: (oldest: number) => `${oldest}세 이하 선수용`,
+    command: (recipe: string) => `레시피: ${recipe}`,
+    working: "변경 사항을 계산하는 중…",
+    summary: (changes: number, kept: number, left: number) =>
+      [changeCount(changes), kept > 0 && `이미 충분한 값 ${format(kept)}개`, left > 0 && valuesLeftAlone(left)]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "레시피가 만들 변경 사항",
+    keptHeading: (count: number) => `그대로 두는 값 ${format(count)}개: 이미 충분함`,
+    keptLabel: "이미 충분한 값",
+    valueColumn: "값",
+    leftLabel: "레시피가 그대로 두는 것",
+    undo: "이 레시피 되돌리기",
+    undoTitle: "이 레시피가 바꾼 모든 것을 게임에 다시 씁니다",
   },
 
   /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */

@@ -453,6 +453,10 @@ const errors: ErrorTexts = {
   "mass.tooMany": (p) =>
     `Es gibt ${p.count} Treffer. Grenzen Sie die Suche oder die Filter für eine Massenbearbeitung auf höchstens ` +
     `${p.limit} ein.`,
+  "recipe.tooOld": (p) =>
+    `Der Spieler ist ${p.age}: Dieses Rezept ist für Spieler von höchstens ${p.oldest} Jahren.`,
+  "recipe.ageUnknown": () => "Das Alter des Spielers ist nicht bekannt, und dieses Rezept richtet sich danach.",
+  "recipe.outOfDate": () => "Diese Vorschau ist nicht mehr aktuell. Öffnen Sie das Rezept erneut.",
   "mass.outOfDate": () =>
     "Diese Vorschau ist nicht mehr aktuell. Erstellen Sie die Vorschau der Massenbearbeitung erneut.",
 };
@@ -3270,6 +3274,51 @@ export const de: Strings = {
       unwanted: () => "Teamstatus: Nicht benötigt",
       listed: () => "Bereits auf der Transferliste",
     },
+  },
+
+  /** Recipes (`RecipeMenu`): see `en.ts`. */
+  recipes: {
+    button: "Rezepte",
+    buttonTitle: "Fertige Sätze von Änderungen, erst mit Vorschau",
+    names: {
+      wonderkid: "Zum Wunderkind machen",
+      injuryProof: "Verletzungsfest machen",
+      longCareer: "Karriere verlängern",
+      richClub: "Verein reich machen",
+      topFacilities: "Beste Einrichtungen",
+    },
+    notes: {
+      wonderkid:
+        "Bis 21 Jahre: potenzielle Fähigkeit mindestens 180, Fähigkeit und Attribute passend zum Alter. Höhere " +
+        "Werte bleiben.",
+      injuryProof: "Verletzungsanfälligkeit 1, Grundfitness 20, Ausdauer mindestens 15, Verletzungen geheilt.",
+      longCareer:
+        "Kein geplantes Karriereende, Vertrag noch mindestens drei Jahre, Grundfitness 20, Professionalität " +
+        "mindestens 18.",
+      richClub: "Kontostand, Transferbudget und Gehaltsbudgets auf das Niveau der reichsten Vereine.",
+      topFacilities: "Alle fünf Einrichtungen auf 20.",
+    },
+    tooOld: (oldest: number) => `Für Spieler von höchstens ${oldest} Jahren`,
+    command: (recipe: string) => `Rezept: ${recipe}`,
+    working: "Änderungen werden berechnet…",
+    summary: (changes: number, kept: number, left: number) =>
+      [
+        changeCount(changes),
+        kept > 0 && (kept === 1 ? "1 Wert ist schon so gut" : `${format(kept)} Werte sind schon so gut`),
+        left > 0 && valuesLeftAlone(left),
+      ]
+        .filter(Boolean)
+        .join(" · "),
+    tableLabel: "Änderungen, die das Rezept vornehmen würde",
+    keptHeading: (count: number) =>
+      count === 1
+        ? "1 Wert bleibt, wie er ist: schon so gut"
+        : `${format(count)} Werte bleiben, wie sie sind: schon so gut`,
+    keptLabel: "Werte, die schon so gut sind",
+    valueColumn: "Wert",
+    leftLabel: "Was das Rezept unverändert lässt",
+    undo: "Dieses Rezept rückgängig machen",
+    undoTitle: "Schreibt alles, was dieses Rezept geändert hat, zurück ins Spiel",
   },
 
   /** A player's development: the Development tab of his profile, the note under his abilities, the squad's arrows (see en.ts). */

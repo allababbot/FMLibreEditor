@@ -8,6 +8,7 @@ import { NationalBrowser } from "./NationalBrowser";
 import { CommandPalette, Keys, SearchIcon, type Command, type Found, type FoundKind } from "./CommandPalette";
 import { CompetitionBrowser } from "./CompetitionBrowser";
 import { CompatibilityNotice } from "./CompatibilityNotice";
+import { recipeCommand, recipesOnShow } from "./RecipeMenu";
 import { CopyDiagnostics } from "./CopyDiagnostics";
 import { forgetFieldTables } from "./fieldTables";
 import { describeError, describeGame, formatDate } from "./format";
@@ -373,6 +374,11 @@ function App() {
         run: profile.toggleEdit,
       });
     }
+    // The recipes of the player or the club on show, as its Recipes button offers them: found by typing, not listed.
+    const recipes = recipesOnShow();
+    recipes?.keys.forEach((key) =>
+      commands.push({ id: `recipe-${key}`, label: recipeCommand(key), typedOnly: true, run: () => recipes.open(key) }),
+    );
     VIEWS.forEach(({ id, label }, index) =>
       commands.push({
         id: `view-${id}`,

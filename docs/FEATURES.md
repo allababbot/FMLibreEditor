@@ -37,6 +37,10 @@ The game shows a change once you press **Continue** in FM.
   tactic to the top in one press. **Destroy**, after a question, does the other way round.
   One Undo takes either back.
 - **Batch traits** gives every player of a team the traits you pick, or takes them away.
+- **Recipes**: ready-made sets of changes for one player or one club, each shown value by value
+  before anything is written and taken back with one Undo. Make a wonderkid (21 or younger),
+  Injury-proof and Extend his career for a player; Make the club rich and Top facilities for a
+  club. A recipe only ever raises a value to what it gives: one that is better already stays.
 - A national team's senior squad has Heal all, Inspire all and Refresh all too.
 
 ## Freeze

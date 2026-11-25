@@ -16,6 +16,7 @@ import {
   type SupporterMixKey,
 } from "./labels";
 import { ClubLogo, PICTURE_SIZE } from "./Picture";
+import { RecipeMenu } from "./RecipeMenu";
 import {
   Fact,
   ProfileFrame,
@@ -93,6 +94,10 @@ export function ClubProfile({ club, version, tab, onTab, onClose }: ClubProfileP
             <ReputationMeter value={info.reputation} />
           </EditableValue>
         </div>
+      }
+      actions={
+        // Only while the club is read, not edited, and can be written to: the recipes write to it themselves.
+        details && editing.editable && !locked && <RecipeMenu entity="club" uid={club.uid} name={info.name} />
       }
       tabs={details && <ClubTabs tab={shown} base={base} locked={locked} onSelect={onTab} />}
       wide={details !== undefined && shown === "squad"}

@@ -35,6 +35,7 @@ mod own_memory;
 mod players;
 mod prize_money;
 mod profile;
+mod recipes;
 mod records;
 mod relations;
 mod retirement;
@@ -110,6 +111,7 @@ pub use profile::{
     ProfileNotes, SelectionLayout, StaffLayout, TacticLayout, TacticsLayout, built_in_profiles, layout_for,
     layout_lender, layout_of, profile_for, profile_text,
 };
+pub use recipes::{Kept, LeftOut, RECIPES, Recipe, RecipeError, RecipePlan, Subject, recipe};
 pub use relations::{HOMEGROWN_RULES, Relation, RelationPlan, RelationSet, Tie, TieTarget};
 pub use retirement::{PlannedRetirement, RetirementPlan, RetirementSet};
 pub use rules::{
