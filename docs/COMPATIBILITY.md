@@ -81,8 +81,8 @@ running game. None of the four features above is placed on an Intel build yet.
 
 ## What depends on the system
 
-- **Arranging a transfer for the game to make** works on Windows and on Macs with Apple
-  silicon. It does not work on Intel Macs, nor where the game runs under Rosetta.
+- **Arranging a transfer or a loan for the game to make** works on Windows and on Macs with
+  Apple silicon. It does not work on Intel Macs, nor where the game runs under Rosetta.
 - **On macOS** the game has to be started from Steam with the bridge set up; see
   [INSTALL.md](INSTALL.md#macos).
 

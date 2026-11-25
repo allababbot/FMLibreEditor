@@ -215,3 +215,21 @@ On the Arsenal save of 5 July 2027, a few days after most loans had ended:
 With the probe, each put back: De Cuyper's loan made permanent (`permanent 18110473 --restore`, 11 writes: he read as
 Lyon's, not on loan, with his loan contract's squad status, then on loan again), and a recall's writes, his loan's
 end to the game's date and his option to buy to -1, each read back and restored.
+
+### Arranging a loan on the Mac
+
+The Mac Steam build 26797085 (Apple silicon) keeps the loan offer and the loan contract as Windows does
+(`[transfers.loan]` in `layout-macos.toml`). On the Arsenal save of 18 July 2027 the probe's `instances` found 406
+`LOAN_OFFER`s (`10LOAN_OFFER`), 0x128 bytes apart in a pool of their own, and 317 loan contracts, 0x100 apart in
+theirs; both pools were full, so the editor's offer and loan contract went into blocks of the game's heap. The game had
+made 165 of the loans, and for the 140 whose players were still on them each loan contract held what its offer held at
+the Windows places: the wage, the monthly fee twice, how long the loan runs, the future fee and its kind (0xFF none in
+109, 0xFE an option in 15, mandatory 0x64, 0x14 or 0x19 in 16), and `+0x114` at the contract's `+0xC8`. Where an
+offer's two wages differ (3 loans), `+0x108` is the loan contract's wage and `+0x100` its `+0xD4`. In 71 of them the
+game had set bit 8 (0x100) of the loan contract's flags, which the offer does not hold.
+
+Marc Bernal, from Barcelona to Villarreal, arranged with `arrange-loan 2000295603 1777 --share 80 --monthly-fee 50000
+--option-fee 30000000` on 18 July 2027: the game made the loan on 19 July, on the loan contract the editor wrote, until
+29 June 2028, at £28,248 a week (80% of £35,310), £50,000 a month and an option to buy for £30,000,000, its kind 0xFE
+kept, and set bit 8 of its flags as for its own. The offer was made (state 20) and his entry gone, as for the game's own
+loans with an option; all 12 of the probe's `health` checks passed after it.

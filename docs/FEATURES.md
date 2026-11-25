@@ -59,10 +59,10 @@ when you connect to that save another time.
 - Arrange a transfer for the game to make on its next day (Windows, and Macs with Apple
   silicon): the game moves the player, pays the fee, and keeps the move in his career
   history, with this season's matches at his old club, as it does for its own transfers.
-- Arrange a loan the same way (Windows): until the day you pick, with the share of his wage
-  the other club pays, a monthly fee and, if you like, an option to buy, which that club may
-  take up when the loan ends; the game makes the loan the next day, in a transfer window or
-  out of one, and his history shows it, as it does for its own.
+- Arrange a loan the same way (Windows, and Macs with Apple silicon): until the day you pick,
+  with the share of his wage the other club pays, a monthly fee and, if you like, an option
+  to buy, which that club may take up when the loan ends; the game makes the loan the next
+  day, in a transfer window or out of one, and his history shows it, as it does for its own.
 
 ## Clubs, money and rules
 

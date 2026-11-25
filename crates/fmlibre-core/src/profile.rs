@@ -1664,16 +1664,15 @@ mod tests {
         );
         assert!(m.player_offer_numbers >= mac.player.person_block);
         assert_eq!((w.record_size, m.record_size), (0x28, 0x18));
-        // The game's loan offers have been read on Windows only: the Mac arranges no loan until they are read there.
         let shared = |t: &TransfersLayout| TransfersLayout {
             player_offer_numbers: 0,
             player_entries: 0,
             record_size: 0,
-            loan: None,
             ..t.clone()
         };
         assert_eq!(shared(m), shared(w));
-        assert!(w.loan.is_some());
+        // So are the game's loan offers and the loan contracts they offer.
+        assert!(m.loan.is_some());
 
         // The records the people point at are laid out alike. The kind of contract is left out of a layout until it
         // has been read on that system; where both have it, it sits at the same place.

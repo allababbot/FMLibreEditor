@@ -57,8 +57,7 @@ Apple silicon only: Rosetta does not let a thread's registers be set. These are 
 game has loaded; the editor writes no code into the game for them. The offer and the
 contract of such a transfer go in slots of the game's pools, as above (see `arranged.rs`).
 A loan is arranged the same way, with an offer of the game's loan class and a loan contract
-(see docs/recon/fm27-loans.md); its layout is read on Windows only, so the Mac does not offer
-it yet.
+(see docs/recon/fm27-loans.md), on Windows and on Apple silicon Macs.
 Until the day, the app refuses to move, swap or release the player another way: the game
 makes the transfer from the club he is at.
 

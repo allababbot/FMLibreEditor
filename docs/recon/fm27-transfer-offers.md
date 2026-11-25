@@ -138,6 +138,9 @@ club the player is on loan at, from the loan's last day: the one he signs when t
 buy keep none. See `fm27-loans.md` for what the
 game made of the loans the editor arranged.
 
+The Mac Steam build 26797085 (Apple silicon) lays the loan offer out alike (`10LOAN_OFFER`, `0x128` bytes): see
+`fm27-loans.md`, Arranging a loan on the Mac.
+
 ## How the fee is paid
 
 The record behind `+0xA8` holds three `(begin, end, capacity)` lists, at `+0x00`, `+0x18` and `+0x30`. On Game Pass
