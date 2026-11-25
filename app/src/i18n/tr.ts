@@ -3298,14 +3298,6 @@ export const tr: Strings = {
           title: "Daha kısa notlar.",
           text: "Düğmelerin notları artık tek satır; pencere boyunca uzanan bir şerit yerine küçük bir kutuda çıkıyor.",
         },
-        {
-          title: "Sponsorluk anlaşmaları.",
-          text: "Kulüplerin sponsorluk anlaşmaları artık Game Pass'teki gibi Steam'de ve Apple silicon Mac'lerde de görünüyor.",
-        },
-        {
-          title: "Milli takım bilgileri.",
-          text: "Apple silicon Mac'lerde bir milli takımın profili federasyonunun kuruluş yılını, kıtasını ve personelini gösteriyor.",
-        },
       ],
       "0.5.4": [
         {

@@ -3391,14 +3391,6 @@ export const it: Strings = {
           title: "Note più brevi.",
           text: "Le note dei pulsanti occupano una riga ciascuna, in un piccolo riquadro invece che in una lunga striscia attraverso la finestra.",
         },
-        {
-          title: "Sponsorizzazioni.",
-          text: "I contratti di sponsorizzazione di una società ora compaiono anche su Steam e sui Mac con Apple silicon, come su Game Pass.",
-        },
-        {
-          title: "Dati delle nazionali.",
-          text: "Sui Mac con Apple silicon, il profilo di una nazionale mostra l'anno di fondazione della federazione, il continente e lo staff.",
-        },
       ],
       "0.5.4": [
         {

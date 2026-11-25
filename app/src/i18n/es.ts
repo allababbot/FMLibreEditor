@@ -3372,14 +3372,6 @@ export const es: Strings = {
           title: "Notas más cortas.",
           text: "Las notas de los botones ocupan una línea cada una, en un recuadro pequeño en lugar de una franja larga que cruza la ventana.",
         },
-        {
-          title: "Contratos de patrocinio.",
-          text: "Los contratos de patrocinio de un club se ven ahora también en Steam y en los Mac con Apple silicon, como en Game Pass.",
-        },
-        {
-          title: "Datos de las selecciones.",
-          text: "En los Mac con Apple silicon, el perfil de una selección muestra el año de fundación de su federación, su continente y su personal.",
-        },
       ],
       "0.5.4": [
         {

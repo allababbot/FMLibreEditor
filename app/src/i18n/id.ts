@@ -3215,14 +3215,6 @@ export const id: Strings = {
           title: "Catatan lebih pendek.",
           text: "Catatan pada tombol kini satu baris saja, di kotak kecil, bukan pita panjang yang melintang di jendela.",
         },
-        {
-          title: "Kontrak sponsor.",
-          text: "Kontrak sponsor klub kini juga tampil di Steam dan Mac dengan Apple silicon, seperti di Game Pass.",
-        },
-        {
-          title: "Data tim nasional.",
-          text: "Di Mac dengan Apple silicon, profil tim nasional menampilkan tahun berdirinya federasi, benuanya, dan stafnya.",
-        },
       ],
       "0.5.4": [
         {

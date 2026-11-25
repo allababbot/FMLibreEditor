@@ -3474,14 +3474,6 @@ export const fr: Strings = {
           title: "Des notes plus courtes.",
           text: "Les notes des boutons tiennent sur une ligne, dans un petit cadre au lieu d'une longue bande en travers de la fenêtre.",
         },
-        {
-          title: "Contrats de sponsoring.",
-          text: "Les contrats de sponsoring d'un club s'affichent désormais aussi sur Steam et sur les Mac à puce Apple, comme sur Game Pass.",
-        },
-        {
-          title: "Sélections nationales.",
-          text: "Sur les Mac à puce Apple, le profil d'une sélection nationale montre l'année de fondation de sa fédération, son continent et son personnel.",
-        },
       ],
       "0.5.4": [
         {

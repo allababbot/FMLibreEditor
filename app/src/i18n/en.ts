@@ -3864,14 +3864,6 @@ export const en = {
           title: "Shorter notes.",
           text: "The notes on buttons are a line each, in a small box instead of a long strip across the window.",
         },
-        {
-          title: "Sponsorship deals.",
-          text: "A club's sponsorship deals now show on Steam and on Apple silicon Macs too, as on Game Pass.",
-        },
-        {
-          title: "Nation details.",
-          text: "On Apple silicon Macs, a national team's profile shows the year its federation was founded, its continent and its staff.",
-        },
       ],
       "0.5.4": [
         {
