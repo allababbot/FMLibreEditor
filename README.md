@@ -34,15 +34,15 @@ signed: [Code signing policy](#code-signing-policy).
   win, draw and loss, in the club's finances: for every club in that league, until the game sets
   the next season up with its own amounts. So far on the versions of the game it was checked on:
   Steam builds 26340721, 26577676, 26620374 and 26797085 on Windows, Steam builds 26340721,
-  26385295 and 26620374 on Apple silicon Macs, and Game Pass 0.9.2409.0, 0.9.2435.0, 0.9.2524.0
-  and 0.9.2562.0; the others say why there is nothing yet.
+  26385295, 26620374 and 26797085 on Apple silicon Macs, and Game Pass 0.9.2409.0, 0.9.2435.0,
+  0.9.2524.0 and 0.9.2562.0; the others say why there is nothing yet.
 - See and change a competition's squad rules in the Competitions tab: how many foreign players a
   squad may register, how many goalkeepers, how many players in all, and what a team may pick for
   a match, this season's and next season's apart. A change is kept in the save; UEFA's Champions,
   Europa and Conference League keep their rules in none, so the editor holds a change of them and
   writes it again each time it connects. So far on Game Pass 0.9.2524.0 and 0.9.2562.0 and Steam
-  build 26620374 on Apple silicon Macs, where it was checked; the other versions say why there is
-  nothing yet.
+  builds 26620374 and 26797085 on Apple silicon Macs, where it was checked; the other versions say
+  why there is nothing yet.
 - See a club's sponsorship deals in its finances, read only: each deal by the name the game gives its
   kind, what it pays per season and in all, its term, and what a relegation changes. Shown on Game
   Pass 0.9.2524.0 and 0.9.2562.0, Steam build 26340721 on Windows and 26385295 on Apple silicon Macs;
@@ -51,8 +51,8 @@ signed: [Code signing policy](#code-signing-policy).
   switch), the players the game lists for its senior team and its reputation, which can be edited,
   and heal, inspire or refresh its senior team's squad. So far on Windows (Game Pass 0.9.2435.0,
   0.9.2524.0 and 0.9.2562.0, Steam builds 26577676, 26620374 and 26797085) and on Steam for macOS,
-  builds 26385295 and 26620374 on Apple silicon; the other versions of the game say why there are
-  none yet.
+  builds 26385295, 26620374 and 26797085 on Apple silicon; the other versions of the game say why
+  there are none yet.
 - Opens on **My club**: the club you manage, its money, who needs a look (the injured, the
   banned, low morale, the tired, unrest, contracts about to end) and the actions on the whole
   team one click away. With no club of your own, pick one to follow.

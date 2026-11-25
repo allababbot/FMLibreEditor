@@ -429,6 +429,7 @@ mod tests {
                 "FM27 Steam build 26797085",
                 "FM27 Steam build 26385295 (27.0.1, macOS, Apple silicon)",
                 "FM27 Steam build 26620374 (macOS, Apple silicon)",
+                "FM27 Steam build 26797085 (macOS, Apple silicon)",
                 "FM27 (Epic Games Store)"
             ]
         );
