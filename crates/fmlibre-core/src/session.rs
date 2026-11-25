@@ -12,9 +12,13 @@ use crate::details::{PlayerDetails, read_player_details};
 use crate::edit::Field;
 use crate::game::{GAME_EXE, GAME_PLUGIN, GameInfo};
 use crate::health::{Check, Health, Lock, STRUCTURE};
-use crate::locate::{DatePlace, Found, Place, find_game_ui, find_retirement_manager, game_date_from};
+use crate::locate::{
+    DatePlace, Found, Manager, Place, find_game_ui, find_manager, find_retirement_manager, game_date_from,
+};
 use crate::players::{PlayerSummary, read_players};
-use crate::profile::{BuildProfile, Layout, PluginFingerprint, layout_of, profile_for};
+use crate::profile::{
+    BuildProfile, Layout, LayoutOverrides, PluginFingerprint, built_in_profiles, layout_lender, layout_of, profile_for,
+};
 use crate::retirement::MANAGER_CLASS;
 use crate::rtti::{class_of, mangled};
 use crate::staff::{StaffDetails, StaffSummary, read_staff, read_staff_details};
@@ -140,6 +144,15 @@ impl SaveMark {
     }
 }
 
+/// What the editor keeps of the static pointer to a [`Manager`]: the vtable of its object once its class name has been
+/// checked, and where the pointer is once looked for, kept when found and looked for again after
+/// [`Session::recheck`] when it was not.
+#[derive(Default)]
+struct ManagerStatic {
+    vtable: OnceLock<u64>,
+    place: Mutex<Option<Option<Place>>>,
+}
+
 /// While it lives, writes leave out the check that the game still has the save the editor read: see
 /// [`Session::vouch_for_save`].
 pub struct SaveVouched<'a>(&'a Session);
@@ -158,6 +171,12 @@ pub struct Session {
     pub fingerprint: PluginFingerprint,
     /// The built-in profile of this build, when there is one.
     pub profile: Option<BuildProfile>,
+    /// For a build without a profile, the name of the built-in profile whose overrides of the layout it is read with
+    /// (see [`layout_lender`]): the newest build of its kind.
+    pub layout_from: Option<String>,
+    /// What the build is read as laying out otherwise than the layout file ([`BuildProfile::layout`]): its profile's, or
+    /// for a build without one those of the profile [`Session::layout_from`] names.
+    pub overrides: LayoutOverrides,
     pub layout: Layout,
     pub arrays: EntityArrays,
     /// The class of the full club finance record, found the first time it is needed.
@@ -174,6 +193,9 @@ pub struct Session {
     /// Where the static pointer to the game's own object is, once looked for: kept when found, and looked for again
     /// after [`Session::recheck`] when it was not.
     game_place: Mutex<Option<Option<Place>>>,
+    /// The static pointers to the tactics manager and to the training manager (see [`Session::manager_place`]).
+    tactics_manager: ManagerStatic,
+    training_manager: ManagerStatic,
     /// What the game had loaded when the editor last read it (see [`Session::save_changed`]).
     save_mark: Mutex<SaveMark>,
     /// Whether the writes made now were vouched for by their caller (see [`Session::vouch_for_save`]).
@@ -218,7 +240,14 @@ impl Session {
         let profile = if profiles_ignored() { None } else { profile_for(fingerprint) };
         let edition = profile.as_ref().map(|p| p.edition).or(game.edition);
         // What the build lays out otherwise is a fact of the build, not a place to search for: kept with ScanOnly too.
-        let overrides = profile.as_ref().map(|profile| profile.layout.clone()).unwrap_or_default();
+        // A build without a profile is read as the newest build of its kind lays its objects out, which an update is
+        // likelier to keep than to undo: where it is wrong, the checks of what moved leave it unread (see
+        // `LayoutOverrides`), as the layout file's places would.
+        let lender = match (&profile, edition) {
+            (None, Some(edition)) => layout_lender(edition, fingerprint, game.storefront, built_in_profiles()),
+            _ => None,
+        };
+        let overrides = profile.as_ref().or(lender.as_ref()).map(|p| p.layout.clone()).unwrap_or_default();
         let layout = edition
             .and_then(|edition| layout_of(edition, &overrides))
             .ok_or(SessionError::UnsupportedEdition(edition))?;
@@ -233,6 +262,8 @@ impl Session {
             plugin,
             fingerprint,
             profile,
+            layout_from: lender.map(|lender| lender.name),
+            overrides,
             layout,
             arrays,
             finance_class: OnceLock::new(),
@@ -241,6 +272,8 @@ impl Session {
             retirement_place: Mutex::new(None),
             game_class: OnceLock::new(),
             game_place: Mutex::new(None),
+            tactics_manager: ManagerStatic::default(),
+            training_manager: ManagerStatic::default(),
             save_mark: Mutex::new(SaveMark::default()),
             save_vouched: AtomicBool::new(false),
             selection_class: OnceLock::new(),
@@ -283,7 +316,8 @@ impl Session {
     /// game has loaded now as what the editor reads (see [`Session::save_changed`]): the lists are to be read again
     /// after it. A retirement manager or a game object that was not found is looked for again.
     pub fn recheck(&self) -> Arc<Health> {
-        for place in [&self.retirement_place, &self.game_place] {
+        let managers = [&self.tactics_manager.place, &self.training_manager.place];
+        for place in [&self.retirement_place, &self.game_place].into_iter().chain(managers) {
             let mut place = place.lock().unwrap_or_else(PoisonError::into_inner);
             if *place == Some(None) {
                 *place = None;
@@ -442,12 +476,31 @@ impl Session {
     }
 
     /// The class (vtable) of the full club finance record, the only one the budgets can be
-    /// written to; `None` when it cannot be told apart.
+    /// written to; `None` when it cannot be told apart. On a build without a profile, whose
+    /// layout nobody read on it, it must also be the class the layout names for the full
+    /// record ([`crate::profile::ClubFinanceLayout::class`]): values read from the wrong place
+    /// can make records of the smaller class look real.
     pub fn finance_class(&self) -> Option<u64> {
         *self.finance_class.get_or_init(|| {
             let array = self.arrays.clubs.as_ref()?;
-            full_finance_class(&self.process, &self.plugin, array, &self.layout)
+            let (class, record) = full_finance_class(&self.process, &self.plugin, array, &self.layout)?;
+            let named = |name: &String| class_of(&self.process, &self.plugin, record) == Some(mangled(name));
+            let vouched = self.known_build() || self.layout.club_finance.class.as_ref().is_none_or(named);
+            vouched.then_some(class)
         })
+    }
+
+    /// Whether the finance record of `club` is read: on a build the editor knows, wherever its values look real
+    /// ([`crate::clubs::read_club_details`]); on one without a profile only where it is also of the class of the full
+    /// record ([`Session::finance_class`]).
+    fn finances_read(&self, club: &ClubSummary) -> bool {
+        if self.known_build() {
+            return true;
+        }
+        let record =
+            self.process.read_u64(club.address + self.layout.club.finance).ok().filter(|&r| is_user_pointer(r));
+        let class = record.and_then(|record| self.process.read_u64(record).ok());
+        class.is_some() && class == self.finance_class()
     }
 
     /// The current in-game date, read now where the checks found it (see [`Check::GameDate`]); `None` rather than a
@@ -505,6 +558,41 @@ impl Session {
         true
     }
 
+    fn manager_static(&self, manager: Manager) -> &ManagerStatic {
+        match manager {
+            Manager::Tactics => &self.tactics_manager,
+            Manager::Training => &self.training_manager,
+        }
+    }
+
+    /// Where the build profile puts the static pointer to `manager`, unless every place is searched for.
+    pub(crate) fn placed_manager(&self, manager: Manager) -> Option<u64> {
+        manager.placed(self.profile.as_ref().filter(|_| !self.search_all)?)
+    }
+
+    /// Where the static pointer to `manager` is, and how it was found: looked for the first time it is needed, on a
+    /// build without a profile too (see [`crate::locate`]). `None` when it cannot be found in this build.
+    pub fn manager_place(&self, manager: Manager) -> Option<Place> {
+        let mut place = self.manager_static(manager).place.lock().unwrap_or_else(PoisonError::into_inner);
+        *place.get_or_insert_with(|| find_manager(self, manager))
+    }
+
+    /// Whether `object` is `manager`'s, by the name of its class.
+    pub(crate) fn is_manager(&self, manager: Manager, object: u64) -> bool {
+        let Ok(vtable) = self.process.read_u64(object) else {
+            return false;
+        };
+        let known = &self.manager_static(manager).vtable;
+        if known.get() == Some(&vtable) {
+            return true;
+        }
+        if class_of(&self.process, &self.plugin, object).is_none_or(|class| class != mangled(manager.class())) {
+            return false;
+        }
+        let _ = known.set(vtable);
+        true
+    }
+
     /// Reads every player, with ages on the current in-game date. Only reads memory.
     pub fn players(&self) -> Result<Vec<PlayerSummary>, SessionError> {
         let array = self.arrays.players.as_ref().ok_or(SessionError::PlayersNotFound)?;
@@ -521,7 +609,14 @@ impl Session {
 
     /// Reads the full profile of `club`; `None` when its object has changed. Only reads memory.
     pub fn club_details(&self, club: &ClubSummary) -> Result<Option<ClubDetails>, SessionError> {
-        Ok(read_club_details(&self.process, &self.layout, club)?)
+        let mut details = read_club_details(&self.process, &self.layout, club)?;
+        if let Some(details) = details.as_mut().filter(|details| details.finances.is_some())
+            && !self.finances_read(club)
+        {
+            details.finances = None;
+            details.facilities.remove("corporate");
+        }
+        Ok(details)
     }
 
     /// Reads every member of staff, with ages on the current in-game date. Only reads memory.
@@ -578,6 +673,8 @@ impl Session {
             plugin: Module { name: GAME_PLUGIN.to_owned(), base: 0, size: 0, path: Default::default() },
             fingerprint: PluginFingerprint::Pe { size_of_image: 0, link_timestamp: 0 },
             profile: None,
+            layout_from: None,
+            overrides: LayoutOverrides::default(),
             layout,
             arrays: EntityArrays::none(),
             finance_class: OnceLock::new(),
@@ -586,6 +683,8 @@ impl Session {
             retirement_place: Mutex::new(None),
             game_class: OnceLock::new(),
             game_place: Mutex::new(None),
+            tactics_manager: ManagerStatic::default(),
+            training_manager: ManagerStatic::default(),
             save_mark: Mutex::new(SaveMark::default()),
             save_vouched: AtomicBool::new(false),
             selection_class: OnceLock::new(),

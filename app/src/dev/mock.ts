@@ -4152,9 +4152,14 @@ function mockReport(connection: ConnectionInfo): string {
     `Game: FM27 Game Pass ${game.packageVersion}`,
     "game_plugin.dll build: size of image 0x175da000, link timestamp 0x6ae563a1",
     `Build profile: ${connection.profile ?? "none for this build"}`,
+    connection.knownBuild
+      ? "Object layout: as the build profile says"
+      : "Object layout: as FM27 0.9.2524.0 (Game Pass) lays it out, the newest build of this kind, club_finance.corporate 0x8ad, tactics.current 0x1030, tactics.tactics 0x1018",
     `Writing: the system lets the app write to the game${allowed}`,
     `In-game date: ${connection.gameDate ? "2026-09-09 (game_plugin.dll+0x56257c8, from the build profile)" : "none"}`,
     "Retirement manager: game_plugin.dll+0x5675060 (from the build profile)",
+    "Tactics manager: game_plugin.dll+0x5675130 (from the build profile)",
+    "Training manager: game_plugin.dll+0x56716f0 (from the build profile)",
     arrays.fromProfile ? "Entity arrays (from the build profile, checked):" : "Entity arrays:",
     array("players", arrays.players),
     array("staff", arrays.staff),
