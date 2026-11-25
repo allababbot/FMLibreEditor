@@ -2785,6 +2785,13 @@ struct Captaincy {
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 struct TeamView {
+    /// The club the team belongs to, which with `index` is what a write to the team names: the club whose squad this
+    /// is, or for a linked team the club the game keeps it as.
+    club_uid: u32,
+    /// For a linked team (a B team, which the game keeps as a club of its own): that club's short name, or its name
+    /// where it has none. None for the club's own teams.
+    linked_club: Option<String>,
+    /// Where it is in the list of teams of the club it belongs to.
     index: usize,
     /// The game's code for the kind of team: 0 for the first team.
     kind: u8,
@@ -4081,6 +4088,8 @@ fn national_squad(state: State<'_, AppState>, uid: u32, kind: Option<u8>) -> Res
         },
     };
     let squad = TeamView {
+        club_uid: uid,
+        linked_club: None,
         index: squad.index,
         kind: squad.kind,
         age_limit: squad.age_limit,
@@ -5464,35 +5473,61 @@ fn save_scout_report(app: tauri::AppHandle, request: tauri::ipc::Request<'_>) ->
 }
 
 /// The teams of the club `uid`, the senior team first, with their players: each one's list
-/// row and the live values a squad screen shows, read now.
+/// row and the live values a squad screen shows, read now. After its own teams come those of other clubs it runs: a
+/// B team is a club of its own to the game (1. FC Nürnberg II), and is read, and written, as that club's team.
 #[tauri::command]
 fn club_squads(state: State<'_, AppState>, uid: u32) -> Result<Vec<TeamView>, Failure> {
     let guard = state.0.lock()?;
     let connection = guard.as_ref().ok_or_else(not_connected)?;
     let club = connection.clubs.get(uid).ok_or_else(|| not_found(Entity::Club, uid))?;
-    let teams = connection.session.club_teams(club, &connection.players)?;
+    let session = &connection.session;
+    // The club's own teams, then the teams of other clubs it runs (its B team), each read as a team of its own club.
+    let mut teams: Vec<(&ClubSummary, fmlibre_core::ClubTeam)> =
+        session.club_teams(club, &connection.players)?.into_iter().map(|team| (club, team)).collect();
+    for link in session.linked_teams(club, &connection.clubs) {
+        // One that cannot be read is left out: the club's own teams are shown all the same.
+        if let Ok(team) = session.club_team_at(link.club, link.index, &connection.players) {
+            teams.push((link.club, team));
+        }
+    }
     // Cohesion is shown only where the lists checked out: a build that moved them would read other bytes. So is how
     // well the players know the tactic.
     let cohesion_read = connection.session.health().passed(Check::Cohesion);
     let tactics_read = connection.session.health().passed(Check::Tactics);
-    // Who the club's players hold reasons to be unhappy about, across its teams.
-    let members: BTreeSet<u32> = teams.iter().flat_map(|team| team.players.iter().map(|member| member.uid)).collect();
-    let members: Vec<&PlayerSummary> = members.iter().filter_map(|&uid| connection.players.get(uid)).collect();
-    let concerned = connection.session.concerned_teammates(&members);
+    // Who each club's players hold reasons to be unhappy about, across its teams.
+    let owners: BTreeSet<u32> = teams.iter().map(|(owner, _)| owner.uid).collect();
+    let concerned: HashMap<u32, HashMap<u32, usize>> = owners
+        .into_iter()
+        .map(|owner| {
+            let members: BTreeSet<u32> = teams
+                .iter()
+                .filter(|(of, _)| of.uid == owner)
+                .flat_map(|(_, team)| team.players.iter().map(|member| member.uid))
+                .collect();
+            let members: Vec<&PlayerSummary> = members.iter().filter_map(|&uid| connection.players.get(uid)).collect();
+            (owner, session.concerned_teammates(&members))
+        })
+        .collect();
+    let human = |club: u32| connection.human_clubs.contains(&club);
     Ok(teams
         .into_iter()
-        .map(|team| {
+        .map(|(club, team)| {
             let known = tactics_read
                 .then(|| connection.session.team_familiarity(club, team.index, &connection.players).ok().flatten())
                 .flatten()
                 .unwrap_or_default();
+            let linked = club.uid != uid;
+            let concerned = concerned.get(&club.uid);
             TeamView {
+                club_uid: club.uid,
+                linked_club: linked.then(|| club.short_name.clone().unwrap_or_else(|| club.name.clone())),
                 index: team.index,
                 kind: team.kind,
                 age_limit: team.age_limit,
                 captain: team.captain,
                 vice_captain: team.vice_captain,
-                human_club: connection.human_clubs.contains(&uid),
+                // A linked team is the user's own when its parent club is.
+                human_club: human(club.uid) || human(uid),
                 players: team
                     .players
                     .into_iter()
@@ -5512,7 +5547,7 @@ fn club_squads(state: State<'_, AppState>, uid: u32) -> Result<Vec<TeamView>, Fa
                             cohesion,
                             tactics: familiarity.map(|f| f.overall),
                             trains: familiarity.is_some_and(|f| f.trains),
-                            concerned_teammates: concerned.get(&member.uid).copied().unwrap_or(0),
+                            concerned_teammates: concerned.and_then(|by| by.get(&member.uid)).copied().unwrap_or(0),
                             injuries: member.injuries,
                             bans: member.bans,
                             attributes_frozen: connection.frozen.attributes.contains_key(&member.uid),

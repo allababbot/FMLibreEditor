@@ -134,7 +134,7 @@ pub use scouting::{
 pub use session::{ArraySource, IGNORE_PROFILES, SaveVouched, Session, SessionError, find_game, profiles_ignored};
 pub use signing::NewContract;
 pub use sponsorship::{Sponsorship, SponsorshipReadError, SponsorshipUnavailable, kind_name as sponsorship_kind_name};
-pub use squad::{CaptainPlan, CaptainRole, CaptainSet, ClubTeam, Loan, SquadMember};
+pub use squad::{CaptainPlan, CaptainRole, CaptainSet, ClubTeam, LinkedTeam, Loan, SquadMember};
 pub use squad_report::{Departure, DepartureAction, DepartureReason, DepthLine, DepthPlayer, DepthStatus, SquadReport};
 pub use stadium_name::{StadiumName, StadiumRename};
 pub use staff::{

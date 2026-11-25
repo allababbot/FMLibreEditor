@@ -1229,9 +1229,19 @@ export interface LoggedChange {
   };
 }
 
-/** One of a club's teams as its squad screen shows it, from `club_squads`; the senior team comes first. */
+/**
+ * One of a club's teams as its squad screen shows it, from `club_squads`; the senior team comes first. After the club's
+ * own teams come its linked teams: a B team the game keeps as a club of its own (1. FC Nürnberg II).
+ */
 export interface ClubTeam {
-  /** Where it is in the club's list of teams; 0 is the senior team. */
+  /**
+   * The club the team belongs to, which with `index` is what a write to the team names: the club whose squad this is,
+   * or for a linked team the club the game keeps it as.
+   */
+  clubUid: number;
+  /** For a linked team, the short name of the club it belongs to; null for the club's own teams. */
+  linkedClub: string | null;
+  /** Where it is in the list of teams of the club it belongs to; 0 is the senior team. */
   index: number;
   /**
    * The game's code for the kind of team. Seen on the test save: 0 the first team, 3 a B team (Juventus Next Gen),
