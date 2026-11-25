@@ -102,11 +102,11 @@ of their `(begin, end)` pairs); how a container reads is the layout's `[national
 `[national_teams]`, or whose arrays do not read as the game's (a container must point at a nation that points back at
 it, with the kind it is in; nearly all of them must), shows a note saying why in place of the list, and reads nothing
 else. The profiles that name them:
-Game Pass 0.9.2435.0 and 0.9.2524.0 and Steam builds 26577676 and 26620374 on Windows, and Steam builds 26385295 and
-26620374 on macOS, Apple silicon. For another build, find the two arrays as the recon note says (`fmlibre-probe instances
-db::NATION` leads to the nations, which point at the containers; the arrays are the two pairs of pointers to them that
-sit next to the clubs' array: on each of those builds 0xA8 and 0xC0 past the players' pair, which
-`fmlibre-probe column game_plugin.dll+<RVA> 0x0C` shows as 251 UIDs each) and add them; the unit test
+Game Pass 0.9.2435.0, 0.9.2524.0 and 0.9.2562.0 and Steam builds 26577676 and 26620374 on Windows, and Steam builds
+26385295 and 26620374 on macOS, Apple silicon. For another build, find the two arrays as the recon note says
+(`fmlibre-probe instances db::NATION` leads to the nations, which point at the containers; the arrays are the two
+pairs of pointers to them that sit next to the clubs' array: on each of those builds 0xA8 and 0xC0 past the players'
+pair, which `fmlibre-probe column game_plugin.dll+<RVA> 0x0C` shows as 251 UIDs each) and add them; the unit test
 `only_the_builds_read_place_the_national_teams` lists the builds that have them.
 
 Each container lists the senior team and the youth teams, laid out as a club's teams (`[team]`). A national team's
@@ -196,7 +196,9 @@ The Mac halves of Steam build 26620374 made the same two changes on the Mac layo
 
 As the builds before keep the old places, the layout keeps them, and the profiles of the builds since say where theirs
 are, in `[layout.<section>]` tables: a session reads its build's layout with those fields in place of the layout's
-(`layout_of`). The smoke tests `clubs` (finances) and `tactics` notice either change.
+(`layout_of`). The smoke tests `clubs` (finances) and `tactics` notice either change. The update of 24 November 2026
+(Game Pass 0.9.2562.0) kept both changes, and its profile the same tables. A build without a profile is read with the
+layout's own places, so until its profile is out, such a build shows no club's finances and no tactic in use.
 
 #### On the day of an update
 

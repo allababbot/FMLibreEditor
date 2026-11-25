@@ -323,11 +323,11 @@ mod tests {
         // before (0x14A0 on Game Pass 0.9.2524.0, 0x1480 on Steam build 26620374): there the search found it, the one
         // date that fits best on a save of 18 January 2028, and the only one but the field beside the arrays on a save
         // of 14 October 2026. On a Game Pass save of 23 October 2026 the day after fitted as well, and the search told
-        // the date by the places that held it, three against one. Their profiles guess the next builds' dates. The
-        // Epic profile of the same update now guesses Steam build 26620374's date, so that one is no longer beyond the
-        // guesses.
+        // the date by the places that held it, three against one. Their profiles guess the next builds' dates: the
+        // Epic profile of the same update guesses Steam build 26620374's, and on the update of 24 November 2026 Game
+        // Pass 0.9.2562.0 kept its date 0x20 from where 0.9.2524.0 keeps it, so each guesses the other's. No build is
+        // beyond the guesses now.
         let kind = |profile: &BuildProfile| std::mem::discriminant(&profile.plugin);
-        let beyond_the_guesses = |profile: &BuildProfile| profile.package_version.as_deref() == Some("0.9.2524.0");
         for profile in profiles.iter().filter(|profile| profile.current_date.is_some()) {
             let date = profile.current_date.expect("a date");
             let siblings = profiles.iter().any(|other| {
@@ -337,8 +337,7 @@ mod tests {
                     && other.current_date.is_some()
             });
             if siblings {
-                let guessed = near(&guesses_for(profile), date);
-                assert_eq!(guessed, !beyond_the_guesses(profile), "{}: {date:#x}", profile.name);
+                assert!(near(&guesses_for(profile), date), "{}: {date:#x}", profile.name);
             }
         }
         // The value the game keeps for the day before, on Game Pass, is far from every guess.

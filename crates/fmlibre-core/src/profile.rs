@@ -1288,6 +1288,7 @@ const BUILDS: &[&str] = &[
     include_str!("../../../profiles/fm27/gamepass-0.9.2409.0.toml"),
     include_str!("../../../profiles/fm27/gamepass-0.9.2435.0.toml"),
     include_str!("../../../profiles/fm27/gamepass-0.9.2524.0.toml"),
+    include_str!("../../../profiles/fm27/gamepass-0.9.2562.0.toml"),
     include_str!("../../../profiles/fm27/steam-26227640.toml"),
     include_str!("../../../profiles/fm27/steam-26340721.toml"),
     include_str!("../../../profiles/fm27/steam-26385295.toml"),
@@ -1696,6 +1697,25 @@ mod tests {
         assert_eq!(steam.training_manager, Some(0x586_BED0));
         let national = steam.national_teams.expect("the national teams' arrays");
         assert_eq!((national.men, national.women), (steam.arrays.players + 0xA8, steam.arrays.players + 0xC0));
+
+        // The update of 24 November 2026 on Game Pass (0.9.2562.0): every static 0x1FE0 back from 0.9.2524.0's, each
+        // as far from the players pair as there but the training manager's, 8 bytes further back.
+        let fingerprint = PluginFingerprint::Pe { size_of_image: 0x1762_4000, link_timestamp: 0x6AFF_583B };
+        let update = profile_for(fingerprint).expect("Game Pass 0.9.2562.0 profile");
+        assert_eq!((update.storefront, update.package_version.as_deref()), (Storefront::GamePass, Some("0.9.2562.0")));
+        assert_eq!(profile.arrays.players - update.arrays.players, 0x1FE0);
+        assert_eq!(
+            (update.arrays.staff, update.arrays.clubs),
+            (update.arrays.players + 0x48, update.arrays.players + 0x1B8)
+        );
+        assert_eq!(update.current_date, Some(0x539_BD10));
+        assert_eq!(update.retirement_manager, Some(update.arrays.players - 0xD2E8));
+        assert_eq!(update.game_ui, Some(update.arrays.players + 0xBB8));
+        assert_eq!(update.tactics_manager, update.retirement_manager.map(|rva| rva + 0xD0));
+        assert_eq!(update.training_manager, Some(0x53E_8228));
+        let national = update.national_teams.expect("the national teams' arrays");
+        assert_eq!((national.men, national.women), (update.arrays.players + 0xA8, update.arrays.players + 0xC0));
+        assert_eq!(update.layout, profile.layout);
         // The Windows layout walks MSVC's maps; the Mac's does not say, and walks libc++'s.
         let familiarity = layout.familiarity.as_ref().expect("the Windows layout places familiarity");
         assert_eq!((familiarity.tree, layout.tactics.as_ref().map(|t| t.tree)), (Tree::Msvc, Some(Tree::Msvc)));
@@ -1849,6 +1869,7 @@ mod tests {
                 "FM27 0.9.2409.0 (Game Pass)",
                 "FM27 0.9.2435.0 (Game Pass)",
                 "FM27 0.9.2524.0 (Game Pass)",
+                "FM27 0.9.2562.0 (Game Pass)",
                 "FM27 Steam build 26340721 (27.0.0)",
                 "FM27 Steam build 26385295 (27.0.1)",
                 "FM27 Steam build 26577676",
@@ -1926,6 +1947,7 @@ mod tests {
                 "FM27 0.9.2409.0 (Game Pass)",
                 "FM27 0.9.2435.0 (Game Pass)",
                 "FM27 0.9.2524.0 (Game Pass)",
+                "FM27 0.9.2562.0 (Game Pass)",
                 "FM27 Steam build 26340721 (27.0.0)",
                 "FM27 Steam build 26340721 (27.0.0, macOS, Apple silicon)",
                 "FM27 Steam build 26385295 (27.0.1, macOS, Apple silicon)",
@@ -1937,8 +1959,8 @@ mod tests {
     }
 
     /// The app shows a club's sponsorship deals only on the builds they were read on (#114): the Windows build the
-    /// issue's reports are from and the Mac build they were matched to the game's screen on, and Game Pass 0.9.2524.0,
-    /// where the deals of 90 clubs were read.
+    /// issue's reports are from and the Mac build they were matched to the game's screen on, Game Pass 0.9.2524.0,
+    /// where the deals of 90 clubs were read, and 0.9.2562.0, which reads them as 0.9.2524.0 does.
     #[test]
     fn sponsorships_are_shown_only_on_the_builds_they_were_checked_on() {
         let mut checked: Vec<String> =
@@ -1948,6 +1970,7 @@ mod tests {
             checked,
             [
                 "FM27 0.9.2524.0 (Game Pass)",
+                "FM27 0.9.2562.0 (Game Pass)",
                 "FM27 Steam build 26340721 (27.0.0)",
                 "FM27 Steam build 26385295 (27.0.1, macOS, Apple silicon)"
             ]
@@ -1957,12 +1980,20 @@ mod tests {
 
     /// The app shows the competitions' squad rules only on the builds they were read on and matched to the game's
     /// screens: Game Pass 0.9.2524.0, where the Süper Lig's were changed and seen in the game, and the Apple silicon
-    /// half of Steam build 26620374, where the Premier League's were. The Intel half was not run.
+    /// half of Steam build 26620374, where the Premier League's were. The Intel half was not run. Game Pass 0.9.2562.0
+    /// read the same save's rules as 0.9.2524.0 did.
     #[test]
     fn squad_rules_are_shown_only_on_the_builds_they_were_checked_on() {
         let checked: Vec<String> =
             built_in_profiles().filter(|profile| profile.squad_rules).map(|profile| profile.name).collect();
-        assert_eq!(checked, ["FM27 0.9.2524.0 (Game Pass)", "FM27 Steam build 26620374 (macOS, Apple silicon)"]);
+        assert_eq!(
+            checked,
+            [
+                "FM27 0.9.2524.0 (Game Pass)",
+                "FM27 0.9.2562.0 (Game Pass)",
+                "FM27 Steam build 26620374 (macOS, Apple silicon)"
+            ]
+        );
     }
 
     /// Since the update of 17 November 2026 the club finance record keeps corporate facilities 4 bytes further on, and a
@@ -1983,7 +2014,12 @@ mod tests {
         };
         assert_eq!(
             moved(true),
-            ["FM27 0.9.2524.0 (Game Pass)", "FM27 Steam build 26620374", "FM27 (Epic Games Store)"]
+            [
+                "FM27 0.9.2524.0 (Game Pass)",
+                "FM27 0.9.2562.0 (Game Pass)",
+                "FM27 Steam build 26620374",
+                "FM27 (Epic Games Store)"
+            ]
         );
         assert_eq!(
             moved(false),
