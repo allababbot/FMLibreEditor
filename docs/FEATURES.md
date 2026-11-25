@@ -13,6 +13,8 @@ The game shows a change once you press **Continue** in FM.
 - The app opens on **My club**: the club you manage, its money, who needs a look (the
   injured, the banned, low morale, the tired, unrest, contracts about to end) and the actions
   on the whole team one click away. With no club of your own, pick one to follow.
+- A club's squad has a button for each of its teams, its B teams too (Real Madrid: First team,
+  U19, Castilla, Real Madrid C), and the actions on a team work on each of them.
 - **Ctrl+K** (**⌘K** on macOS) opens one search over players, staff, clubs and the app's
   commands. The tabs (Ctrl+1 to 7), the list's search (Ctrl+F), Edit (Ctrl+E), Apply (Ctrl+S)
   and Reload data (Ctrl+R) have shortcuts too, with ⌘ on macOS.
