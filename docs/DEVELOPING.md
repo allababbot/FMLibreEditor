@@ -237,6 +237,7 @@ shows no club's finances and no tactic in use.
    on that page and come back from a save, before `squad_rules = true` goes in.
 4. Build the app (`npm run release`), and run the smoke tests on both storefronts (see
    [`tools/smoke`](../tools/smoke/README.md)).
+5. Add the build to its table in [COMPATIBILITY.md](COMPATIBILITY.md), with what its profile turns on.
 
 To rehearse this on a build the editor knows, set `FMLIBRE_IGNORE_PROFILES=1` before starting the app or the probe:
 every build is then one without a profile. On both builds of November 2026, the search finds exactly the places their
