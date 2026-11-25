@@ -118,6 +118,43 @@ Each write keeps the bytes it found, so one undo puts the loan back. Checked wit
 contract (13), and afterwards as on loan again from Stuttgart until 30 June 2027. Whether the game takes him as
 Barcelona's over the next days is to be checked in the game.
 
+## Arranging a loan
+
+The editor arranges a loan as it arranges a transfer (`arranged.rs`, see `fm27-transfer-offers.md`): an agreed offer
+for the next day, of the game's loan class, the contract the player is to have held by an entry of his, and the move
+due on that day. On the day the game makes the loan as it makes its own. Read and tried on the Windows Game Pass build
+0.9.2562.0, on a save of 4 August 2027, from the game's 608 loan offers and the 187 loan contracts its entries held.
+
+The offer starts from one of the game's own loans between first teams (`loan_model_rank`) and holds the loan's terms
+([The loan offer](fm27-transfer-offers.md#the-loan-offer)); the loan contract starts from the loan contract of that
+offer's player, with the club he joins, from the day of the move to the loan's last day, his own wage times the share
+the club pays (80% of £18,336 a week is £14,668, as the game works it out), his squad status, no squad number, and the
+same terms. The game keeps `0x1000` in both for a loan of a season, whatever day it ends on (382 of its season loans
+end on 29 June 2028, 91 on 31 December 2027): the loan ends on the loan contract's end, as a recall shows.
+
+What the game did with three loans the editor arranged:
+
+- **Without a future fee** (Marc Bernal, FC Barcelona to Real Betis until 31 January 2028): the offered loan contract
+  became his, the object itself, with a squad number; the loan ends on 31 January, and the entry was gone, as the
+  game's own loans without one have none once made.
+- **With a future fee, the loan contract in the entry** (Rio Ngumoha, Liverpool to Beşiktaş, 80% of the wage, £50,000
+  a month, £25M): the game made the loan, on a copy of the loan contract, and kept the entry. When the loan ended (its
+  end moved to the game's date), the game signed him for good for £25M, on a contract it made from the one in the
+  entry: the loan's wage, until the loan's old end. So the entry of a loan with a future fee holds the contract he
+  signs when the fee is paid, as the game's own do (75 of its 98 made loans with a future fee still had one: a full
+  contract with the club he is on loan at, from the loan's last day, for three to five seasons; O'Riley's, from
+  Brighton to Lyon, until 30 June 2032).
+- **With a future fee, the contract he signs then in the entry** (Jorrel Hato, Chelsea to Olympique Lyonnais, £1M):
+  the game made a loan contract of its own (until 29 June 2028, his whole wage, the fee) and kept the entry, as for
+  its own. That is what the editor writes: his own contract with the club he joins, from the loan's last day, to 30
+  June three seasons on or his own contract's end when later. A loan with a future fee that ends on another day than
+  29 June was not tried: where the game takes that day from, the season or the contract in the entry, is not known.
+
+The game shows that fee as "Mandatory" in its own loans too (O'Riley's, the same screen), and it made the transfer on
+its own when Ngumoha's loan ended. The app calls it the option to buy, as it calls the same place of a loan it reads.
+The undo takes an arranged loan back until the day; the app refuses to move, swap or release the player another way
+until then.
+
 ## On the Mac
 
 The Mac Steam build (26340721, arm64) keeps loans the same way, 0x40 earlier in the player as the person's fields

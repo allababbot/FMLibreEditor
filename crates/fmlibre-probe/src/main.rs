@@ -14,7 +14,8 @@ use clap::{Args, Parser, Subcommand, ValueEnum};
 use fmlibre_core::{
     ATTRIBUTE_GROUPS, ArrayCandidate, ArrayRvas, ArraySource, AttributeBound, BuildProfile, Buyer, CaptainRole,
     ClubIndex, Entity, ExportFormat, ExportHeader, Exported, Field, FmDate, Found, GAME_EXE, GAME_PLUGIN, GameInfo,
-    GraphicsIndex, Kind, Loan, MANAGER, Manager, MoveTerms, NameKind, PERSONALITY, POSITIONS, PersonNames, Picture,
+    GraphicsIndex, Kind, Loan, LoanDeal, MANAGER, Manager, MoveTerms, NameKind, PERSONALITY, POSITIONS, PersonNames,
+    Picture,
     PlayerFilter, PlayerIndex, PlayerOrder, PlayerSort, PrizeAmount, PrizeMoney, PrizeStage, ProfileNotes, Purpose,
     STAFF_ATTRIBUTE_GROUPS, SUPPORTER_MIX, SUPPORTER_TRAITS, Scale, ScanOptions, ScoutOrder, ScoutRequest, Season,
     Session, SessionError, SponsorshipReadError, SquadRule, StaffIndex, Target, Tie, TieTarget, date_line,
@@ -312,6 +313,32 @@ enum Command {
         /// A new contract end as YYYY-MM-DD; his contract's otherwise.
         #[arg(long)]
         expires: Option<String>,
+        /// Take it back afterwards and check it.
+        #[arg(long)]
+        restore: bool,
+        /// With --restore, how many seconds to wait before taking it back.
+        #[arg(long, default_value_t = 0)]
+        hold: u64,
+    },
+    /// Arrange a loan from the next day in the running game, for the game to make on that day as it makes its own: an
+    /// agreed loan offer with the loan's terms, the loan contract he is to have, and the move due on that day.
+    ArrangeLoan {
+        /// The player's UID.
+        uid: u32,
+        /// The UID of the club he joins on loan.
+        club: u32,
+        /// The loan's last day as YYYY-MM-DD; by default 29 June at the end of the season, or his contract's end.
+        #[arg(long)]
+        until: Option<String>,
+        /// The part of his wage the club he joins pays, in percent.
+        #[arg(long, default_value_t = 100)]
+        share: u8,
+        /// Pounds a month the club he joins pays his own.
+        #[arg(long, default_value_t = 0)]
+        monthly_fee: i64,
+        /// Pounds for which the club he joins may sign him when the loan ends.
+        #[arg(long)]
+        option_fee: Option<i64>,
         /// Take it back afterwards and check it.
         #[arg(long)]
         restore: bool,
@@ -1295,6 +1322,7 @@ fn run(cli: Cli) -> Result<()> {
             Command::Set { .. }
                 | Command::Move { .. }
                 | Command::Arrange { .. }
+                | Command::ArrangeLoan { .. }
                 | Command::Permanent { .. }
                 | Command::StadiumName { name: Some(_), .. }
                 | Command::Rename { first: Some(_), .. }
@@ -1423,6 +1451,12 @@ fn run(cli: Cli) -> Result<()> {
             let expires = expires.as_deref().map(parse_iso_date).transpose()?.map(FmDate::to_number);
             let session = connect(process, ArraySource::ProfileFirst)?;
             arrange_transfer(&session, uid, club, MoveTerms { wage, expires }, fee, restore.then_some(hold))
+        }
+        Command::ArrangeLoan { uid, club, until, share, monthly_fee, option_fee, restore, hold } => {
+            let until = until.as_deref().map(parse_iso_date).transpose()?.map(FmDate::to_number);
+            let session = connect(process, ArraySource::ProfileFirst)?;
+            let terms = (until, share, monthly_fee, option_fee);
+            arrange_loan(&session, uid, club, terms, restore.then_some(hold))
         }
         Command::Permanent { uid, wage, expires, restore, hold } => {
             let expires = expires.as_deref().map(parse_iso_date).transpose()?.map(FmDate::to_number);
@@ -5184,6 +5218,60 @@ fn arrange_transfer(
     let done = session.apply_arranged_transfer(&plan)?;
     println!(
         "  arranged: offer at {:#x}, contract at {:#x}; the game makes the move on {}",
+        done.offer,
+        done.contract,
+        done.move_day.to_number()
+    );
+    if let Some(hold) = restore_after {
+        if hold > 0 {
+            println!("  taking it back in {hold} s");
+            std::thread::sleep(std::time::Duration::from_secs(hold));
+        }
+        session.undo_arranged_transfer(&done)?;
+        println!("  taken back");
+    }
+    Ok(())
+}
+
+/// Arranges the loan of the player `uid` to the club `club` from the next day on `terms` (the loan's last day, the end
+/// of the season by default; the part of his wage the club pays; the monthly fee; the option to buy), shows what it
+/// wrote, and with `restore_after` takes it back and checks it.
+fn arrange_loan(
+    session: &Session,
+    uid: u32,
+    club: u32,
+    terms: (Option<i64>, u8, i64, Option<i64>),
+    restore_after: Option<u64>,
+) -> Result<()> {
+    let (until, wage_share, monthly_fee, option_fee) = terms;
+    let players = PlayerIndex::new(session.players()?);
+    let clubs = ClubIndex::new(session.clubs()?);
+    let player = players.get(uid).with_context(|| format!("no player with UID {uid}"))?;
+    let to = clubs.get(club).with_context(|| format!("no club with UID {club}"))?;
+    let human: Vec<u32> = session.staff()?.iter().filter(|s| s.is_human).filter_map(|s| s.club_uid).collect();
+    let until = match until {
+        Some(until) => until,
+        None => session.season_loan_end(player).context("no in-game date to count the season from")?,
+    };
+    let loan = LoanDeal { until, wage_share, monthly_fee, option_fee };
+    let started = std::time::Instant::now();
+    let plan = session.plan_arranged_loan(player, to, loan, &human)?;
+    let from = clubs.get(plan.from_club).map_or("?", |club| club.name.as_str());
+    let option = option_fee.map_or("none".to_owned(), |fee| format!("£{fee}"));
+    println!(
+        "{} (UID {uid}): {from} -> {} on loan from {} until {until}: the club pays £{} a week ({wage_share}%) and \
+         £{monthly_fee} a month, option {option}, squad status {}, offer {} (planned in {:.1} s)",
+        player.name,
+        to.name,
+        plan.move_day.to_number(),
+        plan.terms.wage,
+        plan.terms.squad_status,
+        plan.offer_number,
+        started.elapsed().as_secs_f64()
+    );
+    let done = session.apply_arranged_transfer(&plan)?;
+    println!(
+        "  arranged: offer at {:#x}, the contract its entry holds at {:#x}; the game makes the loan on {}",
         done.offer,
         done.contract,
         done.move_day.to_number()

@@ -60,7 +60,7 @@ mod transfer;
 mod tree;
 mod youth_intake;
 
-pub use arranged::{Arranged, ArrangedPlan};
+pub use arranged::{Arranged, ArrangedPlan, LoanDeal, season_loan_end};
 pub use calibrate::{ArrayRef, EntityArrays, calibrate};
 pub use clauses::{
     ClausePlan, ClauseSet, MOST_CLAUSE_AMOUNT, MOST_CLAUSE_CONDITION, RELEASE_CLAUSE, RELEASE_CLAUSES,
