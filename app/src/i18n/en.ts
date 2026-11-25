@@ -3835,6 +3835,40 @@ export const en = {
      * the dialog shows it in English. A release adds its version here (see docs/DEVELOPING.md).
      */
     versions: {
+      "0.5.5": [
+        {
+          title: "FM 27.1.1.",
+          text: "The update of 24 November is known on Game Pass, Steam and Mac, and everything works on it as before. When a future update comes out, the app keeps reading club finances and the tactic in use until a version that knows it follows.",
+        },
+        {
+          title: "Competitions tab.",
+          text: "See and change each competition's squad rules, such as how many foreign players a squad may register, for this season and the next apart. On Game Pass and Apple silicon Macs so far.",
+        },
+        {
+          title: "Loans.",
+          text: "The Transfer dialog's new Loan arranges a loan for the game's next day, in a transfer window or out of one. You set its last day, the share of his wage the other club pays, a monthly fee and, if you like, an option to buy. On Windows and Apple silicon Macs.",
+        },
+        {
+          title: "Recipes.",
+          text: "Ready-made sets of changes for a player or a club: Make a wonderkid, Injury-proof, Extend his career, Make the club rich and Top facilities. Each shows what it will change before anything is written, and one Undo takes it back.",
+        },
+        {
+          title: "Development.",
+          text: "The app keeps a weekly record of every player as it reads the game, and a player's profile shows it in a new Development tab: his ability, potential, value and attributes over your career.",
+        },
+        {
+          title: "B teams.",
+          text: "A club's Squad tab shows its B teams after its own teams, such as Castilla for Real Madrid, and the team actions work on them too.",
+        },
+        {
+          title: "Shorter notes.",
+          text: "The notes on buttons are a line each, in a small box instead of a long strip across the window.",
+        },
+        {
+          title: "Mac.",
+          text: "On Apple silicon Macs, a national team's profile shows the year its federation was founded, its continent and its staff, and clubs' sponsorship deals show on 27.1.0 and 27.1.1.",
+        },
+      ],
       "0.5.4": [
         {
           title: "Transfers in the player's history.",

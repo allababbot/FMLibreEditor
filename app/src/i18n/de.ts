@@ -3409,6 +3409,40 @@ export const de: Strings = {
     link: "Neuigkeiten",
     command: "Neu in dieser Version",
     versions: {
+      "0.5.5": [
+        {
+          title: "FM 27.1.1.",
+          text: "Das Update vom 24. November ist auf Game Pass, Steam und dem Mac bekannt, und alles funktioniert darauf wie zuvor. Erscheint künftig ein Update, liest die App die Vereinsfinanzen und die gespielte Taktik weiter, bis eine Version folgt, die es kennt.",
+        },
+        {
+          title: "Wettbewerbe.",
+          text: "Unter „Wettbewerbe“ sehen und ändern Sie die Kaderregeln jedes Wettbewerbs, etwa wie viele ausländische Spieler ein Kader melden darf, für diese und die nächste Saison getrennt. Bisher auf Game Pass und auf Macs mit Apple Silicon.",
+        },
+        {
+          title: "Leihen.",
+          text: "„Leihe“, neu im Transfer-Dialog, vereinbart eine Leihe für den nächsten Tag im Spiel, in einer Transferperiode oder außerhalb. Sie legen den letzten Tag fest, den Anteil am Gehalt, den der andere Verein zahlt, eine monatliche Gebühr und auf Wunsch eine Kaufoption. Unter Windows und auf Macs mit Apple Silicon.",
+        },
+        {
+          title: "Rezepte.",
+          text: "Fertige Sätze von Änderungen für einen Spieler oder einen Verein: „Zum Wunderkind machen“, „Verletzungsfest machen“, „Karriere verlängern“, „Verein reich machen“ und „Beste Einrichtungen“. Jedes zeigt vor dem Schreiben, was es ändert, und ein einziges „Rückgängig“ nimmt es zurück.",
+        },
+        {
+          title: "Entwicklung.",
+          text: "Die App hält jeden Spieler einmal pro Spielwoche fest, wenn sie das Spiel liest, und das Profil eines Spielers zeigt es unter „Entwicklung“: seine Fähigkeit, sein Potenzial, seinen Wert und seine Attribute über Ihre Karriere.",
+        },
+        {
+          title: "B-Mannschaften.",
+          text: "Unter „Kader“ eines Vereins stehen nach den eigenen Mannschaften auch seine B-Mannschaften, etwa Castilla bei Real Madrid, und die Mannschaftsaktionen wirken auch dort.",
+        },
+        {
+          title: "Kürzere Hinweise.",
+          text: "Die Hinweise an Schaltflächen sind je eine Zeile lang und stehen in einem kleinen Kasten statt in einem langen Streifen quer über das Fenster.",
+        },
+        {
+          title: "Mac.",
+          text: "Auf Macs mit Apple Silicon zeigt das Profil einer Nationalmannschaft das Gründungsjahr ihres Verbands, ihren Kontinent und ihre Mitarbeiter, und die Sponsorenverträge der Vereine erscheinen unter 27.1.0 und 27.1.1.",
+        },
+      ],
       "0.5.4": [
         {
           title: "Transfers im Karriereverlauf.",

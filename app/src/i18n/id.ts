@@ -3186,6 +3186,40 @@ export const id: Strings = {
     link: "Yang baru",
     command: "Yang baru di versi ini",
     versions: {
+      "0.5.5": [
+        {
+          title: "FM 27.1.1.",
+          text: "Pembaruan 24 November sudah dikenali di Game Pass, Steam, dan Mac, dan semuanya berjalan seperti sebelumnya. Saat pembaruan berikutnya keluar, aplikasi tetap membaca keuangan klub dan taktik yang dipakai sampai versi yang mengenalinya menyusul.",
+        },
+        {
+          title: "Tab Kompetisi.",
+          text: "Lihat dan ubah aturan skuad setiap kompetisi, misalnya berapa pemain asing yang boleh didaftarkan sebuah skuad, untuk musim ini dan musim depan secara terpisah. Untuk sekarang di Game Pass dan Mac dengan Apple silicon.",
+        },
+        {
+          title: "Pinjaman.",
+          text: "Pilihan baru Pinjaman di dialog Transfer mengatur peminjaman untuk hari berikutnya di game, di dalam atau di luar jendela transfer. Kamu menentukan hari terakhirnya, bagian gaji yang dibayar klub lain, biaya bulanan, dan kalau mau, opsi beli. Di Windows dan Mac dengan Apple silicon.",
+        },
+        {
+          title: "Resep.",
+          text: "Kumpulan perubahan siap pakai untuk pemain atau klub: Jadikan wonderkid, Kebal cedera, Perpanjang kariernya, Jadikan klub kaya, dan Fasilitas terbaik. Masing-masing menunjukkan apa yang akan diubah sebelum menulis apa pun, dan satu Urungkan membatalkannya.",
+        },
+        {
+          title: "Perkembangan.",
+          text: "Aplikasi menyimpan catatan mingguan setiap pemain saat membaca game, dan profil pemain menampilkannya di tab baru Perkembangan: kemampuan, potensi, nilai, dan atributnya sepanjang kariermu.",
+        },
+        {
+          title: "Tim B.",
+          text: "Tab Skuad sebuah klub menampilkan tim B-nya setelah timnya sendiri, seperti Castilla untuk Real Madrid, dan tindakan tim juga berlaku untuk tim itu.",
+        },
+        {
+          title: "Catatan lebih pendek.",
+          text: "Catatan pada tombol kini satu baris saja, di kotak kecil, bukan pita panjang yang melintang di jendela.",
+        },
+        {
+          title: "Mac.",
+          text: "Di Mac dengan Apple silicon, profil tim nasional menampilkan tahun berdirinya federasi, benuanya, dan stafnya, dan kontrak sponsor klub tampil di 27.1.0 dan 27.1.1.",
+        },
+      ],
       "0.5.4": [
         {
           title: "Transfer di riwayat pemain.",

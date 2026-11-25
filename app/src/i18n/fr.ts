@@ -3445,6 +3445,40 @@ export const fr: Strings = {
     link: "Nouveautés",
     command: "Nouveautés de cette version",
     versions: {
+      "0.5.5": [
+        {
+          title: "FM 27.1.1.",
+          text: "La mise à jour du 24 novembre est reconnue sur Game Pass, Steam et Mac, et tout y fonctionne comme avant. À la sortie d'une prochaine mise à jour, l'application continue de lire les finances des clubs et la tactique en cours jusqu'à ce qu'une version qui la connaît suive.",
+        },
+        {
+          title: "Onglet Compétitions.",
+          text: "Consultez et modifiez les règles d'effectif de chaque compétition, par exemple combien de joueurs étrangers un effectif peut inscrire, pour cette saison et la suivante séparément. Pour l'instant sur Game Pass et sur les Mac à puce Apple.",
+        },
+        {
+          title: "Prêts.",
+          text: "Le nouveau choix Prêt de la fenêtre Transfert prépare un prêt pour le lendemain dans le jeu, pendant un mercato ou en dehors. Vous fixez son dernier jour, la part du salaire que paie l'autre club, une redevance mensuelle et, si vous le souhaitez, une option d'achat. Sous Windows et sur les Mac à puce Apple.",
+        },
+        {
+          title: "Recettes.",
+          text: "Des ensembles de changements tout prêts pour un joueur ou un club, à savoir En faire une jeune pépite, À l'épreuve des blessures, Prolonger sa carrière, Enrichir le club et Infrastructures au maximum. Chacune montre ce qu'elle va changer avant d'écrire quoi que ce soit, et un seul Annuler la défait.",
+        },
+        {
+          title: "Progression.",
+          text: "L'application garde chaque semaine de jeu une trace de chaque joueur quand elle lit le jeu, et le profil d'un joueur la montre dans le nouvel onglet Progression, avec son niveau, son potentiel, sa valeur et ses attributs au fil de votre carrière.",
+        },
+        {
+          title: "Équipes réserves.",
+          text: "L'onglet Effectif d'un club montre ses équipes réserves après ses propres équipes, comme le Castilla pour le Real Madrid, et les actions d'équipe s'y appliquent aussi.",
+        },
+        {
+          title: "Des notes plus courtes.",
+          text: "Les notes des boutons tiennent sur une ligne, dans un petit cadre au lieu d'une longue bande en travers de la fenêtre.",
+        },
+        {
+          title: "Mac.",
+          text: "Sur les Mac à puce Apple, le profil d'une sélection nationale montre l'année de fondation de sa fédération, son continent et son personnel, et les contrats de sponsoring des clubs s'affichent sur 27.1.0 et 27.1.1.",
+        },
+      ],
       "0.5.4": [
         {
           title: "Les transferts dans l'historique du joueur.",

@@ -3343,6 +3343,40 @@ export const es: Strings = {
     link: "Novedades",
     command: "Novedades de esta versión",
     versions: {
+      "0.5.5": [
+        {
+          title: "FM 27.1.1.",
+          text: "La actualización del 24 de noviembre ya se reconoce en Game Pass, Steam y Mac, y todo funciona en ella como antes. Cuando salga una actualización futura, la aplicación seguirá leyendo las finanzas de los clubes y la táctica en uso hasta que llegue una versión que la conozca.",
+        },
+        {
+          title: "Pestaña Competiciones.",
+          text: "Consulta y cambia las normas de plantilla de cada competición, como cuántos jugadores extranjeros puede inscribir una plantilla, para esta temporada y la siguiente por separado. De momento en Game Pass y en Mac con Apple silicon.",
+        },
+        {
+          title: "Cesiones.",
+          text: "La nueva opción Cesión del diálogo Traspaso prepara una cesión para el día siguiente del juego, dentro o fuera de un periodo de traspasos. Tú eliges su último día, la parte del sueldo que paga el otro club, una cuota mensual y, si quieres, una opción de compra. En Windows y en Mac con Apple silicon.",
+        },
+        {
+          title: "Recetas.",
+          text: "Conjuntos de cambios listos para un jugador o un club: Convertir en promesa, A prueba de lesiones, Alargar su carrera, Hacer rico al club e Instalaciones al máximo. Cada una muestra lo que cambiará antes de escribir nada, y un solo Deshacer la revierte.",
+        },
+        {
+          title: "Progresión.",
+          text: "La aplicación guarda un registro semanal de cada jugador cuando lee el juego, y el perfil del jugador lo muestra en la nueva pestaña Progresión: su habilidad, potencial, valor y atributos a lo largo de tu carrera.",
+        },
+        {
+          title: "Filiales.",
+          text: "La pestaña Plantilla de un club muestra sus filiales después de sus propios equipos, como el Castilla del Real Madrid, y las acciones de equipo también funcionan en ellos.",
+        },
+        {
+          title: "Notas más cortas.",
+          text: "Las notas de los botones ocupan una línea cada una, en un recuadro pequeño en lugar de una franja larga que cruza la ventana.",
+        },
+        {
+          title: "Mac.",
+          text: "En los Mac con Apple silicon, el perfil de una selección muestra el año de fundación de su federación, su continente y su personal, y los contratos de patrocinio de los clubes se ven en 27.1.0 y 27.1.1.",
+        },
+      ],
       "0.5.4": [
         {
           title: "Traspasos en el historial del jugador.",
