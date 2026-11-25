@@ -102,12 +102,12 @@ of their `(begin, end)` pairs); how a container reads is the layout's `[national
 `[national_teams]`, or whose arrays do not read as the game's (a container must point at a nation that points back at
 it, with the kind it is in; nearly all of them must), shows a note saying why in place of the list, and reads nothing
 else. The profiles that name them:
-Game Pass 0.9.2435.0 and 0.9.2524.0 and Steam builds 26577676 and 26620374 on Windows, and Steam builds 26385295,
-26620374 and 26797085 on macOS, Apple silicon. For another build, find the two arrays as the recon note says (`fmlibre-probe instances
-db::NATION` leads to the nations, which point at the containers; the arrays are the two pairs of pointers to them that
-sit next to the clubs' array: on each of those builds 0xA8 and 0xC0 past the players' pair, which
-`fmlibre-probe column game_plugin.dll+<RVA> 0x0C` shows as 251 UIDs each) and add them; the unit test
-`only_the_builds_read_place_the_national_teams` lists the builds that have them.
+Game Pass 0.9.2435.0, 0.9.2524.0 and 0.9.2562.0 and Steam builds 26577676, 26620374 and 26797085 on Windows, and
+Steam builds 26385295, 26620374 and 26797085 on macOS, Apple silicon. For another build, find the two arrays as the
+recon note says (`fmlibre-probe instances db::NATION` leads to the nations, which point at the containers; the arrays
+are the two pairs of pointers to them that sit next to the clubs' array: on each of those builds 0xA8 and 0xC0 past
+the players' pair, which `fmlibre-probe column game_plugin.dll+<RVA> 0x0C` shows as 251 UIDs each) and add them; the
+unit test `only_the_builds_read_place_the_national_teams` lists the builds that have them.
 
 Each container lists the senior team and the youth teams, laid out as a club's teams (`[team]`). A national team's
 profile reads them all (`Session::national_sides`) and edits each one's reputation: `reputation` is the senior team's,
@@ -192,12 +192,14 @@ of 17 November 2026 made two such changes:
   0x1030, so no tactic was found in use, and the players' familiarity with it was not read (nor Max tactics offered).
 
 The Mac halves of Steam build 26620374 made the same two changes on the Mac layout's places: corporate facilities from
-0x8A9 to 0x8AD, and the tactics from 0x1000 and 0x1018 to 0x1008 and 0x1020. Those of build 26797085 (the update of
-25 November 2026) keep them there.
+0x8A9 to 0x8AD, and the tactics from 0x1000 and 0x1018 to 0x1008 and 0x1020.
 
 As the builds before keep the old places, the layout keeps them, and the profiles of the builds since say where theirs
 are, in `[layout.<section>]` tables: a session reads its build's layout with those fields in place of the layout's
-(`layout_of`). The smoke tests `clubs` (finances) and `tactics` notice either change.
+(`layout_of`). The smoke tests `clubs` (finances) and `tactics` notice either change. The update of 24 November 2026
+(Game Pass 0.9.2562.0, and Steam build 26797085 on Windows and on the Mac) kept both changes, and its profiles the same
+tables. A build without a profile is read with the layout's own places, so until its profile is out, such a build
+shows no club's finances and no tactic in use.
 
 #### On the day of an update
 

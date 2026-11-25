@@ -460,8 +460,9 @@ changes many at once, and undo.
     (Game Pass 0.9.2524.0: the Süper Lig's limit on foreign players, seen in the game's Competition Stages and
     Registration screens and kept by a save; on the Mac, Steam build 26620374 for Apple silicon, the Premier League's
     squad size). The app has them in its Competitions tab, an area for each season, where a rule's count can be
-    changed and undone, on the builds whose profile says `squad_rules = true`: those two, and Steam build 26797085
-    for Apple silicon (the update of 25 November 2026), where they read the same on the same save. Played over a turn
+    changed and undone, on the builds whose profile says `squad_rules = true`: those two, and the builds of the update
+    of 24 November 2026 that read the same on the same save, Game Pass 0.9.2562.0 and Steam build 26797085 for Apple
+    silicon. Played over a turn
     of the season on Game Pass: a change of this season's rule lasts the season, a change of next season's becomes
     this season's at the turn and stays while the same rule file is in force (England has another from 2028). The
     rules of UEFA's Champions, Europa and Conference League are kept in no record (the game makes them itself

@@ -1,4 +1,4 @@
-# FM27 on Steam for macOS (app 4530370, build 26797085), the update of 25 November 2026 (version 27.1.1.2511875): the
+# FM27 on Steam for macOS (app 4530370, build 26797085), the update of 24 November 2026 (version 27.1.1.2511875): the
 # arm64 half of the universal game_plugin, which Apple silicon Macs run natively. Worked out by `fmlibre-probe profile`
 # on a running save (18 July 2027), as for a build without a profile, and all 12 checks passed. __DATA starts 0x10000
 # further on (0x5784000); the date, the retirement manager's static and the game's own object kept their place in it,

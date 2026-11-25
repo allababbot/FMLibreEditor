@@ -482,9 +482,9 @@ As on Windows, two objects keep something a few bytes further on, and neither ha
 Both profiles name them under `[layout.club_finance]` and `[layout.tactics]`; the Intel half's are the arm64 half's, as
 the Mac layout is the same for both.
 
-## The update of 25 November 2026 (Steam build 26797085)
+## The update of 24 November 2026 (Steam build 26797085)
 
-Steam's update of 25 November 2026 (version 27.1.1.2511875) gave both halves of `game_plugin` new UUIDs: arm64
+Steam's update of 24 November 2026 (version 27.1.1.2511875) gave both halves of `game_plugin` new UUIDs: arm64
 `F53EAD40-…`, Intel `D1D81C1A-…`. `__DATA` starts 0x10000 further on in the arm64 half (`0x5784000`) and 0x6000
 earlier in the Intel half (`0x5D20000`). Without a profile the editor found the arrays, the date, the retirement
 manager and the game's own object by itself, and all twelve checks passed; the game stayed read-only until Edit
