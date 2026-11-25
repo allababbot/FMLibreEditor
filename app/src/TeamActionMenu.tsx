@@ -82,6 +82,10 @@ export function TeamActionMenu<A extends string = MenuItemAction>(props: TeamAct
   // The item the pointer is on, and the one the keys have reached: the note is the pointer's item's first.
   const [hovered, setHovered] = useState<number | null>(null);
   const [focused, setFocused] = useState<number | null>(null);
+  // Whether the keys opened the menu or have moved through it: only then does the item with focus show its note. The
+  // menu keeps this itself rather than asking `:focus-visible`, which WebKit (the Mac's web view) gives the first item
+  // as the menu focuses it on opening after a click, where Chromium does not.
+  const keyed = useRef(false);
   const open = anchor !== null;
   const at = open ? (hovered ?? focused) : null;
   const noted = at !== null && actions[at]?.title ? at : null;
@@ -235,6 +239,7 @@ export function TeamActionMenu<A extends string = MenuItemAction>(props: TeamAct
         return;
     }
     event.preventDefault();
+    keyed.current = true;
     next?.focus();
   };
 
@@ -250,16 +255,19 @@ export function TeamActionMenu<A extends string = MenuItemAction>(props: TeamAct
         aria-disabled={busy || undefined}
         disabled={!editable}
         title={editable ? title : readOnlyNote}
-        onClick={() => {
+        onClick={(event) => {
           if (open) {
             setAnchor(null);
           } else if (!busy) {
+            // A click that counts no presses is Enter or Space on the button.
+            keyed.current = event.detail === 0;
             show();
           }
         }}
         onKeyDown={(event) => {
           if (event.key === "ArrowDown" && !open && !busy) {
             event.preventDefault();
+            keyed.current = true;
             show();
           }
         }}
@@ -295,8 +303,8 @@ export function TeamActionMenu<A extends string = MenuItemAction>(props: TeamAct
                   onClick={() => pick(item)}
                   onMouseEnter={() => setHovered(index)}
                   onMouseLeave={() => setHovered((now) => (now === index ? null : now))}
-                  // The menu focuses its first item when it opens: only focus the keys moved shows a note by itself.
-                  onFocus={(event) => setFocused(event.currentTarget.matches(":focus-visible") ? index : null)}
+                  // The menu focuses its first item when it opens: opened by a click, that shows no note by itself.
+                  onFocus={() => setFocused(keyed.current ? index : null)}
                   onBlur={() => setFocused((now) => (now === index ? null : now))}
                 >
                   {item.label}
