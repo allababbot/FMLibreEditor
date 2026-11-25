@@ -1303,6 +1303,8 @@ const BUILDS: &[&str] = &[
     include_str!("../../../profiles/fm27/steam-26577676-macos-arm64.toml"),
     include_str!("../../../profiles/fm27/steam-26620374-macos-x86_64.toml"),
     include_str!("../../../profiles/fm27/steam-26620374-macos-arm64.toml"),
+    include_str!("../../../profiles/fm27/steam-26797085-macos-x86_64.toml"),
+    include_str!("../../../profiles/fm27/steam-26797085-macos-arm64.toml"),
     include_str!("../../../profiles/fm27/epic-27.1.0.toml"),
 ];
 
@@ -1835,6 +1837,38 @@ mod tests {
         assert_eq!(intel.retirement_manager, intel.current_date.map(|rva| rva - 0x9810));
         assert_eq!(intel.game_ui, Some(intel.arrays.players + 0x1AE8));
 
+        // The update of 25 November 2026 (Steam build 26797085, 27.1.1.2511875): new UUIDs, and __DATA moved (0x10000
+        // on in the arm64 half, 0x6000 back in the Intel one). The arm64 half keeps the date, the retirement manager's
+        // static and the game's own object where they were in __DATA, and the arrays 0x10 back; the Intel half keeps
+        // the date and the static 0x20 back, the arrays and the game's own object 0x30. Each still sits from the
+        // others as before, and the objects are laid out as in build 26620374.
+        let uuid = [0xF5, 0x3E, 0xAD, 0x40, 0xBD, 0x51, 0x30, 0x7F, 0x9B, 0xD8, 0xBA, 0x24, 0x57, 0x7B, 0xF2, 0xAF];
+        let new_arm = profile_for(PluginFingerprint::MachO { uuid }).expect("the arm64 half of Steam build 26797085");
+        assert_eq!(
+            (new_arm.arrays.players, new_arm.arrays.staff, new_arm.arrays.clubs),
+            (0x57B_2FB8, 0x57B_3000, 0x57B_3170)
+        );
+        let moved = |rva: Option<u64>| rva.map(|rva| rva + 0x1_0000);
+        assert_eq!(new_arm.current_date, moved(arm.current_date));
+        assert_eq!(new_arm.retirement_manager, moved(arm.retirement_manager));
+        assert_eq!(new_arm.game_ui, moved(arm.game_ui));
+        assert_eq!(new_arm.tactics_manager, moved(arm.tactics_manager));
+        assert_eq!(new_arm.training_manager, moved(arm.training_manager));
+        let national = new_arm.national_teams.expect("the national teams' arrays");
+        assert_eq!((national.men, national.women), (new_arm.arrays.players + 0xA8, new_arm.arrays.players + 0xC0));
+        assert_eq!((new_arm.prize_money, new_arm.squad_rules), (true, true));
+        assert_eq!(new_arm.layout, arm.layout);
+        let uuid = [0xD1, 0xD8, 0x1C, 0x1A, 0x44, 0xAD, 0x33, 0x42, 0xB6, 0xD4, 0xB8, 0xDD, 0xF2, 0xEA, 0x6B, 0x61];
+        let new_intel = profile_for(PluginFingerprint::MachO { uuid }).expect("the Intel half of Steam build 26797085");
+        assert_eq!(
+            (new_intel.arrays.players, new_intel.arrays.staff, new_intel.arrays.clubs),
+            (0x5D4_D338, 0x5D4_D380, 0x5D4_D4F0)
+        );
+        assert_eq!(new_intel.current_date, Some(0x5D2_D6F0));
+        assert_eq!(new_intel.retirement_manager, new_intel.current_date.map(|rva| rva - 0x9810));
+        assert_eq!(new_intel.game_ui, Some(new_intel.arrays.players + 0x1AE8));
+        assert_eq!(new_intel.layout, intel.layout);
+
         // On Windows the Launch Preview's date sits with the arrays.
         let fingerprint = PluginFingerprint::Pe { size_of_image: 0x19E6_9000, link_timestamp: 0x6ADF_B11C };
         assert_eq!(profile_for(fingerprint).and_then(|profile| profile.current_date), None);
@@ -1859,6 +1893,8 @@ mod tests {
                 "FM27 Steam build 26577676 (macOS, Apple silicon)",
                 "FM27 Steam build 26620374 (macOS, Intel)",
                 "FM27 Steam build 26620374 (macOS, Apple silicon)",
+                "FM27 Steam build 26797085 (macOS, Intel)",
+                "FM27 Steam build 26797085 (macOS, Apple silicon)",
                 "FM27 (Epic Games Store)",
             ]
         );
@@ -1932,6 +1968,7 @@ mod tests {
                 "FM27 Steam build 26577676",
                 "FM27 Steam build 26620374",
                 "FM27 Steam build 26620374 (macOS, Apple silicon)",
+                "FM27 Steam build 26797085 (macOS, Apple silicon)",
             ]
         );
     }
@@ -1957,12 +1994,20 @@ mod tests {
 
     /// The app shows the competitions' squad rules only on the builds they were read on and matched to the game's
     /// screens: Game Pass 0.9.2524.0, where the Süper Lig's were changed and seen in the game, and the Apple silicon
-    /// half of Steam build 26620374, where the Premier League's were. The Intel half was not run.
+    /// half of Steam build 26620374, where the Premier League's were, and of build 26797085, where they read the same
+    /// on the same save. The Intel halves were not run.
     #[test]
     fn squad_rules_are_shown_only_on_the_builds_they_were_checked_on() {
         let checked: Vec<String> =
             built_in_profiles().filter(|profile| profile.squad_rules).map(|profile| profile.name).collect();
-        assert_eq!(checked, ["FM27 0.9.2524.0 (Game Pass)", "FM27 Steam build 26620374 (macOS, Apple silicon)"]);
+        assert_eq!(
+            checked,
+            [
+                "FM27 0.9.2524.0 (Game Pass)",
+                "FM27 Steam build 26620374 (macOS, Apple silicon)",
+                "FM27 Steam build 26797085 (macOS, Apple silicon)"
+            ]
+        );
     }
 
     /// Since the update of 17 November 2026 the club finance record keeps corporate facilities 4 bytes further on, and a
@@ -1987,7 +2032,12 @@ mod tests {
         );
         assert_eq!(
             moved(false),
-            ["FM27 Steam build 26620374 (macOS, Intel)", "FM27 Steam build 26620374 (macOS, Apple silicon)"]
+            [
+                "FM27 Steam build 26620374 (macOS, Intel)",
+                "FM27 Steam build 26620374 (macOS, Apple silicon)",
+                "FM27 Steam build 26797085 (macOS, Intel)",
+                "FM27 Steam build 26797085 (macOS, Apple silicon)"
+            ]
         );
         for profile in built_in_profiles() {
             let laid = layout_of(27, &profile.layout).expect("FM27 layout");
