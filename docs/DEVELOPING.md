@@ -119,6 +119,14 @@ The senior team's profile has Heal all, Inspire all and Refresh all for the play
 has them: the `national_team_action` command reads the squad (`Session::national_squad`) and hands it to
 `act_on_players`, which `team_action` uses for a club's team too. The changes are one batch, undone as one.
 
+Above the teams, the profile shows what the game shows of the nation and its federation, read only
+(`Session::nation_details`, #210): the year the federation was founded, from the container, the continent's name, from
+the nation, and the federation's staff as the game's staff list of the nation's team has them: each team's manager and
+the people of the container's medical, coaching and scouting lists, each with the job and the team of his contract with
+the federation, which is not his contract with a club. Where they are is the layout's `[national.details]`, which only
+`layout-macos.toml` has so far: on Windows the profile shows none of it. `fmlibre-probe national-teams italia
+--details` prints them, and then how many of all the containers have each and the jobs of all their staff.
+
 ### After an update of the game
 
 Each build of the game moves its static data. A build profile in `profiles/` (identified by `game_plugin`'s headers)
@@ -487,6 +495,7 @@ fmlibre-probe player 7458500                         # everything read for one p
 fmlibre-probe staff arteta                           # search staff; staff-member <id> for details; --export FILE as players
 fmlibre-probe clubs tottenham                        # search clubs; club <uid> for details; --export FILE as players
 fmlibre-probe national-teams italia --squad            # a nation's men's and women's teams, and the first one's squad; no writes
+fmlibre-probe national-teams italia --details          # what their profiles show of the nation and federation; no writes
 fmlibre-probe fields player                          # what the editor can change (also: staff)
 fmlibre-probe get player 7458500                     # those fields' values for one player
 fmlibre-probe set player 7458500 attribute.finishing 18 --shown   # change one: this writes to the game

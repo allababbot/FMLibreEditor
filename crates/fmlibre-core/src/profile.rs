@@ -214,6 +214,32 @@ pub struct NationalLayout {
     pub nation_code: u64,
     pub nation_men: u64,
     pub nation_women: u64,
+    /// What a national team's profile shows of its nation and federation; unset where nobody has read it, and the
+    /// profile then shows none of it.
+    #[serde(default)]
+    pub details: Option<NationDetailsLayout>,
+}
+
+/// Where the game keeps what a national team's profile shows of its nation and federation (see `national.rs`): some of
+/// it in the container of its men's or women's teams, the continent in the nation, and each member of the federation's
+/// staff's job in his contract with one of its teams.
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct NationDetailsLayout {
+    /// In a container: the `u16` year its federation was founded (0 where the game has none), and the federation's
+    /// medical, coaching and scouting staff, each as `(begin, end, capacity)` of pointers to staff objects, as a club
+    /// keeps them. The teams' managers are not in them: each team points at its own (`TeamLayout::manager`).
+    pub founded: u64,
+    pub medical_staff: u64,
+    pub coaching_staff: u64,
+    pub scouting_staff: u64,
+    /// In a nation: the pointer to its continent (`db::CONTINENT`), and there the FM string pointer to its name.
+    pub continent: u64,
+    pub continent_name: u64,
+    /// In a staff object: the pointer to the record of his other contracts, and in that record the pointer to his
+    /// contract with one of a federation's teams, laid out as his contract with a club (`ContractLayout`).
+    pub staff_contracts: u64,
+    pub national_contract: u64,
 }
 
 /// The game's tables of first, last and common names (see `names.rs`): where it keeps the list of each table's entries
@@ -1506,6 +1532,21 @@ mod tests {
             mapped.sort_unstable();
             assert_eq!(grouped, mapped);
         }
+    }
+
+    /// A nation's details were read on the Mac only (#210): the Windows layout leaves them unplaced, and a national
+    /// team's profile there shows none of them.
+    #[test]
+    fn only_the_mac_layout_places_a_nations_details() {
+        let windows: Layout = parse(WINDOWS);
+        let macos: Layout = parse(MACOS);
+        assert!(windows.national.expect("national teams on Windows").details.is_none());
+        let details = macos.national.expect("national teams on the Mac").details.expect("a nation's details");
+        assert_eq!((details.founded, details.continent, details.continent_name), (0x870, 0xF8, 0x18));
+        assert_eq!((details.medical_staff, details.coaching_staff, details.scouting_staff), (0x60, 0x78, 0x90));
+        // The record of a member of staff's other contracts comes right after his contract.
+        assert_eq!(details.staff_contracts, macos.staff.contract + 8);
+        assert_eq!(details.national_contract, 0x10);
     }
 
     #[test]

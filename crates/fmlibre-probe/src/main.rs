@@ -137,6 +137,10 @@ enum Command {
         /// Count the kinds of team of every container, with the age limits they have.
         #[arg(long)]
         kinds: bool,
+        /// Print what the profile shows of each one's nation and federation: the year it was founded, the population,
+        /// continent and currency, and the federation's staff; then how many of all the containers have each.
+        #[arg(long)]
+        details: bool,
     },
     /// List clubs, highest reputation first, optionally only those matching TEXT.
     Clubs {
@@ -1379,13 +1383,13 @@ fn run(cli: Cli) -> Result<()> {
         Command::StaffRefs { ids, back, show } => {
             staff_refs(&connect(process, ArraySource::ProfileFirst)?, &ids, parse_hex(&back)?, show.as_deref())
         }
-        Command::NationalTeams { text, limit, squad, kind, teams, kinds } => {
+        Command::NationalTeams { text, limit, squad, kind, teams, kinds, details } => {
             let session = connect(process, ArraySource::ProfileFirst)?;
             national_teams(
                 &session,
                 text.as_deref(),
                 limit,
-                NationalReport { squad: squad.then_some(kind), teams, kinds },
+                NationalReport { squad: squad.then_some(kind), teams, kinds, details },
             )
         }
         Command::Clubs { text, limit, export, semicolon } => {
@@ -7062,6 +7066,64 @@ struct NationalReport {
     teams: bool,
     /// The kinds of team of every container, counted.
     kinds: bool,
+    /// What the profile shows of the nation and federation of each one shown, and how many of all have each.
+    details: bool,
+}
+
+/// What the profiles of the national teams `shown` show of their nation and federation, and then how many of every
+/// container of `index` have each. Only reads memory.
+fn national_details(
+    session: &Session,
+    index: &fmlibre_core::NationalIndex,
+    shown: &[&fmlibre_core::NationalTeamSummary],
+) -> Result<()> {
+    let staff = StaffIndex::new(session.staff()?);
+    let job = |code: Option<u8>| code.and_then(fmlibre_core::job_name).unwrap_or("no job found");
+    for team in shown {
+        let Some(details) = session.nation_details(team, &staff)? else {
+            anyhow::bail!("this build's layout does not place a nation's details");
+        };
+        let name = if team.women { format!("{} (women)", team.name) } else { team.name.clone() };
+        println!();
+        println!("{name} ({}):", team.uid);
+        println!("  founded     {}", details.founded.map_or_else(|| "none".to_owned(), |year| year.to_string()));
+        println!("  continent   {}", details.continent.as_deref().unwrap_or("none"));
+        println!("  staff       {}", details.staff.len());
+        for known in &details.staff {
+            let side =
+                known.team_kind.map_or_else(|| "no team found".to_owned(), |kind| format!("team of kind {kind}"));
+            println!("    {:<28}  {:<20}  {side}", known.member.name, job(known.job));
+        }
+    }
+    // How many containers have each, the continents named, and the jobs and teams of all their staff.
+    let (mut read, mut founded, mut staffed, mut members, mut placed) = (0, 0, 0, 0, 0);
+    let mut continents: BTreeMap<String, usize> = BTreeMap::new();
+    let mut jobs: BTreeMap<&str, usize> = BTreeMap::new();
+    let mut years = (u16::MAX, 0u16);
+    for team in index.search("") {
+        let Some(details) = session.nation_details(team, &staff)? else { continue };
+        read += 1;
+        if let Some(year) = details.founded {
+            founded += 1;
+            years = (years.0.min(year), years.1.max(year));
+        }
+        staffed += usize::from(!details.staff.is_empty());
+        members += details.staff.len();
+        placed += details.staff.iter().filter(|known| known.team_kind.is_some()).count();
+        for known in &details.staff {
+            *jobs.entry(job(known.job)).or_default() += 1;
+        }
+        *continents.entry(details.continent.unwrap_or_else(|| "none".to_owned())).or_default() += 1;
+    }
+    println!();
+    println!(
+        "Of {read} containers: founded at {founded} ({} to {}), staff at {staffed}: {members} members, {placed} with \
+         a job in one of the container's teams.",
+        years.0, years.1
+    );
+    println!("Continents: {}", continents.iter().map(|(name, n)| format!("{name} {n}")).collect::<Vec<_>>().join(", "));
+    println!("Jobs: {}", jobs.iter().map(|(name, n)| format!("{name} {n}")).collect::<Vec<_>>().join(", "));
+    Ok(())
 }
 
 fn national_teams(session: &Session, text: Option<&str>, limit: usize, report: NationalReport) -> Result<()> {
@@ -7104,6 +7166,9 @@ fn national_teams(session: &Session, text: Option<&str>, limit: usize, report: N
                 );
             }
         }
+    }
+    if report.details {
+        national_details(session, &index, &hits[..hits.len().min(limit)])?;
     }
     if report.kinds {
         // Kind -> (teams, women's teams, age limits with how many have each).

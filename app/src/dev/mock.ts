@@ -18,6 +18,7 @@ import type {
   ClubTeam,
   EarlierAbility,
   EditEntity,
+  NationDetails,
   NationalProfile,
   NationalSide,
   NationalStatus,
@@ -3670,6 +3671,31 @@ function mockNationalStatus(): NationalStatus {
 }
 
 /**
+ * What the profile shows of a fixture nation and its federation: made-up numbers, and members of the fixture's staff
+ * with no club as its departments. A nation with an odd UID has no year of foundation, as some of the game's have none.
+ */
+function mockNationDetails(team: NationalTeamSummary): NationDetails {
+  const free = staff.filter((member) => member.clubUid === null);
+  // A manager, a goalkeeping coach, a physio and a scout at the senior team, a manager at the under-21s.
+  const jobs: [number, number][] = [
+    [16, 0],
+    [34, 0],
+    [12, 0],
+    [14, 0],
+    [16, 10],
+  ];
+  const offset = team.women ? jobs.length : 0;
+  return {
+    founded: team.nationUid % 2 === 1 ? null : 1880 + (team.nationUid % 90),
+    continent: "Europe",
+    staff: jobs.flatMap(([job, teamKind], at) => {
+      const member = free[offset + at];
+      return member ? [{ member, job, teamKind }] : [];
+    }),
+  };
+}
+
+/**
  * A national team with its teams, and the players of the one of kind `kind` (the senior team by default): the fixture's
  * players of its nation, those under the age limit for a youth team, as the game lists a squad.
  */
@@ -3729,6 +3755,7 @@ function nationalProfile(uid: number, kind: number | null): NationalProfile {
       humanClub: false,
       players: squad,
     },
+    nation: mockNationDetails(team),
   };
 }
 
