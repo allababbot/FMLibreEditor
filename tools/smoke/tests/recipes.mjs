@@ -199,7 +199,7 @@ export async function run({ app, report, probe }) {
   // the focus.
   report.check(
     "opened by a click, the menu shows no note yet",
-    await app.js(`!document.querySelector(".menu-note") && document.activeElement === ${MENU}[0]`),
+    await app.js(`!document.querySelector(".tip") && document.activeElement === ${MENU}[0]`),
   );
   // What an item does is in a small box beside the menu once the keys (or the pointer) are on it: down and up again
   // is the first item's.
