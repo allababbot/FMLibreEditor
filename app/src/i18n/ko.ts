@@ -727,8 +727,7 @@ export const ko: Strings = {
     joined: "입단",
     extendContract: (years: number) => `${years}년 연장`,
     extendingContract: "연장 중…",
-    extendContractTitle: (years: number, until: string) =>
-      `계약을 ${years}년 연장해 ${until}까지로 합니다. 변경 내역에서 되돌릴 수 있습니다`,
+    extendContractTitle: (years: number, until: string) => `계약을 ${years}년 연장해 ${until}까지로 합니다`,
     squadStatus: "팀 내 위상",
     squadStatusName: (status) => SQUAD_STATUSES[status] ?? `위상 ${status}`,
     contractType: "계약 유형",
@@ -754,8 +753,7 @@ export const ko: Strings = {
     noRetirement: "게임이 이 선수의 은퇴를 예정하지 않았습니다",
     keepPlaying: "은퇴 막기",
     keepingPlaying: "막는 중…",
-    keepPlayingTitle:
-      "게임의 은퇴 예정에서 이 선수를 빼고, 특성 “정상에서 은퇴 예정” 대신 “가능하다면 최대한 길게 축구를 함”을 줍니다. 변경 내역에서 되돌릴 수 있습니다",
+    keepPlayingTitle: "예정된 은퇴를 취소하고 특성 “가능하다면 최대한 길게 축구를 함”을 줍니다",
 
     // Medical
     morale: (value) => `${value} / 20`,
@@ -766,10 +764,8 @@ export const ko: Strings = {
     noUnhappiness: "불만 사항이 없습니다",
     removeUnhappiness: "모두 제거",
     removingUnhappiness: "제거하는 중…",
-    removeUnhappinessTitle:
-      "FMRTE의 Remove all처럼 이 선수의 불만 사항을 목록에서 모두 지웁니다. 변경 내역에서 되돌릴 수 있습니다",
-    removeUnhappinessFollows:
-      "팀 동료들이 이 선수와 관련해 가진 불만 사항은 게임이 진행되면 저절로 사라집니다. 게임에서 '진행하기'를 누르세요",
+    removeUnhappinessTitle: "이 선수의 불만 사항을 목록에서 모두 지웁니다",
+    removeUnhappinessFollows: "팀 동료들의 불만 사항은 게임이 진행되면 사라집니다. 게임에서 '진행하기'를 누르세요",
     concernSince: (date) => `${date}부터`,
     concernAbout: (name) => `${name} 관련`,
     concernKind: (kind) => (kind === 1 ? "우려" : kind === 2 ? "내부" : `유형 ${kind}`),
@@ -788,13 +784,13 @@ export const ko: Strings = {
     loanUntil: "종료",
     loanNumber: "임대 구단 등번호",
     recall: "임대 복귀",
-    recallTitle: "원소속 구단으로 복귀시킵니다. 임대가 오늘 끝납니다. 변경하기 전에 확인을 받습니다",
+    recallTitle: "오늘 원소속 구단으로 복귀시킵니다. 먼저 확인을 받습니다",
     recallAgain: "다시 복귀시키기",
     makePermanent: "완전 이적으로 전환",
-    makePermanentTitle: "임대 중인 구단에 그 구단과의 계약으로 남깁니다. 변경하기 전에 확인을 받습니다",
+    makePermanentTitle: "임대 중인 구단에 그 구단과의 계약으로 남깁니다. 먼저 확인을 받습니다",
     recalledWaiting: "복귀 처리됨 · 복귀 대기 중",
     endsTodayWaiting: "오늘 종료 · 복귀 대기 중",
-    pendingTitle: (parent) => `오늘이 임대 마지막 날입니다. 게임에서 하루 진행하면 ${parent}(으)로 돌아옵니다.`,
+    pendingTitle: (parent) => `임대가 오늘 끝납니다. 게임에서 하루 진행하면 ${parent}(으)로 돌아옵니다`,
     endPassed: (date) =>
       `임대가 ${date}에 끝날 예정이었지만 게임이 선수를 복귀시키지 않았습니다. 다시 복귀시킨 뒤 하루 진행하세요.`,
     loanCanRecall: "복귀 가능",
@@ -844,10 +840,8 @@ export const ko: Strings = {
     clauseExpiresAfter: (days) => `계약 후 ${format(days)}일 뒤 만료`,
     clauseProfitShare: (percent, amount) => `${amount} 초과 이익의 ${percent}`,
     clauseWage: (amount) => `주급 ${amount}`,
-    moraleTitle:
-      "게임은 사기를 선수의 전반적인 만족도로 보여 줍니다. 10이면 만족, 11이면 약간 행복, 15와 20이면 매우 행복입니다",
-    jadednessTitle:
-      "경기를 뛰며 쌓인 피로로, 휴식하면 줄어듭니다. -500은 완전히 회복된 상태이며, 높을수록 휴식이 더 필요합니다",
+    moraleTitle: "게임의 전반적인 만족도입니다. 10이면 만족, 11이면 약간 행복, 15와 20이면 매우 행복입니다",
+    jadednessTitle: "경기를 뛰며 쌓인 피로입니다. -500은 완전히 회복된 상태이며, 높을수록 휴식이 더 필요합니다",
     noInjuries: "부상 없음",
     unknownInjury: "알 수 없는 부상",
     injuryStarted: (date) => `${date} 발생`,
@@ -862,24 +856,18 @@ export const ko: Strings = {
 
     // Above the attributes
     maxAttributes: "능력치 최대",
-    maxAttributesTitle: "이 선수의 모든 능력치를 최고로 만듭니다. 20으로, 부상 빈도와 더티 플레이는 1로 설정합니다",
+    maxAttributesTitle: "모든 능력치를 최고로 만듭니다. 20으로, 부상 빈도와 더티 플레이는 1로 설정합니다",
     maxAttributesDone: (count) => (count === 0 ? "모든 능력치가 이미 최고입니다" : `${changes(count)} 기록됨`),
     maxAttributesUndone: (count) => (count === 0 ? "되돌린 내용이 없습니다" : `${changes(count)} 되돌림`),
     undoMax: "되돌리기",
     undoMaxTitle: "이전 능력치를 게임에 다시 씁니다",
     freezeAttributes: "능력치 고정",
-    freezeAttributesNote:
-      "앱이 열려 있고 연결된 동안에는 이 선수의 능력치가 떨어지지 않습니다. 게임이 깎은 만큼 되돌리며, 오른 능력치는 " +
-      "그대로 반영됩니다. 앱은 이 세이브에 대해 이 설정을 기억하고, 다시 연결하면 또 고정합니다.",
+    freezeAttributesNote: "앱이 열려 있고 연결된 동안 이 선수의 능력치가 떨어지지 않습니다. 오른 능력치는 그대로 반영됩니다",
     maxStaffAttributesTitle: "이 스태프의 모든 능력치를 최고인 20으로 설정합니다",
     undoMaxStaffTitle: "이전 능력치를 게임에 다시 씁니다",
-    freezeStaffAttributesNote:
-      "앱이 열려 있고 연결된 동안에는 이 스태프의 능력치가 떨어지지 않습니다. 게임이 깎은 만큼 되돌리며, 오른 능력치는 " +
-      "그대로 반영됩니다. 앱은 이 세이브에 대해 이 설정을 기억하고, 다시 연결하면 또 고정합니다.",
+    freezeStaffAttributesNote: "앱이 열려 있고 연결된 동안 이 스태프의 능력치가 떨어지지 않습니다. 오른 능력치는 그대로 반영됩니다",
     freezeFitness: "컨디션 및 경기력 고정",
-    freezeFitnessNote:
-      "앱이 열려 있고 연결된 동안에는 이 선수의 컨디션과 경기력이 떨어지지 않습니다. 게임이 깎은 만큼 되돌리며, 오른 " +
-      "값은 그대로 반영되므로 100%에서는 계속 100%로 유지됩니다. 앱은 이 세이브에 대해 이 설정을 기억합니다.",
+    freezeFitnessNote: "앱이 열려 있고 연결된 동안 이 선수의 컨디션과 경기력이 떨어지지 않습니다. 오른 값은 그대로 반영됩니다",
     freezePositions: "고정",
     freezePositionsInfo: "포지션 고정이란?",
     freezePositionsNote:
@@ -1073,9 +1061,7 @@ export const ko: Strings = {
     perWeek: "주당",
     noFinances: "FM은 플레이 중인 리그의 구단에 대해서만 재정을 보관합니다.",
     freeze: "자금 고정",
-    freezeNote:
-      "앱이 열려 있고 연결된 동안에는 보유 금액이 줄지 않습니다. 게임이 깎은 만큼 되돌리며, 수입은 그대로 반영됩니다. " +
-      "앱은 이 세이브에 대해 이 설정을 기억하고, 다시 연결하면 또 고정합니다.",
+    freezeNote: "앱이 열려 있고 연결된 동안 보유 금액이 줄지 않습니다. 수입은 그대로 반영됩니다",
 
     // Stadium
     stadium: "경기장",
@@ -1083,13 +1069,12 @@ export const ko: Strings = {
     seating: "좌석 수",
     used: "사용 중",
     usedAll: "전체",
-    usedTitle:
-      "게임이 수용 인원을 제한할 때(예: 일부 좌석이 폐쇄된 동안) 입장시키는 인원입니다. 0은 전체를 뜻합니다",
+    usedTitle: "게임이 수용 인원을 제한할 때 입장시키는 인원입니다. 0은 전체를 뜻합니다",
     expansion: "확장 가능 인원",
     noStadium: "이 구단의 경기장을 읽을 수 없습니다.",
     stadiumName: "이름",
     rename: "이름 변경",
-    renameTitle: "경기장에 다른 이름을 붙입니다. 바로 기록되며, 변경 내역에서 되돌릴 수 있습니다",
+    renameTitle: "경기장에 다른 이름을 붙입니다. 바로 기록됩니다",
     renameInfoLabel: "이름 변경은 어떻게 작동하나요?",
     renameInfo:
       "게임은 세이브에 경기장 이름을 저장하지 않고, 세이브를 불러올 때마다 데이터베이스에서 가져옵니다. 그래서 " +
@@ -1119,7 +1104,7 @@ export const ko: Strings = {
 
     actionsLabel: "스태프 전체에 대한 작업",
     releaseAll: (count) => (count === 0 ? "스태프 전원 방출" : `스태프 전원 방출 (${format(count)}명)`),
-    releaseAllTitle: "나와 이사진을 뺀 구단의 모든 스태프를 한 번에 방출합니다. 먼저 확인 창이 열립니다",
+    releaseAllTitle: "나와 이사진을 뺀 구단의 모든 스태프를 방출합니다. 먼저 확인을 받습니다",
     releaseNone: "이 구단에는 방출할 수 있는 스태프가 없습니다",
     hint: "나와 이사진을 뺀 모두가 곧바로 구단을 떠납니다. 변경 내역 화면에서도 되돌릴 수 있습니다.",
     released: (count) => `스태프 ${format(count)}명을 방출했습니다`,
@@ -1156,7 +1141,7 @@ export const ko: Strings = {
     cancel: "취소",
 
     moveAll: "스태프 전원 이적",
-    moveAllTitle: "나와 이사진을 뺀 구단의 모든 스태프를 한 번에 다른 구단으로 이적시킵니다. 먼저 확인 창이 열립니다",
+    moveAllTitle: "나와 이사진을 뺀 구단의 모든 스태프를 다른 구단으로 이적시킵니다. 먼저 확인을 받습니다",
     moveNone: "이 구단에는 이적시킬 수 있는 스태프가 없습니다",
     moved: (count, club) => `스태프 ${format(count)}명이 ${club}에 합류했습니다`,
     undoMoveTitle: "이적한 스태프를 같은 계약으로 이 구단에 되돌립니다",
@@ -1321,9 +1306,9 @@ export const ko: Strings = {
     term: "기간",
     years: (count) => `${format(count)}년`,
     unnamed: (kind) => `유형 ${format(kind)}`,
-    unnamedTitle: "이 계약 유형은 아직 게임 화면의 이름과 맞춰 보지 않았으며, 화면에 표시되지 않을 수도 있습니다.",
+    unnamedTitle: "이 계약 유형은 아직 게임 화면의 이름과 맞춰 보지 않았습니다",
     ended: "종료",
-    endedTitle: "게임 날짜 이전에 종료된 계약입니다. 게임의 스폰서 화면에는 더 이상 표시되지 않습니다.",
+    endedTitle: "게임 날짜 이전에 종료되어 게임의 스폰서 화면에는 더 이상 표시되지 않습니다",
     falls: (percent) => `강등 시 ${format(percent)}% 감소`,
     rises: (percent) => `1부 리그 승격 시 ${format(percent)}% 증가`,
     note: "읽기 전용입니다. 게임이 각 계약에 대해 보관하는 금액입니다. 게임의 스폰서 화면에는 종료되지 않은 계약이 표시됩니다.",
@@ -1437,14 +1422,15 @@ export const ko: Strings = {
     },
     yearsTitle: "국가의 규칙이 이 규칙을 적용하는 시즌, 시즌이 시작되는 연도 기준",
     leftAlone: "건드리지 않음",
-    notSavedTitle: "저장 파일이 보관하는 국가의 규칙에는 이런 규칙이 없어서, 변경해도 저장 파일을 불러오면 사라집니다. 에디터는 이 규칙을 건드리지 않습니다.",
+    notSavedTitle: "저장 파일에 이런 규칙이 없어 변경해도 불러오면 사라지므로, 에디터는 이 규칙을 건드리지 않습니다",
     notACountTitle: "선수 수가 아니라 금액입니다. 에디터는 건드리지 않습니다.",
     noneChangeable: "이 규칙들은 시기와 관계없이 아직 변경할 수 없습니다. 에디터는 저장 파일이 보관하는 규칙에서도 같은 규칙을 찾은 경우에만 변경하는데(저장 파일을 불러와도 변경이 남도록), 이 대회의 규칙은 거기에서 찾지 못했습니다. 현재 여자 리그, 메이저 리그 사커, 일부 컵 대회가 이에 해당합니다.",
     unsavedNote: "게임은 이 대회의 규칙을 어떤 저장 파일에도 보관하지 않습니다. 저장 파일을 불러올 때마다, 그리고 새 시즌마다 게임이 직접 다시 만듭니다. 그래서 에디터가 여기서 바꾼 내용을 유지합니다. 실행 중인 게임에 기록하고, 이 커리어용으로 기억해 두었다가, 연결하거나 데이터를 다시 불러올 때마다 다시 기록합니다. 저장 파일을 불러온 뒤에는 변경 사항이 돌아오도록 에디터를 한 번 연결하세요(또는 데이터 다시 불러오기를 누르세요). 변경 내역의 되돌리기를 누르면 유지를 해제합니다.",
     heldTag: "유지 중",
-    heldTitle: (original) => `에디터가 이 수치를 유지하며 게임을 읽을 때마다 다시 기록합니다. 게임의 원래 값은 ${format(original)}입니다.`,
+    heldTitle: (original) =>
+      `에디터가 이 수치를 유지하며 게임을 읽을 때마다 다시 기록합니다. 게임의 원래 값은 ${format(original)}입니다`,
     savedDiffers: (value) => `저장 파일의 규칙에는 ${format(value)}`,
-    savedDiffersTitle: "게임은 목록에 따라 진행하며, 저장 파일을 불러올 때 저장 파일의 규칙으로 목록을 만듭니다. 여기서 변경을 저장하면 둘 다 설정됩니다.",
+    savedDiffersTitle: "게임은 목록에 따라 진행하며 불러올 때 저장 파일의 규칙으로 목록을 만듭니다. 여기서 변경하면 둘 다 설정됩니다",
     edit: "규칙 변경",
     editTitle: "이 대회의 스쿼드 규칙 수치를 변경합니다",
     save: "규칙 저장",
@@ -1476,9 +1462,7 @@ export const ko: Strings = {
     notConnected: "연결되지 않음",
     previewTag: "브라우저 미리보기 · 샘플 데이터",
     noDate: "게임 내 날짜 없음",
-    noDateTitle:
-      "FMLibreEditor가 이 게임 버전에서 게임 내 날짜를 읽지 못해 나이가 표시되지 않고 나이 필터로 아무도 찾을 수 " +
-      "없습니다. 업데이트를 확인하세요.",
+    noDateTitle: "게임 내 날짜를 읽지 못해 나이가 표시되지 않고 나이 필터로 아무도 찾을 수 없습니다. 업데이트를 확인하세요.",
     reload: "데이터 다시 불러오기",
     refresh: "새로 고침",
     detecting: "풋볼 매니저를 찾는 중…",
@@ -1580,14 +1564,12 @@ export const ko: Strings = {
     failedCheck: (name, fit, sampled) => `${name}(${format(sampled)}개 중 ${format(fit)}개 일치)`,
     join: (names) => names.join(", "),
     allow: "그래도 편집",
-    allowTitle: "FMLibreEditor를 닫거나 다시 연결할 때까지 편집을 켭니다. 먼저 세이브를 백업하세요.",
+    allowTitle: "앱을 닫거나 다시 연결할 때까지 편집을 켭니다. 먼저 세이브를 백업하세요.",
   },
 
   diagnostics: {
     copy: "진단 정보 복사",
-    copyTitle:
-      "FMLibreEditor가 게임에서 찾은 내용을 복사합니다. 버그 보고에 붙여 넣으세요. 이름이나 파일 경로는 들어 있지 " +
-      "않습니다.",
+    copyTitle: "앱이 게임에서 찾은 내용을 버그 보고용으로 복사합니다. 이름이나 파일 경로는 들어 있지 않습니다",
     copied: "복사됨",
     failed: (reason) => `진단 정보를 복사하지 못했습니다: ${reason}`,
   },
@@ -1612,7 +1594,7 @@ export const ko: Strings = {
     youHave: (version) => `현재 버전: ${version}.`,
     download: "다운로드",
     install: "업데이트",
-    installTitle: "새 버전을 다운로드해 설치합니다. FMLibreEditor가 닫혔다가 새 버전으로 다시 열립니다",
+    installTitle: "새 버전을 다운로드해 설치합니다. 앱이 닫혔다가 새 버전으로 다시 열립니다",
     preparing: "준비 중…",
     downloading: (percent) => (percent === null ? "다운로드 중…" : `다운로드 중… ${percent}%`),
     installing: "설치 중: FMLibreEditor가 닫혔다가 새 버전으로 다시 열립니다.",
@@ -1686,7 +1668,7 @@ export const ko: Strings = {
     inGame: "게임에 있음",
     inGameTitle: "데이터를 마지막으로 읽었을 때 게임에 이 값이 있었습니다",
     notInGame: "게임에 없음",
-    notInGameTitle: "데이터를 마지막으로 읽었을 때 게임에 이 값이 없었습니다. 변경 후 게임을 저장하지 않았거나, 그 뒤 게임이 값을 바꾼 것입니다",
+    notInGameTitle: "마지막으로 읽었을 때 게임에 없었습니다. 변경 후 저장하지 않았거나, 그 뒤 게임이 값을 바꾼 것입니다",
     /** In the place of Undo for an earlier change that cannot be undone from here, and its hover text. */
     historyOnly: "기록",
     historyOnlyTitle: "앱이 마지막으로 연결되기 전에 한 변경입니다. 되돌리려면 당시의 게임 메모리가 필요했습니다",
@@ -1694,7 +1676,7 @@ export const ko: Strings = {
     batchNotInGame: (count) => `${format(count)}건 게임에 없음`,
     /** Empties the list and the history of the career; the question that asks first, and its two answers. */
     clearHistory: "기록 지우기",
-    clearHistoryTitle: "이 목록을 비우고 이 커리어의 기록을 잊습니다. 변경 사항은 게임에 남습니다.",
+    clearHistoryTitle: "이 목록을 비우고 이 커리어의 기록을 잊습니다. 변경 사항은 게임에 남습니다",
     confirmClear: "이 커리어의 기록을 지울까요? 변경 사항은 게임에 남지만, 더 이상 여기서 되돌릴 수 없습니다.",
     keepHistory: "유지",
     clearConfirm: "지우기",
@@ -1768,9 +1750,9 @@ export const ko: Strings = {
   export: {
     button: "내보내기",
     buttonTitle: {
-      player: "목록에 표시된 선수를 스프레드시트나 스크립트에서 쓸 수 있도록 CSV 또는 JSON 파일로 저장합니다",
-      staff: "목록에 표시된 스태프를 스프레드시트나 스크립트에서 쓸 수 있도록 CSV 또는 JSON 파일로 저장합니다",
-      club: "목록에 표시된 구단을 스프레드시트나 스크립트에서 쓸 수 있도록 CSV 또는 JSON 파일로 저장합니다",
+      player: "목록에 표시된 선수를 CSV 또는 JSON 파일로 저장합니다",
+      staff: "목록에 표시된 스태프를 CSV 또는 JSON 파일로 저장합니다",
+      club: "목록에 표시된 구단을 CSV 또는 JSON 파일로 저장합니다",
     },
     title: { player: "선수 내보내기", staff: "스태프 내보내기", club: "구단 내보내기" },
     scope: (entity, count) =>
@@ -1818,7 +1800,7 @@ export const ko: Strings = {
 
     /** The export of the Changes view: a CSV file of the changes its search and filters show. */
     changes: {
-      buttonTitle: "목록에 표시된 변경 사항을 스프레드시트나 스크립트에서 쓸 CSV 파일로 저장합니다",
+      buttonTitle: "목록에 표시된 변경 사항을 CSV 파일로 저장합니다",
       title: "변경 사항 내보내기",
       /** What the export covers: everything the list's search and filters select, or, with none on, the whole history. */
       scope: (count, filtering) =>
@@ -1891,9 +1873,7 @@ export const ko: Strings = {
     amountHint: (max) => `±${format(max)}`,
     ofCurrent: "현재 값의 %",
     percentTitle: "현재 값에 대한 퍼센트입니다. 100은 그대로, 110은 10분의 1만큼 올리고, 50은 절반으로 줄입니다",
-    addYearsTitle:
-      "각 날짜에 더할 햇수입니다. 월과 일은 그대로이고, 음수를 넣으면 앞당깁니다. " +
-      "윤년이 아닌 해의 2월 29일은 2월 28일이 됩니다",
+    addYearsTitle: "각 날짜에 더할 햇수입니다. 음수를 넣으면 앞당기며, 2월 29일은 2월 28일이 될 수 있습니다",
     years: "년",
     invalidAdd: (min, max) => `${format(min)}에서 ${format(max)} 사이의 정수를 입력하세요`,
     invalidPercent: (min, max) => `${min}에서 ${max} 사이의 퍼센트를 정수로 입력하세요`,
@@ -2384,41 +2364,26 @@ export const ko: Strings = {
     liftAllTitle: "이 팀 모든 선수의 모든 출장 정지를 해제합니다",
     liftNone: "이 팀에는 출장 정지 선수가 없습니다",
     inspireAll: "모두 사기 진작",
-    inspireAllTitle: "이 팀 모든 선수의 사기를 최고인 20으로 설정하고 불만 사항을 제거합니다",
+    inspireAllTitle: "모든 선수의 사기를 최고인 20으로 설정하고 불만 사항을 제거합니다",
     maxCohesion: "결속력 최대",
-    maxCohesionTitle:
-      "이 팀 모든 선수의 구단과의 결속력을 최고인 100으로 설정합니다. 팀 결속력은 게임이 진행된 뒤 '세력 구도' " +
-      "화면에 표시됩니다. 게임에서 '진행하기'를 누르세요",
-    cohesionNone:
-      "이 팀의 결속력을 읽을 수 없습니다. 이 게임 버전에서 아직 확인되지 않았거나, 구단에 대한 결속력 항목이 있는 " +
-      "선수가 없습니다",
+    maxCohesionTitle: "모든 선수의 구단과의 결속력을 최고인 100으로 설정합니다. 게임이 진행된 뒤 표시됩니다",
+    cohesionNone: "읽을 수 없습니다. 이 게임 버전에서 아직 확인되지 않았거나, 구단에 대한 결속력 항목이 있는 선수가 없습니다",
     cohesionWithout: (count) => `${playerCount(count)}은 아직 구단과의 결속력이 없습니다`,
     maxTactics: "전술 최대",
-    maxTacticsTitle:
-      "이 팀의 모든 선수가 팀이 쓰는 전술을 '전술 효율성' 화면의 여덟 영역 모두에서 최고 수준으로 익히게 합니다. " +
-      "몇 주 동안 그 전술로 훈련한 것과 같습니다. 능력치는 바뀌지 않습니다. 훈련이 오래되면 약 6주 뒤부터 다시 " +
-      "떨어지며, 다른 전술로 바꾸면 다시 눌러야 합니다. 게임이 진행된 뒤 화면에 반영됩니다. 게임에서 '진행하기'를 누르세요",
-    tacticsNone:
-      "이 팀이 전술을 얼마나 익혔는지 읽을 수 없습니다. 이 게임 버전에서 아직 확인되지 않았거나, 팀이 직접 고른 " +
-      "전술을 쓰지 않습니다",
+    maxTacticsTitle: "모든 선수가 팀 전술을 최고 수준으로 익히게 합니다. 훈련처럼 약 6주 뒤부터 다시 떨어집니다",
+    tacticsNone: "읽을 수 없습니다. 이 게임 버전에서 아직 확인되지 않았거나, 팀이 직접 고른 전술을 쓰지 않습니다",
     tacticsUntrained: (count) => `${playerCount(count)}은 훈련하지 않아(부상 등) 훈련 기록이 그대로 남습니다`,
     refreshAll: "모두 회복",
-    refreshAllTitle: "이 팀 모든 선수의 컨디션과 경기력을 100%로 설정하고 완전히 쉬게 합니다(피로도 -500)",
+    refreshAllTitle: "모든 선수의 컨디션과 경기력을 100%로 설정하고 완전히 쉬게 합니다(피로도 -500)",
     batchTraits: "선수단 선호 플레이 일괄 설정",
     batchTraitsTitle: "이 팀 선수의 선호 플레이를 일괄 추가하거나 삭제합니다",
     maxAll: "능력치 최대",
-    maxAllTitle: "이 팀 모든 선수의 모든 능력치를 최고로 만듭니다. 20으로, 부상 빈도와 더티 플레이는 1로 설정합니다",
+    maxAllTitle: "모든 선수의 모든 능력치를 최고로 만듭니다. 20으로, 부상 빈도와 더티 플레이는 1로 설정합니다",
     atItsBest: "팀 최상 상태",
-    atItsBestTitle:
-      "'모두 치료', '모두 사기 진작', '모두 회복', '결속력 최대', '전술 최대'를 한 번에 실행하며, '되돌리기' 한 번으로 모두 취소할 수 있습니다. 능력치와 출장 정지는 그대로입니다. " +
-      "실행할 수 없는 단계(부상 선수가 없을 때의 '모두 치료' 등)는 건너뛰고 결과에 그 사실을 표시합니다. 전술 영역은 훈련이 오래되면 약 6주 뒤부터 다시 떨어지며, 다른 전술로 바꾸면 다시 " +
-      "눌러야 합니다. 게임이 진행된 뒤 화면에 반영됩니다. 게임에서 '진행하기'를 누르세요",
+    atItsBestTitle: "모두 치료·사기 진작·회복하고 결속력과 전술을 최대로, 한 번에 실행합니다. '되돌리기' 한 번으로 취소합니다",
     atItsBestSkipped: (step, reason) => `'${step}' 건너뜀: ${reason}`,
     destroy: "팀 최악 상태",
-    destroyTitle:
-      "이 팀의 모든 선수를 최악의 상태로 만듭니다: 사기와 만족도, 컨디션, 경기력과 피로도, 구단과의 결속력, " +
-      "그리고 팀 전술을 직접 고르는 경우 전술 숙련도. 어떤 값도 지금보다 좋아지지 않으며, 능력치, 부상, 출장 " +
-      "정지는 그대로입니다. 실행 전에 확인하며, '되돌리기' 한 번으로 모두 취소할 수 있습니다",
+    destroyTitle: "모든 선수의 사기, 컨디션, 결속력, 전술 숙련도를 최악으로 만듭니다. 먼저 확인을 받습니다",
     destroySteps: {
       demoralize: "사기와 만족도",
       exhaust: "컨디션과 경기력",
@@ -2446,17 +2411,11 @@ export const ko: Strings = {
     // Freezing the whole team
     freezeLabel: "팀 전체 고정",
     freezeAttributes: "능력치 고정",
-    freezeAttributesTitle:
-      "앱이 열려 있고 연결된 동안에는 이 팀 모든 선수의 능력치가 떨어지지 않습니다. 게임이 깎은 만큼 되돌리며, 오른 " +
-      "능력치는 그대로 반영됩니다",
+    freezeAttributesTitle: "앱이 열려 있고 연결된 동안 이 팀 모든 선수의 능력치가 떨어지지 않습니다",
     freezeFitness: "컨디션 및 경기력 고정",
-    freezeFitnessTitle:
-      "앱이 열려 있고 연결된 동안에는 이 팀 모든 선수의 컨디션과 경기력이 떨어지지 않습니다. 게임이 깎은 만큼 " +
-      "되돌립니다. 100%로 유지하려면 먼저 '모두 회복'을 누르세요",
+    freezeFitnessTitle: "앱이 연결된 동안 모든 선수의 컨디션과 경기력이 떨어지지 않습니다. 100%로 유지하려면 먼저 '모두 회복'을 누르세요",
     freezePositions: "포지션 고정",
-    freezePositionsTitle:
-      "앱이 열려 있고 연결된 동안에는 이 팀 모든 선수의 포지션 적응도가 그대로 유지됩니다. 게임이 올리거나 내린 " +
-      "적응도를 되돌립니다",
+    freezePositionsTitle: "앱이 열려 있고 연결된 동안 이 팀 모든 선수의 포지션 적응도가 그대로 유지됩니다",
     frozenCount: (frozen, total) => `${format(total)}명 중 ${format(frozen)}명`,
     freezeHint:
       "고정은 목록의 모든 선수에게 적용되며, 선수가 어디로 가든 그 선수에게 유지됩니다. 앱은 이 세이브에 대해 이 설정을 " +
@@ -2530,7 +2489,7 @@ export const ko: Strings = {
     bannedTitle: (count) => `출장 정지 ${format(count)}건`,
     unrest: "동료 불만",
     unrestTitle: (count) =>
-      `팀 동료 ${format(count)}명이 이 선수와 관련된 불만 사항을 갖고 있습니다. 이 선수 프로필의 '모두 제거'를 누르면 게임이 진행된 뒤 해소됩니다`,
+      `팀 동료 ${format(count)}명이 이 선수에게 불만이 있습니다. 프로필의 '모두 제거'를 누르면 게임이 진행된 뒤 해소됩니다`,
     onLoan: "임대 중",
     onLoanTitle: "다른 구단으로 임대를 떠나 있습니다",
     loanee: "임대생",

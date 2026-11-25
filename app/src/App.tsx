@@ -39,6 +39,7 @@ import { matches, SHORTCUTS, viewShortcut, withShortcut } from "./shortcuts";
 import { StaffBrowser } from "./StaffBrowser";
 import { StarRequest, useStarRequest } from "./StarRequest";
 import { readTeams, TeamsSwitch, type Teams } from "./TeamsSwitch";
+import { Tips } from "./Tips";
 import type {
   BridgeInfo,
   ClubSummary,
@@ -510,7 +511,7 @@ function App() {
             (connection.gameDate ? (
               <span className="game-date">{formatDate(connection.gameDate)}</span>
             ) : (
-              <span className="game-date missing" title={appText.noDateTitle}>
+              <span className="game-date missing" data-tip={appText.noDateTitle}>
                 {appText.noDate}
               </span>
             ))}
@@ -645,12 +646,14 @@ function App() {
           {!inTauri && <span className="tag">{appText.previewTag}</span>}
         </div>
         <div className="colophon-notes">
-          <p className="sidebar-note" title={note}>
+          <p className="sidebar-note" data-tip={note}>
             {note}
           </p>
           <GraphicsStatus />
         </div>
       </footer>
+
+      <Tips />
 
       {whatsNew.shown && (
         <WhatsNewDialog notes={whatsNew.shown} updated={whatsNew.updated} onClose={whatsNew.close} />

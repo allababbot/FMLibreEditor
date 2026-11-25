@@ -806,7 +806,7 @@ function FreezeBox({ label, title, frozen, total, waiting, busy, onChange }: Fre
   }, [some]);
 
   return (
-    <label className="freeze-toggle" title={title}>
+    <label className="freeze-toggle" data-tip={title}>
       <input
         ref={box}
         type="checkbox"
@@ -851,7 +851,7 @@ export function ActionButton({ label, title, waiting, busy, onPress, className, 
       disabled={waiting}
       aria-disabled={busy || undefined}
       aria-busy={busy || undefined}
-      title={title}
+      data-tip={title}
       onClick={() => !busy && onPress()}
     >
       {label}
@@ -884,7 +884,7 @@ export function ResultLine({ result, busy, onUndo, ref }: ResultLineProps) {
                 type="button"
                 className="squad-action"
                 aria-disabled={busy || undefined}
-                title={text.undoTitle}
+                data-tip={text.undoTitle}
                 onClick={() => result.undo && onUndo(result.undo)}
               >
                 {text.undo}
@@ -991,7 +991,7 @@ function Tags({ player }: { player: SquadPlayer }) {
         </span>
       )}
       {player.concernedTeammates > 0 && (
-        <span className="tag injured" title={text.unrestTitle(player.concernedTeammates)}>
+        <span className="tag injured" data-tip={text.unrestTitle(player.concernedTeammates)}>
           {text.unrest}
         </span>
       )}

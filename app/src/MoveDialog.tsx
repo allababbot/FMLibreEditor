@@ -135,7 +135,7 @@ export function MoveButton({ player, kind = "player", contract, ready }: MoveBut
         className="move-toggle"
         aria-haspopup="dialog"
         disabled={!ready}
-        title={
+        data-tip={
           kind === "staff"
             ? player.club === null
               ? text.staffSignButtonTitle

@@ -697,8 +697,7 @@ export const ja: Strings = {
     joined: "加入日",
     extendContract: (years: number) => `${years}年延長`,
     extendingContract: "延長中…",
-    extendContractTitle: (years: number, until: string) =>
-      `契約を${years}年延長し、${until}までにします。変更履歴から元に戻せます`,
+    extendContractTitle: (years: number, until: string) => `契約を${years}年延長し、${until}までにします`,
     squadStatus: "チーム内の立場",
     squadStatusName: (status: number) => SQUAD_STATUSES[status] ?? `立場 ${status}`,
     contractType: "契約の種類",
@@ -724,8 +723,7 @@ export const ja: Strings = {
     noRetirement: "ゲームはこの選手の引退を予定していません",
     keepPlaying: "引退を阻止",
     keepingPlaying: "阻止中…",
-    keepPlayingTitle:
-      "ゲームの引退予定からこの選手を外し、特性「絶頂期に引退する」の代わりに「できる限り長く現役を続ける」を与えます。変更履歴から元に戻せます",
+    keepPlayingTitle: "引退予定を取り消し、特性「できる限り長く現役を続ける」を与えます",
 
     // Medical
     morale: (value: number) => `${value} / 20`,
@@ -736,9 +734,8 @@ export const ja: Strings = {
     noUnhappiness: "不満はありません",
     removeUnhappiness: "すべて解消",
     removingUnhappiness: "解消中…",
-    removeUnhappinessTitle: "FMRTE の「Remove all」と同じく、不満の理由をすべてリストから消します。変更履歴から元に戻せます",
-    removeUnhappinessFollows:
-      "チームメイトがこの選手に対して抱いている不満の理由は、ゲームが進行すると自然に消えます：ゲームで「続ける」を押してください",
+    removeUnhappinessTitle: "不満の理由をすべてリストから消します",
+    removeUnhappinessFollows: "チームメイトの不満はゲームが進行すると消えます：ゲームで「続ける」を押してください",
     concernSince: (date: string) => `${date}から`,
     concernAbout: (name: string) => `${name}について`,
     concernKind: (kind: number) => (kind === 1 ? "懸念" : kind === 2 ? "内部" : `種類 ${kind}`),
@@ -757,14 +754,13 @@ export const ja: Strings = {
     loanUntil: "終了",
     loanNumber: "ローン先の背番号",
     recall: "ローンから呼び戻す",
-    recallTitle: "所属クラブに呼び戻します：ローンは今日で終了します。変更する前に確認します",
+    recallTitle: "今日、所属クラブに呼び戻します。先に確認します",
     recallAgain: "もう一度呼び戻す",
     makePermanent: "完全移籍にする",
-    makePermanentTitle: "ローン先のクラブと契約させ、そのまま残します。変更する前に確認します",
+    makePermanentTitle: "ローン先のクラブと契約させ、そのまま残します。先に確認します",
     recalledWaiting: "呼び戻し済み · 復帰待ち",
     endsTodayWaiting: "本日終了 · 復帰待ち",
-    pendingTitle: (parent: string) =>
-      `今日がローンの最終日です：ゲームを1日進めると ${parent} に戻ります。`,
+    pendingTitle: (parent: string) => `ローンは今日で終了：ゲームを1日進めると ${parent} に戻ります`,
     endPassed: (date: string) =>
       `ローンは ${date} に終了する予定でしたが、ゲームが選手を戻していません。もう一度呼び戻してから、1日進めてください。`,
     loanCanRecall: "呼び戻し可能",
@@ -814,8 +810,8 @@ export const ja: Strings = {
     clauseExpiresAfter: (days: number) => `契約から${format(days)}日後に失効`,
     clauseProfitShare: (percent: string, amount: string) => `${amount}を超える利益の${percent}`,
     clauseWage: (amount: string) => `週${amount}`,
-    moraleTitle: "ゲームでは士気を選手の総合的な満足度として表示します：10で「満足」、11で「やや幸せ」、15と20で「非常に幸せ」",
-    jadednessTitle: "試合出場による疲労の蓄積で、休養すると減ります：-500で完全に休養済み、高いほど休養が必要です",
+    moraleTitle: "ゲームでの総合的な満足度：10で「満足」、11で「やや幸せ」、15と20で「非常に幸せ」",
+    jadednessTitle: "試合出場による疲労の蓄積：-500で完全に休養済み、高いほど休養が必要です",
     noInjuries: "負傷なし",
     unknownInjury: "不明な負傷",
     injuryStarted: (date: string) => `${date}に負傷`,
@@ -830,25 +826,19 @@ export const ja: Strings = {
 
     // Above the attributes, while the profile is read
     maxAttributes: "能力値を最大化",
-    maxAttributesTitle: "この選手の能力値をすべて最高にします：20（負傷しやすさとラフプレーは1）",
+    maxAttributesTitle: "能力値をすべて最高にします：20（負傷しやすさとラフプレーは1）",
     maxAttributesDone: (count: number) =>
       count === 0 ? "すべての能力値はすでに最高です" : `${changeCount(count)}を書き込みました`,
     maxAttributesUndone: (count: number) => (count === 0 ? "元に戻したものはありません" : `${changeCount(count)}を元に戻しました`),
     undoMax: "元に戻す",
     undoMaxTitle: "元の能力値をゲームに書き戻します",
     freezeAttributes: "能力値を固定",
-    freezeAttributesNote:
-      "アプリを開いて接続している間、能力値は下がりません：ゲームが下げた分は元に戻され、上がった分はそのまま残ります。" +
-      "アプリはこのセーブについてこの設定を覚えていて、次に接続したときにも再び固定します。",
+    freezeAttributesNote: "アプリを開いて接続している間、能力値は下がりません。上がった分は残ります",
     maxStaffAttributesTitle: "このスタッフの能力値をすべて最高（20）にします",
     undoMaxStaffTitle: "元の能力値をゲームに書き戻します",
-    freezeStaffAttributesNote:
-      "アプリを開いて接続している間、能力値は下がりません：ゲームが下げた分は元に戻され、上がった分はそのまま残ります。" +
-      "アプリはこのセーブについてこの設定を覚えていて、次に接続したときにも再び固定します。",
+    freezeStaffAttributesNote: "アプリを開いて接続している間、能力値は下がりません。上がった分は残ります",
     freezeFitness: "コンディションと試合勘を固定",
-    freezeFitnessNote:
-      "アプリを開いて接続している間、コンディションと試合勘は下がりません：ゲームが下げた分は元に戻され、上がった分は" +
-      "そのまま残るので、100%ならそのまま保たれます。アプリはこのセーブについてこの設定を覚えています。",
+    freezeFitnessNote: "アプリを開いて接続している間、コンディションと試合勘は下がりません。上がった分は残ります",
     freezePositions: "固定",
     freezePositionsInfo: "ポジションを固定するとどうなりますか？",
     freezePositionsNote:
@@ -1046,9 +1036,7 @@ export const ja: Strings = {
     perWeek: "週あたり",
     noFinances: "FM はプレー中のリーグに所属するクラブの財務しか保持していません。",
     freeze: "資金を固定",
-    freezeNote:
-      "アプリを開いて接続している間、残高は減りません：ゲームが差し引いた分は元に戻され、収入はそのまま加算されます。" +
-      "アプリはこのセーブについてこの設定を覚えていて、次に接続したときにも再び固定します。",
+    freezeNote: "アプリを開いて接続している間、残高は減りません。収入は加算されます",
 
     // Stadium
     stadium: "スタジアム",
@@ -1056,12 +1044,12 @@ export const ja: Strings = {
     seating: "座席数",
     used: "使用中",
     usedAll: "すべて",
-    usedTitle: "ゲームが制限している場合（座席の閉鎖中など）に、収容人数のうち入場を許可している部分。0はすべてを意味します",
+    usedTitle: "ゲームが制限しているときに入場を許可している収容人数。0はすべてを意味します",
     expansion: "拡張可能な上限",
     noStadium: "このクラブのスタジアムを読み取れませんでした。",
     stadiumName: "名前",
     rename: "名前を変更",
-    renameTitle: "スタジアムに別の名前をつけます。すぐに書き込まれ、変更履歴から元に戻せます",
+    renameTitle: "スタジアムに別の名前をつけます。すぐに書き込まれます",
     renameInfoLabel: "名前の変更はどのように働きますか？",
     renameInfo:
       "ゲームはセーブデータにスタジアム名を保存せず、セーブを読み込むたびにデータベースから取得します。そのため " +
@@ -1092,7 +1080,7 @@ export const ja: Strings = {
 
     actionsLabel: "スタッフ全体への操作",
     releaseAll: (count: number) => (count === 0 ? "全スタッフの契約解除" : `全スタッフの契約解除（${format(count)}人）`),
-    releaseAllTitle: "あなたと役員会を除く、クラブの全スタッフの契約を一度に解除します。先に確認画面が開きます",
+    releaseAllTitle: "あなたと役員会を除く、クラブの全スタッフの契約を解除します。先に確認します",
     releaseNone: "このクラブには契約解除できるスタッフがいません",
     hint: "あなたと役員会以外の全員がすぐにクラブを離れます。元に戻す操作は変更履歴でも行えます。",
     released: (count: number) => `スタッフ${format(count)}人の契約を解除しました`,
@@ -1129,7 +1117,7 @@ export const ja: Strings = {
     cancel: "キャンセル",
 
     moveAll: "全スタッフの移籍",
-    moveAllTitle: "あなたと役員会を除く、クラブの全スタッフを別のクラブへ一度に移籍させます。先に確認画面が開きます",
+    moveAllTitle: "あなたと役員会を除く、クラブの全スタッフを別のクラブへ移籍させます。先に確認します",
     moveNone: "このクラブには移籍できるスタッフがいません",
     moved: (count: number, club: string) => `スタッフ${format(count)}人が${club}に移籍しました`,
     undoMoveTitle: "移籍したスタッフを、同じ契約のままこのクラブに戻します",
@@ -1295,9 +1283,9 @@ export const ja: Strings = {
     term: "期間",
     years: (count) => `${format(count)}年`,
     unnamed: (kind) => `タイプ${format(kind)}`,
-    unnamedTitle: "この種類の契約は、ゲーム画面上の名前とまだ照合されていません。画面に表示されない場合もあります。",
+    unnamedTitle: "この種類の契約は、ゲーム画面上の名前とまだ照合されていません",
     ended: "終了",
-    endedTitle: "この契約はゲーム内の日付より前に終了しました。ゲームのスポンサー画面にはもう表示されません。",
+    endedTitle: "ゲーム内の日付より前に終了：ゲームのスポンサー画面にはもう表示されません",
     falls: (percent) => `降格すると${format(percent)}%減額`,
     rises: (percent) => `トップディビジョンに昇格すると${format(percent)}%増額`,
     note: "読み取り専用です。ゲームが各契約に保存している金額です。ゲームのスポンサー画面には終了していない契約が表示されます。",
@@ -1411,14 +1399,15 @@ export const ja: Strings = {
     },
     yearsTitle: "国のルールがこのルールを適用するシーズン（シーズンが始まる年で表示）",
     leftAlone: "変更しません",
-    notSavedTitle: "セーブが保持する国のルールにはこのルールがないため、変更はセーブを読み込むと消えてしまいます。エディターは変更しません。",
+    notSavedTitle: "セーブにこのルールがなく、変更は読み込むと消えるため、エディターは変更しません",
     notACountTitle: "選手数ではなく金額です。エディターは変更しません。",
     noneChangeable: "これらのルールは、時期にかかわらずまだ変更できません。エディターは、セーブが保持するルールの中にも同じルールが見つかった場合にのみ変更します（セーブを読み込んでも変更が残るようにするためです）が、この大会のルールはそこに見つかっていません。現時点では、女子リーグ、メジャーリーグサッカー、一部のカップ戦が該当します。",
     unsavedNote: "ゲームはこの大会のルールをどのセーブにも保持しません。セーブを読み込むたびに、また新しいシーズンのたびに、ゲーム自身が作り直します。そのためエディターはここでの変更を保持します：実行中のゲームに書き込み、このキャリア用に記憶し、接続するたび、またはデータを再読み込みするたびに書き直します。セーブを読み込んだ後は、変更を戻すためにエディターを一度接続してください（または「データを再読み込み」を押してください）。「変更履歴」の「元に戻す」で保持を解除できます。",
     heldTag: "保持中",
-    heldTitle: (original: number) => `エディターがこの人数を保持し、ゲームを読み込むたびに書き直します。ゲーム本来の値は${format(original)}です。`,
+    heldTitle: (original: number) =>
+      `エディターがこの人数を保持し、ゲームを読み込むたびに書き直します。ゲーム本来の値は${format(original)}`,
     savedDiffers: (value: number) => `セーブのルールでは${format(value)}`,
-    savedDiffersTitle: "ゲームはリストに従ってプレーし、セーブを読み込むときにセーブのルールからリストを作ります。ここで変更を保存すると両方が設定されます。",
+    savedDiffersTitle: "ゲームはリストに従い、読み込み時にセーブのルールからリストを作ります。ここでの変更は両方に反映されます",
     edit: "ルールを変更",
     editTitle: "この大会のスカッドルールの人数を変更します",
     save: "ルールを保存",
@@ -1450,9 +1439,7 @@ export const ja: Strings = {
     notConnected: "未接続",
     previewTag: "ブラウザプレビュー · サンプルデータ",
     noDate: "ゲーム内の日付なし",
-    noDateTitle:
-      "このバージョンのゲームでは FMLibreEditor がゲーム内の日付を読み取れなかったため、年齢は表示されず、年齢フィルターでは" +
-      "誰も見つかりません。アップデートを確認してください。",
+    noDateTitle: "ゲーム内の日付を読み取れず、年齢は表示されず年齢フィルターも機能しません。アップデートを確認してください。",
     reload: "データを再読み込み",
     refresh: "更新",
     detecting: "Football Manager を探しています…",
@@ -1549,12 +1536,12 @@ export const ja: Strings = {
     failedCheck: (name: string, fit: number, sampled: number) => `${name}（${format(sampled)}件中${format(fit)}件が適合）`,
     join: (names: string[]) => names.join("、"),
     allow: "それでも編集する",
-    allowTitle: "FMLibreEditor を閉じるか再接続するまで編集を有効にします。先にセーブデータをバックアップしてください。",
+    allowTitle: "アプリを閉じるか再接続するまで編集を有効にします。先にセーブデータをバックアップしてください。",
   },
 
   diagnostics: {
     copy: "診断情報をコピー",
-    copyTitle: "FMLibreEditor がゲーム内で見つけた内容をコピーし、バグ報告に貼り付けられるようにします。名前やパスは含みません。",
+    copyTitle: "アプリがゲーム内で見つけた内容をバグ報告用にコピーします。名前やパスは含みません",
     copied: "コピーしました",
     failed: (reason: string) => `診断情報をコピーできませんでした：${reason}`,
   },
@@ -1579,7 +1566,7 @@ export const ja: Strings = {
     youHave: (version: string) => `現在のバージョンは ${version} です。`,
     download: "ダウンロード",
     install: "アップデート",
-    installTitle: "新しいバージョンをダウンロードしてインストールします。FMLibreEditor は終了し、新しいバージョンで再び開きます",
+    installTitle: "新しいバージョンをダウンロードしてインストールします。アプリは終了し、新しいバージョンで再び開きます",
     preparing: "準備中…",
     downloading: (percent: number | null) => (percent === null ? "ダウンロード中…" : `ダウンロード中… ${percent}%`),
     installing: "インストール中：FMLibreEditor は終了し、新しいバージョンで再び開きます。",
@@ -1653,7 +1640,7 @@ export const ja: Strings = {
     inGame: "ゲーム内",
     inGameTitle: "データを最後に読み込んだとき、ゲームはこの値を保持していました",
     notInGame: "ゲーム内になし",
-    notInGameTitle: "データを最後に読み込んだとき、ゲームはこの値を保持していませんでした：変更後にゲームを保存しなかったか、その後ゲームが値を変えました",
+    notInGameTitle: "最後の読み込み時にゲームにありませんでした：変更後に保存しなかったか、ゲームが値を変えました",
     /** In the place of Undo for an earlier change that cannot be undone from here, and its hover text. */
     historyOnly: "履歴",
     historyOnlyTitle: "アプリが最後に接続する前に行われた変更：元に戻すには当時のゲームのメモリが必要でした",
@@ -1661,7 +1648,7 @@ export const ja: Strings = {
     batchNotInGame: (count: number) => `${format(count)}件はゲーム内になし`,
     /** Empties the list and the history of the career; the question that asks first, and its two answers. */
     clearHistory: "履歴を消去",
-    clearHistoryTitle: "この一覧を空にし、このキャリアの履歴を消去します。変更はゲームに残ります。",
+    clearHistoryTitle: "この一覧を空にし、このキャリアの履歴を消去します。変更はゲームに残ります",
     confirmClear: "このキャリアの履歴を消去しますか？変更はゲームに残りますが、ここからは元に戻せなくなります。",
     keepHistory: "残す",
     clearConfirm: "消去",
@@ -1734,9 +1721,9 @@ export const ja: Strings = {
   export: {
     button: "書き出し",
     buttonTitle: {
-      player: "一覧に表示中の選手を CSV または JSON ファイルに書き出します（表計算ソフトやスクリプト用）",
-      staff: "一覧に表示中のスタッフを CSV または JSON ファイルに書き出します（表計算ソフトやスクリプト用）",
-      club: "一覧に表示中のクラブを CSV または JSON ファイルに書き出します（表計算ソフトやスクリプト用）",
+      player: "一覧に表示中の選手を CSV または JSON ファイルに書き出します",
+      staff: "一覧に表示中のスタッフを CSV または JSON ファイルに書き出します",
+      club: "一覧に表示中のクラブを CSV または JSON ファイルに書き出します",
     },
     title: { player: "選手を書き出し", staff: "スタッフを書き出し", club: "クラブを書き出し" },
     scope: (entity: ExportEntity, count: number) =>
@@ -1784,7 +1771,7 @@ export const ja: Strings = {
 
     /** The export of the Changes view: a CSV file of the changes its search and filters show. */
     changes: {
-      buttonTitle: "一覧に表示されている変更を、表計算ソフトやスクリプト向けのCSVファイルに書き出します",
+      buttonTitle: "一覧に表示されている変更をCSVファイルに書き出します",
       title: "変更を書き出し",
       /** What the export covers: everything the list's search and filters select, or, with none on, the whole history. */
       scope: (count: number, filtering: boolean) =>
@@ -1856,9 +1843,7 @@ export const ja: Strings = {
     amountHint: (max: number) => `±${format(max)}`,
     ofCurrent: "%（現在値に対して）",
     percentTitle: "現在値に対するパーセント：100でそのまま、110で1割増し、50で半分",
-    addYearsTitle:
-      "各日付に加算する年数です。月日はそのままで、負の数なら過去に戻します。" +
-      "うるう年でない年の2月29日は2月28日になります",
+    addYearsTitle: "各日付に加算する年数です。負の数なら過去に戻し、2月29日は2月28日になることがあります",
     years: "年",
     invalidAdd: (min: number, max: number) => `${format(min)}〜${format(max)}の整数を入力してください`,
     invalidPercent: (min: number, max: number) => `${min}〜${max}の整数のパーセントを入力してください`,
@@ -2348,35 +2333,27 @@ export const ja: Strings = {
     liftAllTitle: "このチームの全選手の出場停止をすべて解除します",
     liftNone: "このチームに出場停止の選手はいません",
     inspireAll: "全員を鼓舞",
-    inspireAllTitle: "このチームの全選手の士気を最高の20にし、不満の理由を消します",
+    inspireAllTitle: "全選手の士気を最高の20にし、不満の理由を消します",
     maxCohesion: "連携を最大化",
-    maxCohesionTitle:
-      "このチームの全選手のクラブとの連携を最高の100にします。チームの連携は、ゲームが進行した後に「チーム関係」画面に表示されます：ゲームで「続ける」を押してください",
-    cohesionNone:
-      "エディターはこのチームの連携を読み取れません：このバージョンのゲームで未確認か、どの選手にもクラブとの連携の記録がありません",
+    maxCohesionTitle: "全選手のクラブとの連携を最高の100にします。ゲームが進行すると表示されます",
+    cohesionNone: "読み取れません：このバージョンのゲームで未確認か、どの選手にもクラブとの連携の記録がありません",
     cohesionWithout: (count: number) => `${format(count)}人はまだクラブとの連携の記録がありません`,
     maxTactics: "戦術を最大化",
-    maxTacticsTitle:
-      "このチームの全選手が、チームの使う戦術を「戦術の有効性」画面の8つの分野すべてで最高まで理解するようにします。数週間その戦術でトレーニングしたのと同じです。能力値は変わりません。トレーニングが古くなるにつれ、約6週間後から再び下がります。別の戦術に変えたら、もう一度押してください。ゲームが進むと画面に反映されます：ゲームで「続行」を押してください",
-    tacticsNone:
-      "このチームが戦術をどれだけ理解しているか読み取れません：このバージョンのゲームではまだ確認されていないか、チームがあなたの選んだ戦術を使っていません",
+    maxTacticsTitle: "全選手がチームの戦術を最高まで理解するようにします。トレーニングと同じく約6週間で下がります",
+    tacticsNone: "読み取れません：このバージョンのゲームで未確認か、チームがあなたの選んだ戦術を使っていません",
     tacticsUntrained: (count: number) =>
       `${format(count)}人はトレーニングしていない（負傷など）ため、トレーニング履歴はそのままです`,
     refreshAll: "全員を回復",
-    refreshAllTitle: "このチームの全選手のコンディションと試合勘を100%にし、完全に休養させます（疲労蓄積 -500）",
+    refreshAllTitle: "全選手のコンディションと試合勘を100%にし、完全に休養させます（疲労蓄積 -500）",
     batchTraits: "チーム特徴の一括設定",
     batchTraitsTitle: "このチームの選手にプレイスタイルを追加または削除します",
     maxAll: "能力値を最大化",
-    maxAllTitle: "このチームの全選手の能力値をすべて最高にします：20（負傷しやすさとラフプレーは1）",
+    maxAllTitle: "全選手の能力値をすべて最高にします：20（負傷しやすさとラフプレーは1）",
     atItsBest: "チームを万全の状態に",
-    atItsBestTitle:
-      "「全員を治療」「全員を鼓舞」「全員を回復」「連携を最大化」「戦術を最大化」を一度に行います。「元に戻す」1回ですべて取り消せます。能力値と出場停止はそのままです。実行できない手順（負傷者がいないときの「全員を治療」など）は飛ばされ、結果にその旨が表示されます。戦術の各分野は、トレーニングが古くなるにつれ約6週間後から再び下がります。別の戦術に変えたら、もう一度押してください。ゲームが進むと画面に反映されます：ゲームで「続ける」を押してください",
+    atItsBestTitle: "全員の治療・鼓舞・回復と、連携・戦術の最大化を一度に行います。「元に戻す」1回で取り消せます",
     atItsBestSkipped: (step, reason) => `「${step}」をスキップしました：${reason}`,
     destroy: "チームを最悪の状態に",
-    destroyTitle:
-      "このチームの全選手を最悪の状態にします：士気と満足度、コンディション、試合勘と疲労蓄積、クラブとの連携、" +
-      "そしてチームの戦術をあなたが選んでいる場合は戦術の理解度。どの値も今より良くなることはなく、能力値・負傷・" +
-      "出場停止はそのままです。実行前に確認し、「元に戻す」1回ですべて取り消せます",
+    destroyTitle: "全選手の士気、コンディション、連携、戦術の理解度を最悪にします。先に確認します",
     destroySteps: {
       demoralize: "士気と満足度",
       exhaust: "コンディションと試合勘",
@@ -2404,16 +2381,11 @@ export const ja: Strings = {
     // Freezing the whole team, under the actions
     freezeLabel: "チーム全体を固定",
     freezeAttributes: "能力値を固定",
-    freezeAttributesTitle:
-      "アプリを開いて接続している間、このチームの全選手の能力値は下がりません：ゲームが下げた分は元に戻され、上がった分は" +
-      "そのまま残ります",
+    freezeAttributesTitle: "アプリを開いて接続している間、このチームの全選手の能力値は下がりません",
     freezeFitness: "コンディションと試合勘を固定",
-    freezeFitnessTitle:
-      "アプリを開いて接続している間、このチームの全選手のコンディションと試合勘は下がりません：ゲームが下げた分は元に戻されます。" +
-      "100%で保つには、先に「全員を回復」を押してください",
+    freezeFitnessTitle: "アプリの接続中、全選手のコンディションと試合勘は下がりません。100%で保つには先に「全員を回復」を押してください",
     freezePositions: "ポジションを固定",
-    freezePositionsTitle:
-      "アプリを開いて接続している間、このチームの全選手のポジション適性はそのまま保たれます：ゲームが上げ下げした適性は元に戻されます",
+    freezePositionsTitle: "アプリを開いて接続している間、このチームの全選手のポジション適性はそのまま保たれます",
     frozenCount: (frozen: number, total: number) => `${format(total)}人中${format(frozen)}人`,
     freezeHint:
       "固定は一覧のすべての選手が対象で、選手がどこへ移っても続きます。アプリはこのセーブについてこの設定を覚えています。",
@@ -2486,7 +2458,7 @@ export const ja: Strings = {
     bannedTitle: (count: number) => `出場停止${format(count)}件`,
     unrest: "不和",
     unrestTitle: (count: number) =>
-      `チームメイト${format(count)}人がこの選手に対して不満の理由を抱いています。この選手のプロフィールで「すべて解消」を押すと、ゲームが進行した後に解消されます`,
+      `チームメイト${format(count)}人がこの選手に不満を抱いています。プロフィールの「すべて解消」で、ゲームの進行後に解消されます`,
     onLoan: "ローン中",
     onLoanTitle: "他のクラブへローン移籍中",
     loanee: "ローン加入",

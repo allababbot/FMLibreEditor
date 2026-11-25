@@ -164,7 +164,7 @@ export function CompetitionBrowser({ version, active }: CompetitionBrowserProps)
           </label>
           <span className="count">{view ? text.summary(all.length, rows.length) : ""}</span>
           {view && (
-            <button type="button" disabled={reading} title={text.readAgainTitle} onClick={() => readNow(true)}>
+            <button type="button" disabled={reading} data-tip={text.readAgainTitle} onClick={() => readNow(true)}>
               {text.readAgain}
             </button>
           )}
@@ -196,7 +196,7 @@ export function CompetitionBrowser({ version, active }: CompetitionBrowserProps)
                 <th className="col-name">{text.columns.name}</th>
                 <th className="col-league">{text.columns.nation}</th>
                 <th className="num col-founded">{text.columns.level}</th>
-                <th className="num col-rep" title={text.rulesCountTitle}>
+                <th className="num col-rep" data-tip={text.rulesCountTitle}>
                   {text.columns.rules}
                 </th>
                 <th className="num col-uid">{text.columns.uid}</th>
@@ -402,7 +402,8 @@ function CompetitionPanel({ competition, names, held, onSaved, onFailed, onClose
               type="button"
               className="heal-toggle"
               disabled={!editable || !anyEditable}
-              title={!anyEditable ? text.noneChangeable : editable ? text.editTitle : readOnlyNote}
+              // Why none can be changed is said in the notice above the rules.
+              data-tip={!anyEditable ? undefined : editable ? text.editTitle : readOnlyNote}
               onClick={() => {
                 setError(null);
                 setDraft({});
@@ -578,7 +579,7 @@ function RuleRow(props: RuleRowProps) {
         {tags.length > 0 && (
           <span className="rule-tags">
             {tags.map((tag) => (
-              <span key={tag.key} className="tag" title={tag.title}>
+              <span key={tag.key} className="tag" data-tip={tag.title}>
                 {tag.label}
               </span>
             ))}
@@ -608,7 +609,7 @@ function RuleRow(props: RuleRowProps) {
             }}
           />
         ) : (
-          <span className={canEdit ? "rule-value" : "rule-value muted"} title={fixedTitle}>
+          <span className={canEdit ? "rule-value" : "rule-value muted"} data-tip={fixedTitle}>
             {formatNumber(rule.value)}
           </span>
         )}

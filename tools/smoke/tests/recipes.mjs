@@ -199,13 +199,13 @@ export async function run({ app, report, probe }) {
   // is the first item's.
   await app.press("ArrowDown");
   await app.press("ArrowUp");
-  await app.waitFor(`document.querySelector(".menu-note")`, "the note of the first recipe");
+  await app.waitFor(`document.querySelector(".tip")`, "the note of the first recipe");
   const note = await app.js(`(() => {
-    const box = document.querySelector(".menu-note").getBoundingClientRect();
+    const box = document.querySelector(".tip").getBoundingClientRect();
     const menu = document.querySelector(".squad-actions-menu").getBoundingClientRect();
     return {
-      text: document.querySelector(".menu-note").textContent,
-      described: ${MENU}[0].getAttribute("aria-describedby") === document.querySelector(".menu-note").id,
+      text: document.querySelector(".tip").textContent,
+      described: ${MENU}[0].getAttribute("aria-describedby") === document.querySelector(".tip").id,
       width: Math.round(box.width),
       inside: box.left >= 0 && box.right <= innerWidth && box.top >= 0 && box.bottom <= innerHeight,
       beside: box.left >= menu.right || box.right <= menu.left || box.top >= menu.bottom || box.bottom <= menu.top,

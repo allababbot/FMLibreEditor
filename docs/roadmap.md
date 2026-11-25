@@ -260,6 +260,10 @@ before trusting them.
   The command palette finds the recipes of the profile on show once something is
   typed. The dialog is the mass edit's preview for one subject: the changes, the values that stay behind a line
   that opens them, what is left alone with the reasons, Apply, and Undo.
+- [x] The notes of the other controls the same way: what a button does, what a number means and why a control
+  waits show in the same small box (`Tips`, an element's `data-tip`) while the pointer rests on the element or the
+  keys have reached it, under it and inside the window, where the browser's hover text was one long strip. The
+  long ones were cut to a line each in every language. A few words, a name or a number can stay a hover text.
 - [ ] Recipes for a whole team from the squad's More actions menu, and recipes of the user's own.
 - [x] Destroy in the squad tab, the other way: morale 1, happiness and playing time happiness -100, no energy,
   35% match sharpness, jadedness 1000, cohesion 1 and the tactic known at its least (where a human picks it), as

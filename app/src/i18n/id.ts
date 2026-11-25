@@ -674,8 +674,8 @@ export const id: Strings = {
     joined: "Bergabung",
     extendContract: (years: number) => `Perpanjang ${years} tahun`,
     extendingContract: "Memperpanjang…",
-    extendContractTitle: (years: number, until: string) =>
-      `Kontrak berjalan ${years} tahun lebih lama, sampai ${until}; Perubahan bisa mengurungkannya`,
+    extendContractTitle:
+      (years: number, until: string) => `Kontrak berjalan ${years} tahun lebih lama, sampai ${until}`,
     squadStatus: "Status skuad",
     squadStatusName: (status: number) => SQUAD_STATUSES[status] ?? `Status ${status}`,
     contractType: "Jenis kontrak",
@@ -700,8 +700,7 @@ export const id: Strings = {
     noRetirement: "Game belum merencanakan pensiunnya",
     keepPlaying: "Cegah pensiun",
     keepingPlaying: "Mencegah…",
-    keepPlayingTitle:
-      "Hapus pensiunnya dari rencana game dan beri dia sifat “Bermain sepak bola selama mungkin” sebagai ganti “Akan pensiun di puncak karier”; Perubahan bisa mengurungkannya",
+    keepPlayingTitle: "Batalkan rencana pensiunnya dan beri dia sifat “Bermain sepak bola selama mungkin”",
 
     morale: (value: number) => `${value} / 20`,
     traits: "Sifat",
@@ -711,10 +710,9 @@ export const id: Strings = {
     noUnhappiness: "Tidak ada yang membuatnya tidak senang",
     removeUnhappiness: "Hapus semua",
     removingUnhappiness: "Menghapus…",
-    removeUnhappinessTitle:
-      "Hapus setiap alasan tidak senang dari daftarnya, seperti Remove all di FMRTE; Perubahan bisa mengurungkannya",
+    removeUnhappinessTitle: "Hapus setiap alasan tidak senang dari daftarnya",
     removeUnhappinessFollows:
-      "Alasan tidak senang rekan setimnya terhadapnya berakhir dengan sendirinya setelah waktu berjalan: tekan Lanjutkan di game",
+      "Alasan rekan setimnya terhadapnya berakhir setelah waktu berjalan: tekan Lanjutkan di game",
     concernSince: (date: string) => `sejak ${date}`,
     concernAbout: (name: string) => `tentang ${name}`,
     concernKind: (kind: number) => (kind === 1 ? "Khawatir" : kind === 2 ? "Internal" : `Jenis ${kind}`),
@@ -733,15 +731,14 @@ export const id: Strings = {
     loanUntil: "Sampai",
     loanNumber: "Nomor di sana",
     recall: "Tarik dari pinjaman",
-    recallTitle: "Kembalikan dia ke klubnya: pinjaman berakhir hari ini. Ditanyakan dulu sebelum ada yang berubah",
+    recallTitle: "Kembalikan dia ke klubnya hari ini; ditanyakan dulu",
     recallAgain: "Tarik lagi",
     makePermanent: "Permanenkan",
-    makePermanentTitle:
-      "Pertahankan dia di klub yang meminjamnya, dengan kontrak di klub itu. Ditanyakan dulu sebelum ada yang berubah",
+    makePermanentTitle: "Pertahankan dia di klub yang meminjamnya, dengan kontrak di klub itu; ditanyakan dulu",
     recalledWaiting: "Ditarik · menunggu kembali",
     endsTodayWaiting: "Berakhir hari ini · menunggu kembali",
-    pendingTitle: (parent: string) =>
-      `Hari ini hari terakhir pinjaman: lanjutkan satu hari di game dan dia kembali ke ${parent}.`,
+    pendingTitle:
+      (parent: string) => `Pinjaman berakhir hari ini: lanjutkan satu hari di game dan dia kembali ke ${parent}`,
     endPassed: (date: string) =>
       `Pinjaman seharusnya berakhir pada ${date}, tetapi game belum mengembalikannya. Tarik lagi, lalu lanjutkan satu hari.`,
     loanCanRecall: "Bisa dipanggil kembali",
@@ -791,10 +788,9 @@ export const id: Strings = {
     clauseExpiresAfter: (days: number) => `berakhir ${format(days)} hari setelah tanda tangan`,
     clauseProfitShare: (percent: string, amount: string) => `${percent} dari laba di atas ${amount}`,
     clauseWage: (amount: string) => `${amount} per minggu`,
-    moraleTitle:
-      "Game menampilkan moral sebagai kebahagiaan pemain secara keseluruhan: puas di 10, sedikit senang di 11, sangat senang di 15 dan 20",
+    moraleTitle: "Kebahagiaan keseluruhan di game: puas di 10, sedikit senang di 11, sangat senang di 15 dan 20",
     jadednessTitle:
-      "Seberapa letih pemain karena bermain, yang hilang dengan istirahat: -500 berarti sepenuhnya segar, dan makin tinggi, makin dia butuh istirahat",
+      "Seberapa letih dia karena bermain: -500 berarti sepenuhnya segar, dan makin tinggi, makin dia butuh istirahat",
     noInjuries: "Tidak cedera",
     unknownInjury: "Cedera tak dikenal",
     injuryStarted: (date: string) => `Mulai ${date}`,
@@ -808,8 +804,7 @@ export const id: Strings = {
     liftBansTitle: "Cabut setiap larangan bermain pemain ini di game",
 
     maxAttributes: "Maksimalkan atribut",
-    maxAttributesTitle:
-      "Atur setiap atribut pemain ini ke nilai terbaiknya: 20, dan 1 untuk kerentanan cedera dan kekasaran",
+    maxAttributesTitle: "Atur setiap atribut ke nilai terbaiknya: 20, dan 1 untuk kerentanan cedera dan kekasaran",
     maxAttributesDone: (count: number) =>
       count === 0 ? "Semua atribut sudah di nilai terbaiknya" : `${changeCount(count)} ditulis`,
     maxAttributesUndone: (count: number) =>
@@ -817,18 +812,14 @@ export const id: Strings = {
     undoMax: "Urungkan",
     undoMaxTitle: "Tulis kembali atribut lamanya ke game",
     freezeAttributes: "Bekukan atribut",
-    freezeAttributesNote:
-      "Selama aplikasi terbuka dan terhubung, atributnya tidak menurun: yang diambil game dikembalikan, dan " +
-      "peningkatan tetap dihitung. Aplikasi mengingat ini untuk save ini, dan membekukannya lagi saat terhubung ke save itu.",
+    freezeAttributesNote: "Atributnya tidak menurun selama aplikasi terbuka dan terhubung; peningkatan tetap dihitung",
     maxStaffAttributesTitle: "Atur setiap atribut staf ini ke nilai terbaiknya: 20",
     undoMaxStaffTitle: "Tulis kembali atribut lama ke game",
     freezeStaffAttributesNote:
-      "Selama aplikasi terbuka dan terhubung, atributnya tidak menurun: yang diambil game dikembalikan, dan " +
-      "peningkatan tetap dihitung. Aplikasi mengingat ini untuk save ini, dan membekukannya lagi saat terhubung ke save itu.",
+      "Atributnya tidak menurun selama aplikasi terbuka dan terhubung; peningkatan tetap dihitung",
     freezeFitness: "Bekukan energi dan ketajaman",
     freezeFitnessNote:
-      "Selama aplikasi terbuka dan terhubung, energi dan ketajaman bertandingnya tidak turun: yang diambil game " +
-      "dikembalikan, dan kenaikan tetap dihitung, jadi di 100% dia tetap di sana. Aplikasi mengingat ini untuk save ini.",
+      "Energi dan ketajaman bertandingnya tidak turun selama aplikasi terbuka dan terhubung; kenaikan tetap dihitung",
     freezePositions: "Bekukan",
     freezePositionsInfo: "Apa fungsi membekukan posisi?",
     freezePositionsNote:
@@ -1022,22 +1013,19 @@ export const id: Strings = {
     perWeek: "per minggu",
     noFinances: "FM hanya menyimpan keuangan klub di liga yang dimainkan.",
     freeze: "Bekukan uang",
-    freezeNote:
-      "Selama aplikasi terbuka dan terhubung, saldo tidak turun: yang diambil game dikembalikan, dan pemasukan " +
-      "tetap dihitung. Aplikasi mengingat ini untuk save ini, dan membekukannya lagi saat terhubung ke save itu.",
+    freezeNote: "Saldo tidak turun selama aplikasi terbuka dan terhubung; pemasukan tetap dihitung",
 
     stadium: "Stadion",
     capacity: "Kapasitas",
     seating: "Tempat duduk",
     used: "Terpakai",
     usedAll: "Seluruhnya",
-    usedTitle:
-      "Bagian kapasitas yang diizinkan game, saat game membatasinya (misalnya saat kursi ditutup); 0 berarti seluruhnya",
+    usedTitle: "Bagian kapasitas yang diizinkan game saat game membatasinya; 0 berarti seluruhnya",
     expansion: "Bisa diperluas hingga",
     noStadium: "Stadion klub ini tidak bisa dibaca.",
     stadiumName: "Nama",
     rename: "Ganti nama",
-    renameTitle: "Beri stadion nama lain; langsung ditulis, dan Perubahan bisa mengurungkannya",
+    renameTitle: "Beri stadion nama lain; langsung ditulis",
     renameInfoLabel: "Bagaimana ganti nama bekerja?",
     renameInfo:
       "Game tidak menyimpan nama stadion di save-nya: game mengambilnya dari database setiap kali memuat save. Jadi " +
@@ -1068,7 +1056,7 @@ export const id: Strings = {
 
     actionsLabel: "Tindakan untuk seluruh staf",
     releaseAll: (count: number) => (count === 0 ? "Lepas semua staf" : `Lepas semua staf (${format(count)})`),
-    releaseAllTitle: "Lepas semua staf klub sekaligus, kecuali kamu dan dewan; sebuah jendela bertanya dulu",
+    releaseAllTitle: "Lepas semua staf klub, kecuali kamu dan dewan; ditanyakan dulu",
     releaseNone: "Tidak ada staf klub ini yang bisa dilepas",
     hint: "Semua kecuali kamu dan dewan langsung meninggalkan klub. Urungkan juga ada di tampilan Perubahan.",
     released: (count: number) => `${format(count)} staf dilepas`,
@@ -1105,7 +1093,7 @@ export const id: Strings = {
     cancel: "Batal",
 
     moveAll: "Pindahkan semua staf",
-    moveAllTitle: "Pindahkan semua staf klub ke klub lain sekaligus, kecuali kamu dan dewan; sebuah jendela bertanya dulu",
+    moveAllTitle: "Pindahkan semua staf klub ke klub lain, kecuali kamu dan dewan; ditanyakan dulu",
     moveNone: "Tidak ada staf klub ini yang bisa dipindahkan",
     moved: (count: number, club: string) => `${format(count)} staf pindah ke ${club}`,
     undoMoveTitle: "Kembalikan staf yang dipindahkan ke klub ini, dengan kontrak mereka",
@@ -1273,9 +1261,9 @@ export const id: Strings = {
     term: "Durasi",
     years: (count) => `${format(count)} tahun`,
     unnamed: (kind) => `Tipe ${format(kind)}`,
-    unnamedTitle: "Belum ada yang mencocokkan jenis kesepakatan ini dengan nama di layar game, dan layar itu mungkin tidak menampilkannya.",
+    unnamedTitle: "Jenis kesepakatan ini belum dicocokkan dengan nama di layar game",
     ended: "Berakhir",
-    endedTitle: "Kesepakatan berakhir sebelum tanggal di game. Layar Sponsor game tidak lagi menampilkannya.",
+    endedTitle: "Berakhir sebelum tanggal di game: layar Sponsor game tidak lagi menampilkannya",
     falls: (percent) => `Turun ${format(percent)}% jika klub terdegradasi`,
     rises: (percent) => `Naik ${format(percent)}% jika klub promosi ke divisi teratas`,
     note: "Hanya baca. Ini adalah jumlah yang disimpan game untuk setiap kesepakatan. Layar Sponsor game menampilkan kesepakatan yang belum berakhir.",
@@ -1389,14 +1377,17 @@ export const id: Strings = {
     },
     yearsTitle: "Musim-musim yang diberi aturan ini oleh aturan negara, menurut tahun dimulainya musim",
     leftAlone: "Tidak diubah",
-    notSavedTitle: "Aturan negara sebagaimana disimpan dalam save tidak memuat aturan seperti itu, jadi perubahan akan hilang saat save dimuat: editor tidak mengubahnya.",
+    notSavedTitle:
+      "Save tidak memuat aturan seperti itu, jadi perubahan akan hilang saat dimuat: editor tidak mengubahnya",
     notACountTitle: "Ini jumlah uang, bukan jumlah pemain: editor tidak mengubahnya.",
     noneChangeable: "Aturan ini belum bisa diubah, pada tanggal berapa pun: editor hanya mengubah aturan jika menemukannya juga di aturan yang disimpan dalam save, agar perubahan tetap ada saat save dimuat, dan aturan kompetisi ini belum ditemukan di sana. Sejauh ini hal itu berlaku untuk liga wanita, Major League Soccer, dan beberapa piala.",
     unsavedNote: "Game tidak menyimpan aturan kompetisi ini di save mana pun: game membuatnya sendiri setiap kali memuat save, dan sekali lagi untuk setiap musim baru. Karena itu editor menahan perubahan di sini: menulisnya ke game yang sedang berjalan, mengingatnya untuk karier ini, dan menulisnya lagi setiap kali tersambung atau membaca data lagi. Setelah memuat save, sambungkan editor (atau tekan Muat ulang data) sekali agar perubahan kembali. Urungkan di Perubahan melepaskannya.",
     heldTag: "Ditahan",
-    heldTitle: (original: number) => `Editor menahan jumlah ini dan menulisnya lagi setiap kali membaca game. Jumlah dari game sendiri adalah ${format(original)}.`,
+    heldTitle: (original: number) =>
+      `Editor menahan jumlah ini dan menulisnya lagi setiap kali membaca game; jumlah dari game sendiri ${format(original)}`,
     savedDiffers: (value: number) => `Aturan di save berisi ${format(value)}`,
-    savedDiffersTitle: "Game berjalan menurut daftar, dan membuat daftar itu dari aturan di save saat memuatnya. Menyimpan perubahan di sini mengatur keduanya.",
+    savedDiffersTitle:
+      "Game berjalan menurut daftar dan membuatnya dari aturan di save saat memuat; perubahan di sini mengatur keduanya",
     edit: "Ubah aturan",
     editTitle: "Ubah jumlah pada aturan skuad kompetisi ini",
     save: "Simpan aturan",
@@ -1429,8 +1420,7 @@ export const id: Strings = {
     previewTag: "pratinjau browser · data contoh",
     noDate: "Tanpa tanggal dalam game",
     noDateTitle:
-      "FMLibreEditor tidak bisa membaca tanggal dalam game di versi game ini, jadi usia tidak ditampilkan dan filter " +
-      "usia tidak menemukan siapa pun. Periksa pembaruan.",
+      "Tanggal dalam game tidak terbaca: usia tidak ditampilkan dan filter usia tidak menemukan siapa pun. Periksa pembaruan.",
     reload: "Muat ulang data",
     refresh: "Segarkan",
     detecting: "Mencari Football Manager…",
@@ -1529,14 +1519,12 @@ export const id: Strings = {
     join: (names: string[]) =>
       names.length <= 1 ? names.join("") : `${names.slice(0, -1).join(", ")} dan ${names[names.length - 1]}`,
     allow: "Tetap edit",
-    allowTitle: "Nyalakan pengeditan sampai FMLibreEditor ditutup atau terhubung lagi. Cadangkan save-mu lebih dulu.",
+    allowTitle: "Nyalakan pengeditan sampai aplikasi ditutup atau terhubung lagi. Cadangkan save-mu lebih dulu.",
   },
 
   diagnostics: {
     copy: "Salin diagnostik",
-    copyTitle:
-      "Menyalin apa yang ditemukan FMLibreEditor di dalam game, untuk ditempel ke laporan bug. Tidak memuat nama " +
-      "atau path.",
+    copyTitle: "Menyalin apa yang ditemukan aplikasi di dalam game, untuk laporan bug; tidak memuat nama atau path",
     copied: "Disalin",
     failed: (reason) => `Diagnostik tidak bisa disalin: ${reason}`,
   },
@@ -1561,7 +1549,7 @@ export const id: Strings = {
     youHave: (version: string) => `Versimu ${version}.`,
     download: "Unduh",
     install: "Perbarui",
-    installTitle: "Unduh dan pasang versi baru; FMLibreEditor akan ditutup dan dibuka lagi dengan versi itu",
+    installTitle: "Unduh dan pasang versi baru; aplikasi akan ditutup dan dibuka lagi dengan versi itu",
     preparing: "Menyiapkan…",
     downloading: (percent: number | null) => (percent === null ? "Mengunduh…" : `Mengunduh… ${percent}%`),
     installing: "Memasang: FMLibreEditor akan ditutup dan dibuka lagi dengan versi baru.",
@@ -1633,7 +1621,8 @@ export const id: Strings = {
     inGame: "Ada di game",
     inGameTitle: "Game menyimpan nilai ini saat data terakhir dibaca",
     notInGame: "Tidak ada di game",
-    notInGameTitle: "Game tidak menyimpan nilai ini saat data terakhir dibaca: game belum disimpan setelah perubahan, atau game sudah mengubah nilainya sejak itu",
+    notInGameTitle:
+      "Tidak ada di game saat data terakhir dibaca: belum disimpan setelah perubahan, atau sudah diubah game sejak itu",
     /** In the place of Undo for an earlier change that cannot be undone from here, and its hover text. */
     historyOnly: "Riwayat",
     historyOnlyTitle: "Dibuat sebelum aplikasi terakhir tersambung: untuk mengurungkannya perlu memori game seperti saat itu",
@@ -1641,7 +1630,7 @@ export const id: Strings = {
     batchNotInGame: (count: number) => `${format(count)} tidak ada di game`,
     /** Empties the list and the history of the career; the question that asks first, and its two answers. */
     clearHistory: "Hapus riwayat",
-    clearHistoryTitle: "Kosongkan daftar ini dan lupakan riwayat karier ini. Perubahannya tetap ada di game.",
+    clearHistoryTitle: "Kosongkan daftar ini dan lupakan riwayat karier ini; perubahannya tetap ada di game",
     confirmClear: "Hapus riwayat karier ini? Perubahannya tetap ada di game, tetapi tidak bisa lagi diurungkan dari sini.",
     keepHistory: "Pertahankan",
     clearConfirm: "Hapus",
@@ -1716,9 +1705,9 @@ export const id: Strings = {
   export: {
     button: "Ekspor",
     buttonTitle: {
-      player: "Tulis pemain yang ditampilkan daftar ke berkas CSV atau JSON, untuk spreadsheet atau skrip",
-      staff: "Tulis staf yang ditampilkan daftar ke berkas CSV atau JSON, untuk spreadsheet atau skrip",
-      club: "Tulis klub yang ditampilkan daftar ke berkas CSV atau JSON, untuk spreadsheet atau skrip",
+      player: "Tulis pemain yang ditampilkan daftar ke berkas CSV atau JSON",
+      staff: "Tulis staf yang ditampilkan daftar ke berkas CSV atau JSON",
+      club: "Tulis klub yang ditampilkan daftar ke berkas CSV atau JSON",
     },
     title: { player: "Ekspor pemain", staff: "Ekspor staf", club: "Ekspor klub" },
     scope: (entity, count) =>
@@ -1770,7 +1759,7 @@ export const id: Strings = {
 
     /** The export of the Changes view: a CSV file of the changes its search and filters show. */
     changes: {
-      buttonTitle: "Tulis perubahan yang ditampilkan daftar ke file CSV, untuk spreadsheet atau skrip",
+      buttonTitle: "Tulis perubahan yang ditampilkan daftar ke file CSV",
       title: "Ekspor perubahan",
       /** What the export covers: everything the list's search and filters select, or, with none on, the whole history. */
       scope: (count: number, filtering: boolean) =>
@@ -1844,8 +1833,7 @@ export const id: Strings = {
     ofCurrent: "% dari nilai sekarang",
     percentTitle: "Persentase dari nilai sekarang: 100 mempertahankannya, 110 menaikkannya sepersepuluh, 50 membaginya dua",
     addYearsTitle:
-      "Tahun yang ditambahkan ke setiap tanggal; hari dan bulannya tetap, angka negatif memundurkannya. " +
-      "29 Februari menjadi 28 Februari pada tahun yang tidak memilikinya",
+      "Tahun yang ditambahkan ke setiap tanggal; angka negatif memundurkannya, dan 29 Februari bisa menjadi 28",
     years: "tahun",
     invalidAdd: (min: number, max: number) => `Masukkan bilangan bulat dari ${format(min)} sampai ${format(max)}`,
     invalidPercent: (min: number, max: number) => `Masukkan persen bulat dari ${min} sampai ${max}`,
@@ -2326,44 +2314,35 @@ export const id: Strings = {
     liftAllTitle: "Cabut setiap larangan bermain setiap pemain di tim ini",
     liftNone: "Tidak ada yang dilarang bermain di tim ini",
     inspireAll: "Inspirasi semua",
-    inspireAllTitle:
-      "Atur moral setiap pemain di tim ini ke 20, yang tertinggi, dan hapus alasan mereka untuk tidak senang",
+    inspireAllTitle: "Atur moral setiap pemain ke 20, yang tertinggi, dan hapus alasan mereka untuk tidak senang",
     maxCohesion: "Kekompakan maksimal",
     maxCohesionTitle:
-      "Atur kekompakan dengan klub setiap pemain di tim ini ke 100, yang tertinggi. Game menampilkan kekompakan tim di halaman Dinamika setelah waktu berjalan: tekan Lanjutkan di game",
+      "Atur kekompakan dengan klub setiap pemain ke 100, yang tertinggi; game menampilkannya setelah waktu berjalan",
     cohesionNone:
-      "Editor tidak dapat membaca kekompakan tim ini: versi game ini belum diperiksa untuk itu, atau tidak ada pemainnya yang memiliki kekompakan dengan klub",
+      "Tidak terbaca: versi game ini belum diperiksa untuk itu, atau tidak ada pemain yang memiliki kekompakan dengan klub",
     cohesionWithout: (count: number) => `${format(count)} pemain belum memiliki kekompakan dengan klub`,
     maxTactics: "Maksimalkan taktik",
     maxTacticsTitle:
-      "Buat setiap pemain di tim ini memahami taktik yang dimainkan tim sebaik mungkin, di delapan area layar Efektivitas Taktik, seperti hasil latihan berminggu-minggu. Atribut tidak berubah. Area akan turun lagi seiring latihan menua, setelah sekitar enam minggu, dan taktik lain perlu ditekan sekali lagi. Game menampilkannya setelah waktu berjalan: tekan Lanjutkan di game",
+      "Buat setiap pemain memahami taktik tim sebaik mungkin; turun lagi setelah sekitar enam minggu, seperti latihan",
     tacticsNone:
-      "Editor tidak dapat membaca seberapa baik tim ini memahami taktiknya: versi game ini belum diperiksa untuk itu, atau tim tidak memainkan taktik yang Anda pilih",
+      "Tidak terbaca: versi game ini belum diperiksa untuk itu, atau tim tidak memainkan taktik yang Anda pilih",
     tacticsUntrained: (count: number) =>
       `${format(count)} pemain tidak berlatih (misalnya karena cedera): riwayat latihannya tetap seperti semula`,
     refreshAll: "Segarkan semua",
     refreshAllTitle:
-      "Atur energi dan ketajaman bertanding setiap pemain di tim ini ke 100%, dan istirahatkan sepenuhnya (keletihan -500)",
+      "Atur energi dan ketajaman bertanding setiap pemain ke 100%, dan istirahatkan sepenuhnya (keletihan -500)",
     batchTraits: "Karakteristik skuad",
     batchTraitsTitle: "Tambah atau hapus gerakan favorit pemain di tim ini",
     maxAll: "Maksimalkan atribut",
     maxAllTitle:
-      "Atur setiap atribut setiap pemain di tim ini ke nilai terbaiknya: 20, dan 1 untuk kerentanan cedera dan kekasaran",
+      "Atur setiap atribut setiap pemain ke nilai terbaiknya: 20, dan 1 untuk kerentanan cedera dan kekasaran",
     atItsBest: "Tim dalam kondisi prima",
     atItsBestTitle:
-      "“Sembuhkan semua”, “Inspirasi semua”, “Segarkan semua”, “Kekompakan maksimal”, dan “Maksimalkan taktik” " +
-      "sekaligus dalam satu tekan, dan satu “Urungkan” membatalkan semuanya. Atribut dan larangan bermain tetap " +
-      "seperti semula. Langkah yang tidak bisa dijalankan, misalnya “Sembuhkan semua” saat tidak ada yang cedera, " +
-      "dilewati, dan hasilnya menyebutkannya. Area taktik akan turun lagi seiring latihan menua, setelah sekitar " +
-      "enam minggu, dan taktik lain perlu ditekan sekali lagi. Game menampilkan perubahan setelah waktu berjalan: " +
-      "tekan Lanjutkan di game",
+      "Sembuhkan, inspirasi, dan segarkan semua, kekompakan dan taktik maksimal dalam satu tekan; satu “Urungkan” membatalkannya",
     atItsBestSkipped: (step, reason) => `“${step}” dilewati: ${reason}`,
     destroy: "Tim dalam kondisi terburuk",
     destroyTitle:
-      "Buat setiap pemain di tim ini dalam kondisi terburuknya: moral dan kebahagiaan, energi, ketajaman bertanding " +
-      "dan keletihan, kekompakan dengan klub, serta pemahaman taktik jika Anda yang memilih taktik tim. Tidak ada " +
-      "nilai yang dibuat lebih baik; atribut, cedera, dan larangan bermain tetap. Ditanyakan dulu, dan satu " +
-      "“Urungkan” membatalkan semuanya",
+      "Buat moral, kebugaran, kekompakan, dan pemahaman taktik setiap pemain jadi yang terburuk; ditanyakan dulu",
     destroySteps: {
       demoralize: "Moral dan kebahagiaan",
       exhaust: "Energi dan ketajaman",
@@ -2390,17 +2369,13 @@ export const id: Strings = {
 
     freezeLabel: "Bekukan seluruh tim",
     freezeAttributes: "Bekukan atribut",
-    freezeAttributesTitle:
-      "Selama aplikasi terbuka dan terhubung, atribut setiap pemain di tim ini tidak menurun: yang diambil game " +
-      "dikembalikan, dan peningkatan tetap dihitung",
+    freezeAttributesTitle: "Atribut setiap pemain di tim ini tidak menurun selama aplikasi terbuka dan terhubung",
     freezeFitness: "Bekukan energi dan ketajaman",
     freezeFitnessTitle:
-      "Selama aplikasi terbuka dan terhubung, energi dan ketajaman bertanding setiap pemain di tim ini tidak turun: " +
-      "yang diambil game dikembalikan. Segarkan semua lebih dulu agar tetap di 100%",
+      "Energi dan ketajaman bertanding setiap pemain tidak turun selama aplikasi terhubung; Segarkan semua dulu untuk 100%",
     freezePositions: "Bekukan posisi",
     freezePositionsTitle:
-      "Selama aplikasi terbuka dan terhubung, rating posisi setiap pemain di tim ini tetap seperti sekarang: " +
-      "rating yang dinaikkan atau diturunkan game dikembalikan",
+      "Rating posisi setiap pemain di tim ini tetap seperti sekarang selama aplikasi terbuka dan terhubung",
     frozenCount: (frozen: number, total: number) => `${format(frozen)} dari ${format(total)}`,
     freezeHint:
       "Pembekuan mencakup setiap pemain di daftar dan ikut dengan masing-masing ke mana pun dia pergi. Aplikasi " +
@@ -2470,7 +2445,7 @@ export const id: Strings = {
     bannedTitle: (count: number) => `${format(count)} larangan bermain`,
     unrest: "Keresahan",
     unrestTitle: (count: number) =>
-      `${format(count)} rekan setim memiliki alasan tidak senang terhadapnya. Hapus semua di profilnya menyelesaikannya setelah waktu berjalan`,
+      `${format(count)} rekan setim tidak senang terhadapnya; Hapus semua di profilnya menyelesaikannya setelah waktu berjalan`,
     onLoan: "Dipinjamkan",
     onLoanTitle: "Sedang dipinjamkan ke klub lain",
     loanee: "Pemain pinjaman",

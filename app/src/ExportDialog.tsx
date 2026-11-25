@@ -148,7 +148,7 @@ export function ExportToggle({ title, disabled, job }: ExportToggleProps) {
         className="export-toggle"
         aria-haspopup="dialog"
         disabled={disabled}
-        title={title}
+        data-tip={title}
         onClick={() => setOpen(job())}
       >
         {text.button}
@@ -302,10 +302,10 @@ function ExportDialog({ job, onClose }: { job: ExportJob; onClose: () => void })
         <footer className="modal-foot">
           {report !== null && (
             <>
-              <button type="button" className="primary" title={text.openTitle} onClick={() => void reveal("open_export")}>
+              <button type="button" className="primary" data-tip={text.openTitle} onClick={() => void reveal("open_export")}>
                 {text.open}
               </button>
-              <button type="button" title={text.showTitle} onClick={() => void reveal("show_export")}>
+              <button type="button" data-tip={text.showTitle} onClick={() => void reveal("show_export")}>
                 {text.show}
               </button>
             </>

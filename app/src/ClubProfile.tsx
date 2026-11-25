@@ -431,7 +431,7 @@ function StadiumNameRow({ club, name }: { club: number; name: string | null }) {
               type="button"
               className="heal-toggle"
               disabled={!editable}
-              title={text.renameTitle}
+              data-tip={text.renameTitle}
               onClick={() => {
                 setError(null);
                 setDraft(room.name);
@@ -556,7 +556,7 @@ function FreezeMoney({ club }: { club: number }) {
   return (
     <>
       <div className="freeze-line">
-        <label className="freeze-toggle" title={text.freezeNote}>
+        <label className="freeze-toggle" data-tip={text.freezeNote}>
           <input type="checkbox" checked={frozen} onChange={(e) => void toggle(e.currentTarget.checked)} />
           <span>{text.freeze}</span>
         </label>

@@ -4,21 +4,10 @@
 // has no room below). The Recipes button of a player's and a club's profile is the same button and menu, with its own
 // name (see `RecipeMenu`).
 //
-// What an item does is said in a small box beside the menu while the pointer is on the item or the keys have reached
-// it: narrow, so that it wraps into a few short lines and fits a small window, where the browser's own hover text would
-// be one long strip.
+// What an item does is its note (see `Tips`), which shows beside the menu while the pointer is on the item or the keys
+// have reached it.
 
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useId,
-  useLayoutEffect,
-  useRef,
-  useState,
-  type KeyboardEvent,
-  type Ref,
-} from "react";
+import { useCallback, useContext, useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent, type Ref } from "react";
 import { createPortal } from "react-dom";
 import { squadText as text } from "./labels";
 import type { TeamAction } from "./types";
@@ -77,14 +66,7 @@ export function TeamActionMenu<A extends string = MenuItemAction>(props: TeamAct
   const [anchor, setAnchor] = useState<Anchor | null>(null);
   const button = useRef<HTMLButtonElement | null>(null);
   const menu = useRef<HTMLDivElement>(null);
-  const note = useRef<HTMLDivElement>(null);
-  const noteId = useId();
-  // The item the pointer is on, and the one the keys have reached: the note is the pointer's item's first.
-  const [hovered, setHovered] = useState<number | null>(null);
-  const [focused, setFocused] = useState<number | null>(null);
   const open = anchor !== null;
-  const at = open ? (hovered ?? focused) : null;
-  const noted = at !== null && actions[at]?.title ? at : null;
 
   // The button is the menu's own, and the squad's too where it asks for it.
   const setButton = useCallback(
@@ -131,40 +113,6 @@ export function TeamActionMenu<A extends string = MenuItemAction>(props: TeamAct
     }
     list.querySelector<HTMLElement>('[role="menuitem"]')?.focus();
   }, [anchor]);
-
-  // The note hangs beside its item: right of the menu, left of it where the window has no room there, and under the
-  // menu (over it at the foot of the window) where it has room on neither side.
-  useLayoutEffect(() => {
-    const list = menu.current;
-    const tip = note.current;
-    const item = noted === null ? undefined : list?.querySelectorAll<HTMLElement>('[role="menuitem"]')[noted];
-    if (!list || !tip || !item) {
-      return;
-    }
-    const box = list.getBoundingClientRect();
-    const { width, height } = tip.getBoundingClientRect();
-    const right = document.documentElement.clientWidth - GAP;
-    const bottom = window.innerHeight - GAP;
-    let left = box.right + GAP;
-    let top = item.getBoundingClientRect().top;
-    if (left + width > right) {
-      left = box.left - GAP - width;
-    }
-    if (left < GAP) {
-      left = Math.max(GAP, Math.min(box.left, right - width));
-      top = box.bottom + GAP + height <= bottom ? box.bottom + GAP : box.top - GAP - height;
-    }
-    tip.style.left = `${Math.round(left)}px`;
-    tip.style.top = `${Math.round(Math.max(GAP, Math.min(top, bottom - height)))}px`;
-  }, [noted, anchor]);
-
-  // A menu that closes forgets where the pointer and the keys were.
-  useEffect(() => {
-    if (!open) {
-      setHovered(null);
-      setFocused(null);
-    }
-  }, [open]);
 
   // A press elsewhere closes it, and so does a scroll or a resize: the button moves with the page, the menu does not.
   useEffect(() => {
@@ -249,7 +197,7 @@ export function TeamActionMenu<A extends string = MenuItemAction>(props: TeamAct
         // While a write is under way the button is only dimmed (aria-disabled): a disabled button loses focus.
         aria-disabled={busy || undefined}
         disabled={!editable}
-        title={editable ? title : readOnlyNote}
+        data-tip={editable ? title : readOnlyNote}
         onClick={() => {
           if (open) {
             setAnchor(null);
@@ -271,44 +219,34 @@ export function TeamActionMenu<A extends string = MenuItemAction>(props: TeamAct
       </button>
       {anchor !== null &&
         createPortal(
-          <>
-            <div
-              ref={menu}
-              className="squad-menu squad-actions-menu"
-              role="menu"
-              // Escape is the menu's: a dialog around it stays open.
-              data-takes-escape
-              aria-label={label}
-              style={{ top: anchor.bottom + GAP, left: anchor.left }}
-              onKeyDown={keyDown}
-            >
-              {actions.map((item, index) => (
-                <button
-                  key={item.action}
-                  type="button"
-                  role="menuitem"
-                  tabIndex={-1}
-                  // Dimmed, not disabled: the keys still reach it, and its note says why it waits.
-                  aria-disabled={item.waiting || undefined}
-                  aria-haspopup={item.dialog ? "dialog" : undefined}
-                  aria-describedby={noted === index ? noteId : undefined}
-                  onClick={() => pick(item)}
-                  onMouseEnter={() => setHovered(index)}
-                  onMouseLeave={() => setHovered((now) => (now === index ? null : now))}
-                  // The menu focuses its first item when it opens: only focus the keys moved shows a note by itself.
-                  onFocus={(event) => setFocused(event.currentTarget.matches(":focus-visible") ? index : null)}
-                  onBlur={() => setFocused((now) => (now === index ? null : now))}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-            {noted !== null && (
-              <div ref={note} id={noteId} role="tooltip" className="menu-note">
-                {actions[noted].title}
-              </div>
-            )}
-          </>,
+          <div
+            ref={menu}
+            className="squad-menu squad-actions-menu"
+            role="menu"
+            // Escape is the menu's: a dialog around it stays open.
+            data-takes-escape
+            // The items' notes hang beside the menu, where they cover none of its items.
+            data-tip-beside
+            aria-label={label}
+            style={{ top: anchor.bottom + GAP, left: anchor.left }}
+            onKeyDown={keyDown}
+          >
+            {actions.map((item) => (
+              <button
+                key={item.action}
+                type="button"
+                role="menuitem"
+                tabIndex={-1}
+                // Dimmed, not disabled: the keys still reach it, and its note says why it waits.
+                aria-disabled={item.waiting || undefined}
+                aria-haspopup={item.dialog ? "dialog" : undefined}
+                data-tip={item.title || undefined}
+                onClick={() => pick(item)}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>,
           anchor.host,
         )}
     </>
