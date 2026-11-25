@@ -1,10 +1,10 @@
 // A loan arranged for the game to make on its next day: a player of one of the best known clubs, to the next one, until
-// the end of the season, with 80% of his wage paid by the club he joins and a monthly fee; once without a future fee and
-// once with one (whose entry holds the contract he signs when it is paid, see docs/recon/fm27-loans.md). The plan names
-// the clubs, the next day, the loan's last day and the wage the club pays; a last day past his contract and a share
-// over 100% are refused; arranging it logs a change of his club with that day and the loan's end, while he stays at his
-// club until then (the probe reads him there, not on loan); a second deal for him is refused while the first stands;
-// the undo takes it back. The game itself is not moved on: what it does on the day is checked in the game.
+// the end of the season, with 80% of his wage paid by the club he joins and a monthly fee. The game makes such a loan
+// in a transfer window or out of one (see docs/recon/fm27-loans.md). The plan names the clubs, the next day, the loan's
+// last day and the wage the club pays; a last day past his contract and a share over 100% are refused; arranging it
+// logs a change of his club with that day and the loan's end, while he stays at his club until then (the probe reads
+// him there, not on loan); a second deal for him is refused while the first stands; the undo takes it back. The game
+// itself is not moved on: what it does on the day is checked in the game.
 import { clubPlayers, topClubs } from "../lib/witness.mjs";
 
 export const name = "lend";
@@ -43,7 +43,7 @@ export async function run({ app, report, probe }) {
     if (until === null) {
       continue;
     }
-    const loan = { until, wageShare: 80, monthlyFee: 25_000, optionFee: null };
+    const loan = { until, wageShare: 80, monthlyFee: 25_000 };
     const plan = await app.invoke("plan_arranged_loan", { uid: player.uid, club: to.uid, loan });
     if (plan.ok) {
       found = { player, loan, plan: plan.value };
@@ -74,7 +74,6 @@ export async function run({ app, report, probe }) {
     "and the club he joins pays 80% of his wage, and the monthly fee",
     plan.wageShare === 80 &&
       plan.monthlyFee === 25_000 &&
-      plan.optionFee === undefined &&
       (typeof ownWage !== "number" || plan.wage === Math.floor((ownWage * 80) / 100)),
     `£${plan.wage} a week of £${ownWage}`,
   );
@@ -95,46 +94,41 @@ export async function run({ app, report, probe }) {
     greedy.ok ? "planned" : greedy.error.code,
   );
 
-  // Without a future fee, then with one: the entry holds the loan contract, then the contract he signs when it is paid.
-  for (const optionFee of [null, 1_234_567]) {
-    const terms = { ...loan, optionFee };
-    const what = optionFee === null ? "without a future fee" : "with a future fee";
-    const arranged = await app.must("arrange_loan", { uid: player.uid, club: to.uid, loan: terms });
-    report.check(
-      `arranges it ${what}, logged as a change of his club on that day, until the loan's last day`,
-      arranged.field === "club" &&
-        arranged.moved?.from === from.name &&
-        arranged.moved?.to === to.name &&
-        arranged.moved?.arranged === tomorrow &&
-        arranged.moved?.loanUntil === loan.until,
-      JSON.stringify(arranged.moved),
-    );
-    const club = probedClub(probe, player.uid);
-    report.check(
-      "he is at his club, not on loan, until the day",
-      club.startsWith(from.name.slice(0, 20)) && !probedLoan(probe, player.uid),
-      club,
-    );
-    const again = await app.invoke("plan_arranged_loan", { uid: player.uid, club: to.uid, loan: terms });
-    report.check(
-      "a second loan for him is refused while the first stands",
-      !again.ok && again.error.code === "arrange.underWay",
-      again.ok ? "planned" : again.error.code,
-    );
-    const transfer = await app.invoke("plan_arranged_transfer", { uid: player.uid, club: to.uid, terms: {}, fee: 0 });
-    report.check(
-      "and so is a transfer",
-      !transfer.ok && transfer.error.code === "arrange.underWay",
-      transfer.ok ? "planned" : transfer.error.code,
-    );
-    const log = await app.must("change_log");
-    report.check(
-      "the change log lists it",
-      log.some((change) => change.id === arranged.id && change.moved?.loanUntil === loan.until),
-    );
-    await app.must("undo_change", { id: arranged.id });
-    const after = await app.invoke("plan_arranged_loan", { uid: player.uid, club: to.uid, loan: terms });
-    report.check("the undo takes it back: he can be planned again", after.ok, after.ok ? "" : after.error.code);
-  }
+  const arranged = await app.must("arrange_loan", { uid: player.uid, club: to.uid, loan });
+  report.check(
+    "arranges it, logged as a change of his club on that day, until the loan's last day",
+    arranged.field === "club" &&
+      arranged.moved?.from === from.name &&
+      arranged.moved?.to === to.name &&
+      arranged.moved?.arranged === tomorrow &&
+      arranged.moved?.loanUntil === loan.until,
+    JSON.stringify(arranged.moved),
+  );
+  const club = probedClub(probe, player.uid);
+  report.check(
+    "he is at his club, not on loan, until the day",
+    club.startsWith(from.name.slice(0, 20)) && !probedLoan(probe, player.uid),
+    club,
+  );
+  const again = await app.invoke("plan_arranged_loan", { uid: player.uid, club: to.uid, loan });
+  report.check(
+    "a second loan for him is refused while the first stands",
+    !again.ok && again.error.code === "arrange.underWay",
+    again.ok ? "planned" : again.error.code,
+  );
+  const transfer = await app.invoke("plan_arranged_transfer", { uid: player.uid, club: to.uid, terms: {}, fee: 0 });
+  report.check(
+    "and so is a transfer",
+    !transfer.ok && transfer.error.code === "arrange.underWay",
+    transfer.ok ? "planned" : transfer.error.code,
+  );
+  const log = await app.must("change_log");
+  report.check(
+    "the change log lists it",
+    log.some((change) => change.id === arranged.id && change.moved?.loanUntil === loan.until),
+  );
+  await app.must("undo_change", { id: arranged.id });
+  const after = await app.invoke("plan_arranged_loan", { uid: player.uid, club: to.uid, loan });
+  report.check("the undo takes it back: he can be planned again", after.ok, after.ok ? "" : after.error.code);
   report.check("and he is still at his club", probedClub(probe, player.uid).startsWith(from.name.slice(0, 20)));
 }

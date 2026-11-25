@@ -25,7 +25,11 @@
 //! he joins, until the loan's last day, for the part of his wage that club pays, holding the same terms; its entry is of
 //! kind 1. Both start from one of the game's own loans: an offer it made, and the loan contract of that offer's player.
 //! On the day the game makes the loan as it makes its own: he plays for the club he joins and stays under contract with
-//! his own, which the history shows as a loan.
+//! his own, which the history shows as a loan. It does so outside a transfer window too, as it makes an arranged
+//! transfer (Rodrigo Mendoza to Lyon on 28 October 2026, on Steam). A loan the editor agrees has no future fee: with one,
+//! the game keeps the entry for the day the fee is paid and signs him then on the contract it holds, which a loan
+//! contract does not make a good one, and with a contract for that day there instead, the game made the loan on Game
+//! Pass in August but on Steam in October closed the offer and left him where he was (docs/recon/fm27-loans.md).
 //!
 //! The entry, the move due and any record or list the editor makes or grows are blocks of the game's heap, taken by the
 //! game's C runtime (see `heap.rs`): the game gives some of them back to the runtime's `free()`. Until the day, an undo
@@ -116,8 +120,6 @@ pub struct LoanDeal {
     pub wage_share: u8,
     /// Pounds a month the club he joins pays his own, whether he plays or not.
     pub monthly_fee: i64,
-    /// Pounds for which the club he joins may sign him when the loan ends; none for no option.
-    pub option_fee: Option<i64>,
 }
 
 /// What the game is to make: a transfer for a fee, on a contract with these terms, or a loan.
@@ -125,14 +127,6 @@ pub struct LoanDeal {
 enum Deal {
     Transfer { terms: MoveTerms, fee: i64 },
     Loan(LoanDeal),
-}
-
-/// The end of the contract he signs when the club he is on loan to takes up its option to buy, as a number like
-/// 20310630: 30 June three seasons after the loan ends, as the game's own run three to five seasons on, or his own
-/// contract's end when that is later.
-fn option_contract_end(until: i64, own_end: i64) -> i64 {
-    let after = if until % 10_000 > 630 { 4 } else { 3 };
-    ((until / 10_000 + after) * 10_000 + 630).max(own_end)
 }
 
 /// The last day of a loan agreed on `today` until the end of the season, as a number like 20280629: 29 June, the one
@@ -262,7 +256,7 @@ fn loan_offer_bytes(
     }
     put(l.offer_length, &SEASON_LOAN.to_le_bytes());
     put(l.offer_unused_fee, &monthly.to_le_bytes());
-    put(l.offer_option_fee, &loan.option_fee.map_or(-1, fees).to_le_bytes());
+    put(l.offer_option_fee, &(-1i32).to_le_bytes());
     for &at in &l.offer_unset {
         put(at, &(-1i32).to_le_bytes());
     }
@@ -321,7 +315,7 @@ fn loan_contract_bytes(
     }
     put(l.contract_length, &SEASON_LOAN.to_le_bytes());
     put(terms.flags, &LOAN_FLAGS.to_le_bytes());
-    put(terms.option_fee, &loan.option_fee.map_or(-1, fees).to_le_bytes());
+    put(terms.option_fee, &(-1i32).to_le_bytes());
     put(terms.monthly_fee, &fees(loan.monthly_fee).to_le_bytes());
     put(terms.unused_fee, &fees(loan.monthly_fee).to_le_bytes());
     bytes
@@ -394,16 +388,15 @@ fn due_bytes(t: &TransfersLayout, person: u64, day: FmDate, number: u32) -> Vec<
     due
 }
 
-/// Checks a loan's terms: a share of his wage of 100% at most, and fees from nothing to [`MAX_FEE`].
+/// Checks a loan's terms: a share of his wage of 100% at most, and a monthly fee from nothing to [`MAX_FEE`].
 fn check_loan(loan: &LoanDeal) -> Result<(), MoveError> {
     if loan.wage_share > 100 {
         let value = i64::from(loan.wage_share);
         return Err(MoveError::OutOfRange { field: "wageShare", value, min: 0, max: 100 });
     }
-    for (field, fee) in [("monthlyFee", Some(loan.monthly_fee)), ("optionFee", loan.option_fee)] {
-        if let Some(value) = fee.filter(|fee| !(0..=MAX_FEE).contains(fee)) {
-            return Err(MoveError::OutOfRange { field, value, min: 0, max: MAX_FEE });
-        }
+    if !(0..=MAX_FEE).contains(&loan.monthly_fee) {
+        let value = loan.monthly_fee;
+        return Err(MoveError::OutOfRange { field: "monthlyFee", value, min: 0, max: MAX_FEE });
     }
     Ok(())
 }
@@ -639,25 +632,10 @@ impl Session {
                 let offer = loan_offer_bytes(t, l, &template, agreed, &loan, wage);
                 let made = NewContract { wage: i64::from(wage), expires: loan.until, squad_status: status };
                 let offer_at = self.placement(model_offer, l.offer_size, pools)?;
-                if loan.option_fee.is_some() {
-                    // With an option to buy, the entry holds the contract he signs if the club takes it up, as those
-                    // of the game's own loans with one do: his own, with the club he joins, from the loan's last day
-                    // (see option_contract_end). The game makes the loan contract from the offer.
-                    let own = process.read_bytes(leaving.contract, contract_size as usize)?;
-                    let last_day = FmDate::from_number(loan.until).ok_or(MoveError::NoDate)?;
-                    let expires = Some(option_contract_end(loan.until, own_end));
-                    let terms = MoveTerms { wage: None, expires };
-                    let mut future =
-                        self.new_contract(own, leaving.object, joining.senior, terms, today, last_day, None);
-                    future[c.joined as usize..c.joined as usize + 4].copy_from_slice(&UNSET_DATE);
-                    let contract_at = self.placement(leaving.contract, contract_size, pools)?;
-                    (offer, offer_at, future, contract_at, made)
-                } else {
-                    let contract =
-                        loan_contract_bytes(c, l, terms, &model, person, joining.senior, &loan, wage, status, move_day);
-                    let contract_at = self.placement(model_contract, l.contract_size, pools)?;
-                    (offer, offer_at, contract, contract_at, made)
-                }
+                let contract =
+                    loan_contract_bytes(c, l, terms, &model, person, joining.senior, &loan, wage, status, move_day);
+                let contract_at = self.placement(model_contract, l.contract_size, pools)?;
+                (offer, offer_at, contract, contract_at, made)
             }
             (Deal::Loan(_), None) => return Err(MoveError::NoTransfers),
         };
@@ -998,9 +976,8 @@ mod tests {
         (t, l, layout.contract, terms)
     }
 
-    /// The loan of the live test on Game Pass 0.9.2562.0: 80% of £82,454 a week, £50,000 a month, an option of £25M.
-    const LOAN: LoanDeal =
-        LoanDeal { until: 20280629, wage_share: 80, monthly_fee: 50_000, option_fee: Some(25_000_000) };
+    /// The loan of the first live test on Game Pass 0.9.2562.0: 80% of £82,454 a week and £50,000 a month.
+    const LOAN: LoanDeal = LoanDeal { until: 20280629, wage_share: 80, monthly_fee: 50_000 };
 
     #[test]
     fn a_loan_offer_holds_the_monthly_fee_and_the_terms() {
@@ -1015,7 +992,8 @@ mod tests {
         assert_eq!(half(t.offer_flags), TRANSFER_FLAGS);
         assert_eq!(half(l.offer_flags), u32::from(LOAN_FLAGS));
         assert!(l.offer_wage.iter().all(|&at| half(at) == 65_963));
-        assert_eq!((half(l.offer_unused_fee), half(l.offer_option_fee)), (50_000, 25_000_000));
+        // No future fee: the place holds -1.
+        assert_eq!((half(l.offer_unused_fee), half(l.offer_option_fee)), (50_000, u32::MAX));
         assert!(l.offer_unset.iter().all(|&at| half(at) == u32::MAX));
         assert!(l.offer_share.iter().all(|&at| short(at) == 80));
         assert_eq!(half(l.offer_length), SEASON_LOAN);
@@ -1023,8 +1001,6 @@ mod tests {
         // A loan offer keeps no pointer where a transfer offer keeps how its fee is paid, nor what follows its flags.
         assert_eq!(offer[t.offer_payment as usize], 0xAA);
         assert_eq!(offer[t.offer_flags as usize + 4], 0xAA);
-        let no_option = loan_offer_bytes(&t, &l, &template, agreed(today), &LoanDeal { option_fee: None, ..LOAN }, 1);
-        assert_eq!(&no_option[l.offer_option_fee as usize..l.offer_option_fee as usize + 4], &[0xFF; 4]);
     }
 
     #[test]
@@ -1055,7 +1031,7 @@ mod tests {
         assert_eq!(contract[terms.flags as usize..terms.flags as usize + 2], LOAN_FLAGS.to_le_bytes());
         assert_eq!(
             (half(terms.option_fee), half(terms.monthly_fee), half(terms.unused_fee)),
-            (25_000_000, 50_000, 50_000)
+            (u32::MAX, 50_000, 50_000)
         );
     }
 
@@ -1070,14 +1046,6 @@ mod tests {
         assert_eq!(on(20270804, Some(20280131)), 20280131);
         assert_eq!(on(20270804, Some(20310630)), 20280629);
         assert_eq!(on(20270804, Some(20270630)), 20280629);
-    }
-
-    #[test]
-    fn the_contract_for_the_option_runs_three_seasons_on_at_least() {
-        assert_eq!(option_contract_end(20280629, 20300630), 20310630);
-        assert_eq!(option_contract_end(20280629, 20320630), 20320630);
-        assert_eq!(option_contract_end(20280131, 0), 20310630);
-        assert_eq!(option_contract_end(20280701, 0), 20320630);
     }
 
     #[test]

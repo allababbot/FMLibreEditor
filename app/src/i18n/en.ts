@@ -507,7 +507,6 @@ export const en = {
     "contract.wage": "Wage per week",
     wageShare: "share of the wage",
     monthlyFee: "monthly fee",
-    optionFee: "option to buy",
     "contract.loyalty_bonus": "Loyalty bonus per week",
     "contract.happiness": "Happiness",
     "contract.playing_time_happiness": "Playing time happiness",
@@ -2356,18 +2355,16 @@ export const en = {
     loanNote: "The game makes the loan on its next day, as it makes its own; he is back at his club after it.",
     /** While the loan's plan is worked out. */
     loanChecking: "Checking the loan…",
-    /** The plan's lines: the day the game makes the loan, its last day, what the club pays, the monthly fee, the option. */
+    /** The plan's lines: the day the game makes the loan, its last day, what the club pays, the monthly fee. */
     loanOn: (date: string) => `The game makes the loan on ${date}`,
     loanUntil: (date: string) => `The loan lasts until ${date}`,
     loanWage: (money: string, share: number) => `The club pays ${money} a week (${format(share)}% of his wage)`,
     loanMonthlyFee: (money: string) => `Monthly fee ${money}`,
-    loanOption: (money: string) => `Option to buy for ${money}`,
     /** What arranging the loan does, one line each, in the place of `does`. */
     loanDoes: [
       "Agreed now: the game makes the loan when it reaches its next day",
       "His history lists the loan, and he returns to his own club the day after the last day",
       "The club pays its share of his wage, and the monthly fee if you set one",
-      "With an option, the game makes the transfer for its fee when the loan ends",
     ],
     /** The heading of `loanDoes`. */
     loanDoesHeading: "What the loan does",
@@ -2381,8 +2378,6 @@ export const en = {
     loanShareHint: "What the club he joins pays; his own club pays the rest",
     loanShareInvalid: "Enter a whole number from 0 to 100",
     loanMonthly: "Monthly fee",
-    loanOptionFee: "Option to buy",
-    loanOptionFeeHint: "When the loan ends, the game makes the transfer for this fee; empty for none",
 
     // Choosing the club
     /** The name of the search box, and of the list of clubs under it, for assistive technology. */

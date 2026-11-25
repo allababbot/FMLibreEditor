@@ -121,9 +121,10 @@ Barcelona's over the next days is to be checked in the game.
 ## Arranging a loan
 
 The editor arranges a loan as it arranges a transfer (`arranged.rs`, see `fm27-transfer-offers.md`): an agreed offer
-for the next day, of the game's loan class, the contract the player is to have held by an entry of his, and the move
-due on that day. On the day the game makes the loan as it makes its own. Read and tried on the Windows Game Pass build
-0.9.2562.0, on a save of 4 August 2027, from the game's 608 loan offers and the 187 loan contracts its entries held.
+for the next day, of the game's loan class, the loan contract the player is to have held by an entry of his, and the
+move due on that day. On the day the game makes the loan as it makes its own. Read on the Windows Game Pass build
+0.9.2562.0, on a save of 4 August 2027, from the game's 608 loan offers and the 187 loan contracts its entries held,
+and tried there and on Steam build 26797085, on a save of October 2026.
 
 The offer starts from one of the game's own loans between first teams (`loan_model_rank`) and holds the loan's terms
 ([The loan offer](fm27-transfer-offers.md#the-loan-offer)); the loan contract starts from the loan contract of that
@@ -132,28 +133,47 @@ the club pays (80% of £18,336 a week is £14,668, as the game works it out), hi
 same terms. The game keeps `0x1000` in both for a loan of a season, whatever day it ends on (382 of its season loans
 end on 29 June 2028, 91 on 31 December 2027): the loan ends on the loan contract's end, as a recall shows.
 
-What the game did with three loans the editor arranged:
+What the game made of the loans the editor arranged:
 
-- **Without a future fee** (Marc Bernal, FC Barcelona to Real Betis until 31 January 2028): the offered loan contract
-  became his, the object itself, with a squad number; the loan ends on 31 January, and the entry was gone, as the
-  game's own loans without one have none once made.
-- **With a future fee, the loan contract in the entry** (Rio Ngumoha, Liverpool to Beşiktaş, 80% of the wage, £50,000
-  a month, £25M): the game made the loan, on a copy of the loan contract, and kept the entry. When the loan ended (its
-  end moved to the game's date), the game signed him for good for £25M, on a contract it made from the one in the
-  entry: the loan's wage, until the loan's old end. So the entry of a loan with a future fee holds the contract he
-  signs when the fee is paid, as the game's own do (75 of its 98 made loans with a future fee still had one: a full
-  contract with the club he is on loan at, from the loan's last day, for three to five seasons; O'Riley's, from
-  Brighton to Lyon, until 30 June 2032).
-- **With a future fee, the contract he signs then in the entry** (Jorrel Hato, Chelsea to Olympique Lyonnais, £1M):
-  the game made a loan contract of its own (until 29 June 2028, his whole wage, the fee) and kept the entry, as for
-  its own. That is what the editor writes: his own contract with the club he joins, from the loan's last day, to 30
-  June three seasons on or his own contract's end when later. A loan with a future fee that ends on another day than
-  29 June was not tried: where the game takes that day from, the season or the contract in the entry, is not known.
+| Player | From, to | Day | Terms | What the game did |
+| --- | --- | --- | --- | --- |
+| Marc Bernal | Barcelona, Real Betis | 6 August 2027, Game Pass | to 31 January 2028 | made it on the loan contract itself, with a squad number; the entry gone |
+| Rodrigo Mendoza | Atlético Madrid, Lyon | 28 October 2026, Steam | to 29 June 2027 | made it on the loan contract itself; the entry gone |
+| Rio Ngumoha | Liverpool, Beşiktaş | 5 August 2027, Game Pass | 80% of the wage, £50,000 a month, a £25M future fee | made it, on a copy of the loan contract; the entry kept, for the fee |
+| Jorrel Hato | Chelsea, Lyon | 7 August 2027, Game Pass | a £1M future fee, the entry holding the contract for it | made it, on a loan contract it made from the offer |
+| Rodrigo Mendoza | Atlético Madrid, Lyon | 20 October 2026, Steam | a £12M future fee, the same | closed the offer as made (state 20) and left him where he was |
+| Romeo Akachukwu | Southampton, Altrincham | 24 October 2026, Steam | a £500K future fee, the same | the same |
+| Romeo Akachukwu | Southampton, Southend United | 22 October 2026, Steam | a £500K future fee, the same | refused it: the offer in state 16, the entry in state 4 |
 
-The game shows that fee as "Mandatory" in its own loans too (O'Riley's, the same screen), and it made the transfer on
-its own when Ngumoha's loan ended. The app calls it the option to buy, as it calls the same place of a loan it reads.
+So the game makes a loan with no future fee on any day, in a transfer window or out of one, as it makes an arranged
+transfer: Lyon's window was closed on 28 October 2026. A loan with a future fee keeps its entry for the day the fee is
+paid, and the game then signs him on the contract the entry holds: with the loan contract there (Ngumoha's, his loan
+ended early with the fee kept), it signed him for good for €29M on the loan's wage, until the loan's old end. The
+game's own loans with a future fee hold a full contract there instead, with the club he is on loan at, from the loan's
+last day, for three to five seasons (75 of its 98 made ones with a fee; O'Riley's, from Brighton to Lyon, to 30 June
+2032); with one there, the game made Hato's loan on Game Pass in August but closed the offers of the two on Steam in
+October and moved neither. Southend already had six players on loan, the National League's most (`max_players`, 6 in
+its loan rules), which likely refused Akachukwu's. So the editor agrees a loan with no future fee; the game shows such
+a fee as "Mandatory" in its own loans too (O'Riley's, the same screen), and made the transfer on its own when
+Ngumoha's loan ended.
+
 The undo takes an arranged loan back until the day; the app refuses to move, swap or release the player another way
 until then.
+
+### Transfer windows
+
+The game's own loans keep to the windows: in October 2026 they went only to clubs whose leagues take loans then, English
+non-league clubs and Spanish regional ones. The windows are in a nation's rules record (see `fm27-league-rules.md`), under
+`trwi`: each a first and a last day (`stdt`, `endt`: `dyom` the day, `mont` the month, `year` 2000 for the season's
+first year and 2001 for its second), a kind (`wnty`), the division levels it is for (`hidl` the highest, `lwdl` the
+lowest, 0 the top) and the seasons (`styr`, `enyr`); the levels are `dvlv`, the league of each, the top one first. The
+game's own table names the kinds, as pairs of a name and its number: 1 `normal` (a window with no kind is one), 27
+`loans_only`, 11 `domestic_loans_only`, 13 `french_joker_rule`, 26 `0_players_allowed`, 29 `2_free_transfers_max`, and
+30 more. France's: normal from 15 June to 1 September and from 1 January to 1 February; from 1 September the joker
+rule to 31 December and no signings to 5 January. England's: normal from 15 June to 1 September and from 1 January to
+1 February, and from 14 June to 29 March for levels 4 and 5, the National League. The loan rules are `lnrl`, of kinds 0
+`expiry_date`, 1 `division`, 2 `max_players` and 5 `max_days`. An arranged loan does not need an open window, as the
+table above shows, so the editor does not read these.
 
 ## On the Mac
 

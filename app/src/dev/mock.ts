@@ -2627,18 +2627,13 @@ function planLoan(uid: number, clubUid: number, loan: LoanRequest): LoanPreview 
       max: "100",
     });
   }
-  for (const [field, fee] of [
-    ["monthlyFee", loan.monthlyFee],
-    ["optionFee", loan.optionFee],
-  ] as const) {
-    if (fee !== null && !(fee >= 0 && fee <= 2_000_000_000)) {
-      throw failure("move.outOfRange", `${field} must be between 0 and 2000000000`, {
-        field,
-        value: String(fee),
-        min: "0",
-        max: "2000000000",
-      });
-    }
+  if (!(loan.monthlyFee >= 0 && loan.monthlyFee <= 2_000_000_000)) {
+    throw failure("move.outOfRange", "monthlyFee must be between 0 and 2000000000", {
+      field: "monthlyFee",
+      value: String(loan.monthlyFee),
+      min: "0",
+      max: "2000000000",
+    });
   }
   const own = currentValues("player", uid);
   const moveDay = numberFromDate(addDays(GAME_DATE, 1));
@@ -2660,7 +2655,6 @@ function planLoan(uid: number, clubUid: number, loan: LoanRequest): LoanPreview 
     wage,
     wageShare: loan.wageShare,
     monthlyFee: loan.monthlyFee,
-    ...(loan.optionFee !== null && { optionFee: loan.optionFee }),
     squadStatus: own["contract.squad_status"] ?? 4,
   };
 }

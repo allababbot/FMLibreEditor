@@ -246,7 +246,7 @@ const arrangeKey = (club: number, terms: MoveTerms, fee: number | undefined) =>
 
 /** The same for an arranged loan: the club and the loan's terms, under a prefix of its own. */
 const loanKey = (club: number, loan: LoanRequest) =>
-  `loan:${club}:${loan.until}:${loan.wageShare}:${loan.monthlyFee}:${loan.optionFee ?? ""}`;
+  `loan:${club}:${loan.until}:${loan.wageShare}:${loan.monthlyFee}`;
 
 /** The most a share of the wage can be, in percent. */
 const MAX_SHARE = 100;
@@ -554,11 +554,10 @@ function MoveDialog({ player, kind, contract, onMoved, onClose }: MoveDialogProp
   const [expiresText, setExpiresText] = useState(wasExpires === null ? "" : isoFromNumber(wasExpires));
   const [feeText, setFeeText] = useState("");
   // A loan's inputs: the last day (from the game's own loans once the mode is shown), the share of the wage the club
-  // pays in percent, the monthly fee and the option to buy, both in the chosen currency.
+  // pays in percent, and the monthly fee in the chosen currency.
   const [untilText, setUntilText] = useState("");
   const [shareText, setShareText] = useState(String(MAX_SHARE));
   const [monthlyText, setMonthlyText] = useState("");
-  const [optionText, setOptionText] = useState("");
   const [planned, setPlanned] = useState<Planned | null>(null);
   // How often the plan was asked again with nothing changed: after a move the game refused.
   const [replans, setReplans] = useState(0);
@@ -617,18 +616,12 @@ function MoveDialog({ player, kind, contract, onMoved, onClose }: MoveDialogProp
   const untilValue = numberFromIso(untilText);
   const shareValue = shareOf(shareText);
   const monthlyVerdict = judgeFee(monthlyText);
-  const optionVerdict = judgeFee(optionText);
-  const optionEmpty = optionText.trim() === "";
   const loanRequest: LoanRequest | null =
-    untilValue !== null &&
-    shareValue !== null &&
-    monthlyVerdict.status !== "invalid" &&
-    optionVerdict.status !== "invalid"
+    untilValue !== null && shareValue !== null && monthlyVerdict.status !== "invalid"
       ? {
           until: untilValue,
           wageShare: shareValue,
           monthlyFee: monthlyVerdict.status === "changed" ? toPounds(monthlyVerdict.value) : 0,
-          optionFee: optionEmpty ? null : optionVerdict.status === "changed" ? toPounds(optionVerdict.value) : 0,
         }
       : null;
   // The same values as one string, so that an effect asks again only for a change.
@@ -1023,9 +1016,6 @@ function MoveDialog({ player, kind, contract, onMoved, onClose }: MoveDialogProp
     ];
     if (made.monthlyFee > 0) {
       lines.push(text.loanMonthlyFee(formatMoney(made.monthlyFee)));
-    }
-    if (made.optionFee !== undefined) {
-      lines.push(text.loanOption(formatMoney(made.optionFee)));
     }
     return lines.join("\n");
   };
@@ -1422,37 +1412,6 @@ function MoveDialog({ player, kind, contract, onMoved, onClose }: MoveDialogProp
                       {text.feeInvalid(formatAmount(MAX_FEE_SHOWN))}
                     </p>
                   )}
-                </div>
-
-                <div className="move-term">
-                  <label htmlFor={id("loan-option")}>{text.loanOptionFee}</label>
-                  <span className="move-money">
-                    <span className="move-unit" aria-hidden="true">
-                      {currencySymbol}
-                    </span>
-                    <input
-                      id={id("loan-option")}
-                      className={inputClass(optionVerdict)}
-                      type="number"
-                      min={0}
-                      max={MAX_FEE_SHOWN}
-                      step={1}
-                      value={optionText}
-                      readOnly={moving}
-                      aria-invalid={optionVerdict.status === "invalid" || undefined}
-                      aria-describedby={id("loan-option-note")}
-                      onChange={(e) => setOptionText(e.currentTarget.value)}
-                      onWheel={(e) => e.currentTarget.blur()}
-                    />
-                  </span>
-                  <p
-                    id={id("loan-option-note")}
-                    className={optionVerdict.status === "invalid" ? "move-note invalid" : "move-note"}
-                  >
-                    {optionVerdict.status === "invalid"
-                      ? text.feeInvalid(formatAmount(MAX_FEE_SHOWN))
-                      : text.loanOptionFeeHint}
-                  </p>
                 </div>
               </div>
             </section>

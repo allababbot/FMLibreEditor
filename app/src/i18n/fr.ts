@@ -693,7 +693,6 @@ export const fr: Strings = {
     "contract.wage": "Salaire hebdomadaire",
     wageShare: "part du salaire",
     monthlyFee: "frais mensuels",
-    optionFee: "option d'achat",
     "contract.loyalty_bonus": "Prime de fidélité hebdomadaire",
     "contract.happiness": "État d'esprit",
     "contract.playing_time_happiness": "Satisfaction temps de jeu",
@@ -2173,12 +2172,10 @@ export const fr: Strings = {
     loanUntil: (date: string) => `Le prêt dure jusqu'au ${date}`,
     loanWage: (money: string, share: number) => `Le club paie ${money} par semaine (${format(share)}\u00a0% de son salaire)`,
     loanMonthlyFee: (money: string) => `Frais mensuels ${money}`,
-    loanOption: (money: string) => `Option d'achat à ${money}`,
     loanDoes: [
       "Convenu maintenant\u00a0: le jeu effectue le prêt à son prochain jour",
       "Son historique indique le prêt, et il retourne à son club le lendemain du dernier jour",
       "Le club paie sa part du salaire, et les frais mensuels si vous en fixez",
-      "Avec une option, le jeu effectue le transfert à ce montant à la fin du prêt",
     ],
     loanDoesHeading: "Ce que fait le prêt",
     loanHint: "Rien ne change dans le jeu tant que vous n'appuyez pas sur Préparer le prêt.",
@@ -2189,8 +2186,6 @@ export const fr: Strings = {
     loanShareHint: "Payée par le club qui l'accueille\u00a0; le reste par son club",
     loanShareInvalid: "Saisissez un nombre entier de 0 à 100",
     loanMonthly: "Frais mensuels",
-    loanOptionFee: "Option d'achat",
-    loanOptionFeeHint: "À la fin du prêt, le jeu effectue le transfert à ce montant\u00a0; vide\u00a0: aucune",
 
     // Le choix du club
     searchLabel: "Rechercher le club où le transférer",

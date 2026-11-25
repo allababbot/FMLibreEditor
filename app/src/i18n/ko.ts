@@ -630,7 +630,6 @@ export const ko: Strings = {
     "contract.wage": "주급",
     wageShare: "급여 부담 비율",
     monthlyFee: "월 임대료",
-    optionFee: "완전 이적 옵션",
     "contract.loyalty_bonus": "로열티 보너스(주당)",
     "contract.happiness": "만족도",
     "contract.playing_time_happiness": "출전 시간 만족도",
@@ -2033,12 +2032,10 @@ export const ko: Strings = {
     loanUntil: (date: string) => `임대는 ${date}까지입니다`,
     loanWage: (money: string, share: number) => `구단이 주급 ${money} 지급 (급여의 ${format(share)}%)`,
     loanMonthlyFee: (money: string) => `월 임대료 ${money}`,
-    loanOption: (money: string) => `완전 이적 옵션 ${money}`,
     loanDoes: [
       "지금 합의: 게임이 다음 날이 되면 임대를 진행합니다",
       "선수 기록에 임대가 남고, 마지막 날 다음 날 원래 구단으로 복귀합니다",
       "구단이 급여 분담분을 지급하며, 월 임대료를 정하면 함께 지급합니다",
-      "옵션이 있으면 임대 종료 시 게임이 그 금액으로 이적을 진행합니다",
     ],
     loanDoesHeading: "임대가 하는 일",
     loanHint: "'임대 예약'을 누르기 전까지 게임은 아무것도 바뀌지 않습니다.",
@@ -2049,8 +2046,6 @@ export const ko: Strings = {
     loanShareHint: "영입 구단이 내는 비율이며, 나머지는 원래 구단이 부담합니다",
     loanShareInvalid: "0에서 100 사이의 정수를 입력하세요",
     loanMonthly: "월 임대료",
-    loanOptionFee: "완전 이적 옵션",
-    loanOptionFeeHint: "임대가 끝나면 게임이 이 금액으로 이적을 진행합니다. 비우면 없음",
 
     // Choosing the club
     searchLabel: "이적할 구단 검색",

@@ -668,7 +668,6 @@ export const de: Strings = {
     "contract.wage": "Gehalt pro Woche",
     wageShare: "Gehaltsanteil",
     monthlyFee: "monatliche Gebühr",
-    optionFee: "Kaufoption",
     "contract.loyalty_bonus": "Loyalitätsbonus pro Woche",
     "contract.happiness": "Zufriedenheit",
     "contract.playing_time_happiness": "Zufriedenheit mit Einsatzzeiten",
@@ -2160,12 +2159,10 @@ export const de: Strings = {
     loanUntil: (date: string) => `Die Leihe dauert bis ${date}`,
     loanWage: (money: string, share: number) => `Der Verein zahlt ${money} pro Woche (${format(share)} % seines Gehalts)`,
     loanMonthlyFee: (money: string) => `Monatliche Gebühr ${money}`,
-    loanOption: (money: string) => `Kaufoption über ${money}`,
     loanDoes: [
       "Jetzt vereinbart: Das Spiel führt die Leihe aus, wenn es seinen nächsten Tag erreicht",
       "Seine Historie führt die Leihe auf; am Tag nach dem letzten Tag kehrt er zu seinem Verein zurück",
       "Der Verein zahlt seinen Anteil am Gehalt und, falls gesetzt, die monatliche Gebühr",
-      "Mit Kaufoption führt das Spiel den Transfer zu deren Betrag aus, wenn die Leihe endet",
     ],
     loanDoesHeading: "Was die Leihe bewirkt",
     loanHint: "Im Spiel ändert sich nichts, bis Sie auf Leihe vereinbaren klicken.",
@@ -2176,8 +2173,6 @@ export const de: Strings = {
     loanShareHint: "Das zahlt der aufnehmende Verein; den Rest sein Verein",
     loanShareInvalid: "Geben Sie eine ganze Zahl von 0 bis 100 ein",
     loanMonthly: "Monatliche Leihgebühr",
-    loanOptionFee: "Kaufoption",
-    loanOptionFeeHint: "Am Ende der Leihe führt das Spiel den Transfer zu dieser Ablöse aus; leer: keine",
 
     // Die Wahl des Vereins
     searchLabel: "Verein suchen, zu dem der Spieler wechselt",

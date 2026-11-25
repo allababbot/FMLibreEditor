@@ -649,7 +649,6 @@ export const it: Strings = {
     "contract.wage": "Stipendio settimanale",
     wageShare: "quota di stipendio",
     monthlyFee: "canone mensile",
-    optionFee: "opzione d'acquisto",
     "contract.loyalty_bonus": "Bonus fedeltà settimanale",
     "contract.happiness": "Felicità",
     "contract.playing_time_happiness": "Felicità per il minutaggio",
@@ -2109,12 +2108,10 @@ export const it: Strings = {
     loanUntil: (date: string) => `Il prestito dura fino al ${date}`,
     loanWage: (money: string, share: number) => `Il club paga ${money} a settimana (${format(share)}% del suo stipendio)`,
     loanMonthlyFee: (money: string) => `Canone mensile ${money}`,
-    loanOption: (money: string) => `Opzione d'acquisto a ${money}`,
     loanDoes: [
       "Concordato ora: il gioco fa il prestito quando arriva al giorno successivo",
       "La sua storia riporta il prestito, e il giorno dopo l'ultimo torna al suo club",
       "Il club paga la sua parte di stipendio e il canone mensile, se lo imposti",
-      "Con un'opzione, a fine prestito il gioco fa il trasferimento a quell'importo",
     ],
     loanDoesHeading: "Cosa fa il prestito",
     loanHint: "Nel gioco non cambia nulla finché non premi Prepara prestito.",
@@ -2125,8 +2122,6 @@ export const it: Strings = {
     loanShareHint: "La paga il club che lo accoglie; il resto il suo club",
     loanShareInvalid: "Inserisci un numero intero da 0 a 100",
     loanMonthly: "Canone mensile",
-    loanOptionFee: "Opzione d'acquisto",
-    loanOptionFeeHint: "A fine prestito il gioco fa il trasferimento a questo importo; vuoto: nessuna",
 
     // La scelta del club
     searchLabel: "Cerca la società in cui trasferirlo",

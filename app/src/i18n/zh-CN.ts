@@ -617,7 +617,6 @@ export const zhCN: Strings = {
     "contract.wage": "周薪",
     wageShare: "承担周薪比例",
     monthlyFee: "月租借费",
-    optionFee: "买断选项",
     "contract.loyalty_bonus": "每周忠诚奖金",
     "contract.happiness": "满意度",
     "contract.playing_time_happiness": "出场时间满意度",
@@ -2251,12 +2250,10 @@ export const zhCN: Strings = {
     loanUntil: (date: string) => `租借至 ${date}`,
     loanWage: (money: string, share: number) => `俱乐部每周支付 ${money}（其周薪的 ${format(share)}%）`,
     loanMonthlyFee: (money: string) => `月租借费 ${money}`,
-    loanOption: (money: string) => `买断选项 ${money}`,
     loanDoes: [
       "现已约定：游戏到下一天时办理租借",
       "球员履历会记录这次租借，最后一天的次日回到原俱乐部",
       "俱乐部支付其分担的周薪；设置了月租借费也一并支付",
-      "设有买断选项时，租借结束后游戏按该金额办理转会",
     ],
     loanDoesHeading: "租借会做什么",
     loanHint: "点击“安排租借”后才会修改游戏。",
@@ -2267,8 +2264,6 @@ export const zhCN: Strings = {
     loanShareHint: "由接收俱乐部支付，其余由原俱乐部承担",
     loanShareInvalid: "请输入 0 至 100 之间的整数",
     loanMonthly: "月租借费",
-    loanOptionFee: "买断选项",
-    loanOptionFeeHint: "租借结束时，游戏按此金额办理转会；留空表示没有",
 
     // Choosing the club
     /** The name of the search box, and of the list of clubs under it, for assistive technology. */
