@@ -3416,7 +3416,7 @@ export const de: Strings = {
         },
         {
           title: "Wettbewerbe.",
-          text: "Unter „Wettbewerbe“ sehen und ändern Sie die Kaderregeln jedes Wettbewerbs, etwa wie viele ausländische Spieler ein Kader melden darf, für diese und die nächste Saison getrennt. Bisher auf Game Pass und auf Macs mit Apple Silicon.",
+          text: "Unter „Wettbewerbe“ sehen und ändern Sie die Kaderregeln jedes Wettbewerbs, etwa wie viele ausländische Spieler ein Kader melden darf, für diese und die nächste Saison getrennt. Unter Windows und auf Macs mit Apple Silicon.",
         },
         {
           title: "Leihen.",
@@ -3439,8 +3439,12 @@ export const de: Strings = {
           text: "Die Hinweise an Schaltflächen sind je eine Zeile lang und stehen in einem kleinen Kasten statt in einem langen Streifen quer über das Fenster.",
         },
         {
-          title: "Mac.",
-          text: "Auf Macs mit Apple Silicon zeigt das Profil einer Nationalmannschaft das Gründungsjahr ihres Verbands, ihren Kontinent und ihre Mitarbeiter, und die Sponsorenverträge der Vereine erscheinen unter 27.1.0 und 27.1.1.",
+          title: "Sponsorenverträge.",
+          text: "Die Sponsorenverträge eines Vereins erscheinen jetzt wie auf Game Pass auch auf Steam und auf Macs mit Apple Silicon.",
+        },
+        {
+          title: "Nationen.",
+          text: "Auf Macs mit Apple Silicon zeigt das Profil einer Nationalmannschaft das Gründungsjahr ihres Verbands, ihren Kontinent und ihre Mitarbeiter.",
         },
       ],
       "0.5.4": [

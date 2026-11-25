@@ -3369,7 +3369,7 @@ export const it: Strings = {
         },
         {
           title: "Scheda Competizioni.",
-          text: "Vedi e modifica le regole sulla rosa di ogni competizione, come quanti giocatori stranieri può registrare una rosa, per questa stagione e la prossima separatamente. Per ora su Game Pass e sui Mac con Apple silicon.",
+          text: "Vedi e modifica le regole sulla rosa di ogni competizione, come quanti giocatori stranieri può registrare una rosa, per questa stagione e la prossima separatamente. Su Windows e sui Mac con Apple silicon.",
         },
         {
           title: "Prestiti.",
@@ -3392,8 +3392,12 @@ export const it: Strings = {
           text: "Le note dei pulsanti occupano una riga ciascuna, in un piccolo riquadro invece che in una lunga striscia attraverso la finestra.",
         },
         {
-          title: "Mac.",
-          text: "Sui Mac con Apple silicon, il profilo di una nazionale mostra l'anno di fondazione della federazione, il continente e lo staff, e i contratti di sponsorizzazione delle società compaiono su 27.1.0 e 27.1.1.",
+          title: "Sponsorizzazioni.",
+          text: "I contratti di sponsorizzazione di una società ora compaiono anche su Steam e sui Mac con Apple silicon, come su Game Pass.",
+        },
+        {
+          title: "Dati delle nazionali.",
+          text: "Sui Mac con Apple silicon, il profilo di una nazionale mostra l'anno di fondazione della federazione, il continente e lo staff.",
         },
       ],
       "0.5.4": [

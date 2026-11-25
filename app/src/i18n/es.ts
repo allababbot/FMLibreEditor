@@ -3350,7 +3350,7 @@ export const es: Strings = {
         },
         {
           title: "Pestaña Competiciones.",
-          text: "Consulta y cambia las normas de plantilla de cada competición, como cuántos jugadores extranjeros puede inscribir una plantilla, para esta temporada y la siguiente por separado. De momento en Game Pass y en Mac con Apple silicon.",
+          text: "Consulta y cambia las normas de plantilla de cada competición, como cuántos jugadores extranjeros puede inscribir una plantilla, para esta temporada y la siguiente por separado. En Windows y en Mac con Apple silicon.",
         },
         {
           title: "Cesiones.",
@@ -3373,8 +3373,12 @@ export const es: Strings = {
           text: "Las notas de los botones ocupan una línea cada una, en un recuadro pequeño en lugar de una franja larga que cruza la ventana.",
         },
         {
-          title: "Mac.",
-          text: "En los Mac con Apple silicon, el perfil de una selección muestra el año de fundación de su federación, su continente y su personal, y los contratos de patrocinio de los clubes se ven en 27.1.0 y 27.1.1.",
+          title: "Contratos de patrocinio.",
+          text: "Los contratos de patrocinio de un club se ven ahora también en Steam y en los Mac con Apple silicon, como en Game Pass.",
+        },
+        {
+          title: "Datos de las selecciones.",
+          text: "En los Mac con Apple silicon, el perfil de una selección muestra el año de fundación de su federación, su continente y su personal.",
         },
       ],
       "0.5.4": [

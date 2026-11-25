@@ -3276,7 +3276,7 @@ export const tr: Strings = {
         },
         {
           title: "Organizasyonlar sekmesi.",
-          text: "Her organizasyonun kadro kurallarını gör ve değiştir; örneğin bir kadroya kaç yabancı oyuncu yazdırılabileceğini, bu sezon ve gelecek sezon için ayrı ayrı. Şimdilik Game Pass'te ve Apple silicon Mac'lerde.",
+          text: "Her organizasyonun kadro kurallarını gör ve değiştir; örneğin bir kadroya kaç yabancı oyuncu yazdırılabileceğini, bu sezon ve gelecek sezon için ayrı ayrı. Windows'ta ve Apple silicon Mac'lerde.",
         },
         {
           title: "Kiralama.",
@@ -3299,8 +3299,12 @@ export const tr: Strings = {
           text: "Düğmelerin notları artık tek satır; pencere boyunca uzanan bir şerit yerine küçük bir kutuda çıkıyor.",
         },
         {
-          title: "Mac.",
-          text: "Apple silicon Mac'lerde bir milli takımın profili federasyonunun kuruluş yılını, kıtasını ve personelini gösteriyor; kulüplerin sponsorluk anlaşmaları da 27.1.0 ve 27.1.1'de görünüyor.",
+          title: "Sponsorluk anlaşmaları.",
+          text: "Kulüplerin sponsorluk anlaşmaları artık Game Pass'teki gibi Steam'de ve Apple silicon Mac'lerde de görünüyor.",
+        },
+        {
+          title: "Milli takım bilgileri.",
+          text: "Apple silicon Mac'lerde bir milli takımın profili federasyonunun kuruluş yılını, kıtasını ve personelini gösteriyor.",
         },
       ],
       "0.5.4": [

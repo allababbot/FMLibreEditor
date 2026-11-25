@@ -3842,7 +3842,7 @@ export const en = {
         },
         {
           title: "Competitions tab.",
-          text: "See and change each competition's squad rules, such as how many foreign players a squad may register, for this season and the next apart. On Game Pass and Apple silicon Macs so far.",
+          text: "See and change each competition's squad rules, such as how many foreign players a squad may register, for this season and the next apart. On Windows and Apple silicon Macs.",
         },
         {
           title: "Loans.",
@@ -3865,8 +3865,12 @@ export const en = {
           text: "The notes on buttons are a line each, in a small box instead of a long strip across the window.",
         },
         {
-          title: "Mac.",
-          text: "On Apple silicon Macs, a national team's profile shows the year its federation was founded, its continent and its staff, and clubs' sponsorship deals show on 27.1.0 and 27.1.1.",
+          title: "Sponsorship deals.",
+          text: "A club's sponsorship deals now show on Steam and on Apple silicon Macs too, as on Game Pass.",
+        },
+        {
+          title: "Nation details.",
+          text: "On Apple silicon Macs, a national team's profile shows the year its federation was founded, its continent and its staff.",
         },
       ],
       "0.5.4": [

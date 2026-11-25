@@ -3452,7 +3452,7 @@ export const fr: Strings = {
         },
         {
           title: "Onglet Compétitions.",
-          text: "Consultez et modifiez les règles d'effectif de chaque compétition, par exemple combien de joueurs étrangers un effectif peut inscrire, pour cette saison et la suivante séparément. Pour l'instant sur Game Pass et sur les Mac à puce Apple.",
+          text: "Consultez et modifiez les règles d'effectif de chaque compétition, par exemple combien de joueurs étrangers un effectif peut inscrire, pour cette saison et la suivante séparément. Sous Windows et sur les Mac à puce Apple.",
         },
         {
           title: "Prêts.",
@@ -3475,8 +3475,12 @@ export const fr: Strings = {
           text: "Les notes des boutons tiennent sur une ligne, dans un petit cadre au lieu d'une longue bande en travers de la fenêtre.",
         },
         {
-          title: "Mac.",
-          text: "Sur les Mac à puce Apple, le profil d'une sélection nationale montre l'année de fondation de sa fédération, son continent et son personnel, et les contrats de sponsoring des clubs s'affichent sur 27.1.0 et 27.1.1.",
+          title: "Contrats de sponsoring.",
+          text: "Les contrats de sponsoring d'un club s'affichent désormais aussi sur Steam et sur les Mac à puce Apple, comme sur Game Pass.",
+        },
+        {
+          title: "Sélections nationales.",
+          text: "Sur les Mac à puce Apple, le profil d'une sélection nationale montre l'année de fondation de sa fédération, son continent et son personnel.",
         },
       ],
       "0.5.4": [

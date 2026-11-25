@@ -3193,7 +3193,7 @@ export const id: Strings = {
         },
         {
           title: "Tab Kompetisi.",
-          text: "Lihat dan ubah aturan skuad setiap kompetisi, misalnya berapa pemain asing yang boleh didaftarkan sebuah skuad, untuk musim ini dan musim depan secara terpisah. Untuk sekarang di Game Pass dan Mac dengan Apple silicon.",
+          text: "Lihat dan ubah aturan skuad setiap kompetisi, misalnya berapa pemain asing yang boleh didaftarkan sebuah skuad, untuk musim ini dan musim depan secara terpisah. Di Windows dan Mac dengan Apple silicon.",
         },
         {
           title: "Pinjaman.",
@@ -3216,8 +3216,12 @@ export const id: Strings = {
           text: "Catatan pada tombol kini satu baris saja, di kotak kecil, bukan pita panjang yang melintang di jendela.",
         },
         {
-          title: "Mac.",
-          text: "Di Mac dengan Apple silicon, profil tim nasional menampilkan tahun berdirinya federasi, benuanya, dan stafnya, dan kontrak sponsor klub tampil di 27.1.0 dan 27.1.1.",
+          title: "Kontrak sponsor.",
+          text: "Kontrak sponsor klub kini juga tampil di Steam dan Mac dengan Apple silicon, seperti di Game Pass.",
+        },
+        {
+          title: "Data tim nasional.",
+          text: "Di Mac dengan Apple silicon, profil tim nasional menampilkan tahun berdirinya federasi, benuanya, dan stafnya.",
         },
       ],
       "0.5.4": [
