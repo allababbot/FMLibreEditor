@@ -449,7 +449,7 @@ export const ptBR: Strings = {
   /** FM's job codes as stored in contracts. */
   jobs: {
     1: "Jogador",
-    2: "Preparador Técnico",
+    2: "Técnico Adjunto",
     4: "Presidente do Conselho",
     6: "Diretor",
     10: "Diretor de Futebol",
