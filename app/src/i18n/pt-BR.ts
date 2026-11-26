@@ -64,7 +64,7 @@ const SQUAD_STATUSES: Partial<Record<number, string>> = {
   3: "Titular absoluto",
   4: "Jogador do elenco",
   5: "Reserva decisivo",
-  7: "Jogador marginal",
+  7: "Jogador de composição",
   9: "Reserva de emergência",
   10: "Promessa em ascensão",
   11: "Promessa para o futuro",
@@ -424,7 +424,7 @@ export const ptBR: Strings = {
     youth_coaching: "Treinadores da Base",
     youth_recruitment: "Captação da Base",
     /** Only a club with finances has it. */
-    corporate: "Corporativo",
+    corporate: "Camarotes Corporativos",
   },
 
   supporterTraits: {
@@ -441,7 +441,7 @@ export const ptBR: Strings = {
     hardcore: "Fanáticos",
     core: "Fiéis",
     family: "Família",
-    fair_weather: "Só nas Vitórias",
+    fair_weather: "Modinhas",
     corporate: "Corporativos",
     casual: "Ocasionais",
   },
@@ -449,7 +449,7 @@ export const ptBR: Strings = {
   /** FM's job codes as stored in contracts. */
   jobs: {
     1: "Jogador",
-    2: "Treinador",
+    2: "Preparador Técnico",
     4: "Presidente do Conselho",
     6: "Diretor",
     10: "Diretor de Futebol",
@@ -544,7 +544,7 @@ export const ptBR: Strings = {
     "facilities.youth_facilities": "Instalações da base",
     "facilities.youth_coaching": "Treinadores da base",
     "facilities.youth_recruitment": "Captação da base",
-    "facilities.corporate": "Instalações corporativas",
+    "facilities.corporate": "Camarotes corporativos",
     "finance.balance": "Saldo",
     "finance.transfer_budget": "Orçamento de transferências",
     "finance.wage_budget": "Orçamento salarial",
