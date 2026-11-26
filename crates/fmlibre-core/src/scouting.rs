@@ -345,6 +345,14 @@ pub const ROLES: &[Role] = &[
         ["tackling", "technique", "off_the_ball", "vision", "composure"]
     ),
     role!(
+        "dlp",
+        InPossession,
+        DefensiveMidfield,
+        15 / 22,
+        ["passing", "vision", "first_touch", "technique", "decisions", "composure"],
+        ["teamwork", "anticipation", "positioning", "tackling"]
+    ),
+    role!(
         "chm",
         InPossession,
         CentralMidfield,
@@ -393,6 +401,14 @@ pub const ROLES: &[Role] = &[
         ["first_touch", "composure", "agility", "flair", "long_shots", "anticipation"]
     ),
     role!(
+        "iw",
+        InPossession,
+        Wide,
+        49 / 22,
+        ["dribbling", "first_touch", "technique", "acceleration", "agility", "passing"],
+        ["composure", "vision", "off_the_ball", "flair", "teamwork"]
+    ),
+    role!(
         "pw",
         InPossession,
         Wide,
@@ -423,6 +439,14 @@ pub const ROLES: &[Role] = &[
         10 / 23,
         ["first_touch", "passing", "technique", "composure", "decisions", "vision"],
         ["strength", "finishing", "off_the_ball", "teamwork", "anticipation"]
+    ),
+    role!(
+        "chf",
+        InPossession,
+        Striker,
+        31 / 23,
+        ["off_the_ball", "finishing", "dribbling", "acceleration", "work_rate", "first_touch"],
+        ["technique", "composure", "pace", "stamina"]
     ),
     role!(
         "p",
@@ -554,6 +578,14 @@ pub const ROLES: &[Role] = &[
         ["teamwork", "bravery", "pace", "strength"]
     ),
     role!(
+        "wdm",
+        OutOfPossession,
+        DefensiveMidfield,
+        19 / 21,
+        ["positioning", "tackling", "marking", "work_rate", "teamwork", "concentration"],
+        ["decisions", "stamina", "agility", "anticipation"]
+    ),
+    role!(
         "cm",
         OutOfPossession,
         CentralMidfield,
@@ -616,6 +648,14 @@ pub const ROLES: &[Role] = &[
         40 / 23,
         ["off_the_ball", "acceleration", "pace", "anticipation", "composure", "first_touch"],
         ["decisions", "dribbling"]
+    ),
+    role!(
+        "wow",
+        OutOfPossession,
+        Wide,
+        41 / 23,
+        ["off_the_ball", "pace", "acceleration", "anticipation", "first_touch", "composure"],
+        ["decisions", "dribbling", "concentration"]
     ),
     role!(
         "cfd",

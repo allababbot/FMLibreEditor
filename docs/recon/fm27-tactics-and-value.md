@@ -104,6 +104,20 @@ Shaw, Güler, Tielemans, Baleba, Mbeumo, Rashford and Šeško in them. Four mask
 in possession `0x408000` (bit 15 / 22) and `0x2000000400000` (bit 49 / 22), out of possession `0x40400000`
 (bit 30 / 22) and `0x800400000` (bit 35 / 22, in two slots), the last since read as WM (see below).
 
+**Five more roles** (Steam Windows build 26797085, read by RootTourist on the tactics screen, see the pull request
+#268), two of them among the four above:
+
+| Phase | Mask | Bit | Role | Screen |
+| --- | --- | --- | --- | --- |
+| In possession | `0x408000` | 15 / 22 | Deep-Lying Playmaker | DLP |
+| In possession | `0x2000000400000` | 49 / 22 | Inside Winger | IW |
+| In possession | `0x80800000` | 31 / 23 | Channel Forward | CHF |
+| Out of possession | `0x280000` | 19 / 21 | Wide Covering Defensive Midfielder | WDM |
+| Out of possession | `0x20000800000` | 41 / 23 | Wide Outlet Winger | WOW |
+
+The names are the game's own, and so are the ones the interface shows in its other languages (from `languages.fmf`).
+Their attribute weights are the editor's, as for the other roles.
+
 **On the Mac** (Steam build 26340721, Apple silicon, a save of 4 July 2027) the block is laid out alike up
 to the style tag (`+0x100`, `VERT` here), but the slot entries sit 8 bytes later: the in-possession role masks from
 `+0x160`, the out-of-possession ones from `+0x480`, `0x48` apart. Each of the manager's three selections pointed at
