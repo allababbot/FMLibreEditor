@@ -1262,79 +1262,79 @@ export const ptBR: Strings = {
   /** The Clubs tab's national teams: each nation's men's and women's team, its senior team's squad and reputation. */
   national: {
     /** The button of the Clubs tab's switch that lists them, and the palette's command to go there. */
-    nav: "National teams",
+    nav: "Seleções",
     /** The name of the Clubs tab's switch between the clubs and the national teams, for assistive technology. */
-    switchLabel: "Clubs or national teams",
-    search: "Search nations by name, code or UID",
+    switchLabel: "Clubes ou seleções",
+    search: "Buscar países por nome, código ou UID",
     summary: (total: number, shown: number) =>
-      total > shown ? `${format(total)} national teams · showing the top ${shown} by reputation` : `${format(total)} national teams`,
+      total > shown ? `${format(total)} seleções · mostrando as ${shown} primeiras por reputação` : `${format(total)} seleções`,
     /** The message under an empty table; `filtered` is whether a filter is in effect. */
     empty: (query: string, filtered: boolean) => {
       if (query === "") {
-        return filtered ? "No national teams match this filter." : "No national teams found.";
+        return filtered ? "Nenhuma seleção corresponde a este filtro." : "Nenhuma seleção encontrada.";
       }
-      return filtered ? `No national teams match “${query}” with this filter.` : `No national teams match “${query}”.`;
+      return filtered ? `Nenhuma seleção corresponde a “${query}” com este filtro.` : `Nenhuma seleção corresponde a “${query}”.`;
     },
     /** The small tag on a women's team. */
-    women: "Women",
+    women: "Mulheres",
     columns: {
-      name: "Nation",
-      code: "Code",
-      reputation: "Reputation",
-      players: "Players",
+      name: "País",
+      code: "Código",
+      reputation: "Reputação",
+      players: "Jogadores",
       uid: "UID",
     },
     filters: {
       /** The label of the select of which teams to show. */
-      kind: "Teams to show",
-      all: "All teams",
-      men: "Men's teams",
-      women: "Women's teams",
+      kind: "Seleções a mostrar",
+      all: "Todas as seleções",
+      men: "Seleções masculinas",
+      women: "Seleções femininas",
     },
     /** In the header of a profile, by the name. */
-    womensTeam: "Women's national team",
-    mensTeam: "Men's national team",
+    womensTeam: "Seleção feminina",
+    mensTeam: "Seleção masculina",
     reputationShort: "REP",
-    reputationTitle: "Reputation of the senior team, from 0 to 10,000",
+    reputationTitle: "Reputação da seleção principal, de 0 a 10.000",
     /**
      * The game's names of a nation's teams by the code of their kind, as its national team screens name them; a kind
      * missing here is named by `teamType`. Kind 0 is the senior team.
      */
-    teamKinds: { 0: "Senior team", 9: "Under 23", 10: "Under 21", 18: "Under 20", 11: "Under 19", 12: "Under 18" } as Partial<Record<number, string>>,
+    teamKinds: { 0: "Seleção principal", 9: "Sub-23", 10: "Sub-21", 18: "Sub-20", 11: "Sub-19", 12: "Sub-18" } as Partial<Record<number, string>>,
     /** A team of a kind the editor has no name for: the game's code for it. */
-    teamType: (kind: number) => `Type ${kind}`,
+    teamType: (kind: number) => `Tipo ${kind}`,
     /** The name of the group of buttons that picks one of the nation's teams, for assistive technology. */
-    teamsLabel: "Teams of this nation",
+    teamsLabel: "Seleções deste país",
     /** The name of the reputation of a team other than the senior one, in the Changes view; `team` is its name. */
-    teamReputation: (team: string) => `Reputation (${team})`,
+    teamReputation: (team: string) => `Reputação (${team})`,
     /** Hover text of the reputation of the team picked, other than the senior one. */
-    teamReputationTitle: "Reputation of this team, from 0 to 10,000",
+    teamReputationTitle: "Reputação desta seleção, de 0 a 10.000",
     /** Over the squad; `team` is the name of the team picked and `count` how many players it lists. */
-    squadHeading: (team: string, count: number) => `${team}: ${format(count)} ${count === 1 ? "player" : "players"}`,
+    squadHeading: (team: string, count: number) => `${team}: ${format(count)} ${count === 1 ? "jogador" : "jogadores"}`,
     /** The name of the squad table for assistive technology; `team` is the name of the team picked. */
-    squadLabel: (team: string) => `Players of the national team: ${team}`,
-    squadNote: "The players the game lists for this team, in its order. Calling players up, captains and the manager's contract are not edited here.",
+    squadLabel: (team: string) => `Jogadores da seleção: ${team}`,
+    squadNote: "Os jogadores que o jogo lista para esta seleção, na ordem dele. Convocações, capitães e o contrato do técnico não são editados aqui.",
     /** What the profile shows of the nation and its federation, read from the game; the staff's heading has how many there are. */
     details: {
-      nation: "Nation",
-      founded: "Federation founded",
-      continent: "Continent",
-      staff: (count: number) => `Federation staff (${format(count)})`,
-      noStaff: "No staff of the federation found.",
-      job: "Job in the national team",
-      team: "Team",
-      staffNote: "Read from the game; not edited here. The job is the one each has with the federation, not the one at a club.",
+      nation: "País",
+      founded: "Federação fundada em",
+      continent: "Continente",
+      staff: (count: number) => `Funcionários da federação (${format(count)})`,
+      noStaff: "Nenhum funcionário da federação encontrado.",
+      job: "Função na seleção",
+      team: "Seleção",
+      staffNote: "Lido do jogo; não é editado aqui. A função é a que cada um tem na federação, não em um clube.",
     },
     /** Beside Heal all, Inspire all and Refresh all, which the senior team has: whom they cover, and where undoing is. */
-    actionsHint: "The actions cover every player the senior team lists. Undo is in the Changes view as well.",
+    actionsHint: "As ações valem para todos os jogadores que a seleção principal lista. Também dá para desfazer na tela Alterações.",
     /** For a nation the game keeps no team for. */
-    noTeams: "The game keeps no teams for this one, so there is no squad or reputation to show.",
-    reading: "Reading the squad…",
-    noPlayers: "The game lists no players for this team.",
+    noTeams: "O jogo não guarda seleções para este país, então não há elenco nem reputação para mostrar.",
+    reading: "Lendo o elenco…",
+    noPlayers: "O jogo não lista jogadores para esta seleção.",
     /** Where the tab cannot show national teams: why, for a version of the game the editor has not been checked with. */
-    unavailableTitle: "National teams are not available on this version of the game",
-    unavailableBuild: "Nobody has found yet where this version of the game keeps its national teams, so the editor shows none rather than read the wrong memory.",
-    unavailableUnreadable: "The editor looked where it expects the national teams on this version of the game, but what it found does not read as the game's, so it shows none.",
+    unavailableTitle: "As seleções não estão disponíveis nesta versão do jogo",
+    unavailableBuild: "Ninguém descobriu ainda onde esta versão do jogo guarda as seleções, então o editor não mostra nenhuma para não ler a memória errada.",
+    unavailableUnreadable: "O editor procurou as seleções onde espera encontrá-las nesta versão do jogo, mas o que achou não parece ser do jogo, então não mostra nenhuma.",
   },
 
   /**
@@ -1343,53 +1343,53 @@ export const ptBR: Strings = {
    */
   leaguePrizes: {
     /** The heading of the group in a club's Overview, under its finances. */
-    title: "League prize money",
+    title: "Premiação da liga",
     /** Under the heading: the league and its nation. */
-    league: (league: string) => `What ${league} pays this season`,
+    league: (league: string) => `O que ${league} paga nesta temporada`,
     /** While the amounts are read: the editor reads all of the game's memory once. */
-    reading: "Reading the league's prize money from the game… The first time this can take half a minute or more.",
-    readAgain: "Read again",
-    readAgainTitle: "Read the amounts from the game again: a stage that has started since may pay too",
+    reading: "Lendo a premiação da liga no jogo… Na primeira vez isso pode levar meio minuto ou mais.",
+    readAgain: "Ler de novo",
+    readAgainTitle: "Lê os valores do jogo de novo: uma fase que começou depois também pode pagar",
     /** When the club's league pays nothing the editor reads. */
-    paysNothing: "The club's league pays no prize money by final position or per match this season.",
+    paysNothing: "A liga do clube não paga premiação por posição final nem por jogo nesta temporada.",
     /** The heading of one stage of the league. */
-    stageStarted: "Stage being played",
-    stageFuture: "Stage not started yet",
+    stageStarted: "Fase em andamento",
+    stageFuture: "Fase ainda não iniciada",
     /** Under a stage's heading, when several of its groups (or stages) pay the same. */
-    alike: (count: number) => `The same amounts in ${format(count)} groups or stages`,
-    byPosition: "By final position",
+    alike: (count: number) => `Os mesmos valores em ${format(count)} grupos ou fases`,
+    byPosition: "Por posição final",
     /** A row of the list by position. */
     place: (place: number) => `${format(place)}.`,
-    perMatch: "Per match",
-    win: "Per win",
-    draw: "Per draw",
-    loss: "Per loss",
-    noList: "Nothing by final position.",
-    noPerMatch: "Nothing per match.",
+    perMatch: "Por jogo",
+    win: "Por vitória",
+    draw: "Por empate",
+    loss: "Por derrota",
+    noList: "Nada por posição final.",
+    noPerMatch: "Nada por jogo.",
     /** Under the amounts. */
-    note: "What knockout rounds pay, such as a final's winner and loser, and a competition's participation fee are not read yet.",
+    note: "O que as fases eliminatórias pagam, como o campeão e o vice de uma final, e a taxa de participação de uma competição ainda não são lidos.",
     /** Where the app cannot show prize money: why. */
-    unavailableBuild: "Nobody has checked yet where this version of the game keeps the prize money, so the editor shows none rather than read the wrong memory.",
-    unavailableUnreadable: "The editor looked for the prize money where it expects it on this version of the game, but what it found does not read as the game's, so it shows none.",
+    unavailableBuild: "Ninguém verificou ainda onde esta versão do jogo guarda a premiação, então o editor não mostra nenhuma para não ler a memória errada.",
+    unavailableUnreadable: "O editor procurou a premiação onde espera encontrá-la nesta versão do jogo, mas o que achou não parece ser do jogo, então não mostra nenhuma.",
     /** The button that turns a stage's amounts into inputs. */
-    edit: "Change amounts",
-    editTitle: "Change what this stage of the league pays, for every club in it",
-    save: "Save amounts",
-    saving: "Saving…",
-    cancel: "Cancel",
+    edit: "Alterar valores",
+    editTitle: "Altera o que esta fase da liga paga, para todos os clubes dela",
+    save: "Salvar valores",
+    saving: "Salvando…",
+    cancel: "Cancelar",
     /** Under the inputs, and in the (i) beside the button. */
     everyClub: (league: string) =>
-      `This changes what ${league} pays every club in it, not this club alone. The game keeps it in the save, but only for this season: it sets the next season up with its own amounts again. Undo in Changes puts the old amounts back.`,
-    infoLabel: "How a change of the prize money lasts",
+      `Isto muda o que ${league} paga a todos os clubes dela, e não só a este. O jogo guarda isso no save, mas só nesta temporada: na próxima, ele define os valores dele de novo. Desfazer em Alterações devolve os valores antigos.`,
+    infoLabel: "Por quanto tempo uma mudança na premiação dura",
     /** Under an input that does not hold an amount the editor writes. */
-    invalid: (most: string) => `Enter a whole amount from 0 to ${most}.`,
+    invalid: (most: string) => `Digite um valor inteiro de 0 a ${most}.`,
     /** Under the inputs, when every amount of the stage would be nothing. */
-    allNothing: "A stage that pays nothing at all is not listed any more: leave at least one amount above nothing.",
+    allNothing: "Uma fase que não paga nada deixa de ser listada: mantenha pelo menos um valor acima de zero.",
     /** What the Changes view calls a change of the amount for a final position. */
-    placeField: (place: number) => `League prize money for place ${format(place)}`,
+    placeField: (place: number) => `Premiação da liga para a ${format(place)}ª posição`,
     /** In the Changes view, under a change of the prize money: the league, and how many of its groups it changed. */
     changedIn: (league: string, groups: number) =>
-      groups > 1 ? `For every club in ${league}, in ${format(groups)} groups` : `For every club in ${league}`,
+      groups > 1 ? `Para todos os clubes de ${league}, em ${format(groups)} grupos` : `Para todos os clubes de ${league}`,
   },
 
   /**
@@ -1399,29 +1399,29 @@ export const ptBR: Strings = {
    */
   sponsorships: {
     /** The heading of the group in a club's Overview, under its finances. */
-    title: "Sponsorship deals",
-    reading: "Reading the club's sponsorship deals…",
+    title: "Contratos de patrocínio",
+    reading: "Lendo os contratos de patrocínio do clube…",
     /** When the club holds no deal. */
-    none: "The club has no sponsorship deals.",
-    perSeason: "Per season",
-    total: "Total value",
-    term: "Term",
+    none: "O clube não tem contratos de patrocínio.",
+    perSeason: "Por temporada",
+    total: "Valor total",
+    term: "Duração",
     /** The length of a deal, as the game's screen counts it. */
-    years: (count: number) => (count === 1 ? "1 year" : `${format(count)} years`),
+    years: (count: number) => (count === 1 ? "1 ano" : `${format(count)} anos`),
     /** The name of a kind the game's screen is not known to name here. */
-    unnamed: (kind: number) => `Type ${format(kind)}`,
-    unnamedTitle: "This kind of deal has not been matched to a name on the game's screen yet",
+    unnamed: (kind: number) => `Tipo ${format(kind)}`,
+    unnamedTitle: "Este tipo de contrato ainda não foi associado a um nome na tela do jogo",
     /** A badge on a deal that ended before the game's date. */
-    ended: "Ended",
-    endedTitle: "Ended before the game's date: the game's Sponsorship screen no longer lists it",
+    ended: "Encerrado",
+    endedTitle: "Encerrado antes da data do jogo: a tela de Patrocínio do jogo não o lista mais",
     /** What a deal's percentage does: on relegation, and for a kit manufacturer on promotion. */
-    falls: (percent: number) => `Falls by ${format(percent)}% on relegation`,
-    rises: (percent: number) => `Rises by ${format(percent)}% on promotion to the top division`,
+    falls: (percent: number) => `Cai ${format(percent)}% em caso de rebaixamento`,
+    rises: (percent: number) => `Sobe ${format(percent)}% em caso de acesso à primeira divisão`,
     /** Under the deals. */
-    note: "Read only. These are the amounts the game keeps for each deal. Its Sponsorship screen lists the deals that have not ended.",
+    note: "Somente leitura. Estes são os valores que o jogo guarda para cada contrato. A tela de Patrocínio dele lista os contratos que não terminaram.",
     /** Where the app cannot show the deals: why. */
-    unavailableBuild: "Nobody has checked yet where this version of the game keeps the sponsorship deals, so the editor shows none rather than read the wrong memory.",
-    unavailableUnreadable: "The editor looked for the sponsorship deals where it expects them on this version of the game, but what it found does not read as the game's, so it shows none.",
+    unavailableBuild: "Ninguém verificou ainda onde esta versão do jogo guarda os contratos de patrocínio, então o editor não mostra nenhum para não ler a memória errada.",
+    unavailableUnreadable: "O editor procurou os contratos de patrocínio onde espera encontrá-los nesta versão do jogo, mas o que achou não parece ser do jogo, então não mostra nenhum.",
   },
 
   /**
@@ -1431,32 +1431,32 @@ export const ptBR: Strings = {
    */
   competitions: {
     /** The tab in the masthead, and the palette's command to go there. */
-    nav: "Competitions",
-    search: "Search competitions by name, nation or UID",
+    nav: "Competições",
+    search: "Buscar competições por nome, país ou UID",
     summary: (total: number, shown: number) =>
-      total > shown ? `${format(shown)} of ${format(total)} competitions` : `${format(total)} competitions`,
+      total > shown ? `${format(shown)} de ${format(total)} competições` : `${format(total)} competições`,
     /** The message under an empty table; `filtered` is whether a nation is picked. */
     empty: (query: string, filtered: boolean) => {
       if (query === "") {
-        return filtered ? "No competitions of this nation have squad rules." : "No competitions with squad rules found.";
+        return filtered ? "Nenhuma competição deste país tem regras de elenco." : "Nenhuma competição com regras de elenco encontrada.";
       }
-      return filtered ? `No competitions match “${query}” in this nation.` : `No competitions match “${query}”.`;
+      return filtered ? `Nenhuma competição corresponde a “${query}” neste país.` : `Nenhuma competição corresponde a “${query}”.`;
     },
     /** While the rules are read: the editor reads all of the game's memory once. */
-    reading: "Reading the competitions' squad rules from the game… This takes a few seconds.",
-    readAgain: "Read again",
-    readAgainTitle: "Read the rules from the game again",
+    reading: "Lendo as regras de elenco das competições no jogo… Isso leva alguns segundos.",
+    readAgain: "Ler de novo",
+    readAgainTitle: "Lê as regras do jogo de novo",
     /** Under the list. */
-    listNote: "Competitions that have no squad rules are not listed.",
+    listNote: "Competições sem regras de elenco não são listadas.",
     /** Where the app cannot show the rules: the heading, and why. */
-    unavailableTitle: "No squad rules to show",
-    unavailableBuild: "Nobody has checked yet where this version of the game keeps the competitions' squad rules, so the editor shows none rather than read the wrong memory.",
-    unavailableUnreadable: "The editor looked for the squad rules where it expects them on this version of the game, but what it found does not read as the game's, so it shows none.",
+    unavailableTitle: "Sem regras de elenco para mostrar",
+    unavailableBuild: "Ninguém verificou ainda onde esta versão do jogo guarda as regras de elenco das competições, então o editor não mostra nenhuma para não ler a memória errada.",
+    unavailableUnreadable: "O editor procurou as regras de elenco onde espera encontrá-las nesta versão do jogo, mas o que achou não parece ser do jogo, então não mostra nenhuma.",
     columns: {
-      name: "Competition",
-      nation: "Nation",
-      level: "Level",
-      rules: "Rules",
+      name: "Competição",
+      nation: "País",
+      level: "Nível",
+      rules: "Regras",
       uid: "UID",
     },
     /** In the Level column: the top division is level 1. */
@@ -1464,125 +1464,125 @@ export const ptBR: Strings = {
     /** In the Rules column: how many rules this season, and next season when its list differs in length. */
     rulesCount: (current: number, next: number | null) =>
       next === null || next === current ? format(current) : `${format(current)} · ${format(next)}`,
-    rulesCountTitle: "Squad rules this season, and next season where it has another number of them",
+    rulesCountTitle: "Regras de elenco desta temporada e, onde há outra quantidade, da próxima",
     /** In the place of a nation, for a continent's competition, and in the filter. */
-    international: "International",
+    international: "Internacional",
     filters: {
-      nation: "Nation",
-      allNations: "All nations",
+      nation: "País",
+      allNations: "Todos os países",
     },
     /** The heading of the panel's body, and the line under it. */
-    title: "Squad rules",
-    intro: "How many players of a kind a squad may register, or a team may pick for a match, in this competition. Who counts as foreign or home-grown is the game's own to say.",
+    title: "Regras de elenco",
+    intro: "Quantos jogadores de um tipo um elenco pode inscrever, ou um time pode escalar numa partida, nesta competição. Quem conta como estrangeiro ou formado no clube é definido pelo próprio jogo.",
     /** The headings of the two areas, and beside each the year the season begins in. */
     seasons: { current: "This season", next: "Next season" },
-    began: (year: number) => `began in ${year}`,
-    begins: (year: number) => `begins in ${year}`,
+    began: (year: number) => `começou em ${year}`,
+    begins: (year: number) => `começa em ${year}`,
     /** In an area with no rules, and in next season's when the game holds no list for it. */
-    noRules: "No squad rules.",
-    noNext: "The game holds no rules for next season.",
+    noRules: "Sem regras de elenco.",
+    noNext: "O jogo não tem regras para a próxima temporada.",
     ruleColumns: {
-      rule: "Rule",
-      where: "Counted in",
-      limit: "Limit",
-      value: "Players",
+      rule: "Regra",
+      where: "Contado em",
+      limit: "Limite",
+      value: "Jogadores",
     },
-    atMost: "At most",
-    atLeast: "At least",
+    atMost: "No máximo",
+    atLeast: "No mínimo",
     /** Where a rule counts players. */
     scopes: {
-      squad: "Squad",
-      matchSquad: "Match squad",
-      eleven: "Eleven",
-      startingEleven: "Starting eleven",
-      bench: "Bench",
+      squad: "Elenco",
+      matchSquad: "Relacionados",
+      eleven: "Onze",
+      startingEleven: "Time titular",
+      bench: "Banco",
     },
     /** Whom a rule counts, by the game's key for its kind; the ages a kind names are given. */
     who: {
-      squadSize: "Players in the squad",
-      foreign: "Foreign players",
-      foreignExceptAsian: "Foreign players, Asian ones aside",
-      foreignGoalkeepers: "Foreign goalkeepers",
-      nonEu: "Non-EU players",
-      domestic: "Domestic players",
-      domesticGoalkeepers: "Domestic goalkeepers",
-      goalkeepers: "Goalkeepers",
-      outfield: "Outfield players",
-      nonHomegrown: "Players who are not home-grown",
-      youthContract: "Players on youth contracts",
-      fullTime: "Players on full-time contracts",
-      amateur: "Amateur players",
-      youthOrAmateur: "Youth or amateur players",
-      trialists: "Trialists",
-      loans: "Loan players",
-      internationals: "International players",
-      otherTeam: "Players registered for another team",
-      firstTeam: "Players registered for the first team",
-      over: (age: number) => `Players over ${format(age)}`,
-      under: (age: number) => `Players under ${format(age)}`,
-      domesticUnder: (age: number) => `Domestic players under ${format(age)}`,
-      foreignOver: (age: number) => `Foreign players over ${format(age)}`,
-      goalkeepersOver: (age: number) => `Goalkeepers over ${format(age)}`,
-      outfieldOver: (age: number) => `Outfield players over ${format(age)}`,
+      squadSize: "Jogadores no elenco",
+      foreign: "Jogadores estrangeiros",
+      foreignExceptAsian: "Jogadores estrangeiros, exceto asiáticos",
+      foreignGoalkeepers: "Goleiros estrangeiros",
+      nonEu: "Jogadores de fora da UE",
+      domestic: "Jogadores nacionais",
+      domesticGoalkeepers: "Goleiros nacionais",
+      goalkeepers: "Goleiros",
+      outfield: "Jogadores de linha",
+      nonHomegrown: "Jogadores que não são formados no clube",
+      youthContract: "Jogadores com contrato de base",
+      fullTime: "Jogadores com contrato de tempo integral",
+      amateur: "Jogadores amadores",
+      youthOrAmateur: "Jogadores da base ou amadores",
+      trialists: "Jogadores em teste",
+      loans: "Jogadores emprestados",
+      internationals: "Jogadores de seleção",
+      otherTeam: "Jogadores inscritos em outro time",
+      firstTeam: "Jogadores inscritos no time principal",
+      over: (age: number) => `Jogadores com mais de ${format(age)} anos`,
+      under: (age: number) => `Jogadores com menos de ${format(age)} anos`,
+      domesticUnder: (age: number) => `Jogadores nacionais com menos de ${format(age)} anos`,
+      foreignOver: (age: number) => `Jogadores estrangeiros com mais de ${format(age)} anos`,
+      goalkeepersOver: (age: number) => `Goleiros com mais de ${format(age)} anos`,
+      outfieldOver: (age: number) => `Jogadores de linha com mais de ${format(age)} anos`,
       /** Trained at the club, in the nation, or at either, between two ages. */
       homegrown: (from: "club" | "nation" | "clubOrNation", fromAge: number, toAge: number) => {
-        const ages = `trained at ${format(fromAge)}–${format(toAge)}`;
+        const ages = `formados entre ${format(fromAge)} e ${format(toAge)} anos`;
         if (from === "club") {
-          return `Home-grown at the club (${ages})`;
+          return `Formado no clube (${ages})`;
         }
-        return from === "nation" ? `Home-grown in the nation (${ages})` : `Home-grown at the club or in the nation (${ages})`;
+        return from === "nation" ? `Formado no país (${ages})` : `Formado no clube ou no país (${ages})`;
       },
       /** The same in the nation, for players under an age. */
       homegrownUnder: (age: number, fromAge: number, toAge: number) =>
-        `Under-${format(age)}s home-grown in the nation (trained at ${format(fromAge)}–${format(toAge)})`,
+        `Sub-${format(age)} formados no país (formados entre ${format(fromAge)} e ${format(toAge)} anos)`,
     },
     /** A rule of a kind the game gives no name. */
-    unnamedKind: (kind: number) => `Rule of kind ${format(kind)}`,
+    unnamedKind: (kind: number) => `Regra do tipo ${format(kind)}`,
     /** The hover text of a rule's name: the game's own key for the kind. */
-    gameKey: (key: string) => `The game's name for this rule: ${key}`,
+    gameKey: (key: string) => `Nome desta regra no jogo: ${key}`,
     /** The small tag under a rule that holds for some teams, or under a condition of the game's. */
-    teamsFrom: (competition: string) => `Teams from ${competition}`,
-    teamsFromUnknown: "Teams from another division",
-    condition: (code: string) => `Conditional (${code})`,
-    conditionTitle: "The game applies this rule under a condition of its own, which the editor does not explain yet.",
+    teamsFrom: (competition: string) => `Times de ${competition}`,
+    teamsFromUnknown: "Times de outra divisão",
+    condition: (code: string) => `Condicional (${code})`,
+    conditionTitle: "O jogo aplica esta regra sob uma condição própria, que o editor ainda não explica.",
     /** The years the nation's rules give a rule, where they give any. */
     years: (from: number | null, to: number | null) => {
       if (from !== null && to !== null) {
         return from === to ? `${from}` : `${from}–${to}`;
       }
-      return from !== null ? `from ${from}` : `until ${to}`;
+      return from !== null ? `a partir de ${from}` : `até ${to}`;
     },
-    yearsTitle: "The seasons the nation's rules give this rule for, by the year a season begins in",
+    yearsTitle: "As temporadas para as quais as regras do país dão esta regra, pelo ano em que a temporada começa",
     /** In the place of an input, for a rule the editor leaves alone, and why. */
-    leftAlone: "Left alone",
+    leftAlone: "Mantido",
     notSavedTitle:
-      "The save keeps no such rule, so a change would be gone once it is loaded: the editor leaves it alone",
-    notACountTitle: "An amount of money, not a count of players: the editor leaves it alone.",
+      "O save não guarda essa regra, então uma mudança sumiria ao carregá-lo: o editor a mantém como está",
+    notACountTitle: "Um valor em dinheiro, não uma contagem de jogadores: o editor o mantém como está.",
     /** Over the areas, when the editor changes none of the competition's rules: why, and that no date changes it. */
-    noneChangeable: "These rules cannot be changed yet, at any date: the editor changes a rule only where it finds it in the rules the save keeps, so that the change is still there when the save is loaded, and it has not found this competition's there. So far that goes for the women's leagues, Major League Soccer and a few cups.",
+    noneChangeable: "Estas regras ainda não podem ser alteradas, em nenhuma data: o editor só muda uma regra onde a encontra nas regras que o save guarda, para que a mudança continue lá quando o save for carregado, e ele não achou as desta competição. Por enquanto isso vale para as ligas femininas, a Major League Soccer e algumas copas.",
     /**
      * In the place of `lasts`, for a competition whose rules the game keeps in no record (UEFA's Champions League): the
      * editor holds a change of them. The small tag under a rule it holds, and the tag's hover text with the game's own
      * count.
      */
-    unsavedNote: "The game keeps this competition's rules in no save: it makes them itself each time it loads one, and again for each new season. So the editor holds a change here: it writes it to the running game, remembers it for this career, and writes it again whenever it connects or reads the data again. After loading a save, connect the editor (or press Reload data) once for the change to be back. Undo in Changes lets go of it.",
-    heldTag: "Held",
+    unsavedNote: "O jogo não guarda as regras desta competição em nenhum save: ele as monta sozinho a cada vez que carrega um e de novo a cada nova temporada. Por isso o editor retém a mudança aqui: grava no jogo em execução, lembra dela nesta carreira e grava de novo sempre que conecta ou lê os dados outra vez. Depois de carregar um save, conecte o editor (ou clique em Recarregar dados) uma vez para a mudança voltar. Desfazer em Alterações a solta.",
+    heldTag: "Retido",
     heldTitle: (original: number) =>
-      `The editor holds this count and writes it again when it reads the game; the game's own is ${format(original)}`,
+      `O editor retém esta contagem e a grava de novo quando lê o jogo; a do próprio jogo é ${format(original)}`,
     /** Under a rule whose count in the save's rules is another than the list's. */
-    savedDiffers: (value: number) => `The save's rules hold ${format(value)}`,
+    savedDiffers: (value: number) => `As regras do save indicam ${format(value)}`,
     savedDiffersTitle:
-      "The game plays by the list and makes it from the save's rules on loading; a change here sets both",
+      "O jogo joga pela lista e a monta a partir das regras do save ao carregar; uma mudança aqui altera as duas",
     /** The button that turns the counts into inputs, and the ones under them. */
-    edit: "Change rules",
-    editTitle: "Change the counts of this competition's squad rules",
-    save: "Save rules",
-    saving: "Saving…",
-    cancel: "Cancel",
+    edit: "Alterar regras",
+    editTitle: "Altera as contagens das regras de elenco desta competição",
+    save: "Salvar regras",
+    saving: "Salvando…",
+    cancel: "Cancelar",
     /** Under an input that does not hold a count the editor writes. */
-    invalid: (most: number) => `Enter a whole number from 0 to ${format(most)}.`,
+    invalid: (most: number) => `Digite um número inteiro de 0 a ${format(most)}.`,
     /** Over the areas, when other competitions are played under the same lists: their names. */
-    shared: (names: string) => `These rules are also those of ${names}: a change is theirs too.`,
+    shared: (names: string) => `Estas regras também são as de ${names}: uma mudança vale para elas também.`,
     /**
      * Under each area: how long a change of it holds, and when the game shows it. `turn` is the day the nation's seasons
      * turn on ("20 June") where its rules give one. Seen over a turn of the season: this season's change is gone with
@@ -1590,17 +1590,17 @@ export const ptBR: Strings = {
      * foreign players over 24 from 2028) or another file of rules (England's from 2028) for a later season.
      */
     currentNote: (turn: string | null) =>
-      `A change here holds for the rest of this season${turn === null ? "" : `, which turns on ${turn}`}. The game counts squads against it at once; its own screens show it once a day has passed.`,
+      `Uma mudança aqui vale pelo resto desta temporada${turn === null ? "" : `, que vira em ${turn}`}. O jogo passa a contar os elencos por ela na hora; as telas dele a mostram depois que um dia passar.`,
     nextNote: (turn: string | null) =>
-      `A change here becomes this season's rule when the season turns${turn === null ? "" : ` on ${turn}`}, and stays for the seasons after unless the game has rules of its own for a later one. The game's Next Season page shows it at once.`,
+      `Uma mudança aqui vira a regra desta temporada quando a temporada vira${turn === null ? "" : ` em ${turn}`}, e vale para as seguintes, a menos que o jogo tenha regras próprias para uma posterior. A página Próxima Temporada do jogo a mostra na hora.`,
     /** Under the areas, and in the (i) beside the button. */
-    lasts: "A change is written to the list the game plays by and to the nation's rules the save keeps, so it is there again when the save is loaded. A change of this season's rule ends when the season turns: next season's rules take its place. Undo in Changes puts the old count back.",
-    infoLabel: "How a change of a squad rule lasts",
+    lasts: "Uma mudança é gravada na lista pela qual o jogo joga e nas regras do país que o save guarda, então volta quando o save é carregado. Uma mudança na regra desta temporada termina quando a temporada vira: as regras da próxima ocupam o lugar. Desfazer em Alterações devolve a contagem antiga.",
+    infoLabel: "Por quanto tempo uma mudança em uma regra de elenco dura",
     /** What the Changes view calls a change of a rule: the season, and the rule. */
-    ruleField: (season: string, rule: string) => `Squad rule, ${season.toLowerCase()}: ${rule}`,
+    ruleField: (season: string, rule: string) => `Regra de elenco, ${season.toLowerCase()}: ${rule}`,
     /** In the Changes view, under a change of a rule: how many other competitions it is for too. */
     alsoFor: (count: number) =>
-      count === 1 ? "Also for 1 other competition under the same rules" : `Also for ${format(count)} other competitions under the same rules`,
+      count === 1 ? "Vale também para outra competição com as mesmas regras" : `Vale também para outras ${format(count)} competições com as mesmas regras`,
   },
 
   /** The app around the lists: the sidebar, the status line and the connect panel. */
