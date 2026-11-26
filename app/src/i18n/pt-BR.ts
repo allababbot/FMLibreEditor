@@ -778,7 +778,7 @@ export const ptBR: Strings = {
     banMatches: (matches: number) => (matches === 1 ? "1 jogo" : `${format(matches)} jogos`),
     banStarted: (date: string) => `A partir de ${date}`,
     /** Lifts every ban of the player at once. */
-    liftBans: "Cancelar",
+    liftBans: "Anular",
     liftBansTitle: "Cancela todas as suspensões deste jogador no jogo",
 
     // Above the attributes, while the profile is read
@@ -1666,7 +1666,7 @@ export const ptBR: Strings = {
       more: (count: number) => `e mais ${format(count)}`,
       /** What was left for later: an update of the game, say. */
       waiting: (count: number) =>
-        `${count === 1 ? "1 está lembrado" : `${format(count)} estão lembrados`}, mas não congelado(s) agora: o FMLibreEditor ainda não consegue gravar ` +
+        `${count === 1 ? "1 item está lembrado" : `${format(count)} itens estão lembrados`}, mas não ${count === 1 ? "congelado" : "congelados"} agora: o FMLibreEditor ainda não consegue gravar ` +
         "nesta versão do jogo.",
       dismiss: "Fechar",
     },
@@ -1863,7 +1863,7 @@ export const ptBR: Strings = {
     footer: "Editando",
     changes: changeCount,
     /** After the number of changes, while some inputs hold values that cannot be applied. */
-    invalidCount: (count: number) => `${count} inválido(s)`,
+    invalidCount: (count: number) => (count === 1 ? "1 inválido" : `${count} inválidos`),
     /** Opens the list of the changes Apply would write. */
     review: "Revisar",
     reviewList: "Alterações a aplicar",
@@ -1943,7 +1943,7 @@ export const ptBR: Strings = {
     /** The line beside the title; `undone` of the `total` changes were undone. */
     count: (total: number, undone: number) => {
       const count = changeCount(total);
-      return undone === 0 ? count : `${count} · ${undone} desfeita(s)`;
+      return undone === 0 ? count : `${count} · ${undone === 1 ? "1 desfeita" : `${undone} desfeitas`}`;
     },
     empty: "Nenhuma alteração ainda. Abra um jogador, um funcionário ou um clube e escolha Editar, ou use Edição em massa em uma lista.",
     columns: {
@@ -2008,7 +2008,7 @@ export const ptBR: Strings = {
     /** The line beside the title while a search or a filter is on: `matching` of the `total` changes, `undone` of those undone. */
     filteredCount: (matching: number, total: number, undone: number) => {
       const count = `${format(matching)} de ${changeCount(total)}`;
-      return undone === 0 ? count : `${count} · ${format(undone)} desfeita(s)`;
+      return undone === 0 ? count : `${count} · ${undone === 1 ? "1 desfeita" : `${format(undone)} desfeitas`}`;
     },
     /** Under a mass edit while a search or a filter is on: how many of its changes they leave. */
     batchMatching: (matching: number, total: number) => `${format(matching)} de ${format(total)} correspondem`,
@@ -2230,7 +2230,7 @@ export const ptBR: Strings = {
     /** Hover text of Apply; `changes` is how many values it writes. */
     applyTitle: (changes: number) => `Grava no jogo: ${changeCount(changes)}`,
     applyFirst: "Veja antes a prévia da edição em massa",
-    applyNothing: "A prévia não tem alterações a gravar",
+    applyNothing: "A prévia não tem alterações para gravar",
     /** Nothing changes in the game until Apply. */
     hint: "Nada muda no jogo até você aplicar.",
     applied: (count: number) => (count === 0 ? "Nenhuma alteração foi gravada" : `Aplicado: ${changeCount(count)}`),
