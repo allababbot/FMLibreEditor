@@ -2724,246 +2724,199 @@ export const ptBR: Strings = {
    */
   squad: {
     // The switch between the club's teams
-    /** The name of the switch for assistive technology. */
-    teamsLabel: "Team",
-    /**
-     * The names of the teams (see `teamLabel` in labels.ts): the first team, a B team, a team with an age limit, and
-     * any other, which is named by its place in the club's list (`place` counts from 1, the first team being the
-     * first).
-     */
+    teamsLabel: "Time",
     teams: {
-      first: "First team",
-      b: "B team",
-      age: (limit: number) => `U${limit}`,
-      other: (place: number) => `Team ${place}`,
+      first: "Time principal",
+      b: "Time B",
+      age: (limit: number) => `Sub-${limit}`,
+      other: (place: number) => `Time ${place}`,
     },
-    /** When the game lists no team for the club. */
-    noTeams: "This club has no teams.",
-    loading: "Reading the squad…",
-    /** The message under an empty table. */
-    empty: "No players in this team.",
+    noTeams: "Este clube não tem times.",
+    loading: "Lendo o elenco…",
+    empty: "Nenhum jogador neste time.",
 
     // Above the table
-    players: (count: number) => (count === 1 ? "1 player" : `${format(count)} players`),
-    /** `age` is written out already, with one decimal. */
-    averageAge: (age: string) => `average age ${age}`,
-    /** `captain` and `viceCaptain` are names, or `profile.none` for nobody. */
-    captains: (captain: string, viceCaptain: string) => `Captain: ${captain} · Vice-captain: ${viceCaptain}`,
+    players: (count: number) => (count === 1 ? "1 jogador" : `${format(count)} jogadores`),
+    averageAge: (age: string) => `idade média ${age}`,
+    captains: (captain: string, viceCaptain: string) => `Capitão: ${captain} · Vice-capitão: ${viceCaptain}`,
 
     // The actions on the whole team
-    /** The name of the group of buttons for assistive technology. */
-    actionsLabel: "Actions on the whole team",
-    /** `injured` is how many of the team's players have an injury. */
-    healAll: (injured: number) => (injured === 0 ? "Heal all" : `Heal all (${format(injured)} injured)`),
-    healAllTitle: "Heal every injury of every player in this team",
-    /** Hover text of Heal all while nobody in the team is injured. */
-    healNone: "Nobody in this team is injured",
-    /** `banned` is how many of the team's players have a ban. */
-    liftAll: (banned: number) => (banned === 0 ? "Lift bans" : `Lift bans (${format(banned)} banned)`),
-    liftAllTitle: "Lift every ban of every player in this team",
-    /** Hover text of Lift bans while nobody in the team is banned. */
-    liftNone: "Nobody in this team is banned",
-    inspireAll: "Inspire all",
-    inspireAllTitle: "Set every player's morale to 20, the highest, and remove their reasons to be unhappy",
-    maxCohesion: "Max cohesion",
+    actionsLabel: "Ações sobre o time todo",
+    healAll: (injured: number) => (injured === 0 ? "Curar todos" : `Curar todos (${format(injured)} lesionados)`),
+    healAllTitle: "Cura todas as lesões de todos os jogadores deste time",
+    healNone: "Ninguém neste time está lesionado",
+    liftAll: (banned: number) => (banned === 0 ? "Cancelar suspensões" : `Cancelar suspensões (${format(banned)} suspensos)`),
+    liftAllTitle: "Cancela todas as suspensões de todos os jogadores deste time",
+    liftNone: "Ninguém neste time está suspenso",
+    inspireAll: "Motivar todos",
+    inspireAllTitle: "Coloca a moral de todos os jogadores em 20, o máximo, e remove os motivos de insatisfação deles",
+    maxCohesion: "Entrosamento máximo",
     maxCohesionTitle:
-      "Set every player's cohesion with the club to 100, the highest; the game shows it once it moves on",
-    /** Hover text of Max cohesion while no player's cohesion with the club can be read. */
-    cohesionNone: "Cannot be read: this game version is not checked for it, or no player has an entry for the club",
-    /** After Max cohesion: how many players of the team have no entry for the club yet, and were left out. */
+      "Coloca o entrosamento de todos os jogadores com o clube em 100, o máximo; o jogo o mostra depois que avançar",
+    cohesionNone: "Não dá para ler: esta versão do jogo não foi verificada para isso, ou nenhum jogador tem registro no clube",
     cohesionWithout: (count: number) =>
       count === 1
-        ? "1 player has no cohesion with the club yet"
-        : `${format(count)} players have no cohesion with the club yet`,
-    maxTactics: "Max tactics",
+        ? "1 jogador ainda não tem entrosamento com o clube"
+        : `${format(count)} jogadores ainda não têm entrosamento com o clube`,
+    maxTactics: "Táticas no máximo",
     maxTacticsTitle:
-      "Have every player know the team's tactic at its best; it fades after some six weeks, as training does",
-    /** Hover text of Max tactics while no player's familiarity with the team's tactic can be read. */
-    tacticsNone: "Cannot be read: this game version is not checked for it, or the team does not play a tactic you pick",
-    /** After Max tactics: how many players of the team do not train, whose history of training was left as it is. */
+      "Faz todos os jogadores conhecerem a tática do time no nível máximo; isso diminui em cerca de seis semanas, como o treino",
+    tacticsNone: "Não dá para ler: esta versão do jogo não foi verificada para isso, ou o time não joga com uma tática que você escolhe",
     tacticsUntrained: (count: number) =>
       count === 1
-        ? "1 player does not train (as when injured): his history of training stays as it is"
-        : `${format(count)} players do not train (as when injured): their history of training stays as it is`,
-    refreshAll: "Refresh all",
-    refreshAllTitle: "Set every player's energy and match sharpness to 100%, and rest them fully (jadedness -500)",
-    batchTraits: "Batch traits",
-    batchTraitsTitle: "Add or remove preferred moves for players in this team",
-    maxAll: "Max attributes",
-    maxAllTitle: "Set every attribute of every player to its best: 20, and 1 for injury proneness and dirtiness",
-    atItsBest: "Team at its best",
+        ? "1 jogador não treina (como quando lesionado): o histórico de treino dele fica como está"
+        : `${format(count)} jogadores não treinam (como quando lesionados): o histórico de treino deles fica como está`,
+    refreshAll: "Recuperar todos",
+    refreshAllTitle: "Coloca a energia e o ritmo de jogo de todos os jogadores em 100% e os descansa totalmente (cansaço acumulado -500)",
+    batchTraits: "Traços em lote",
+    batchTraitsTitle: "Adiciona ou remove movimentos preferidos dos jogadores deste time",
+    maxAll: "Maximizar atributos",
+    maxAllTitle: "Coloca todos os atributos de todos os jogadores no máximo: 20, e 1 para propensão a lesões e jogo sujo",
+    atItsBest: "Time no auge",
     atItsBestTitle:
-      "Heal all, Inspire all, Refresh all, Max cohesion and Max tactics in one press; one Undo takes it back",
-    /** After Team at its best or Destroy: a step it left out, by its name, and why. */
-    atItsBestSkipped: (step: string, reason: string) => `${step} skipped: ${reason}`,
-    /** The red button that takes the team to its worst, after asking (see `destroyDialog`). */
-    destroy: "Destroy",
-    destroyTitle: "Take every player's morale, fitness, cohesion and tactic knowledge to their worst; it asks first",
-    /** The names of Destroy's steps, for one it left out (see `atItsBestSkipped`). */
+      "Curar todos, Motivar todos, Recuperar todos, Entrosamento máximo e Táticas no máximo com um clique; um Desfazer reverte tudo",
+    atItsBestSkipped: (step: string, reason: string) => `${step} ignorado: ${reason}`,
+    destroy: "Destruir",
+    destroyTitle: "Leva a moral, a forma física, o entrosamento e o conhecimento tático de todos os jogadores ao pior nível; pede confirmação antes",
     destroySteps: {
-      demoralize: "Morale and happiness",
-      exhaust: "Energy and sharpness",
-      minCohesion: "Cohesion",
-      minTactics: "Tactics",
+      demoralize: "Moral e felicidade",
+      exhaust: "Energia e ritmo de jogo",
+      minCohesion: "Entrosamento",
+      minTactics: "Táticas",
     },
-    /** The menu with the actions on the whole team one at a time: Heal all to Max tactics. */
-    moreActions: "More actions",
-    moreActionsTitle: "The actions on the whole team, one at a time",
-    /** Destroy's question, asked before anything is written. */
+    moreActions: "Mais ações",
+    moreActionsTitle: "As ações sobre o time todo, uma de cada vez",
     destroyDialog: {
-      title: "Destroy this team?",
-      doesHeading: "For every player in the list, those out on loan too",
+      title: "Destruir este time?",
+      doesHeading: "Para todos os jogadores da lista, inclusive os emprestados",
       does: [
-        "Morale to 1, the lowest; happiness and playing time happiness to -100",
-        "Energy to 0%, match sharpness to 35% and jadedness to 1000",
-        "Cohesion with the club to 1, for those who have it",
-        "How well he knows the tactic to its least, where you pick the team's tactic",
+        "Moral em 1, o mínimo; felicidade e felicidade com o tempo de jogo em -100",
+        "Energia em 0%, ritmo de jogo em 35% e cansaço acumulado em 1000",
+        "Entrosamento com o clube em 1, para quem o tem",
+        "O quanto ele conhece a tática no mínimo, onde você escolhe a tática do time",
       ],
-      keeps: "No value is made better than it is. Attributes, injuries and bans stay as they are.",
-      /** When a manager of the user's runs the club. */
-      ownClub: "This is a team of your own club.",
-      hint: "One Undo takes it all back, before the game moves on.",
-      cancel: "Cancel",
+      keeps: "Nenhum valor é melhorado. Atributos, lesões e suspensões ficam como estão.",
+      ownClub: "Este é um time do seu próprio clube.",
+      hint: "Um Desfazer reverte tudo, antes de o jogo avançar.",
+      cancel: "Cancelar",
     },
-    /** Beside the buttons: whom they cover, and where undoing is. */
-    hint: "The actions cover every player in the list, those out on loan too. Undo is in the Changes view as well.",
+    hint: "As ações valem para todos os jogadores da lista, inclusive os emprestados. Também dá para desfazer na tela Alterações.",
 
     // Freezing the whole team, under the actions
-    /** The name of the group of boxes for assistive technology. */
-    freezeLabel: "Freeze the whole team",
-    freezeAttributes: "Freeze attributes",
+    freezeLabel: "Congelar o time todo",
+    freezeAttributes: "Congelar atributos",
     freezeAttributesTitle:
-      "The attributes of every player in this team do not get worse while the app is open and connected",
-    freezeFitness: "Freeze energy and sharpness",
+      "Os atributos de todos os jogadores deste time não pioram enquanto o app está aberto e conectado",
+    freezeFitness: "Congelar energia e ritmo de jogo",
     freezeFitnessTitle:
-      "Every player's energy and match sharpness stay up while the app is connected; Refresh all first for 100%",
-    freezePositions: "Freeze positions",
+      "A energia e o ritmo de jogo de todos os jogadores continuam altos enquanto o app está conectado; use Recuperar todos antes para 100%",
+    freezePositions: "Congelar posições",
     freezePositionsTitle:
-      "The position ratings of every player in this team stay as they are while the app is open and connected",
-    /** After a box: how many of the team's `total` players are frozen that way, while some are and some are not. */
-    frozenCount: (frozen: number, total: number) => `${format(frozen)} of ${format(total)}`,
-    /** Beside the boxes: whom freezing covers, and for how long. */
+      "As avaliações de posição de todos os jogadores deste time ficam como estão enquanto o app está aberto e conectado",
+    frozenCount: (frozen: number, total: number) => `${format(frozen)} de ${format(total)}`,
     freezeHint:
-      "Freezing covers every player in the list and stays with each one wherever he goes. The app remembers it for " +
-      "this save.",
-    /** What a box did, in the line under the buttons; `count` is how many players it froze or unfroze now. */
+      "Congelar vale para todos os jogadores da lista e acompanha cada um para onde ele for. O app lembra disso para " +
+      "este save.",
     frozeAttributes: (count: number) =>
-      count === 0 ? "Their attributes were frozen already" : `Froze the attributes of ${playerCount(count)}`,
-    unfrozeAttributes: (count: number) => `Unfroze the attributes of ${playerCount(count)}`,
+      count === 0 ? "Os atributos deles já estavam congelados" : `Atributos congelados: ${playerCount(count)}`,
+    unfrozeAttributes: (count: number) => `Atributos descongelados: ${playerCount(count)}`,
     frozeFitness: (count: number) =>
       count === 0
-        ? "Their energy and sharpness were frozen already"
-        : `Froze the energy and sharpness of ${playerCount(count)}`,
-    unfrozeFitness: (count: number) => `Unfroze the energy and sharpness of ${playerCount(count)}`,
+        ? "A energia e o ritmo de jogo deles já estavam congelados"
+        : `Energia e ritmo de jogo congelados: ${playerCount(count)}`,
+    unfrozeFitness: (count: number) => `Energia e ritmo de jogo descongelados: ${playerCount(count)}`,
     frozePositions: (count: number) =>
-      count === 0 ? "Their positions were frozen already" : `Froze the positions of ${playerCount(count)}`,
-    unfrozePositions: (count: number) => `Unfroze the positions of ${playerCount(count)}`,
+      count === 0 ? "As posições deles já estavam congeladas" : `Posições congeladas: ${playerCount(count)}`,
+    unfrozePositions: (count: number) => `Posições descongeladas: ${playerCount(count)}`,
 
     // What an action did, under the buttons
-    /** `count` is how many values were written. */
-    written: (count: number) => `${changeCount(count)} written`,
-    /** A change the game refused: `name` is the player's, `reason` the game's answer (it names the value). */
+    written: (count: number) => `Gravado: ${changeCount(count)}`,
     refused: (name: string, reason: string) => `${name}: ${reason}`,
-    /** Takes back what the line beside it says was written. */
-    undo: "Undo",
-    undoTitle: "Write the old values of these changes back to the game",
+    undo: "Desfazer",
+    undoTitle: "Grava de volta no jogo os valores antigos destas alterações",
 
     // Captains
-    /** The badges after the name of the captain and of the vice-captain; their hover texts are the roles' names. */
     captainShort: "C",
     viceCaptainShort: "VC",
-    /** The menu button at the end of a row: its name for assistive technology (`name` is the player's), hover text. */
-    menuLabel: (name: string) => `Captaincy of ${name}`,
-    menuTitle: "Captaincy",
-    makeCaptain: "Make captain",
-    makeViceCaptain: "Make vice-captain",
-    /** Who holds a role now: said after a change, and in the Changes view under a captaincy that moved the other. */
-    nowCaptain: (name: string) => `${name} is now captain`,
-    nowViceCaptain: (name: string) => `${name} is now vice-captain`,
-    /** The same when there was nobody to take the role the new holder left, so that it stands empty. */
-    noCaptain: "Nobody is captain now",
-    noViceCaptain: "Nobody is vice-captain now",
+    menuLabel: (name: string) => `Capitania de ${name}`,
+    menuTitle: "Capitania",
+    makeCaptain: "Tornar capitão",
+    makeViceCaptain: "Tornar vice-capitão",
+    nowCaptain: (name: string) => `${name} agora é o capitão`,
+    nowViceCaptain: (name: string) => `${name} agora é o vice-capitão`,
+    noCaptain: "Ninguém é capitão agora",
+    noViceCaptain: "Ninguém é vice-capitão agora",
 
     // The table
-    /** The table's name for assistive technology; `team` is the name of the team. */
-    tableLabel: (team: string) => `Players of ${team}`,
-    /** Hover text of a player's name, which opens his profile in the player list. */
-    openProfile: "Open the player's profile",
+    tableLabel: (team: string) => `Jogadores de ${team}`,
+    openProfile: "Abrir o perfil do jogador",
     columns: {
-      name: "Name",
+      name: "Nome",
       position: "Pos",
-      age: "Age",
-      currentAbility: "CA",
-      potentialAbility: "PA",
-      condition: "Energy",
-      matchSharpness: "Sharpness",
-      jadedness: "Jaded.",
-      morale: "Morale",
-      cohesion: "Cohesion",
-      tactics: "Tactics",
-      /** The last column has no heading but this one, for assistive technology: it holds the captaincy menus. */
-      actions: "Captaincy",
+      age: "Idade",
+      currentAbility: "HA",
+      potentialAbility: "POT",
+      condition: "Energia",
+      matchSharpness: "Ritmo",
+      jadedness: "Cansaço",
+      morale: "Moral",
+      cohesion: "Entrosamento",
+      tactics: "Táticas",
+      actions: "Capitania",
     } satisfies Record<SquadSort | "actions", string>,
-    /** Hover text of a column header that sorts the table; `by` is a name from `sortNames`. */
-    sortBy: (by: string) => `Sort by ${by}`,
+    sortBy: (by: string) => `Ordenar por ${by}`,
     sortNames: {
-      name: "name",
-      position: "position",
-      age: "age",
-      currentAbility: "current ability",
-      potentialAbility: "potential ability",
-      condition: "energy",
-      matchSharpness: "match sharpness",
-      jadedness: "jadedness",
-      morale: "morale",
-      cohesion: "cohesion",
-      tactics: "tactical familiarity",
+      name: "nome",
+      position: "posição",
+      age: "idade",
+      currentAbility: "habilidade atual",
+      potentialAbility: "habilidade potencial",
+      condition: "energia",
+      matchSharpness: "ritmo de jogo",
+      jadedness: "cansaço acumulado",
+      morale: "moral",
+      cohesion: "entrosamento",
+      tactics: "familiaridade tática",
     } satisfies Record<SquadSort, string>,
 
     // The tags after a name, with what each means as hover text
-    injured: "Injured",
-    /** `count` is how many injuries he has. */
-    injuredTitle: (count: number) => (count === 1 ? "1 injury" : `${format(count)} injuries`),
-    banned: "Banned",
-    /** `count` is how many bans he has. */
-    bannedTitle: (count: number) => (count === 1 ? "1 ban" : `${format(count)} bans`),
-    /** A player his teammates hold reasons to be unhappy about; `count` is how many of them do. */
-    unrest: "Unrest",
+    injured: "Lesionado",
+    injuredTitle: (count: number) => (count === 1 ? "1 lesão" : `${format(count)} lesões`),
+    banned: "Suspenso",
+    bannedTitle: (count: number) => (count === 1 ? "1 suspensão" : `${format(count)} suspensões`),
+    unrest: "Insatisfação",
     unrestTitle: (count: number) =>
       count === 1
-        ? "1 teammate is unhappy about him; Remove all, in his profile, settles it once the game moves on"
-        : `${format(count)} teammates are unhappy about him; Remove all, in his profile, settles it once the game moves on`,
-    onLoan: "On loan",
-    onLoanTitle: "Out on loan to another club",
-    loanee: "Loanee",
-    loaneeTitle: "Here on loan from another club",
-    elsewhere: "Elsewhere",
-    elsewhereTitle: "Plays for another team of the club",
-    frozen: "Frozen",
-    /** Hover text of Frozen: what is frozen, one of them at least. */
+        ? "1 companheiro está insatisfeito com ele; “Remover todos”, no perfil dele, resolve depois que o jogo avançar"
+        : `${format(count)} companheiros estão insatisfeitos com ele; “Remover todos”, no perfil dele, resolve depois que o jogo avançar`,
+    onLoan: "Emprestado",
+    onLoanTitle: "Emprestado a outro clube",
+    loanee: "Por empréstimo",
+    loaneeTitle: "Está aqui por empréstimo de outro clube",
+    elsewhere: "Em outro time",
+    elsewhereTitle: "Joga em outro time do clube",
+    frozen: "Congelado",
     frozenTitle: (attributes: boolean, fitness: boolean, positions: boolean): string => {
       const frozen = [
-        ...(attributes ? ["attributes"] : []),
-        ...(fitness ? ["energy", "match sharpness"] : []),
-        ...(positions ? ["positions"] : []),
+        ...(attributes ? ["atributos"] : []),
+        ...(fitness ? ["energia", "ritmo de jogo"] : []),
+        ...(positions ? ["posições"] : []),
       ];
       const last = frozen.pop() ?? "";
-      const listed = frozen.length > 0 ? `${frozen.join(", ")} and ${last}` : last;
-      return `His ${listed} are frozen`;
+      const listed = frozen.length > 0 ? `${frozen.join(", ")} e ${last}` : last;
+      return `Congelados: ${listed}`;
     },
   },
 
   /** The game, as `describeGame` in `format.ts` names it. */
   game: {
-    /** The game's name when its edition is not known: "FM27" otherwise. */
     name: "Football Manager",
     storefronts: {
       gamePass: "Game Pass",
       steam: "Steam",
       epic: "Epic Games",
-      unknown: "Unknown store",
+      unknown: "Loja desconhecida",
     } satisfies Record<Storefront, string>,
-    /** Steam's build id of the install, e.g. `"build 26227640`". */
     steamBuild: (id: string) => `build ${id}`,
   },
 
