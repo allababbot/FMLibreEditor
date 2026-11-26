@@ -1,8 +1,9 @@
-// The Brazilian Portuguese text of the UI: the same shape as `en.ts` (a missing or extra key fails the build). It is a
-// copy of the English for now and is being translated in pieces; the comments in `en.ts` say what each string is for.
+// The Brazilian Portuguese text of the UI: the same shape as `en.ts` (a missing or extra key fails the build). The
+// comments in `en.ts` say what each string is for.
 //
-// Football words follow FM27 where the game's Portuguese (the European one, in `languages.fmf`) agrees with how a
-// Brazilian player says it, and change only what differs (goleiro, zagueiro, time, torcedores).
+// The football words are the ones a Brazilian player says (goleiro, zagueiro, time, torcedores), chosen from the
+// words of FM's Brazilian community and not yet matched against the game's own list: `languages.fmf` only holds the
+// European Portuguese, so someone with the game open should check attributes, positions, jobs and squad statuses.
 
 import type {
   CheckKey,
