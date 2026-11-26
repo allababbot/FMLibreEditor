@@ -1825,194 +1825,194 @@ export const ptBR: Strings = {
   /** Editing a person or a club: the Edit button, the inputs, and the footer under the profile. */
   edit: {
     /** A nation field's value whose name the app has not read: one no one in the lists belongs to. */
-    unknownNation: "Unknown nation",
-    unknownCity: "Unknown city",
+    unknownNation: "País desconhecido",
+    unknownCity: "Cidade desconhecida",
     /** The button in the header of a profile that can be edited. */
-    edit: "Edit",
-    editTitle: "Change this profile's values in the game",
+    edit: "Editar",
+    editTitle: "Altera os valores deste perfil no jogo",
     /** Why editing did not start: the field table or the values could not be read. */
-    startFailed: (reason: string) => `Could not start editing: ${reason}`,
+    startFailed: (reason: string) => `Não foi possível iniciar a edição: ${reason}`,
     /** The name of a position's field, e.g. "ST rating"; `position` is its entry in `positions`. */
-    positionRating: (position: string) => `${position} rating`,
+    positionRating: (position: string) => `Avaliação de ${position}`,
     /** Hover text of a changed input: the value it started from, as shown. */
-    was: (value: string) => `was ${value}`,
+    was: (value: string) => `era ${value}`,
     /** Hover text of an input that cannot be applied; `min` and `max` are the values it takes, as shown. */
-    invalid: (min: number, max: number) => `Enter a whole number from ${min} to ${max}`,
+    invalid: (min: number, max: number) => `Digite um número inteiro de ${min} a ${max}`,
     /** The same for a date input; `from` and `to` are the earliest and the latest date it takes, as dates are shown. */
-    invalidDate: (from: string, to: string) => `Enter a date from ${from} to ${to}`,
+    invalidDate: (from: string, to: string) => `Digite uma data de ${from} a ${to}`,
     /**
      * The same for an amount of money, in whole units of the chosen currency; `from` and `to` are the least and the
      * most it takes, as amounts are shown.
      */
-    invalidMoney: (from: string, to: string) => `Enter a whole amount from ${from} to ${to}`,
+    invalidMoney: (from: string, to: string) => `Digite um valor inteiro de ${from} a ${to}`,
     /** The same for a percentage, in whole percent; `from` and `to` are the least and the most it takes, as shown. */
-    invalidPercentage: (from: string, to: string) => `Enter a whole percentage from ${from} to ${to}`,
+    invalidPercentage: (from: string, to: string) => `Digite uma porcentagem inteira de ${from} a ${to}`,
     /** After the input of a percentage: the game shows energy and match sharpness as 0–100%. */
     percent: "%",
     /** The two values of a yes-or-no field, as the lists of changes and the hover text of its checkbox say them. */
-    yes: "Yes",
-    no: "No",
+    yes: "Sim",
+    no: "Não",
     /**
      * What an input that may be left empty reads as then, in its hint, the hover text and the lists of changes:
      * "Squad number 20 → none". The profile itself shows a dash for it (`profile.none`).
      */
-    none: "none",
+    none: "nenhum",
 
     // The footer
-    footer: "Editing",
+    footer: "Editando",
     changes: changeCount,
     /** After the number of changes, while some inputs hold values that cannot be applied. */
-    invalidCount: (count: number) => `${count} invalid`,
+    invalidCount: (count: number) => `${count} inválido(s)`,
     /** Opens the list of the changes Apply would write. */
-    review: "Review",
-    reviewList: "Changes to apply",
+    review: "Revisar",
+    reviewList: "Alterações a aplicar",
     /** Puts the inputs back to the values the game has. */
-    discard: "Discard",
-    apply: "Apply",
-    applying: "Applying…",
+    discard: "Descartar",
+    apply: "Aplicar",
+    applying: "Aplicando…",
     /** Hover text of Apply while an input holds a value that cannot be written. */
-    applyBlocked: "Fix the invalid values first",
+    applyBlocked: "Corrija antes os valores inválidos",
     /** Leaves edit mode. */
-    done: "Done",
+    done: "Concluir",
     /** Takes the place of the buttons when leaving (Done, close, another row) would lose `count` changes. */
-    confirmDiscard: (count: number) => `Discard ${changeCount(count)}?`,
-    keepEditing: "Keep editing",
+    confirmDiscard: (count: number) => `Descartar ${changeCount(count)}?`,
+    keepEditing: "Continuar editando",
 
     // After Apply
-    applied: (count: number) => `Applied ${changeCount(count)}`,
+    applied: (count: number) => `Aplicado: ${changeCount(count)}`,
     /** Every value asked for was the game's already. */
-    nothingToChange: "Nothing to change: the game already has these values.",
+    nothingToChange: "Nada a alterar: o jogo já tem esses valores.",
     /** A change the game refused; `label` is the field's name (see `fieldLabel`) and `reason` the game's answer. */
     refused: (label: string, reason: string) => `${label}: ${reason}`,
-    rereadFailed: (reason: string) => `Could not read the values back: ${reason}`,
-    dismiss: "Dismiss",
+    rereadFailed: (reason: string) => `Não foi possível reler os valores: ${reason}`,
+    dismiss: "Fechar",
   },
 
   /** The Changes view: what was written to the game this session. */
   changes: {
     /** The entry in the sidebar. */
-    nav: "Changes",
-    title: "Changes",
-    hint: "Newest first. The app keeps the changes of each career, so they are listed again after a restart. A change can be undone only while the game still holds the value it wrote.",
+    nav: "Alterações",
+    title: "Alterações",
+    hint: "Mais recentes primeiro. O app guarda as alterações de cada carreira, então elas aparecem de novo após reiniciar. Uma alteração só pode ser desfeita enquanto o jogo ainda mantém o valor que ela gravou.",
     /** Under the hint, when the list holds changes from earlier sessions: how many, and how many of them the game did not hold. */
     earlierNote: (count: number, missing: number) =>
-      `${changeCount(count)} from earlier sessions` +
-      (missing > 0 ? `, ${format(missing)} of them not in the game when the data was read` : "") +
-      ". Moves, heals, ties, clauses and names among them are kept as history, without Undo.",
+      `${changeCount(count)} de sessões anteriores` +
+      (missing > 0 ? `, ${format(missing)} delas fora do jogo quando os dados foram lidos` : "") +
+      ". Transferências, curas, vínculos, cláusulas e nomes entre elas ficam como histórico, sem Desfazer.",
     /** The small tag after the name of an earlier change, and its hover text. */
-    earlierTag: "Earlier",
-    earlierTitle: "Written before the app last connected, and kept in the history of this career",
+    earlierTag: "Anterior",
+    earlierTitle: "Gravada antes da última conexão do app e mantida no histórico desta carreira",
     /** Under the status of an earlier change: whether the game held its value when the data was last read. */
-    inGame: "In the game",
-    inGameTitle: "The game held this value when the data was last read",
-    notInGame: "Not in the game",
+    inGame: "No jogo",
+    inGameTitle: "O jogo tinha este valor quando os dados foram lidos pela última vez",
+    notInGame: "Fora do jogo",
     notInGameTitle:
-      "Not in the game when the data was last read: not saved after the change, or changed by the game since",
+      "Fora do jogo na última leitura dos dados: não foi salva após a alteração ou foi mudada pelo jogo depois",
     /** In the place of Undo for an earlier change that cannot be undone from here, and its hover text. */
-    historyOnly: "History",
-    historyOnlyTitle: "Made before the app last connected: undoing it needed the game's memory as it was then",
+    historyOnly: "Histórico",
+    historyOnlyTitle: "Feita antes da última conexão do app: desfazê-la exigiria a memória do jogo como estava naquele momento",
     /** Under a mass edit: how many of its earlier changes the game did not hold. */
-    batchNotInGame: (count: number) => `${format(count)} not in the game`,
+    batchNotInGame: (count: number) => `${format(count)} fora do jogo`,
     /** Empties the list and the history of the career; the question that asks first, and its two answers. */
-    clearHistory: "Clear history",
-    clearHistoryTitle: "Empty this list and forget this career's history; the changes stay in the game",
-    confirmClear: "Clear the history of this career? The changes stay in the game, but can no longer be undone from here.",
-    keepHistory: "Keep",
-    clearConfirm: "Clear",
+    clearHistory: "Limpar histórico",
+    clearHistoryTitle: "Esvazia esta lista e esquece o histórico desta carreira; as alterações continuam no jogo",
+    confirmClear: "Limpar o histórico desta carreira? As alterações continuam no jogo, mas não poderão mais ser desfeitas por aqui.",
+    keepHistory: "Manter",
+    clearConfirm: "Limpar",
     /** Under the hint: a change shows in the game only after it has moved on once. */
-    continueHint: "The game shows a change once it moves on: press Continue in the game.",
+    continueHint: "O jogo mostra uma alteração depois que avança: clique em Continuar no jogo.",
     /** Under a move to another club that was a swap: the player who went the other way. */
-    swappedWith: (name: string) => `Swapped with ${name}`,
+    swappedWith: (name: string) => `Trocado com ${name}`,
     /** Under a move that released a player of the new club to make room: that player. */
-    released: (name: string) => `${name} released`,
+    released: (name: string) => `${name} dispensado`,
     /** Under a transfer that had a fee: the amount, written out. */
-    fee: (amount: string) => `Fee ${amount}`,
+    fee: (amount: string) => `Valor: ${amount}`,
     /** Under a transfer arranged for the game to make: the day it moves him (and pays the fee). */
-    arranged: (date: string) => `The game makes the move on ${date}`,
+    arranged: (date: string) => `O jogo faz a transferência em ${date}`,
     /** Under a loan arranged for the game to make: the day it sends him there, and the loan's last day. */
-    arrangedLoan: (day: string, until: string) => `The game makes the loan on ${day}, until ${until}`,
+    arrangedLoan: (day: string, until: string) => `O jogo faz o empréstimo em ${day}, até ${until}`,
     /** Under a recall from loan that took the loan's option to buy away, which its undo writes back. */
-    optionRemoved: (amount: string) => `Option to buy (${amount}) taken away`,
+    optionRemoved: (amount: string) => `Opção de compra (${amount}) removida`,
     /** What a heal changed, in the place of its values: `count` is how many injuries the player had. */
-    healed: (count: number) => (count === 1 ? "Healed 1 injury" : `Healed ${format(count)} injuries`),
+    healed: (count: number) => (count === 1 ? "1 lesão curada" : `${format(count)} lesões curadas`),
     /** The same for lifting bans: `count` is how many bans the player had. */
-    lifted: (count: number) => (count === 1 ? "Lifted 1 ban" : `Lifted ${format(count)} bans`),
+    lifted: (count: number) => (count === 1 ? "1 suspensão cancelada" : `${format(count)} suspensões canceladas`),
     /** What keeping a player from retiring changed: the date he was to retire on, or none when only his traits changed. */
-    keptPlaying: (date: string | null) => (date === null ? "Will play on" : `Retirement on ${date} prevented`),
+    keptPlaying: (date: string | null) => (date === null ? "Continuará jogando" : `Aposentadoria em ${date} impedida`),
     /** The line beside the title; `undone` of the `total` changes were undone. */
     count: (total: number, undone: number) => {
       const count = changeCount(total);
-      return undone === 0 ? count : `${count} · ${undone} undone`;
+      return undone === 0 ? count : `${count} · ${undone} desfeita(s)`;
     },
-    empty: "No changes yet. Open a player, a member of staff or a club and choose Edit, or use Mass edit in a list.",
+    empty: "Nenhuma alteração ainda. Abra um jogador, um funcionário ou um clube e escolha Editar, ou use Edição em massa em uma lista.",
     columns: {
-      time: "Time",
+      time: "Hora",
       /** The player, member of staff or club the change was made to. */
-      name: "Name",
-      field: "Field",
-      change: "Change",
+      name: "Nome",
+      field: "Campo",
+      change: "Alteração",
       status: "Status",
     },
     /** The small tag after a name. */
     kinds: {
-      player: "Player",
-      staff: "Staff",
-      club: "Club",
-      nationalTeam: "National team",
-      competition: "Competition",
+      player: "Jogador",
+      staff: "Funcionário",
+      club: "Clube",
+      nationalTeam: "Seleção",
+      competition: "Competição",
     } satisfies Record<EditEntity, string>,
     /** Hover text of a change of an attribute: the values as stored; `change` is from `valueChange`. */
-    stored: (change: string) => `stored ${change}`,
-    undone: (time: string) => `Undone at ${time}`,
-    undo: "Undo",
+    stored: (change: string) => `armazenado ${change}`,
+    undone: (time: string) => `Desfeita às ${time}`,
+    undo: "Desfazer",
     /** Hover text of Undo; `label` is the field's name. */
-    undoTitle: (label: string) => `Write the old value of ${label} back to the game`,
+    undoTitle: (label: string) => `Grava de volta no jogo o valor antigo de ${label}`,
     /** The small tag after the fields a mass edit changed: a mass edit is one row of the list. */
-    batch: "Mass edit",
+    batch: "Edição em massa",
     /** Under those fields: how many changes the mass edit made, and how many of them are not undone. */
     batchCount: (total: number, remaining: number) =>
       remaining === 0
-        ? `${changeCount(total)} · all undone`
-        : `${changeCount(total)} · ${format(remaining)} not undone`,
+        ? `${changeCount(total)} · todas desfeitas`
+        : `${changeCount(total)} · ${format(remaining)} não desfeitas`,
     /** Opens the list of the changes of a mass edit under its row, and closes it again. */
-    showChanges: "Show changes",
-    hideChanges: "Hide changes",
+    showChanges: "Mostrar alterações",
+    hideChanges: "Ocultar alterações",
     /** Undoes the whole mass edit. */
-    undoBatch: "Undo mass edit",
+    undoBatch: "Desfazer edição em massa",
     /** Hover text of Undo mass edit; `remaining` is how many of its changes are not undone yet. */
     undoBatchTitle: (remaining: number) =>
-      `Write the old values of this mass edit back to the game (${format(remaining)} still in place)`,
+      `Grava de volta no jogo os valores antigos desta edição em massa (${format(remaining)} ainda em vigor)`,
 
     // Pages: the list, and the changes of a mass edit that is open, are shown a page at a time.
     /** The names of the two groups of buttons for assistive technology. */
-    pages: "Pages of the list",
-    batchPages: "Pages of the changes of this mass edit",
-    previous: "Previous",
-    next: "Next",
+    pages: "Páginas da lista",
+    batchPages: "Páginas das alterações desta edição em massa",
+    previous: "Anterior",
+    next: "Próxima",
     /** Between the buttons: the rows on show and how many there are, e.g. "101–200 of 450". */
-    range: (first: number, last: number, total: number) => `${format(first)}–${format(last)} of ${format(total)}`,
+    range: (first: number, last: number, total: number) => `${format(first)}–${format(last)} de ${format(total)}`,
 
     // Search and filters
     /** The search box: what it looks through. Its name for assistive technology is the same. */
-    searchPlaceholder: "Search changes by name, UID, field or club",
+    searchPlaceholder: "Buscar alterações por nome, UID, campo ou clube",
     /** The name of the three buttons that choose which sessions' changes are listed, for assistive technology. */
-    sessionGroup: "Session",
-    sessions: { all: "All", this: "This session", earlier: "Earlier sessions" } satisfies Record<SessionChoice, string>,
+    sessionGroup: "Sessão",
+    sessions: { all: "Todas", this: "Esta sessão", earlier: "Sessões anteriores" } satisfies Record<SessionChoice, string>,
     /** The check boxes: only changes still in place, and only earlier ones the game did not hold; their hover text. */
-    notUndone: "Not undone",
-    notUndoneTitle: "Only the changes that are still in place",
-    notInGameFilterTitle: "Only the earlier changes the game did not hold when the data was last read",
+    notUndone: "Não desfeitas",
+    notUndoneTitle: "Só as alterações que ainda estão em vigor",
+    notInGameFilterTitle: "Só as alterações anteriores que o jogo não tinha na última leitura dos dados",
     /** Takes the search text and every choice away. */
-    clearFilter: "Clear filter",
+    clearFilter: "Limpar filtro",
     /** The line beside the title while a search or a filter is on: `matching` of the `total` changes, `undone` of those undone. */
     filteredCount: (matching: number, total: number, undone: number) => {
-      const count = `${format(matching)} of ${changeCount(total)}`;
-      return undone === 0 ? count : `${count} · ${format(undone)} undone`;
+      const count = `${format(matching)} de ${changeCount(total)}`;
+      return undone === 0 ? count : `${count} · ${format(undone)} desfeita(s)`;
     },
     /** Under a mass edit while a search or a filter is on: how many of its changes they leave. */
-    batchMatching: (matching: number, total: number) => `${format(matching)} of ${format(total)} match`,
+    batchMatching: (matching: number, total: number) => `${format(matching)} de ${format(total)} correspondem`,
     /** In the place of the list when the search and the filters leave no change. */
-    noMatches: "No change matches the search and the filters.",
+    noMatches: "Nenhuma alteração corresponde à busca e aos filtros.",
   },
 
   /** Exporting players or clubs to a file: the button in the toolbar of the player and club lists and its dialog. */
