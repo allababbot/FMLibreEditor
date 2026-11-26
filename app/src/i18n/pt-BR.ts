@@ -1475,7 +1475,7 @@ export const ptBR: Strings = {
     title: "Regras de elenco",
     intro: "Quantos jogadores de um tipo um elenco pode inscrever, ou um time pode escalar numa partida, nesta competição. Quem conta como estrangeiro ou formado no clube é definido pelo próprio jogo.",
     /** The headings of the two areas, and beside each the year the season begins in. */
-    seasons: { current: "This season", next: "Next season" },
+    seasons: { current: "Esta temporada", next: "Próxima temporada" },
     began: (year: number) => `começou em ${year}`,
     begins: (year: number) => `começa em ${year}`,
     /** In an area with no rules, and in next season's when the game holds no list for it. */
@@ -1608,115 +1608,115 @@ export const ptBR: Strings = {
     /** The small line under the name in the sidebar. */
     stage: "beta",
     /** The settings menu at the right of the masthead: its name, and the headings of its two lists. */
-    settingsLabel: "Settings",
-    languageLabel: "Language",
-    currencyLabel: "Currency",
+    settingsLabel: "Configurações",
+    languageLabel: "Idioma",
+    currencyLabel: "Moeda",
 
     // The note at the foot of the sidebar; which one shows depends on the connection (see `ConnectionInfo.editable`).
     /** Connected, and the game was opened for writing. */
-    noteEditable: "Edits reach the game only when you apply them. Back up your save first.",
+    noteEditable: "As edições só chegam ao jogo quando você as aplica. Faça backup do seu save antes.",
     /** Connected, but Windows did not allow writing. */
-    noteReadOnly: "Read-only: Windows did not let FMLibreEditor write to the game.",
+    noteReadOnly: "Somente leitura: o Windows não permitiu que o FMLibreEditor gravasse no jogo.",
     /** Read-only because the game is a version FMLibreEditor was not checked with (see `compatibility`). */
-    noteUnknownBuild: "Read-only: this version of the game is new to FMLibreEditor.",
-    noteNotConnected: "Nothing in the game changes until you edit and apply.",
+    noteUnknownBuild: "Somente leitura: esta versão do jogo é nova para o FMLibreEditor.",
+    noteNotConnected: "Nada muda no jogo até você editar e aplicar.",
 
     // The status line and the busy texts beside it
-    notConnected: "Not connected",
+    notConnected: "Desconectado",
     /** Beside the status line in a plain browser, where fixtures stand in for the game. */
-    previewTag: "browser preview · sample data",
+    previewTag: "prévia no navegador · dados de exemplo",
     /** In place of the game's date when it could not be read, and the note it shows on hover. */
-    noDate: "No in-game date",
+    noDate: "Sem data no jogo",
     noDateTitle:
-      "The in-game date could not be read: ages are not shown and age filters find no one. Check for updates.",
+      "Não foi possível ler a data do jogo: as idades não são mostradas e os filtros de idade não encontram ninguém. Verifique se há atualizações.",
     /** The button that reads the game again, once connected. */
-    reload: "Reload data",
+    reload: "Recarregar dados",
     /** The button that looks for the game again, while not connected. */
-    refresh: "Refresh",
-    detecting: "Looking for Football Manager…",
-    connecting: "Reading players, staff and clubs…",
-    reloading: "Reloading players, staff and clubs…",
+    refresh: "Atualizar",
+    detecting: "Procurando o Football Manager…",
+    connecting: "Lendo jogadores, funcionários e clubes…",
+    reloading: "Recarregando jogadores, funcionários e clubes…",
 
     /**
      * The notice under the masthead once the game has loaded a save, or gone back to its main menu, since the data was
      * read (`SaveChangedNotice`), beside a Reload data button.
      */
     saveChanged: {
-      title: "The game's save has changed",
+      title: "O save do jogo mudou",
       text:
-        "The game has loaded a save, or gone back to its main menu, since FMLibreEditor read it. Until you reload the " +
-        "data, it changes nothing in the game and holds nothing frozen: what it shows may belong to another save.",
+        "O jogo carregou um save, ou voltou ao menu principal, desde que o FMLibreEditor o leu. Até você recarregar os " +
+        "dados, ele não altera nada no jogo e não mantém nada congelado: o que ele mostra pode ser de outro save.",
     },
 
     /** The notice after connecting to a save in which something was frozen before (`FrozenNotice`). */
     refrozen: {
-      title: "Frozen again from last time",
+      title: "Congelado de novo, como da última vez",
       /** When nothing could be frozen again. */
-      waitingTitle: "What was frozen waits for now",
+      waitingTitle: "O que estava congelado fica em espera por ora",
       /** `names` are the players' names, set apart by commas. */
-      players: (names: string) => `Attributes: ${names}`,
-      staff: (names: string) => `Staff attributes: ${names}`,
-      clubs: (names: string) => `Money: ${names}`,
-      fitness: (names: string) => `Energy and sharpness: ${names}`,
-      positions: (names: string) => `Positions: ${names}`,
+      players: (names: string) => `Atributos: ${names}`,
+      staff: (names: string) => `Atributos de funcionários: ${names}`,
+      clubs: (names: string) => `Dinheiro: ${names}`,
+      fitness: (names: string) => `Energia e ritmo de jogo: ${names}`,
+      positions: (names: string) => `Posições: ${names}`,
       /** `names` are the stadiums' new names, given again. */
-      stadiums: (names: string) => `Stadium names: ${names}`,
+      stadiums: (names: string) => `Nomes de estádios: ${names}`,
       /** After the first few names. */
-      more: (count: number) => `and ${format(count)} more`,
+      more: (count: number) => `e mais ${format(count)}`,
       /** What was left for later: an update of the game, say. */
       waiting: (count: number) =>
-        `${count === 1 ? "1 is" : `${format(count)} are`} remembered but not frozen now: FMLibreEditor cannot write ` +
-        "to this version of the game yet.",
-      dismiss: "Dismiss",
+        `${count === 1 ? "1 está lembrado" : `${format(count)} estão lembrados`}, mas não congelado(s) agora: o FMLibreEditor ainda não consegue gravar ` +
+        "nesta versão do jogo.",
+      dismiss: "Fechar",
     },
 
     /** The (i) beside every box that freezes something: how freezing works, and that the app has to stay open. */
     freezeInfo: {
-      label: "How does freezing work?",
+      label: "Como funciona o congelamento?",
       note:
-        "Freezing does not change the game for good: every 2 seconds, FMLibreEditor puts back what the game took. So it " +
-        "works only while the app is open and connected; close it, and the game changes them again. The app remembers " +
-        "what is frozen in this save, and freezes it again the next time it connects to it.",
+        "Congelar não muda o jogo para sempre: a cada 2 segundos, o FMLibreEditor recoloca o que o jogo tirou. Por isso " +
+        "só funciona enquanto o app está aberto e conectado; feche-o e o jogo volta a alterar esses valores. O app lembra " +
+        "o que está congelado neste save e congela de novo na próxima vez que se conectar a ele.",
     },
 
     /** The panel shown while not connected. */
     connect: {
-      title: "Connect to Football Manager 27",
-      intro: "FMLibreEditor reads the game's memory while it runs. Start the game and load a save, then connect.",
-      notRunning: "Football Manager 27 is not running.",
+      title: "Conectar ao Football Manager 27",
+      intro: "O FMLibreEditor lê a memória do jogo enquanto ele roda. Abra o jogo e carregue um save; depois conecte.",
+      notRunning: "O Football Manager 27 não está em execução.",
       /** `error` is the answer of the Rust side, which stays in English. */
-      openFailed: (error: string) => `Could not open the game: ${error}`,
-      game: "Game",
-      gameData: "Game data",
-      loaded: "Loaded",
-      stillLoading: "Still loading; wait for the main menu",
-      process: "Process",
+      openFailed: (error: string) => `Não foi possível abrir o jogo: ${error}`,
+      game: "Jogo",
+      gameData: "Dados do jogo",
+      loaded: "Carregados",
+      stillLoading: "Ainda carregando; espere o menu principal",
+      process: "Processo",
       pid: (pid: number) => `pid ${pid}`,
-      several: "Several copies of the game are running; the first one is used.",
-      button: "Connect and read players, staff and clubs",
+      several: "Há várias cópias do jogo em execução; a primeira é usada.",
+      button: "Conectar e ler jogadores, funcionários e clubes",
 
       /** macOS: the bridge FM27 has to load before the app can reach it, and setting it up. */
       bridge: {
-        title: "The bridge (macOS)",
+        title: "A ponte (macOS)",
         intro:
-          "macOS lets no app into another app's memory, so FM27 has to hand its memory over itself. It does once it " +
-          "loads FMLibreEditor's bridge: a small library that hooks and changes nothing in the game and gives its " +
-          "memory to this app only. A launch option in Steam has FM27 load it.",
-        library: "Bridge",
-        installed: "Installed",
-        missing: "Not installed",
-        launchOption: "Launch option",
-        set: "Set in Steam",
-        notSet: "Not set",
-        ready: "Set up. Start FM27 from Steam (quit it and start it again if it is running), load a save, then connect.",
+          "O macOS não deixa nenhum app entrar na memória de outro, então o FM27 precisa entregar a própria memória. Ele faz isso quando " +
+          "carrega a ponte do FMLibreEditor: uma pequena biblioteca que não intercepta nem altera nada no jogo e entrega a memória " +
+          "somente a este app. Uma opção de inicialização na Steam faz o FM27 carregá-la.",
+        library: "Ponte",
+        installed: "Instalada",
+        missing: "Não instalada",
+        launchOption: "Opção de inicialização",
+        set: "Definida na Steam",
+        notSet: "Não definida",
+        ready: "Configurada. Inicie o FM27 pela Steam (feche e abra de novo se estiver em execução), carregue um save e conecte.",
         steamRunning:
-          "Steam is running, and keeps the launch options while it does. Quit Steam to have the launch option set " +
-          "for you, or enter it in Steam yourself.",
-        setUp: "Set up the bridge",
-        remove: "Remove the bridge",
-        manual: "Or, in Steam, right-click Football Manager 27 › Properties › General › Launch Options, and enter:",
-        copy: "Copy",
-        copied: "Copied",
+          "A Steam está aberta e mantém as opções de inicialização enquanto isso. Feche a Steam para que a opção seja definida " +
+          "para você, ou digite-a você mesmo na Steam.",
+        setUp: "Configurar a ponte",
+        remove: "Remover a ponte",
+        manual: "Ou, na Steam, clique com o botão direito em Football Manager 27 › Propriedades › Geral › Opções de Inicialização e digite:",
+        copy: "Copiar",
+        copied: "Copiado",
       },
     },
   },
@@ -1724,14 +1724,14 @@ export const ptBR: Strings = {
   /** The graphics packs the pictures (club logos, faces, flags) come from: their status at the foot of the sidebar. */
   graphics: {
     /** While the app is still reading the packs, which takes a moment after it starts. */
-    reading: "Reading graphics packs…",
+    reading: "Lendo pacotes gráficos…",
     /** What the packs hold: "Graphics: 68,131 club logos · 250 flags · 0 faces". */
     summary: ({ clubLogos, flags, faces }: Pick<GraphicsCounts, "clubLogos" | "flags" | "faces">) =>
-      `Graphics: ${format(clubLogos)} club ${clubLogos === 1 ? "logo" : "logos"} · ` +
-      `${format(flags)} ${flags === 1 ? "flag" : "flags"} · ${format(faces)} ${faces === 1 ? "face" : "faces"}`,
+      `Gráficos: ${format(clubLogos)} ${clubLogos === 1 ? "escudo" : "escudos"} · ` +
+      `${format(flags)} ${flags === 1 ? "bandeira" : "bandeiras"} · ${format(faces)} ${faces === 1 ? "rosto" : "rostos"}`,
     /** When the app found no pack, and under it where packs go. The folder itself is the hover text of both lines. */
-    none: "No graphics packs found",
-    noneHint: "Logo and face packs go in the FM27 graphics folder.",
+    none: "Nenhum pacote gráfico encontrado",
+    noneHint: "Pacotes de escudos e rostos vão na pasta de gráficos do FM27.",
   },
 
   /**
@@ -1740,24 +1740,24 @@ export const ptBR: Strings = {
    */
   compatibility: {
     /** The headline for a version without a profile; `game` as the status line names it. */
-    unknownBuild: (game: string) => `FMLibreEditor has not been checked with ${game} yet`,
+    unknownBuild: (game: string) => `O FMLibreEditor ainda não foi verificado com ${game}`,
     unknownBuildText:
-      "The game has probably been updated. FMLibreEditor found the game's data and checked it, but it does not " +
-      "write to a version it was not tested with until you allow it. A new FMLibreEditor usually follows within days.",
+      "O jogo provavelmente foi atualizado. O FMLibreEditor encontrou os dados do jogo e os conferiu, mas não " +
+      "grava em uma versão com a qual não foi testado até você permitir. Uma nova versão do FMLibreEditor costuma sair em poucos dias.",
     /** The headline when checks did not pass on a version the editor knows or may edit, and what may help. */
-    failedTitle: "Some of the game's data did not check out",
-    reloadHint: "If a save was still loading, Reload data checks again.",
+    failedTitle: "Alguns dados do jogo não conferiram",
+    reloadHint: "Se um save ainda estava carregando, Recarregar dados confere de novo.",
     /** The in-game date did not check out: shown apart, as it leaves nothing read-only. */
-    noDate: "The in-game date did not check out, so no ages are shown.",
+    noDate: "A data do jogo não conferiu, então nenhuma idade é mostrada.",
     /** The other checks that did not pass, joined (see `join`), each as `failedCheck` words it. */
-    failed: (names: string) => `Left read-only: ${names}.`,
+    failed: (names: string) => `Mantido somente leitura: ${names}.`,
     /** A check that did not pass: its name (see `checks`), and how many of the people or clubs it sampled fit. */
-    failedCheck: (name: string, fit: number, sampled: number) => `${name} (${format(fit)} of ${format(sampled)} fit)`,
+    failedCheck: (name: string, fit: number, sampled: number) => `${name} (${format(fit)} de ${format(sampled)} conferem)`,
     /** Joins the names of the checks that did not pass. */
     join: (names: string[]) =>
-      names.length <= 1 ? names.join("") : `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`,
-    allow: "Edit anyway",
-    allowTitle: "Turn editing on until the app is closed or connects again. Back up your save first.",
+      names.length <= 1 ? names.join("") : `${names.slice(0, -1).join(", ")} e ${names[names.length - 1]}`,
+    allow: "Editar mesmo assim",
+    allowTitle: "Liga a edição até o app ser fechado ou conectar de novo. Faça backup do seu save antes.",
   },
 
   /**
@@ -1765,61 +1765,61 @@ export const ptBR: Strings = {
    * found in the game, in English whatever the language, to paste into a bug report (`CopyDiagnostics`).
    */
   diagnostics: {
-    copy: "Copy diagnostics",
-    copyTitle: "Copy what the app found in the game, for a bug report; it holds no names or paths",
+    copy: "Copiar diagnóstico",
+    copyTitle: "Copia o que o app encontrou no jogo, para um relato de erro; não contém nomes nem caminhos",
     /** Said by the button for a moment once the report is on the clipboard. */
-    copied: "Copied",
-    failed: (reason: string) => `Could not copy the diagnostics: ${reason}`,
+    copied: "Copiado",
+    failed: (reason: string) => `Não foi possível copiar o diagnóstico: ${reason}`,
   },
 
   /** What each check is about (`CheckKey`), as the notice lists the ones that did not pass and the errors name them. */
   checks: {
-    gameDate: "the in-game date",
-    players: "players' details",
-    positions: "positions",
-    attributes: "attributes",
-    personality: "personality",
-    liveValues: "energy, match sharpness, jadedness and morale",
-    contracts: "contracts",
-    teams: "teams",
-    staff: "staff",
-    clubs: "clubs",
-    cohesion: "cohesion with clubs",
-    tactics: "tactical familiarity",
+    gameDate: "a data do jogo",
+    players: "dados dos jogadores",
+    positions: "posições",
+    attributes: "atributos",
+    personality: "personalidade",
+    liveValues: "energia, ritmo de jogo, cansaço acumulado e moral",
+    contracts: "contratos",
+    teams: "times",
+    staff: "funcionários",
+    clubs: "clubes",
+    cohesion: "entrosamento com os clubes",
+    tactics: "familiaridade tática",
   } satisfies Record<CheckKey, string>,
 
   /** New versions: the notice under the masthead, and the version and Check for updates at the foot of the window. */
   update: {
     /** The notice's headline, and what a check by hand found. */
-    available: (version: string) => `FMLibreEditor ${version} is available`,
-    youHave: (version: string) => `You have ${version}.`,
+    available: (version: string) => `O FMLibreEditor ${version} está disponível`,
+    youHave: (version: string) => `Você está com a ${version}.`,
     /** Opens the release's page in the browser. */
-    download: "Download",
+    download: "Baixar",
     /** Downloads the new version's installer and runs it, where the app can update itself (see `can_self_update`). */
-    install: "Update",
-    installTitle: "Download and install the new version; the app closes and opens again with it",
-    preparing: "Preparing…",
+    install: "Atualizar",
+    installTitle: "Baixa e instala a nova versão; o app fecha e abre de novo com ela",
+    preparing: "Preparando…",
     /** `percent` is null while the size of the download is not known. */
-    downloading: (percent: number | null) => (percent === null ? "Downloading…" : `Downloading… ${percent}%`),
-    installing: "Installing: FMLibreEditor closes and opens again with the new version.",
-    installFailed: (reason: string) => `Could not update: ${reason}. Download it from its page instead.`,
-    notInstallable: "This version cannot be installed from here. Download it from its page instead.",
+    downloading: (percent: number | null) => (percent === null ? "Baixando…" : `Baixando… ${percent}%`),
+    installing: "Instalando: o FMLibreEditor fecha e abre de novo com a nova versão.",
+    installFailed: (reason: string) => `Não foi possível atualizar: ${reason}. Baixe-a na página dela.`,
+    notInstallable: "Esta versão não pode ser instalada daqui. Baixe-a na página dela.",
     /** Hides the notice until the app starts again. */
-    later: "Later",
-    check: "Check for updates",
-    checking: "Checking for updates…",
-    upToDate: "You have the latest version.",
-    failed: "Could not check for updates.",
+    later: "Depois",
+    check: "Verificar atualizações",
+    checking: "Verificando atualizações…",
+    upToDate: "Você está com a versão mais recente.",
+    failed: "Não foi possível verificar atualizações.",
   },
 
   /** Once, after a few starts: the note in the top right corner that asks for a star on GitHub (see `StarRequest`). */
   star: {
-    title: "Enjoying FMLibreEditor?",
-    text: "A star on GitHub helps it reach more players and grow faster.",
+    title: "Gostando do FMLibreEditor?",
+    text: "Uma estrela no GitHub ajuda o projeto a chegar a mais jogadores e crescer mais rápido.",
     /** Opens the project's page on GitHub, where the star is; the note does not come back. */
-    star: "Star on GitHub",
+    star: "Dar estrela no GitHub",
     /** Puts the note away for good. */
-    dismiss: "No thanks",
+    dismiss: "Não, obrigado",
   },
 
   /** Editing a person or a club: the Edit button, the inputs, and the footer under the profile. */
