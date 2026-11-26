@@ -55,7 +55,7 @@ was in memory 39 times with Monza's exact eleven slots.
 | `+0x100` | `u32` style tag, as text backwards: `CONT` (Control Possession), `TIKI` (Tiki-Taka), `DIRE` (Direct) |
 | `+0x148` | 11 in-possession slot entries, `0x48` bytes each (their role masks at `+0x158`, `+0x1A0`, …) |
 | `+0x468` | 11 out-of-possession slot entries, `0x48` bytes each (role masks from `+0x478`) |
-| `+0x798` | bytes `00 01 … 0a` after `1b`: a one-to-one slot table, probably in-possession to out-of-possession |
+| `+0x798` | `1b`, then at `+0x79C` the pairing: eleven bytes, for each in-possession slot the out-of-possession slot of the same place |
 | `+0x7D0` | a second copy of the records and entries (its slot entries changed with the first) |
 
 A slot entry: `+0x00` and `+0x08` zero, **`+0x10` `u64` role mask**, `+0x18` a `u64` mask that changes with the
@@ -123,12 +123,15 @@ them. The eleventh is held by a player away on loan, whom the screen still names
 as the editor reads it, so the place comes out with no player. On the Mac the probe's `scout --tactics` reads the
 tactics; the Scouting tab does not use them yet.
 
+**Positions and pairing on Windows** (Steam build 26797085, read by RootTourist, see the pull request #268). The
+records are laid out as on the Mac, 8 bytes earlier: they start at `+0x118` and `+0x438`, with the position's mask at
+`+0x00` and the role's at `+0x40`, which is the byte read before. The pairing is at `+0x79C`. With a 4-2-3-1 and a
+4-3-3 both matched the tactics screen in both phases; slot for slot, the 4-3-3's defensive midfielder came out with the
+role of a centre forward without the ball. With the 4-3-3 in use, reading the first block of the list still gave the
+4-2-3-1. Not read on Game Pass or Epic.
+
 ### Not found yet
 
-- **Positions** on Windows (D (R), DM, AM (L) …); on the Mac they are in each place's record (see above). They are
-  not an array of codes in the block, in Monza's `TACTICS_CREATOR_ARRAY` objects or next to them (searched across
-  4-3-3 and 5-2-2-1). A role names the line it plays in, so a scouting tab can start from the role and the side of the
-  player who holds the slot.
 - The roles not yet seen, the meaning of bits 21–23 and of the second mask.
 
 ## How it was found

@@ -371,14 +371,19 @@ player_person = 0x290
 # The tactic block the first entry of a selection's list points at (see docs/recon/fm27-tactics-and-value.md). Read
 # on the Steam save (15 August 2027) with Monza's tactic, against the game's tactics screen in three formations and
 # role sets: the eleven in-possession slots, then the eleven out-of-possession ones, in the selection's order, each
-# 0x48 bytes with the role's mask at +0x10. The game rewrites the block, or builds a new one, when the manager leaves
-# the tactics screen.
+# 0x48 bytes. The game rewrites the block, or builds a new one, when the manager leaves the tactics screen.
+#
+# A record starts 0x30 before the role's mask, with the place's position, as on macOS (see layout-macos.toml), and
+# `pairing` names for each in-possession slot the out-of-possession slot of the same place. Both were checked against
+# the tactics screen on Steam build 26797085 (a 4-2-3-1 and a 4-3-3, both phases); not on Game Pass or Epic.
 [tactic]
-in_possession = 0x148
-out_of_possession = 0x468
+in_possession = 0x118
+out_of_possession = 0x438
 slot_size = 0x48
-role = 0x10               # in a slot: the u64 role mask
+role = 0x40               # in a record: the u64 role mask
+position = 0x00           # in a record: the u32 mask of the place's position
 style = 0x100
+pairing = 0x79C
 
 # The tactics each human manager keeps for each of his teams, as on macOS (see layout-macos.toml and
 # tactical_areas.rs), which the game reads to tell how well the players know the tactic in use. The build profile's
