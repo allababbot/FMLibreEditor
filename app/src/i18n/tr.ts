@@ -3104,6 +3104,8 @@ export const tr: Strings = {
       p: "Fırsatçı Forvet",
       tcf: "Takip Eden Santrfor",
       ocf: "Kontra Santrforu",
+      gk: "Kaleci",
+      wm: "Kanat Orta Saha",
     },
     reasons: {
       listed: () => "Transfer listesinde",

@@ -3079,6 +3079,8 @@ export const ko: Strings = {
       p: "포처",
       tcf: "추적형 센터 포워드",
       ocf: "중앙 지향 센터 포워드",
+      gk: "Goalkeeper",
+      wm: "Wide Midfielder",
     },
     reasons: {
       listed: () => "이적 명단 등록",

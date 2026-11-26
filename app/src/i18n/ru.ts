@@ -3070,6 +3070,8 @@ export const ru: Strings = {
       p: "Браконьер",
       tcf: "Отрабатывающий центральный нападающий",
       ocf: "Центральный нападающий-отдушина",
+      gk: "Goalkeeper",
+      wm: "Wide Midfielder",
     },
     reasons: {
       listed: () => "Выставлен на трансфер",

@@ -3191,6 +3191,8 @@ export const it: Strings = {
       p: "Attaccante d'area",
       tcf: "Centravanti di copertura",
       ocf: "Riferimento offensivo",
+      gk: "Portiere",
+      wm: "Esterno di centrocampo",
     },
     reasons: {
       listed: () => "In lista trasferimenti",

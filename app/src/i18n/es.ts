@@ -3173,6 +3173,8 @@ export const es: Strings = {
       p: "Ariete oportunista",
       tcf: "Delantero centro de ayuda",
       ocf: "Delantero centro de contraataque",
+      gk: "Portero",
+      wm: "Centrocampista de banda",
     },
     reasons: {
       listed: () => "En la lista de traspasos",

@@ -3272,6 +3272,8 @@ export const fr: Strings = {
       p: "Renard des surfaces",
       tcf: "Avant-centre de couverture",
       ocf: "Avant-centre point d'appui axial",
+      gk: "Goalkeeper",
+      wm: "Wide Midfielder",
     },
     reasons: {
       listed: () => "Sur liste des transferts",

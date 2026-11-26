@@ -32,7 +32,7 @@ three looked up without a club. The editor takes a negative value as not known. 
 sets the value to what the buyer pays (see `fm27-transfer-offers.md`).
 
 **On the Mac** (Steam build 26340721, Apple silicon) the value sits 8 bytes earlier, at **`player +0x22C`**, like the
-player's other own fields, right before the asking price (`+0x230`). On the Arsenal save of 4 July 2027, 1,017 players
+player's other own fields, right before the asking price (`+0x230`). On a save of 4 July 2027, 1,017 players
 read 300,000,000 (Lamine Yamal, Alexia Putellas), Phil Foden 144,244,816, Cole Palmer 154,739,659 and Florian Wirtz
 122,385,266. 335 players read `-1`, nearly all from that summer's youth intake (16 on average): the game has not
 valued them yet.
@@ -100,24 +100,35 @@ yet. A role seen in two slots or moved between slots kept its mask (PFB, PCM, TW
 **On Game Pass** (0.9.2409.0, save of 17 September 2026, human club Manchester United) the block reads the same:
 three selections pointed at copies of one Gegenpress block (`GEGE`), whose eleven slots came out as BGK / SK, WB / FB,
 BCB / CB, CB / CB, FB / FB, AM / ?, DM / DM, ? / PDM, ? / ?, IF / ?, CFD / CFD with Lammens, Dalot, Yoro, Martínez,
-Shaw, Güler, Tielemans, Baleba, Mbeumo, Rashford and Šeško in them. Four masks there are not named yet:
+Shaw, Güler, Tielemans, Baleba, Mbeumo, Rashford and Šeško in them. Four masks there were not named:
 in possession `0x408000` (bit 15 / 22) and `0x2000000400000` (bit 49 / 22), out of possession `0x40400000`
-(bit 30 / 22) and `0x800400000` (bit 35 / 22, in two slots).
+(bit 30 / 22) and `0x800400000` (bit 35 / 22, in two slots), the last since read as WM (see below).
 
-**On the Mac** (Steam build 26340721, Apple silicon, the Arsenal save of 4 July 2027) the block is laid out alike up
+**On the Mac** (Steam build 26340721, Apple silicon, a save of 4 July 2027) the block is laid out alike up
 to the style tag (`+0x100`, `VERT` here), but the slot entries sit 8 bytes later: the in-possession role masks from
 `+0x160`, the out-of-possession ones from `+0x480`, `0x48` apart. Each of the manager's three selections pointed at
 two blocks of `0x800` bytes, one after the other (`+0x104` read `03 04` in the first and `03 05` in the second). The
 second matched the eleven of the selection: BGK Raya, NCB Konsa, BCB Saliba and Gabriel, CFD Haaland, DM Guimarães,
 PW Saka, AM Ødegaard, W Musiala, DLF Kane. The first held other roles (IWB, IFB, AP, WFD). Which block the game plays
-was not checked against the tactics screen, so the Mac layout has no `[tactic]` section yet and the probe's
-`scout --tactics` says it cannot read the tactics there. The Scouting tab does not read them.
+was not checked against the tactics screen, so the Mac layout got no `[tactic]` section then.
+
+**On the Mac** (Steam build 26797085, Apple silicon) the manager's selections gave seven copies of one 4-3-3 DM Wide
+(`VERT`). The block a selection plays is the one indexed by the byte after its list, and
+`profiles/fm27/layout-macos.toml` now has the `[tactic]` offsets that read it. Two masks were named on the tactics
+screen: in possession `0x400020` (bit 5 / 22) is CM, out of possession `0x800400000` (bit 35 / 22) is WM. The plain
+GK was the one selected on the screen in both phases (bit 0 / 21 in possession, 0 / 22 out of it). The goalkeeper's
+list there has three roles a phase: GK, ball-playing and no-nonsense in possession; GK, sweeper and line-holding out
+of it. The whole tactic read matched the tactics screen: the eleven places, both roles of each and the players in ten of
+them. The eleventh is held by a player away on loan, whom the screen still names, faded: he is not in the club's squad
+as the editor reads it, so the place comes out with no player. On the Mac the probe's `scout --tactics` reads the
+tactics; the Scouting tab does not use them yet.
 
 ### Not found yet
 
-- **Positions** (D (R), DM, AM (L) …). They are not an array of codes in the block, in Monza's
-  `TACTICS_CREATOR_ARRAY` objects or next to them (searched across 4-3-3 and 5-2-2-1). A role names the line it plays
-  in, so a scouting tab can start from the role and the side of the player who holds the slot.
+- **Positions** on Windows (D (R), DM, AM (L) …); on the Mac they are in each place's record (see above). They are
+  not an array of codes in the block, in Monza's `TACTICS_CREATOR_ARRAY` objects or next to them (searched across
+  4-3-3 and 5-2-2-1). A role names the line it plays in, so a scouting tab can start from the role and the side of the
+  player who holds the slot.
 - The roles not yet seen, the meaning of bits 21–23 and of the second mask.
 
 ## How it was found

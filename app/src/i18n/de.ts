@@ -3239,6 +3239,8 @@ export const de: Strings = {
       p: "Knipser",
       tcf: "Mitarbeitender Mittelstürmer",
       ocf: "Umschaltstürmer",
+      gk: "Goalkeeper",
+      wm: "Wide Midfielder",
     },
     reasons: {
       listed: () => "Auf Transferliste",

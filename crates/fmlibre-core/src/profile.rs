@@ -481,21 +481,30 @@ impl PoolLayout {
     }
 }
 
-/// The tactic block a selection's list ([`SelectionLayout::list`]) points at: the eleven slots of the formation, once
-/// for when the team has the ball and once for when it has not, each slot an entry of `slot_size` bytes whose
-/// `role` holds the role's mask (see `crate::scouting`). The slots are in the order of the selection's.
+/// The tactic block a selection's list ([`SelectionLayout::list`]) points at: the eleven places of the formation,
+/// once for when the team has the ball and once for when it has not, each a record of `slot_size` bytes that starts
+/// with the place's position and ends with its role's mask (see `crate::scouting`). The places with the ball are in
+/// the order of the selection's.
 #[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct TacticLayout {
-    /// The first in-possession slot.
+    /// The record of the first place with the ball.
     pub in_possession: u64,
-    /// The first out-of-possession slot.
+    /// The record of the first place without the ball.
     pub out_of_possession: u64,
     pub slot_size: u64,
-    /// In a slot: the `u64` role mask.
+    /// In a record: the `u64` role mask.
     pub role: u64,
+    /// In a record: the `u32` mask of the place's position (see `crate::scouting::position_of_mask`). Only in the
+    /// layouts it has been checked in; without it the editor works a place's position out from its roles.
+    #[serde(default)]
+    pub position: Option<u64>,
     /// `u32` code of the style the tactic was made from, as text backwards (`CONT`, `TIKI`, `DIRE`).
     pub style: u64,
+    /// Eleven bytes, one for each place with the ball: the place without the ball the same player takes. Only in the
+    /// layouts it has been checked in; without it the two run in the same order.
+    #[serde(default)]
+    pub pairing: Option<u64>,
 }
 
 /// The tactics each human manager keeps for each of his teams, as the game reads them to tell how well the players

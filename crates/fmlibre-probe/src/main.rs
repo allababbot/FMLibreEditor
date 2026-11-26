@@ -6861,11 +6861,12 @@ fn scout(
             println!("tactic {i} (style {}, {} copies)", tactic.style.as_deref().unwrap_or("?"), tactic.copies);
             for s in &tactic.slots {
                 println!(
-                    "  {:>2}  {:<5} {:<5} {:<5} {}",
+                    "  {:>2}  {:<5} {:<5} {:<5} {:<5} {}",
                     s.index,
                     s.in_possession.unwrap_or(&s.in_possession_mask),
                     s.out_of_possession.unwrap_or(&s.out_of_possession_mask),
                     s.position.unwrap_or("?"),
+                    s.position_without.unwrap_or("-"),
                     name(s.player)
                 );
             }
