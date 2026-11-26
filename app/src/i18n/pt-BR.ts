@@ -2519,247 +2519,203 @@ export const ptBR: Strings = {
    * dialog.
    */
   ties: {
-    heading: "Nationality and homegrown",
-    nationalities: "Secondary nationalities",
-    trainedInNation: "Trained in nation",
-    trainedAtClub: "Trained at club",
-    /** A nation he needs no work permit in, as the game lets players of the EU who were in the UK before Brexit. */
-    workPermit: "No work permit needed in",
-    none: "None",
-    /** The game's names of its homegrown rules, by code; `rule` names one it has no name for here. */
+    heading: "Nacionalidade e formação no país",
+    nationalities: "Nacionalidades secundárias",
+    trainedInNation: "Formado no país",
+    trainedAtClub: "Formado no clube",
+    workPermit: "Sem necessidade de permissão de trabalho em",
+    none: "Nenhuma",
     rules: {
-      1: "Homegrown 15-21",
-      2: "Homegrown 0-21",
-      5: "Homegrown 15-21 (excluding loans)",
-      10: "Homegrown 0-19 (1 year)",
+      1: "Formado no país 15-21",
+      2: "Formado no país 0-21",
+      5: "Formado no país 15-21 (exceto empréstimos)",
+      10: "Formado no país 0-19 (1 ano)",
     } as Readonly<Record<number, string>>,
-    rule: (code: number) => `Homegrown rule ${format(code)}`,
+    rule: (code: number) => `Regra de formação ${format(code)}`,
 
-    // The button under the group, and the dialog it opens
-    change: "Change",
-    changeTitle: "Change this player's secondary nationalities and homegrown status in the game",
-    title: "Nationality and homegrown",
-    hint: "Each change is written to the game at once, and listed under Changes, where it can be undone.",
-    /** When the player's list has no room for another tie. */
+    change: "Alterar",
+    changeTitle: "Altera as nacionalidades secundárias e a condição de formado no país deste jogador, no jogo",
+    title: "Nacionalidade e formação no país",
+    hint: "Cada alteração é gravada no jogo na hora e listada em Alterações, onde pode ser desfeita.",
     full:
-      "The game made this player's list just big enough for what it holds: a nationality or a training can be " +
-      "changed or removed, but not added.",
-    /** The control of a row, for assistive technology: `name` is the nation's or club's. */
-    nationOf: (name: string) => `Nation instead of ${name}`,
-    ruleOf: (name: string) => `Homegrown rule for ${name}`,
-    remove: "Remove",
-    removeTitle: (name: string) => `Remove ${name}`,
-    /** The rows that add a tie, where the list has room. */
-    addNationality: "Add a nationality…",
-    addNation: "Add a nation…",
-    addPermit: "Add a country with no permit needed…",
-    /** After a nation he needs no work permit in. */
-    daysLeft: (days: number) => `${format(days)} days left`,
-    permitInfoLabel: "What does this do?",
+      "O jogo deixou a lista deste jogador do tamanho exato do que ela guarda: uma nacionalidade ou uma formação pode ser " +
+      "alterada ou removida, mas não adicionada.",
+    nationOf: (name: string) => `País no lugar de ${name}`,
+    ruleOf: (name: string) => `Regra de formação para ${name}`,
+    remove: "Remover",
+    removeTitle: (name: string) => `Remover ${name}`,
+    addNationality: "Adicionar uma nacionalidade…",
+    addNation: "Adicionar um país…",
+    addPermit: "Adicionar um país sem necessidade de permissão…",
+    daysLeft: (days: number) => `${format(days)} dias restantes`,
+    permitInfoLabel: "O que isso faz?",
     permitInfo:
-      "The game lets players of the European Union who were in England or Scotland before Brexit play there without " +
-      "a work permit, for a number of days. A player given this needs no work permit to play in that country either, " +
-      "for as many days as theirs have left (ten years where no one in the save has it).",
-    newRule: "Homegrown rule of the new nation",
-    add: "Add",
-    /** A club he was trained at: the button that points it at another club, and the search it opens. */
-    changeClub: "Change club",
-    changeClubTitle: (name: string) => `Make him trained at another club instead of ${name}`,
-    clubInsteadOf: (name: string) => `Club instead of ${name}`,
-    /** The button that adds a club he was trained at, and what it opens. */
-    addClub: "Add a club…",
-    addClubTitle: "Make him trained at one more club",
-    newClub: "New club",
-    pickAnother: "Pick another",
-    newClubRule: "Homegrown rule of the new club",
-    cancel: "Cancel",
-    working: "Writing to the game…",
-    close: "Close",
+      "O jogo deixa jogadores da União Europeia que estavam na Inglaterra ou na Escócia antes do Brexit jogarem lá sem " +
+      "permissão de trabalho, por um número de dias. Um jogador com isso também não precisa de permissão para jogar nesse país, " +
+      "pelo número de dias que os dados dele ainda têm (dez anos onde ninguém no save tem).",
+    newRule: "Regra de formação do novo país",
+    add: "Adicionar",
+    changeClub: "Trocar clube",
+    changeClubTitle: (name: string) => `Faz ele ser formado em outro clube em vez de ${name}`,
+    clubInsteadOf: (name: string) => `Clube no lugar de ${name}`,
+    addClub: "Adicionar um clube…",
+    addClubTitle: "Faz ele ser formado em mais um clube",
+    newClub: "Novo clube",
+    pickAnother: "Escolher outro",
+    newClubRule: "Regra de formação do novo clube",
+    cancel: "Cancelar",
+    working: "Gravando no jogo…",
+    close: "Fechar",
   },
 
   /** Changing a contract's bonuses and clauses: the button under them in the profile, and the dialog it opens. */
   clauses: {
-    change: "Change",
-    changeTitle: "Change this player's bonuses and clauses in the game",
-    title: "Bonuses and clauses",
-    hint: "Each change is written to the game at once, and listed under Changes, where it can be undone.",
-    /** When the contract has no release clause and its list has no room for one. */
+    change: "Alterar",
+    changeTitle: "Altera os bônus e as cláusulas deste jogador, no jogo",
+    title: "Bônus e cláusulas",
+    hint: "Cada alteração é gravada no jogo na hora e listada em Alterações, onde pode ser desfeita.",
     full:
-      "The game made this contract's list just big enough for what it holds: a bonus or clause can be changed or " +
-      "removed, but a release clause cannot be added.",
-    /** The inputs of a row, for assistive technology: `name` is the clause's. */
-    amountOf: (name: string) => `Amount of ${name}`,
-    conditionOf: (name: string) => `Condition of ${name}`,
-    save: "Save",
-    remove: "Remove",
-    removeTitle: (name: string) => `Remove ${name}`,
-    /** The row that adds a release clause, where the list has room and the contract has none. */
-    addRelease: "Add a release clause",
-    releaseAmount: "Amount of the new release clause",
-    add: "Add",
-    /** When an amount or condition typed is not a whole number in range: `max` is the most it may be. */
-    /** `max` is written out already: an amount as amounts are shown, or a number. */
-    outOfRange: (max: string) => `Enter a whole number from 0 to ${max}.`,
-    working: "Writing to the game…",
-    close: "Close",
+      "O jogo deixou a lista deste contrato do tamanho exato do que ela guarda: um bônus ou uma cláusula pode ser alterado ou " +
+      "removido, mas uma cláusula de rescisão não pode ser adicionada.",
+    amountOf: (name: string) => `Valor de ${name}`,
+    conditionOf: (name: string) => `Condição de ${name}`,
+    save: "Salvar",
+    remove: "Remover",
+    removeTitle: (name: string) => `Remover ${name}`,
+    addRelease: "Adicionar uma cláusula de rescisão",
+    releaseAmount: "Valor da nova cláusula de rescisão",
+    add: "Adicionar",
+    outOfRange: (max: string) => `Digite um número inteiro de 0 a ${max}.`,
+    working: "Gravando no jogo…",
+    close: "Fechar",
   },
 
   /** Releasing a player from their club, which leaves them a free agent: the button beside Transfer and its dialog. */
   release: {
-    /** The button in the header of a player's profile, beside Transfer. */
-    button: "Release",
-    buttonTitle: "Release this player from their club in the game: they become a free agent",
+    button: "Dispensar",
+    buttonTitle: "Dispensa este jogador do clube no jogo: ele fica sem clube",
+    staffButtonTitle: "Dispensa este funcionário do clube no jogo: ele fica sem clube",
 
-    /** The same button in a member of staff's profile: its hover text. */
-    staffButtonTitle: "Release this member of staff from their club in the game: they are left without a club",
-
-    // The dialog
-    title: "Release",
-    /** The club the player leaves. */
-    from: "Leaves",
-    checking: "Checking the release…",
-    /** The player can be released; `club` is the name of their club. */
-    ready: (club: string) => `${club} → free agent`,
-    /** A member of staff can be released; `club` is the name of their club. */
-    staffReady: (club: string) => `${club} → unemployed`,
-    doesHeading: "What the release does",
-    /** What the game does to the player, one line each. */
+    title: "Dispensar",
+    from: "Sai de",
+    checking: "Verificando a dispensa…",
+    ready: (club: string) => `${club} → sem clube`,
+    staffReady: (club: string) => `${club} → desempregado`,
+    doesHeading: "O que a dispensa faz",
     does: [
-      "Leaves every team of the club, and the contract ends: a free agent any club can sign",
-      "No one is paid anything",
-      "Any captaincy at the club is left empty",
-      "The game's transfer history does not list it",
-      "Listed under Changes, where one undo brings the player back on the same contract",
+      "Sai de todos os times do clube e o contrato termina: um jogador sem clube que qualquer clube pode contratar",
+      "Ninguém recebe nenhum pagamento",
+      "Qualquer braçadeira de capitão no clube fica vaga",
+      "O histórico de transferências do jogo não a registra",
+      "Listado em Alterações, onde um desfazer traz o jogador de volta com o mesmo contrato",
     ],
-    /** What the release does to a member of staff, one line each. */
     staffDoes: [
-      "Leaves the club's staff at once, and the contract ends: unemployed, as the game's own staff without a club are",
-      "No one is paid anything",
-      "A place as manager or director of football is left empty, for the club to fill",
-      "Listed under Changes, where one undo brings them back on the same contract",
+      "Sai do quadro de funcionários do clube na hora e o contrato termina: desempregado, como os funcionários sem clube do próprio jogo",
+      "Ninguém recebe nenhum pagamento",
+      "A vaga de técnico ou de diretor de futebol fica vazia, para o clube preencher",
+      "Listado em Alterações, onde um desfazer traz a pessoa de volta com o mesmo contrato",
     ],
 
-    // The foot
-    /** Nothing changes in the game until Release. */
-    hint: "Nothing changes in the game until you press Release.",
-    release: "Release",
-    releasing: "Releasing…",
-    cancel: "Cancel",
+    hint: "Nada muda no jogo até você clicar em Dispensar.",
+    release: "Dispensar",
+    releasing: "Dispensando…",
+    cancel: "Cancelar",
   },
 
   /** Changing a player's names: the button beside Release and its dialog. */
   rename: {
-    /** The button in the header of a player's profile, beside Release. */
-    button: "Rename",
-    buttonTitle: "Change this player's names in the game",
+    button: "Renomear",
+    buttonTitle: "Altera os nomes deste jogador no jogo",
 
-    // The dialog
-    title: "Rename",
-    loading: "Reading the names…",
-    first: "First name",
-    last: "Last name",
-    common: "Common name",
+    title: "Renomear",
+    loading: "Lendo os nomes…",
+    first: "Nome",
+    last: "Sobrenome",
+    common: "Nome popular",
     commonHint:
-      "The name the game shows instead of the first and last name, as with Pedri or Vinícius Júnior. Leave it empty for none",
-    full: "Full name",
-    fullHint: "The name in full, as the profile gives it. Leave it empty for none",
-    /** The placeholder of a name that can be left empty. */
-    none: "None",
-    required: "Cannot be empty",
-    tooLong: (max: number) => `Too long: at most ${max} bytes`,
+      "O nome que o jogo mostra no lugar do nome e do sobrenome, como em Pedri ou Vinícius Júnior. Deixe vazio para nenhum",
+    full: "Nome completo",
+    fullHint: "O nome por extenso, como o perfil o mostra. Deixe vazio para nenhum",
+    none: "Nenhum",
+    required: "Não pode ficar vazio",
+    tooLong: (max: number) => `Longo demais: no máximo ${max} bytes`,
     noRoom:
-      "The game has no room for another new name of this kind just now: save the game, load the save again, and try again",
-    unavailable: "The editor cannot change names in this version of the game",
-    doesHeading: "What it does",
+      "O jogo não tem espaço para mais um nome novo deste tipo agora: salve o jogo, carregue o save de novo e tente outra vez",
+    unavailable: "O editor não consegue alterar nomes nesta versão do jogo",
+    doesHeading: "O que isso faz",
     does: [
-      "The game shows the new name once you press Continue in it",
-      "The name stays when you save the game",
-      "A new first, last or common name goes into the game's tables of names, where the game uses it for this player only",
-      "Listed under Changes, one line per name, where Undo puts the old name back",
+      "O jogo mostra o novo nome depois que você clica em Continuar nele",
+      "O nome permanece quando você salva o jogo",
+      "Um novo nome, sobrenome ou nome popular entra nas tabelas de nomes do jogo, onde o jogo o usa só para este jogador",
+      "Listado em Alterações, uma linha por nome, onde Desfazer recoloca o nome antigo",
     ],
 
-    // The foot
-    hint: "Nothing changes in the game until you press Rename.",
-    rename: "Rename",
-    renaming: "Renaming…",
-    cancel: "Cancel",
+    hint: "Nada muda no jogo até você clicar em Renomear.",
+    rename: "Renomear",
+    renaming: "Renomeando…",
+    cancel: "Cancelar",
   },
 
   /** Making a player's loan permanent: the dialog the Make permanent button of the Loan part of his profile opens. */
   permanent: {
-    title: "Make the loan permanent",
-    /** The club he stays at, and his own club, which he leaves. */
-    stays: "Stays at",
-    leaves: "Leaves",
-    checking: "Checking…",
-    doesHeading: "What it does",
-    /** One line each. */
+    title: "Tornar o empréstimo definitivo",
+    stays: "Fica em",
+    leaves: "Sai de",
+    checking: "Verificando…",
+    doesHeading: "O que isso faz",
     does: [
-      "He stays where he plays, now under contract with that club from today, on the terms above",
-      "He keeps the squad number and squad status he has there",
-      "He leaves every team of his own club, and the loan ends",
-      "The game's transfer history does not list it",
-      "Listed under Changes as a transfer, where one undo puts the loan back",
+      "Ele fica onde joga, agora com contrato com esse clube a partir de hoje, nas condições acima",
+      "Ele mantém o número da camisa e o status no elenco que tem lá",
+      "Ele sai de todos os times do próprio clube, e o empréstimo termina",
+      "O histórico de transferências do jogo não a registra",
+      "Listado em Alterações como uma transferência, onde um desfazer recoloca o empréstimo",
     ],
-    /** The fee, filled in from the loan's option to buy. */
-    optionFee: (money: string) => `Filled in from the loan's option to buy: ${money}`,
-    /** Nothing changes in the game until Make permanent. */
-    hint: "Nothing changes in the game until you press Make permanent.",
-    confirm: "Make permanent",
-    confirming: "Making it permanent…",
-    cancel: "Cancel",
+    optionFee: (money: string) => `Preenchido a partir da opção de compra do empréstimo: ${money}`,
+    hint: "Nada muda no jogo até você clicar em Tornar definitivo.",
+    confirm: "Tornar definitivo",
+    confirming: "Tornando definitivo…",
+    cancel: "Cancelar",
   },
 
   /** Recalling a player from his loan: the dialog the Recall button of the Loan part of his profile opens. */
   recall: {
-    title: "Recall from loan",
-    /** The club he is on loan at, and the one he goes back to. */
-    from: "On loan at",
-    to: "Goes back to",
-    doesHeading: "What the recall does",
-    /** One line each; `parent` is the club he goes back to. */
+    title: "Chamar de volta do empréstimo",
+    from: "Emprestado a",
+    to: "Volta para",
+    doesHeading: "O que o retorno faz",
     does: (parent: string) => [
-      "Today becomes the last day of the loan: when the day is over, the game ends the loan itself",
-      `Continue one day in the game and he is back at ${parent}`,
-      "Until then it is listed under Changes, where an undo puts the loan's old end back",
+      "Hoje passa a ser o último dia do empréstimo: quando o dia acabar, o próprio jogo encerra o empréstimo",
+      `Avance um dia no jogo e ele volta para ${parent}`,
+      "Até lá fica listado em Alterações, onde um desfazer recoloca o fim antigo do empréstimo",
     ],
-    /**
-     * What the loan's terms would not allow in the game, when it would not let his club recall him or end the loan
-     * early; `parent` is his club. The recall here moves the loan's last day all the same.
-     */
-    termsHeading: "In the game",
-    notRecallable: (parent: string) => `The loan does not let ${parent} recall him`,
-    notTerminable: "The loan cannot be ended early",
-    worksAnyway: "The recall here works all the same: it does not go through the game's recall, it moves the loan's last day",
-    /**
-     * A line of what the recall does, for a loan with an option to buy: `club` is the club he is on loan at. When a loan
-     * with one ends, the game may let that club sign him for it.
-     */
+    termsHeading: "No jogo",
+    notRecallable: (parent: string) => `O empréstimo não deixa ${parent} chamá-lo de volta`,
+    notTerminable: "O empréstimo não pode ser encerrado antes",
+    worksAnyway: "O retorno aqui funciona do mesmo jeito: ele não passa pelo retorno do jogo, apenas move o último dia do empréstimo",
     dropsOption: (club: string, amount: string) =>
-      `${club}'s option to buy him for ${amount} is taken away: else, when the loan ends, the game may sell him to ${club}`,
-    /** Nothing changes in the game until Recall. */
-    hint: "Nothing changes in the game until you press Recall.",
-    confirm: "Recall",
-    confirming: "Recalling…",
-    cancel: "Cancel",
+      `A opção de compra de ${club} por ${amount} é removida: senão, quando o empréstimo terminar, o jogo pode vendê-lo a ${club}`,
+    hint: "Nada muda no jogo até você clicar em Chamar de volta.",
+    confirm: "Chamar de volta",
+    confirming: "Chamando de volta…",
+    cancel: "Cancelar",
   },
 
   /** Batch traits: the dialog of a club's Squad tab that adds or removes traits for every player of a team. */
   batchTraits: {
-    title: "Batch team traits",
-    addMode: "+ Add to squad",
-    removeMode: "- Remove from squad",
-    addHint: "Applies selected traits to players in this team who don't have them. Existing traits are preserved.",
-    removeHint: "Removes selected traits from players in this team who have them. Other traits are left untouched.",
-    noneSelected: "No traits selected in this mode",
-    selectedCount: (count: number) => (count === 1 ? "1 trait selected" : `${format(count)} traits selected`),
-    deselectAll: "Deselect all",
-    oppositeModeNote: "Selected in opposite mode",
-    applyNote: (players: number) => `Applies to ${format(players)} players · Can be undone in 1 click`,
-    emptySquad: (players: number) => `Squad of ${format(players)} players`,
-    cancel: "Cancel",
-    apply: "Apply",
-    applying: "Applying…",
+    title: "Traços em lote do time",
+    addMode: "+ Adicionar ao elenco",
+    removeMode: "- Remover do elenco",
+    addHint: "Aplica os traços selecionados aos jogadores deste time que não os têm. Os traços existentes são mantidos.",
+    removeHint: "Remove os traços selecionados dos jogadores deste time que os têm. Os outros traços não são tocados.",
+    noneSelected: "Nenhum traço selecionado neste modo",
+    selectedCount: (count: number) => (count === 1 ? "1 traço selecionado" : `${format(count)} traços selecionados`),
+    deselectAll: "Desmarcar todos",
+    oppositeModeNote: "Selecionado no modo oposto",
+    applyNote: (players: number) => `Vale para ${format(players)} jogadores · Pode ser desfeito com 1 clique`,
+    emptySquad: (players: number) => `Elenco de ${format(players)} jogadores`,
+    cancel: "Cancelar",
+    apply: "Aplicar",
+    applying: "Aplicando…",
   },
 
   /**
