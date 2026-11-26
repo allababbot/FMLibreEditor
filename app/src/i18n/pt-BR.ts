@@ -834,120 +834,120 @@ export const ptBR: Strings = {
   /** The player list: search, filter bar and columns. */
   playerList: {
     /** The entry in the sidebar. */
-    nav: "Players",
+    nav: "Jogadores",
     /** In the status line, once connected. */
-    count: (total: number) => `${format(total)} players`,
-    search: "Search players by name or UID",
+    count: (total: number) => `${format(total)} jogadores`,
+    search: "Buscar jogadores por nome ou UID",
     /**
      * The line beside the search box. `sorted` is the order a column header was clicked for, or null while the
      * list is in its default order (best current ability first); its `by` is a name from `sortNames`.
      */
     summary: (total: number, shown: number, sorted: { by: string; ascending: boolean } | null) => {
-      const count = `${format(total)} players`;
+      const count = `${format(total)} jogadores`;
       if (total <= shown) {
         return count;
       }
       return sorted === null
-        ? `${count} · showing the top ${shown} by current ability`
-        : `${count} · showing the first ${shown} by ${sorted.by}, ${sorted.ascending ? "ascending" : "descending"}`;
+        ? `${count} · mostrando os ${shown} primeiros por habilidade atual`
+        : `${count} · mostrando os ${shown} primeiros por ${sorted.by}, ordem ${sorted.ascending ? "crescente" : "decrescente"}`;
     },
     /** The message under an empty table; `filtered` is whether any filter is in effect. */
     empty: (query: string, filtered: boolean) => {
       if (query === "") {
-        return filtered ? "No players match these filters." : "No players found.";
+        return filtered ? "Nenhum jogador corresponde a esses filtros." : "Nenhum jogador encontrado.";
       }
-      return filtered ? `No players match “${query}” with these filters.` : `No players match “${query}”.`;
+      return filtered ? `Nenhum jogador corresponde a “${query}” com esses filtros.` : `Nenhum jogador corresponde a “${query}”.`;
     },
     columns: {
-      name: "Name",
-      age: "Age",
-      positions: "Positions",
-      nation: "Nation",
-      club: "Club",
-      contractExpires: "Contract",
-      born: "Born",
-      currentAbility: "CA",
-      potentialAbility: "PA",
+      name: "Nome",
+      age: "Idade",
+      positions: "Posições",
+      nation: "País",
+      club: "Clube",
+      contractExpires: "Contrato",
+      born: "Nascimento",
+      currentAbility: "HA",
+      potentialAbility: "POT",
       uid: "UID",
     } satisfies Record<PlayerSort | "positions" | "born" | "uid", string>,
     /** Hover text of a column header that sorts the list; `by` is a name from `sortNames`. */
-    sortBy: (by: string) => `Sort by ${by}`,
+    sortBy: (by: string) => `Ordenar por ${by}`,
     /** The name of each sortable column, as the summary line and the hover text of a header say it. */
     sortNames: {
-      currentAbility: "current ability",
-      potentialAbility: "potential ability",
-      age: "age",
-      name: "name",
-      nation: "nation",
-      club: "club",
-      contractExpires: "contract end",
+      currentAbility: "habilidade atual",
+      potentialAbility: "habilidade potencial",
+      age: "idade",
+      name: "nome",
+      nation: "país",
+      club: "clube",
+      contractExpires: "fim do contrato",
     } satisfies Record<PlayerSort, string>,
     /** The filters; the staff list has those that are not about players too (see FilterBar.tsx). */
     filters: {
       /** The button that shows or hides the filters. */
-      toggle: "Filters",
+      toggle: "Filtros",
       /** Its name for assistive technology while `count` of the filters are in effect. */
-      toggleActive: (count: number) => `Filters, ${count} active`,
-      clear: "Clear",
+      toggleActive: (count: number) => `Filtros ativos: ${count}`,
+      clear: "Limpar",
       /** The entry of the position select that is no filter. */
-      any: "Any",
-      position: "Position",
+      any: "Qualquer",
+      position: "Posição",
       /** Whom the list shows: the select's name, and its choices after `any`. */
-      gender: "Gender",
-      men: "Men",
-      women: "Women",
-      age: "Age",
-      minAge: "Minimum age",
-      maxAge: "Maximum age",
+      gender: "Gênero",
+      men: "Homens",
+      women: "Mulheres",
+      age: "Idade",
+      minAge: "Idade mínima",
+      maxAge: "Idade máxima",
       /** The hint in an empty age input. */
-      minPlaceholder: "Min",
-      maxPlaceholder: "Max",
-      minCurrentAbility: "Min CA",
-      minCurrentAbilityTitle: "Minimum current ability",
-      minPotentialAbility: "Min PA",
-      minPotentialAbilityTitle: "Minimum potential ability",
+      minPlaceholder: "Mín",
+      maxPlaceholder: "Máx",
+      minCurrentAbility: "HA mín.",
+      minCurrentAbilityTitle: "Habilidade atual mínima",
+      minPotentialAbility: "POT mín.",
+      minPotentialAbilityTitle: "Habilidade potencial mínima",
       /** The hint in an empty ability input: what it accepts. */
       abilityPlaceholder: "1–200",
-      nation: "Nation",
-      club: "Club",
-      freeAgentsOnly: "Free agents only",
-      contractEndsBy: "Contract ends by",
-      transferListedOnly: "Transfer listed only",
-      loanListedOnly: "Loan listed only",
+      nation: "País",
+      club: "Clube",
+      freeAgentsOnly: "Só sem clube",
+      contractEndsBy: "Contrato termina até",
+      transferListedOnly: "Só na lista de transferências",
+      loanListedOnly: "Só na lista de empréstimos",
       /** Bounds on attributes, a row each, under the other filters; the staff list has them too. */
       attributes: {
-        heading: "Attributes",
+        heading: "Atributos",
         /** The select of a row, for assistive technology, and its entry before an attribute is picked. */
-        attribute: "Attribute",
-        pick: "Pick an attribute",
+        attribute: "Atributo",
+        pick: "Escolha um atributo",
         /** The two inputs of a row, for assistive technology; `name` is the attribute, "" before one is picked. */
-        min: (name: string) => (name ? `Least ${name}` : "Least"),
-        max: (name: string) => (name ? `Most ${name}` : "Most"),
-        add: "Add attribute",
+        min: (name: string) => (name ? `Mínimo de ${name}` : "Mínimo"),
+        max: (name: string) => (name ? `Máximo de ${name}` : "Máximo"),
+        add: "Adicionar atributo",
         /** The button that takes a row away, for assistive technology and as its hover text. */
-        remove: (name: string) => (name ? `Remove ${name}` : "Remove this row"),
+        remove: (name: string) => (name ? `Remover ${name}` : "Remover esta linha"),
       },
       /** Saving the filters in effect, and the sort, under a name of the user's own; the names stay as typed. */
       saved: {
         /** The button that starts saving, and its hover text. */
-        save: "Save",
-        saveTitle: "Save the filters and the sort in effect under a name",
+        save: "Salvar",
+        saveTitle: "Salva os filtros e a ordenação atuais com um nome",
         /** The name input, for assistive technology, and the hint in it while it is empty. */
-        name: "Name of the saved filter",
-        namePlaceholder: "Filter name",
+        name: "Nome do filtro salvo",
+        namePlaceholder: "Nome do filtro",
         ok: "OK",
-        cancel: "Cancel",
+        cancel: "Cancelar",
         /** The select of the saved filters: its name, and what it shows while none is the one in effect. */
-        select: "Saved filters",
-        delete: "Delete",
+        select: "Filtros salvos",
+        delete: "Excluir",
         /** The name and hover text of Delete; `name` is the saved filter's. */
-        deleteTitle: (name: string) => `Delete the saved filter: ${name}`,
+        deleteTitle: (name: string) => `Excluir o filtro salvo: ${name}`,
         /** The question when the name is taken; `name` is the one typed. */
-        replaceQuestion: (name: string) => `A saved filter named “${name}” already exists. Replace it?`,
-        replace: "Replace",
+        replaceQuestion: (name: string) => `Já existe um filtro salvo chamado “${name}”. Substituir?`,
+        replace: "Substituir",
         /** When the name is a new one and `max` filters are saved already. */
         full: (max: number) =>
-          `Up to ${max} filters can be saved. Delete one first, or use the name of a saved filter to replace it.`,
+          `Dá para salvar até ${max} filtros. Exclua um antes, ou use o nome de um filtro salvo para substituí-lo.`,
       },
     },
   },
@@ -955,144 +955,144 @@ export const ptBR: Strings = {
   /** The staff list. */
   staffList: {
     /** The entry in the sidebar. */
-    nav: "Staff",
+    nav: "Funcionários",
     /** In the status line, once connected. */
-    count: (total: number) => `${format(total)} staff`,
-    search: "Search staff by name or ID",
+    count: (total: number) => `${format(total)} funcionários`,
+    search: "Buscar funcionários por nome ou ID",
     /**
      * The line beside the search box. `sorted` is the order a column header was clicked for, or null while the
      * list is in its default order (the human manager first, then the best current ability); its `by` is a name from
      * `sortNames`.
      */
     summary: (total: number, shown: number, sorted: { by: string; ascending: boolean } | null) => {
-      const count = `${format(total)} staff`;
+      const count = `${format(total)} funcionários`;
       if (total <= shown) {
         return count;
       }
       return sorted === null
-        ? `${count} · showing the top ${shown} by current ability`
-        : `${count} · showing the first ${shown} by ${sorted.by}, ${sorted.ascending ? "ascending" : "descending"}`;
+        ? `${count} · mostrando os ${shown} primeiros por habilidade atual`
+        : `${count} · mostrando os ${shown} primeiros por ${sorted.by}, ordem ${sorted.ascending ? "crescente" : "decrescente"}`;
     },
     /** The message under an empty table; `filtered` is whether any filter is in effect. */
     empty: (query: string, filtered: boolean) => {
       if (query === "") {
-        return filtered ? "No staff match these filters." : "No staff found.";
+        return filtered ? "Nenhum funcionário corresponde a esses filtros." : "Nenhum funcionário encontrado.";
       }
-      return filtered ? `No staff match “${query}” with these filters.` : `No staff match “${query}”.`;
+      return filtered ? `Nenhum funcionário corresponde a “${query}” com esses filtros.` : `Nenhum funcionário corresponde a “${query}”.`;
     },
     columns: {
-      name: "Name",
-      age: "Age",
-      job: "Job",
-      club: "Club",
-      nation: "Nation",
-      born: "Born",
-      currentAbility: "CA",
-      potentialAbility: "PA",
+      name: "Nome",
+      age: "Idade",
+      job: "Função",
+      club: "Clube",
+      nation: "País",
+      born: "Nascimento",
+      currentAbility: "HA",
+      potentialAbility: "POT",
       id: "ID",
     } satisfies Record<StaffSort | "job" | "born" | "id", string>,
     /** Hover text of a column header that sorts the list; `by` is a name from `sortNames`. */
-    sortBy: (by: string) => `Sort by ${by}`,
+    sortBy: (by: string) => `Ordenar por ${by}`,
     /** The name of each sortable column, as the summary line and the hover text of a header say it. */
     sortNames: {
-      currentAbility: "current ability",
-      potentialAbility: "potential ability",
-      age: "age",
-      name: "name",
-      nation: "nation",
-      club: "club",
+      currentAbility: "habilidade atual",
+      potentialAbility: "habilidade potencial",
+      age: "idade",
+      name: "nome",
+      nation: "país",
+      club: "clube",
     } satisfies Record<StaffSort, string>,
     /** The filters only the staff list has; the others are the player list's (`playerList.filters`). */
     filters: {
-      job: "Job",
+      job: "Função",
       /** The entry of the job select that is no filter. */
-      anyJob: "Any",
-      unemployedOnly: "Unemployed only",
+      anyJob: "Qualquer",
+      unemployedOnly: "Só desempregados",
     },
   },
 
   /** The club profile: what the player and staff panels do not have. */
   clubProfile: {
     // Header
-    womensClub: "Women's club",
+    womensClub: "Clube feminino",
     /** "Founded 1882", in the line under the name. */
-    founded: (year: number) => `Founded ${year}`,
+    founded: (year: number) => `Fundado em ${year}`,
     reputationShort: "REP",
-    reputationTitle: "Reputation",
+    reputationTitle: "Reputação",
 
     // The tabs under the header: what the club has, and its squad (see `squad`).
     /** The name of the tabs for assistive technology. */
-    tabsLabel: "Club sections",
-    tabs: { overview: "Overview", squad: "Squad", staff: "Staff", stadium: "Stadium" },
+    tabsLabel: "Seções do clube",
+    tabs: { overview: "Visão geral", squad: "Elenco", staff: "Funcionários", stadium: "Estádio" },
     /** Hover text of the Squad tab while the club is edited: its values are on the Overview. */
-    squadLocked: "Finish editing to open the squad",
+    squadLocked: "Termine a edição para abrir o elenco",
     /** The same for the Staff tab (see `clubStaff`). */
-    staffLocked: "Finish editing to open the staff",
+    staffLocked: "Termine a edição para abrir os funcionários",
 
-    facilities: "Facilities",
+    facilities: "Instalações",
 
     // Supporters
-    supporters: "Supporters",
-    supporterMix: "Supporter mix",
+    supporters: "Torcedores",
+    supporterMix: "Perfil da torcida",
     /** A share of the supporters; `value` is already a percentage (35 for 35%). */
     percent: (value: number) => `${percents.format(value)}%`,
     /** Hover text of a segment of the supporter-mix bar. */
     mixTooltip: (kind: string, percent: string) => `${kind} · ${percent}`,
 
     // Finances
-    finances: "Finances",
-    balance: "Balance",
-    transferBudget: "Transfer budget",
-    wageBudget: "Wage budget (spending)",
-    totalWageBudget: "Total wage budget",
-    ticketPrice: "Average ticket price",
+    finances: "Finanças",
+    balance: "Saldo",
+    transferBudget: "Orçamento de transferências",
+    wageBudget: "Orçamento salarial (gasto)",
+    totalWageBudget: "Orçamento salarial total",
+    ticketPrice: "Preço médio do ingresso",
     /** Under the labels of the two wage budgets, which are amounts per week. */
-    perWeek: "per week",
+    perWeek: "por semana",
     /** Clubs outside the leagues being played have no finance record in memory. */
-    noFinances: "FM keeps finances only for clubs in the leagues being played.",
+    noFinances: "O FM guarda finanças apenas dos clubes das ligas que estão sendo jogadas.",
     /** Freezing the club's money, while the game can be written to, and what that does. */
-    freeze: "Freeze money",
-    freezeNote: "The balance does not go down while the app is open and connected; income still counts",
+    freeze: "Congelar dinheiro",
+    freezeNote: "O saldo não diminui enquanto o app está aberto e conectado; as receitas continuam valendo",
 
     // Stadium
-    stadium: "Stadium",
-    capacity: "Capacity",
-    seating: "Seated",
-    used: "In use",
+    stadium: "Estádio",
+    capacity: "Capacidade",
+    seating: "Sentados",
+    used: "Em uso",
     /** The capacity in use when the game does not limit it (stored as 0). */
-    usedAll: "All of it",
-    usedTitle: "The part of the capacity the game lets in while it limits it; 0 means all of it",
-    expansion: "Can grow to",
+    usedAll: "Toda",
+    usedTitle: "A parte da capacidade que o jogo permite usar enquanto a limita; 0 significa toda",
+    expansion: "Pode crescer até",
     /** When the layout of this build does not know where the stadium is, or the club's stadium did not check out. */
-    noStadium: "The stadium could not be read for this club.",
+    noStadium: "Não foi possível ler o estádio deste clube.",
     /** Its name, which can be changed in place: in the block the game gave the old one. */
-    stadiumName: "Name",
-    rename: "Rename",
-    renameTitle: "Give the stadium another name; it is written at once",
+    stadiumName: "Nome",
+    rename: "Renomear",
+    renameTitle: "Dá outro nome ao estádio; é gravado na hora",
     /** The (i) beside the name: how a new name lasts, and that the app has to stay open for it. */
-    renameInfoLabel: "How does renaming work?",
+    renameInfoLabel: "Como funciona a renomeação?",
     renameInfo:
-      "The game keeps no stadium names in its saves: it takes them from its database each time it loads a save. So " +
-      "FMLibreEditor remembers the new name for this save, and gives it back within seconds each time the game loads " +
-      "it, as long as the app is open and connected. If the game loads the save while the app is closed, it shows its " +
-      "own name until the app connects again. To go back to the old name, undo the rename in Changes, or rename the " +
-      "stadium back.",
-    saveName: "Save",
-    renaming: "Saving…",
-    cancelRename: "Cancel",
+      "O jogo não guarda nomes de estádios nos saves: ele os pega do banco de dados toda vez que carrega um save. Por isso " +
+      "o FMLibreEditor lembra o novo nome para este save e o devolve em poucos segundos toda vez que o jogo o carrega, " +
+      "desde que o app esteja aberto e conectado. Se o jogo carregar o save com o app fechado, ele mostra o próprio " +
+      "nome até o app conectar de novo. Para voltar ao nome antigo, desfaça a renomeação em Alterações ou renomeie o " +
+      "estádio de volta.",
+    saveName: "Salvar",
+    renaming: "Salvando…",
+    cancelRename: "Cancelar",
     /** How long the name being typed is, in bytes of UTF-8, and how long it may be. */
     nameLength: (bytes: number, min: number, max: number) =>
       min <= 1
-        ? `${bytes} of at most ${max} characters (an accented letter counts as two)`
-        : `${bytes} characters: from ${min} to ${max}, to fit where the game keeps the name (an accented letter counts as two)`,
+        ? `${bytes} de no máximo ${max} caracteres (uma letra acentuada conta como dois)`
+        : `${bytes} caracteres: de ${min} a ${max}, para caber onde o jogo guarda o nome (uma letra acentuada conta como dois)`,
     /** Instead of Rename, when other things in the game hold the same name. */
     nameShared: (holders: number) =>
-      `${holders} things in the game share this name, so it cannot be changed for the stadium alone`,
+      `${holders} itens no jogo têm este nome, então ele não pode ser mudado só para o estádio`,
 
     // Club info
-    info: "Club info",
-    seasonTickets: "Season tickets",
-    socialMedia: "Social media followers",
+    info: "Informações do clube",
+    seasonTickets: "Sócios-torcedores",
+    socialMedia: "Seguidores nas redes sociais",
   },
 
   /**
@@ -1100,163 +1100,163 @@ export const ptBR: Strings = {
    * editor can (not you, not the board) after a dialog that asks first.
    */
   clubStaff: {
-    loading: "Reading the staff…",
+    loading: "Lendo os funcionários…",
     /** When the game keeps no staff for the club. */
-    empty: "The game keeps no staff for this club: clubs of leagues not played in this save have none.",
+    empty: "O jogo não guarda funcionários para este clube: clubes de ligas que não são jogadas neste save não têm.",
     /**
      * Above the table: how many staff the club has, and how many of them stay when the rest are released (0 when there
      * is nobody to release).
      */
     count: (total: number, staying: number) => {
-      const all = total === 1 ? "1 member of staff" : `${format(total)} staff`;
-      return staying === 0 ? all : `${all} · ${format(staying)} stay if the rest are released`;
+      const all = total === 1 ? "1 funcionário" : `${format(total)} funcionários`;
+      return staying === 0 ? all : `${all} · ${format(staying)} permanecem se os demais forem dispensados`;
     },
 
     // The action on the whole staff
     /** The name of the group of buttons for assistive technology. */
-    actionsLabel: "Actions on the whole staff",
+    actionsLabel: "Ações sobre todos os funcionários",
     /** `count` is how many of the club's staff it releases. */
-    releaseAll: (count: number) => (count === 0 ? "Release all staff" : `Release all staff (${format(count)})`),
-    releaseAllTitle: "Release all of the club's staff but you and the board; it asks first",
+    releaseAll: (count: number) => (count === 0 ? "Dispensar todos os funcionários" : `Dispensar todos os funcionários (${format(count)})`),
+    releaseAllTitle: "Dispensa todos os funcionários do clube, menos você e a diretoria; pede confirmação antes",
     /** Hover text of Release all staff while none of the club's staff can be released. */
-    releaseNone: "None of this club's staff can be released",
+    releaseNone: "Nenhum funcionário deste clube pode ser dispensado",
     /** Beside the button: whom it leaves, and where undoing is. */
-    hint: "Everyone but you and the board leaves the club at once. Undo is in the Changes view as well.",
+    hint: "Todos, menos você e a diretoria, saem do clube na hora. Também dá para desfazer na tela Alterações.",
     /** What Release all did, under the button; `count` is how many were released. */
     released: (count: number) =>
-      count === 1 ? "1 member of staff released" : `${format(count)} members of staff released`,
+      count === 1 ? "1 funcionário dispensado" : `${format(count)} funcionários dispensados`,
     /** A release the game refused: `name` is the member of staff's, `reason` the game's answer. */
     refused: (name: string, reason: string) => `${name}: ${reason}`,
-    undo: "Undo",
-    undoTitle: "Bring the released staff back to the club, on their contracts",
+    undo: "Desfazer",
+    undoTitle: "Traz de volta ao clube os funcionários dispensados, com os mesmos contratos",
 
     // The table
     /** The table's name for assistive technology. */
-    tableLabel: "The club's staff",
+    tableLabel: "Funcionários do clube",
     /** The last column: why a member of staff stays when the rest are released (empty for one who leaves). */
-    staysColumn: "Stays",
+    staysColumn: "Permanece",
     /** The reasons, short; the hover text has the game's answer in full. */
     stays: {
-      you: "You",
-      board: "The board",
-      player: "A player too",
-      held: "Held by the club",
-      other: "Cannot be released",
+      you: "Você",
+      board: "A diretoria",
+      player: "Também é jogador",
+      held: "Retido pelo clube",
+      other: "Não pode ser dispensado",
     },
 
     // The dialog that asks first
-    title: "Release all staff",
+    title: "Dispensar todos os funcionários",
     /** The club the staff leave. */
-    from: "Club",
+    from: "Clube",
     /** The headings over those who leave and over those who stay; `count` is how many. */
-    leaving: (count: number) => (count === 1 ? "1 leaves the club" : `${format(count)} leave the club`),
-    staying: (count: number) => (count === 1 ? "1 stays" : `${format(count)} stay`),
+    leaving: (count: number) => (count === 1 ? "1 sai do clube" : `${format(count)} saem do clube`),
+    staying: (count: number) => (count === 1 ? "1 permanece" : `${format(count)} permanecem`),
     /** After the names shown: how many more there are. */
-    more: (count: number) => `and ${format(count)} more`,
-    doesHeading: "What it does",
+    more: (count: number) => `e mais ${format(count)}`,
+    doesHeading: "O que isso faz",
     /** What the release does to each one, one line each. */
     does: [
-      "Each one leaves the club's staff at once, and the contract ends: unemployed, as the game's own staff without a club are",
-      "No one is paid anything",
-      "A place as manager or director of football is left empty, for the club to fill",
-      "You, the board and those the editor cannot release stay",
-      "Listed under Changes, where one undo brings them all back on the same contracts",
+      "Cada um sai do quadro de funcionários na hora e o contrato termina: desempregados, como os funcionários sem clube do próprio jogo",
+      "Ninguém recebe nenhum pagamento",
+      "A vaga de técnico ou de diretor de futebol fica vazia, para o clube preencher",
+      "Você, a diretoria e quem o editor não pode dispensar permanecem",
+      "Listado em Alterações, onde um único desfazer traz todos de volta com os mesmos contratos",
     ],
     /** In the dialog's foot: nothing changes in the game until Release all. */
-    dialogHint: "Nothing changes in the game until you press Release all.",
-    release: "Release all",
-    releasing: "Releasing…",
-    cancel: "Cancel",
+    dialogHint: "Nada muda no jogo até você clicar em Dispensar todos.",
+    release: "Dispensar todos",
+    releasing: "Dispensando…",
+    cancel: "Cancelar",
 
     // Moving the whole staff to another club: a button beside Release all staff, and a dialog that asks for the club
-    moveAll: "Move all staff",
-    moveAllTitle: "Move all of the club's staff but you and the board to another club; it asks first",
+    moveAll: "Mover todos os funcionários",
+    moveAllTitle: "Move todos os funcionários do clube, menos você e a diretoria, para outro clube; pede confirmação antes",
     /** Hover text of Move all staff while none of the club's staff can be moved. */
-    moveNone: "None of this club's staff can be moved",
+    moveNone: "Nenhum funcionário deste clube pode ser movido",
     /** What Move all did, under the button; `count` is how many moved, `club` the club they joined. */
     moved: (count: number, club: string) =>
-      count === 1 ? `1 member of staff moved to ${club}` : `${format(count)} members of staff moved to ${club}`,
-    undoMoveTitle: "Bring the moved staff back to this club, on their contracts",
-    moveTitle: "Move all staff",
+      count === 1 ? `1 funcionário movido para ${club}` : `${format(count)} funcionários movidos para ${club}`,
+    undoMoveTitle: "Traz de volta a este clube os funcionários movidos, com os mesmos contratos",
+    moveTitle: "Mover todos os funcionários",
     /** The name of the search box for the club the staff move to, for assistive technology. */
-    moveSearch: "Search for the club the staff move to",
+    moveSearch: "Buscar o clube para onde os funcionários vão",
     /** The line under the club in the dialog: before a club is picked, while the move is worked out, and then. */
-    movePick: "Choose the club the staff move to.",
-    movePlanning: "Working out who can move…",
+    movePick: "Escolha o clube para onde os funcionários vão.",
+    movePlanning: "Calculando quem pode ser movido…",
     movePlan: (count: number, club: string) =>
-      count === 1 ? `1 member of staff moves to ${club}` : `${format(count)} members of staff move to ${club}`,
-    moveNobody: (club: string) => `None of this club's staff can move to ${club}.`,
+      count === 1 ? `1 funcionário vai para ${club}` : `${format(count)} funcionários vão para ${club}`,
+    moveNobody: (club: string) => `Nenhum funcionário deste clube pode ir para ${club}.`,
     /**
      * Why one stays when the rest move, short, beyond the reasons a release has (see `stays`); `club` is the club they
      * move to. The hover text has the game's answer in full.
      */
     moveStays: {
-      managerTaken: (club: string) => `${club} has a manager`,
-      directorTaken: (club: string) => `${club} has a director of football`,
-      yourClub: (club: string) => `You manage ${club}`,
-      other: "Cannot be moved",
+      managerTaken: (club: string) => `${club} já tem técnico`,
+      directorTaken: (club: string) => `${club} já tem diretor de futebol`,
+      yourClub: (club: string) => `Você treina ${club}`,
+      other: "Não pode ser movido",
     },
     /** What the move does to each one, one line each. */
     moveDoes: [
-      "Each one joins the new club where the job is: its medical, coaching or scouting department",
-      "Same job, wage and contract end; each contract is dated from the game's date",
-      "A manager or a director of football joins only where the new club's place is empty; a place left here stays " +
-        "empty, for the club to fill",
-      "You, the board and those the editor cannot move stay",
-      "Listed under Changes, where one undo brings them all back to this club",
+      "Cada um entra no novo clube onde fica a função: no departamento médico, de treinamento ou de observação",
+      "Mesma função, salário e fim de contrato; cada contrato começa na data do jogo",
+      "Um técnico ou diretor de futebol só entra se a vaga no novo clube estiver livre; a vaga deixada aqui fica " +
+        "vazia, para o clube preencher",
+      "Você, a diretoria e quem o editor não pode mover permanecem",
+      "Listado em Alterações, onde um único desfazer traz todos de volta a este clube",
     ],
     /** In the dialog's foot: nothing changes in the game until Move all. */
-    moveHint: "Nothing changes in the game until you press Move all.",
-    move: "Move all",
-    moving: "Moving…",
+    moveHint: "Nada muda no jogo até você clicar em Mover todos.",
+    move: "Mover todos",
+    moving: "Movendo…",
   },
 
   /** The club list, with the sidebar entry and the status-line count that go with it. */
   clubList: {
     /** The entry in the sidebar. */
-    nav: "Clubs",
+    nav: "Clubes",
     /** In the status line, once connected. */
-    count: (total: number) => `${format(total)} clubs`,
-    search: "Search clubs by name or UID",
+    count: (total: number) => `${format(total)} clubes`,
+    search: "Buscar clubes por nome ou UID",
     summary: (total: number, shown: number) =>
       total > shown
-        ? `${format(total)} clubs · showing the top ${shown} by reputation`
-        : `${format(total)} clubs`,
+        ? `${format(total)} clubes · mostrando os ${shown} primeiros por reputação`
+        : `${format(total)} clubes`,
     /** The message under an empty table; `filtered` is whether a filter is in effect. */
     empty: (query: string, filtered: boolean) => {
       if (query === "") {
-        return filtered ? "No clubs match this filter." : "No clubs found.";
+        return filtered ? "Nenhum clube corresponde a este filtro." : "Nenhum clube encontrado.";
       }
-      return filtered ? `No clubs match “${query}” with this filter.` : `No clubs match “${query}”.`;
+      return filtered ? `Nenhum clube corresponde a “${query}” com este filtro.` : `Nenhum clube corresponde a “${query}”.`;
     },
     /** The small tag on a women's club. */
-    women: "Women",
+    women: "Mulheres",
     columns: {
-      name: "Name",
-      nation: "Nation",
-      league: "League",
-      reputation: "Reputation",
-      founded: "Founded",
+      name: "Nome",
+      nation: "País",
+      league: "Liga",
+      reputation: "Reputação",
+      founded: "Fundação",
       uid: "UID",
     },
     filters: {
       /** The label of the select of which clubs to show. */
-      kind: "Clubs to show",
-      all: "All clubs",
-      men: "Men's clubs",
-      women: "Women's clubs",
-      nation: "Nation",
-      league: "League",
+      kind: "Clubes a mostrar",
+      all: "Todos os clubes",
+      men: "Clubes masculinos",
+      women: "Clubes femininos",
+      nation: "País",
+      league: "Liga",
       /** The first entry of the league select. */
-      anyLeague: "Any league",
+      anyLeague: "Qualquer liga",
       /** The hover text of the league select. */
-      leagueTitle: "The league the first team plays in this season",
-      reputation: "Reputation",
+      leagueTitle: "A liga em que o time principal joga nesta temporada",
+      reputation: "Reputação",
       /** The hover text of the reputation range. */
-      reputationTitle: "From 0 to 10,000, as the game keeps it",
+      reputationTitle: "De 0 a 10.000, como o jogo guarda",
       /** The names of the two ends of the range, which have no labels of their own. */
-      minReputation: "Lowest reputation",
-      maxReputation: "Highest reputation",
+      minReputation: "Reputação mínima",
+      maxReputation: "Reputação máxima",
     },
   },
   /** The Clubs tab's national teams: each nation's men's and women's team, its senior team's squad and reputation. */
