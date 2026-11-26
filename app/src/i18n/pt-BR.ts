@@ -477,266 +477,266 @@ export const ptBR: Strings = {
 
   /** The names of the fields that are not attributes, personality or positions, by key. */
   fields: {
-    current_ability: "Current ability",
-    potential_ability: "Potential ability",
-    height: "Height (cm)",
-    date_of_birth: "Date of birth",
-    asking_price: "Asking price",
-    nation: "Nationality",
-    city_of_birth: "City of birth",
-    "reputation.home": "Home reputation",
-    "reputation.current": "Current reputation",
-    "reputation.world": "World reputation",
-    "international.caps": "Caps",
-    "international.goals": "International goals",
-    "international.u21_caps": "U21 caps",
-    "international.u21_goals": "U21 goals",
+    current_ability: "Habilidade atual",
+    potential_ability: "Habilidade potencial",
+    height: "Altura (cm)",
+    date_of_birth: "Data de nascimento",
+    asking_price: "Preço pedido",
+    nation: "Nacionalidade",
+    city_of_birth: "Cidade de nascimento",
+    "reputation.home": "Reputação nacional",
+    "reputation.current": "Reputação atual",
+    "reputation.world": "Reputação mundial",
+    "international.caps": "Jogos pela seleção",
+    "international.goals": "Gols pela seleção",
+    "international.u21_caps": "Jogos pela seleção sub-21",
+    "international.u21_goals": "Gols pela seleção sub-21",
     // What the game changes every day.
-    condition: "Energy",
-    match_sharpness: "Match sharpness",
-    jadedness: "Jadedness",
-    morale: "Morale",
-    "contract.wage": "Wage per week",
-    wageShare: "share of the wage",
-    monthlyFee: "monthly fee",
-    optionFee: "option to buy",
-    "contract.loyalty_bonus": "Loyalty bonus per week",
-    "contract.happiness": "Happiness",
-    "contract.playing_time_happiness": "Playing time happiness",
-    "contract.unhappiness": "Reasons to be unhappy",
-    "contract.expires": "Contract end",
-    "contract.squad_number": "Squad number",
-    "contract.squad_status": "Squad status",
-    "contract.transfer_listed": "Transfer listed",
-    "contract.loan_listed": "Loan listed",
-    "loan.expires": "Loan end",
-    "loan.option_fee": "Option to buy",
+    condition: "Energia",
+    match_sharpness: "Ritmo de jogo",
+    jadedness: "Cansaço acumulado",
+    morale: "Moral",
+    "contract.wage": "Salário por semana",
+    wageShare: "parcela do salário",
+    monthlyFee: "taxa mensal",
+    optionFee: "opção de compra",
+    "contract.loyalty_bonus": "Bônus de lealdade por semana",
+    "contract.happiness": "Felicidade",
+    "contract.playing_time_happiness": "Felicidade com o tempo de jogo",
+    "contract.unhappiness": "Motivos de insatisfação",
+    "contract.expires": "Fim do contrato",
+    "contract.squad_number": "Número da camisa",
+    "contract.squad_status": "Status no elenco",
+    "contract.transfer_listed": "Na lista de transferências",
+    "contract.loan_listed": "Na lista de empréstimos",
+    "loan.expires": "Fim do empréstimo",
+    "loan.option_fee": "Opção de compra",
     // A member of staff's job, which the change log keeps as a change of its code.
-    "contract.job": "Job",
+    "contract.job": "Função",
     // A player's ties, which the change log keeps as changes of the nation or club (see `ties`).
-    "tie.nationality": "Secondary nationality",
-    "tie.trainedInNation": "Trained in nation",
-    "tie.trainedAtClub": "Trained at club",
-    "tie.workPermit": "No work permit needed in",
+    "tie.nationality": "Segunda nacionalidade",
+    "tie.trainedInNation": "Formado no país",
+    "tie.trainedAtClub": "Formado no clube",
+    "tie.workPermit": "Sem necessidade de permissão de trabalho em",
     // A move to another club, which the change log keeps as a change of the player's club.
-    club: "Club",
+    club: "Clube",
     // Healing a player, which the change log keeps as a change of his injuries.
-    injuries: "Injuries",
+    injuries: "Lesões",
     // Setting a player's cohesion with his club, which the change log keeps as a change of it.
-    cohesion: "Cohesion",
-    tactics: "Tactical familiarity",
+    cohesion: "Entrosamento",
+    tactics: "Familiaridade tática",
     // Lifting a player's bans, which the change log keeps as a change of his bans.
-    bans: "Bans",
+    bans: "Suspensões",
     // Keeping a player from retiring, which the change log keeps as a change of the date he was to retire on.
-    retirement: "Retirement",
+    retirement: "Aposentadoria",
     // A change to a player's contract clauses, which the change log keeps as a change of the clause's amount.
-    clause: "Contract clause",
-    "clause.amount": "Clause amount",
-    "clause.condition": "Clause condition",
+    clause: "Cláusula do contrato",
+    "clause.amount": "Valor da cláusula",
+    "clause.condition": "Condição da cláusula",
     // Making a player the captain or vice-captain of one of a club's teams, which the change log keeps as a change of
     // the club's captain or vice-captain.
-    captain: "Captain",
-    vice_captain: "Vice-captain",
+    captain: "Capitão",
+    vice_captain: "Vice-capitão",
     // A club's own reputation, which has no home, current or world.
-    reputation: "Reputation",
-    "facilities.training": "Training facilities",
-    "facilities.youth_facilities": "Youth facilities",
-    "facilities.youth_coaching": "Youth coaching",
-    "facilities.youth_recruitment": "Youth recruitment",
-    "facilities.corporate": "Corporate facilities",
-    "finance.balance": "Balance",
-    "finance.transfer_budget": "Transfer budget",
-    "finance.wage_budget": "Wage budget",
-    "finance.total_wage_budget": "Total wage budget",
-    "stadium.capacity": "Stadium capacity",
-    "stadium.name": "Stadium name",
-    "name.first": "First name",
-    "name.last": "Last name",
-    "name.common": "Common name",
-    "name.full": "Full name",
-    "stadium.seating": "Seated capacity",
-    "stadium.used": "Capacity in use",
-    "stadium.expansion": "Expansion capacity",
+    reputation: "Reputação",
+    "facilities.training": "Instalações de treinamento",
+    "facilities.youth_facilities": "Instalações da base",
+    "facilities.youth_coaching": "Treinadores da base",
+    "facilities.youth_recruitment": "Captação da base",
+    "facilities.corporate": "Instalações corporativas",
+    "finance.balance": "Saldo",
+    "finance.transfer_budget": "Orçamento de transferências",
+    "finance.wage_budget": "Orçamento salarial",
+    "finance.total_wage_budget": "Orçamento salarial total",
+    "stadium.capacity": "Capacidade do estádio",
+    "stadium.name": "Nome do estádio",
+    "name.first": "Nome",
+    "name.last": "Sobrenome",
+    "name.common": "Nome popular",
+    "name.full": "Nome completo",
+    "stadium.seating": "Capacidade sentada",
+    "stadium.used": "Capacidade em uso",
+    "stadium.expansion": "Capacidade de ampliação",
     // Prize money a club's league pays, which the change log keeps as a change of the club (see `leaguePrizes`).
-    "prize.win": "League prize money per win",
-    "prize.draw": "League prize money per draw",
-    "prize.loss": "League prize money per loss",
+    "prize.win": "Premiação da liga por vitória",
+    "prize.draw": "Premiação da liga por empate",
+    "prize.loss": "Premiação da liga por derrota",
   },
 
   profile: {
-    close: "Close profile",
-    loading: "Loading profile…",
+    close: "Fechar perfil",
+    loading: "Carregando perfil…",
     /** The handle on the left edge of the panel. */
-    resize: "Resize the profile panel",
-    resizeHint: "Drag to make the panel wider or narrower; double-click to reset it",
+    resize: "Redimensionar o painel do perfil",
+    resizeHint: "Arraste para deixar o painel mais largo ou mais estreito; clique duas vezes para restaurar",
     /** Shown where a value is missing. */
     none: "—",
 
     // Header
-    freeAgent: "Free agent",
-    born: "Born",
+    freeAgent: "Sem clube",
+    born: "Nascimento",
     height: (cm: number) => `${cm} cm`,
     /** After the input of the height, while the player is edited. */
     heightUnit: "cm",
     uid: "UID",
-    currentAbility: "Current ability",
-    currentAbilityShort: "CA",
-    potentialAbility: "Potential ability",
-    potentialAbilityShort: "PA",
+    currentAbility: "Habilidade atual",
+    currentAbilityShort: "HA",
+    potentialAbility: "Habilidade potencial",
+    potentialAbilityShort: "POT",
     /** Hover text of a potential ability that is set as a range (the game stores it as a negative number). */
-    potentialRange: "Potential set as a range",
+    potentialRange: "Potencial definido como faixa",
 
     // Attributes
-    technical: "Technical",
-    goalkeeping: "Goalkeeping",
-    mental: "Mental",
-    physical: "Physical",
-    hidden: "Hidden",
-    feet: "Feet",
-    personality: "Personality",
+    technical: "Técnicos",
+    goalkeeping: "Goleiro",
+    mental: "Mentais",
+    physical: "Físicos",
+    hidden: "Ocultos",
+    feet: "Pés",
+    personality: "Personalidade",
     /** Hover text of an attribute: the value as stored, 0–100 unless the game stores it on another scale. */
-    raw: (raw: number, scale = 100) => `raw ${raw} / ${scale}`,
-    lowerIsBetter: "lower is better",
-    age: (age: number) => `age ${age}`,
+    raw: (raw: number, scale = 100) => `bruto ${raw} / ${scale}`,
+    lowerIsBetter: "quanto menor, melhor",
+    age: (age: number) => `${age} anos`,
 
     // Positions
-    positions: "Positions",
-    positionsSummary: (best: string) => `Position ratings: ${best}`,
+    positions: "Posições",
+    positionsSummary: (best: string) => `Avaliação das posições: ${best}`,
     /** The group of every position's rating, under the pitch. */
-    positionRatings: "Position ratings",
+    positionRatings: "Avaliação das posições",
     positionTiers: {
       natural: "Natural",
-      accomplished: "Accomplished",
-      competent: "Competent",
-      unconvincing: "Unconvincing",
-      ineffective: "Ineffective",
+      accomplished: "Experiente",
+      competent: "Competente",
+      unconvincing: "Pouco convincente",
+      ineffective: "Ineficaz",
     },
     positionTooltip: (position: string, rating: number, tier: string) => `${position} · ${rating} · ${tier}`,
 
     // Contract
-    contract: "Contract",
-    wage: "Wage per week",
+    contract: "Contrato",
+    wage: "Salário por semana",
     /** Under the wage: the game keeps money in pounds; `converted` when the app shows another currency. */
     wageNote: (converted: boolean): string =>
       converted
-        ? "the game keeps pounds; shown at FM's own exchange rate"
-        : "the game keeps pounds; another currency can be chosen in the settings",
-    signed: "Signed",
-    expires: "Expires",
-    joined: "Joined",
+        ? "o jogo guarda libras; exibido pela taxa de câmbio do próprio FM"
+        : "o jogo guarda libras; outra moeda pode ser escolhida nas configurações",
+    signed: "Assinado em",
+    expires: "Vence em",
+    joined: "Chegou em",
     /** Under a contract's dates: the button that makes it run `years` longer, while it does, and its hover text. */
-    extendContract: (years: number) => `Extend by ${years} years`,
-    extendingContract: "Extending…",
+    extendContract: (years: number) => `Estender por ${years} anos`,
+    extendingContract: "Estendendo…",
     /** `until` is the day the contract would end then. */
-    extendContractTitle: (years: number, until: string) => `Make the contract run ${years} years longer, to ${until}`,
-    squadStatus: "Squad status",
+    extendContractTitle: (years: number, until: string) => `Faz o contrato durar ${years} anos a mais, até ${until}`,
+    squadStatus: "Status no elenco",
     squadStatusName: (status: number) => SQUAD_STATUSES[status] ?? `Status ${status}`,
-    contractType: "Contract type",
-    contractTypeName: (code: number) => CONTRACT_TYPES[code] ?? `Type ${code}`,
-    squadNumber: "Squad number",
-    transferListed: "Transfer listed",
-    loanListed: "Loan listed",
+    contractType: "Tipo de contrato",
+    contractTypeName: (code: number) => CONTRACT_TYPES[code] ?? `Tipo ${code}`,
+    squadNumber: "Número da camisa",
+    transferListed: "Na lista de transferências",
+    loanListed: "Na lista de empréstimos",
 
     // Career
-    career: "Career",
-    internationalCaps: "International caps",
-    internationalGoals: "International goals",
-    u21Caps: "U21 caps",
-    u21Goals: "U21 goals",
-    askingPrice: "Asking price",
-    notSet: "Not set",
-    reputation: "Reputation",
-    reputationHome: "Home",
-    reputationCurrent: "Current",
-    reputationWorld: "World",
+    career: "Carreira",
+    internationalCaps: "Jogos pela seleção",
+    internationalGoals: "Gols pela seleção",
+    u21Caps: "Jogos pela seleção sub-21",
+    u21Goals: "Gols pela seleção sub-21",
+    askingPrice: "Preço pedido",
+    notSet: "Não definido",
+    reputation: "Reputação",
+    reputationHome: "Nacional",
+    reputationCurrent: "Atual",
+    reputationWorld: "Mundial",
     /** The retirement the game has planned for a player, and the button that keeps him playing. */
-    retirement: "Retirement",
-    retires: "Plans to retire",
-    noRetirement: "The game has not planned his retirement",
-    keepPlaying: "Prevent retirement",
-    keepingPlaying: "Preventing…",
-    keepPlayingTitle: "Cancel his planned retirement and give him the trait “Will play football as long as possible”",
+    retirement: "Aposentadoria",
+    retires: "Pretende se aposentar",
+    noRetirement: "O jogo não planejou a aposentadoria dele",
+    keepPlaying: "Impedir aposentadoria",
+    keepingPlaying: "Impedindo…",
+    keepPlayingTitle: "Cancela a aposentadoria planejada e dá a ele o traço “Vai jogar futebol pelo maior tempo possível”",
 
     // Medical (the group's heading is `medical`, below; the names of its values are in `fields`)
     /** A player's morale, 1–20. */
     morale: (value: number) => `${value} / 20`,
     /** Hover text of his morale: the game shows it as his overall happiness. */
     /** A player's traits (preferred moves): the heading, none, and each one's name by its bit. */
-    traits: "Traits",
-    noTraits: "No traits",
-    traitName: (bit: number) => TRAIT_NAMES_EN[bit] ?? `Trait ${bit}`,
+    traits: "Traços",
+    noTraits: "Sem traços",
+    traitName: (bit: number) => TRAIT_NAMES_EN[bit] ?? `Traço ${bit}`,
     /** A player's reasons to be unhappy, as FMRTE lists them, and the button that removes them all. */
-    unhappiness: "Unhappiness",
-    noUnhappiness: "Nothing makes him unhappy",
-    removeUnhappiness: "Remove all",
-    removingUnhappiness: "Removing…",
-    removeUnhappinessTitle: "Take every reason to be unhappy off his list",
+    unhappiness: "Insatisfação",
+    noUnhappiness: "Nada o deixa insatisfeito",
+    removeUnhappiness: "Remover todos",
+    removingUnhappiness: "Removendo…",
+    removeUnhappinessTitle: "Tira todos os motivos de insatisfação da lista dele",
     /** The second line of Remove all's hover text: what the game then does about his teammates. */
-    removeUnhappinessFollows: "His teammates' reasons about him end once the game moves on: press Continue in the game",
-    concernSince: (date: string) => `since ${date}`,
+    removeUnhappinessFollows: "Os motivos dos companheiros sobre ele terminam quando o jogo avança: clique em Continuar no jogo",
+    concernSince: (date: string) => `desde ${date}`,
     /** After a reason held about a teammate whose sentence does not name him: who he is. */
-    concernAbout: (name: string) => `about ${name}`,
-    concernKind: (kind: number) => (kind === 1 ? "Concerned" : kind === 2 ? "Internal" : `Type ${kind}`),
+    concernAbout: (name: string) => `sobre ${name}`,
+    concernKind: (kind: number) => (kind === 1 ? "Preocupado" : kind === 2 ? "Interno" : `Tipo ${kind}`),
     /** A reason by the game's sentence for it (see `reasons.ts`); a motive without one by its number. */
-    concernMotive: (concern: Concern) => reasonText(REASONS_PT_BR, concern) ?? `Reason ${concern.motive}`,
+    concernMotive: (concern: Concern) => reasonText(REASONS_PT_BR, concern) ?? `Motivo ${concern.motive}`,
     /** A contract's clauses and bonuses: the heading, and what each kind the game has is called. */
-    clauses: "Bonuses and clauses",
-    noClauses: "No bonuses or clauses",
-    loyaltyBonus: "Loyalty bonus",
-    happiness: "Happiness",
-    playingTimeHappiness: "Playing time happiness",
-    moodTitle: "As FMRTE shows it, from -100 to 100; the game shows it in words",
+    clauses: "Bônus e cláusulas",
+    noClauses: "Sem bônus ou cláusulas",
+    loyaltyBonus: "Bônus de lealdade",
+    happiness: "Felicidade",
+    playingTimeHappiness: "Felicidade com o tempo de jogo",
+    moodTitle: "Como o FMRTE mostra, de -100 a 100; o jogo mostra em palavras",
     /** The name of a clause or bonus by its kind; a kind the app does not know yet by its number. */
-    clauseName: (kind: number) => CLAUSE_NAMES_EN[kind] ?? `Clause ${kind}`,
+    clauseName: (kind: number) => CLAUSE_NAMES_EN[kind] ?? `Cláusula ${kind}`,
     /** A player's loan: where he is on loan, and the button that brings him back. */
-    loan: "Loan",
-    loanAt: "On loan at",
-    loanParent: "Belongs to",
-    loanFrom: "From",
-    loanUntil: "Until",
-    loanNumber: "Number there",
-    recall: "Recall from loan",
-    recallTitle: "Bring him back to his club today; it asks first",
-    recallAgain: "Recall again",
-    makePermanent: "Make permanent",
-    makePermanentTitle: "Keep him at the club he is on loan to, under contract with it; it asks first",
+    loan: "Empréstimo",
+    loanAt: "Emprestado a",
+    loanParent: "Pertence a",
+    loanFrom: "De",
+    loanUntil: "Até",
+    loanNumber: "Número lá",
+    recall: "Chamar de volta",
+    recallTitle: "Traz ele de volta ao clube hoje; pede confirmação antes",
+    recallAgain: "Chamar de volta de novo",
+    makePermanent: "Tornar definitivo",
+    makePermanentTitle: "Mantém ele no clube que o recebeu por empréstimo, com contrato; pede confirmação antes",
     /** Where the Recall button was, once the loan ends today: recalled by the editor, or ending today anyway. */
-    recalledWaiting: "Recalled · return pending",
-    endsTodayWaiting: "Ends today · return pending",
-    pendingTitle: (parent: string) => `The loan ends today: continue one day in the game and he is back at ${parent}`,
+    recalledWaiting: "Chamado de volta · retorno pendente",
+    endsTodayWaiting: "Termina hoje · retorno pendente",
+    pendingTitle: (parent: string) => `O empréstimo termina hoje: avance um dia no jogo e ele volta para ${parent}`,
     endPassed: (date: string) =>
-      `The loan was to end on ${date}, but the game has not brought him back. Recall him again, then continue one day.`,
+      `O empréstimo deveria terminar em ${date}, mas o jogo não o trouxe de volta. Chame-o de volta de novo e avance um dia.`,
     /** The loan's terms, as the game's Loan Club tab shows them. */
-    loanCanRecall: "Can be recalled",
-    loanCanRecallTitle: "Whether his club may recall him in the game. Recall from loan here works either way",
-    loanCanTerminate: "Can be ended early",
-    loanCupMatches: "Plays in cup matches",
-    loanAgainstClub: "Plays against his club",
-    loanOptionFee: "Option to buy",
-    loanOptionFeeTitle: "The fee for which the club he is on loan at may sign him for good",
-    loanMonthlyFee: "Monthly fee",
-    loanMonthlyFeeTitle: "What the club he is on loan at pays his club for each month he plays",
-    loanUnusedFee: "Monthly fee if unused",
-    loanUnusedFeeTitle: "What the club he is on loan at pays his club for each month he is not used",
+    loanCanRecall: "Pode ser chamado de volta",
+    loanCanRecallTitle: "Se o clube dele pode chamá-lo de volta no jogo. “Chamar de volta” aqui funciona de qualquer jeito",
+    loanCanTerminate: "Pode ser encerrado antes",
+    loanCupMatches: "Joga em jogos de copa",
+    loanAgainstClub: "Joga contra o próprio clube",
+    loanOptionFee: "Opção de compra",
+    loanOptionFeeTitle: "O valor pelo qual o clube que o recebeu por empréstimo pode contratá-lo em definitivo",
+    loanMonthlyFee: "Taxa mensal",
+    loanMonthlyFeeTitle: "O que o clube que o recebeu paga ao clube dele por cada mês em que ele joga",
+    loanUnusedFee: "Taxa mensal se não utilizado",
+    loanUnusedFeeTitle: "O que o clube que o recebeu paga ao clube dele por cada mês em que ele não é utilizado",
     /** What a clause depends on, by kind: goals, assists, league games, matches, years or a percentage. */
     clauseCondition: (kind: number, value: number) => {
       switch (kind) {
         case 10:
-          return value === 1 ? "1 goal" : `${value} goals`;
+          return value === 1 ? "1 gol" : `${value} gols`;
         case 40:
-          return value === 1 ? "1 assist" : `${value} assists`;
+          return value === 1 ? "1 assistência" : `${value} assistências`;
         case 41:
-          return `${value} goals and assists`;
+          return `${value} gols e assistências`;
         case 19:
-          return value === 1 ? "1 international appearance" : `${value} international appearances`;
+          return value === 1 ? "1 jogo pela seleção" : `${value} jogos pela seleção`;
         case 11:
         case 13:
         case 25:
         case 26:
-          return value === 1 ? "1 league game" : `${value} league games`;
+          return value === 1 ? "1 jogo no campeonato" : `${value} jogos no campeonato`;
         case 22:
         case 29:
-          return value === 1 ? "1 year" : `${value} years`;
+          return value === 1 ? "1 ano" : `${value} anos`;
         case 3:
         case 4:
         case 5:
@@ -752,83 +752,83 @@ export const ptBR: Strings = {
       }
     },
     /** When a release clause expires: on `date`, or, with the contract's start not known, `days` after it. */
-    clauseExpires: (date: string) => `expires ${date}`,
+    clauseExpires: (date: string) => `vence em ${date}`,
     clauseExpiresAfter: (days: number) =>
-      days === 1 ? "expires 1 day after signing" : `expires ${format(days)} days after signing`,
+      days === 1 ? "vence 1 dia após a assinatura" : `vence ${format(days)} dias após a assinatura`,
     /** A sell-on clause on the profit: its percentage of what the selling club makes over the amount. */
-    clauseProfitShare: (percent: string, amount: string) => `${percent} of the profit over ${amount}`,
+    clauseProfitShare: (percent: string, amount: string) => `${percent} do lucro acima de ${amount}`,
     /** The wage a clause gives from then on. */
-    clauseWage: (amount: string) => `${amount} a week`,
-    moraleTitle: "Overall happiness in the game: content at 10, slightly happy at 11, extremely happy at 15 and 20",
+    clauseWage: (amount: string) => `${amount} por semana`,
+    moraleTitle: "Felicidade geral no jogo: satisfeito com 10, um pouco feliz com 11, extremamente feliz com 15 e 20",
     /** Hover text of jadedness, which the profile shows as stored. */
     jadednessTitle:
-      "How worn out he is by playing: -500 is fully rested, and the higher it is, the more he needs a rest",
-    noInjuries: "No injuries",
+      "O quanto ele está desgastado por jogar: -500 é totalmente descansado e, quanto maior, mais ele precisa de descanso",
+    noInjuries: "Sem lesões",
     /** The name of an injury the game gave none for. */
-    unknownInjury: "Unknown injury",
+    unknownInjury: "Lesão desconhecida",
     /** Under the name of an injury: when it began, and when he is expected back (`dates`: one date, or a range). */
-    injuryStarted: (date: string) => `Started ${date}`,
-    injuryBack: (dates: string) => `Expected back ${dates}`,
+    injuryStarted: (date: string) => `Início em ${date}`,
+    injuryBack: (dates: string) => `Volta prevista: ${dates}`,
     /** Heals every injury of the player at once. */
-    heal: "Heal",
-    healTitle: "Heal every injury of this player in the game",
-    noBans: "No bans",
+    heal: "Curar",
+    healTitle: "Cura todas as lesões deste jogador no jogo",
+    noBans: "Sem suspensões",
     /** A ban: how many matches the player still has to miss, and under it when it began. */
-    banMatches: (matches: number) => (matches === 1 ? "1 match" : `${format(matches)} matches`),
-    banStarted: (date: string) => `From ${date}`,
+    banMatches: (matches: number) => (matches === 1 ? "1 jogo" : `${format(matches)} jogos`),
+    banStarted: (date: string) => `A partir de ${date}`,
     /** Lifts every ban of the player at once. */
-    liftBans: "Lift",
-    liftBansTitle: "Lift every ban of this player in the game",
+    liftBans: "Cancelar",
+    liftBansTitle: "Cancela todas as suspensões deste jogador no jogo",
 
     // Above the attributes, while the profile is read
     /** Sets every attribute of the player to its best at once. */
-    maxAttributes: "Max attributes",
-    maxAttributesTitle: "Set every attribute to its best: 20, and 1 for injury proneness and dirtiness",
+    maxAttributes: "Maximizar atributos",
+    maxAttributesTitle: "Coloca todos os atributos no máximo: 20, e 1 para propensão a lesões e jogo sujo",
     /** What Max attributes wrote, beside the button that takes it back; then what that undid. */
     maxAttributesDone: (count: number) =>
-      count === 0 ? "Every attribute is at its best already" : `${changeCount(count)} written`,
-    maxAttributesUndone: (count: number) => (count === 0 ? "Nothing was undone" : `Undid ${changeCount(count)}`),
-    undoMax: "Undo",
-    undoMaxTitle: "Write his old attributes back to the game",
+      count === 0 ? "Todos os atributos já estão no máximo" : `Gravado: ${changeCount(count)}`,
+    maxAttributesUndone: (count: number) => (count === 0 ? "Nada foi desfeito" : `Desfeito: ${changeCount(count)}`),
+    undoMax: "Desfazer",
+    undoMaxTitle: "Grava de volta no jogo os atributos antigos dele",
     /** Freezing his attributes, while the game can be written to, and what that does. */
-    freezeAttributes: "Freeze attributes",
+    freezeAttributes: "Congelar atributos",
     freezeAttributesNote:
-      "His attributes do not get worse while the app is open and connected; improvements still count",
+      "Os atributos dele não pioram enquanto o app está aberto e conectado; as melhoras continuam valendo",
     /** The same for a member of staff, who has no injury proneness or dirtiness. */
-    maxStaffAttributesTitle: "Set every attribute of this member of staff to its best: 20",
-    undoMaxStaffTitle: "Write the old attributes back to the game",
+    maxStaffAttributesTitle: "Coloca todos os atributos deste funcionário no máximo: 20",
+    undoMaxStaffTitle: "Grava de volta no jogo os atributos antigos",
     freezeStaffAttributesNote:
-      "Their attributes do not get worse while the app is open and connected; improvements still count",
+      "Os atributos deles não pioram enquanto o app está aberto e conectado; as melhoras continuam valendo",
     /** Freezing his energy and match sharpness, under them in the Medical group, and what that does. */
-    freezeFitness: "Freeze energy and sharpness",
+    freezeFitness: "Congelar energia e ritmo de jogo",
     freezeFitnessNote:
-      "His energy and match sharpness do not go down while the app is open and connected; gains still count",
+      "A energia e o ritmo de jogo dele não caem enquanto o app está aberto e conectado; os ganhos continuam valendo",
     /** Freezing his position ratings: the box under the pitch, and the (i) after it, which says what that does. */
-    freezePositions: "Freeze",
-    freezePositionsInfo: "What does freezing positions do?",
+    freezePositions: "Congelar",
+    freezePositionsInfo: "O que faz congelar as posições?",
     freezePositionsNote:
-      "While the app is open and connected, his position ratings stay as they are: he does not learn a new position, " +
-      "and his ratings neither rise nor drop. The app remembers this for this save.",
+      "Enquanto o app está aberto e conectado, as avaliações de posição dele ficam como estão: ele não aprende uma posição nova, " +
+      "e as avaliações não sobem nem caem. O app lembra disso para este save.",
 
     // Staff
     /** Badge on the manager the user controls. */
-    you: "You",
-    youTitle: "The manager you control in this save",
+    you: "Você",
+    youTitle: "O técnico que você controla neste save",
     id: "ID",
-    job: "Job",
+    job: "Função",
     /** Giving a member of staff another job at their club, under the job in the contract. */
-    changeJob: "Change job",
-    changeJobTitle: "Give this member of staff another job at their club in the game",
-    newJob: "New job",
-    applyJob: "Apply",
-    cancelJob: "Cancel",
-    unemployed: "Unemployed",
-    coaching: "Coaching",
-    knowledge: "Knowledge",
-    medical: "Medical",
+    changeJob: "Mudar função",
+    changeJobTitle: "Dá a este funcionário outra função no clube dele, no jogo",
+    newJob: "Nova função",
+    applyJob: "Aplicar",
+    cancelJob: "Cancelar",
+    unemployed: "Desempregado",
+    coaching: "Treinamento",
+    knowledge: "Conhecimento",
+    medical: "Médico",
     /** A coaching job held by someone who still plays. */
-    playerCoach: (job: string) => `${job} (player-coach)`,
-    unknownJob: (code: number) => `Job ${code}`,
+    playerCoach: (job: string) => `${job} (jogador-treinador)`,
+    unknownJob: (code: number) => `Função ${code}`,
   },
 
   /** The player list: search, filter bar and columns. */
