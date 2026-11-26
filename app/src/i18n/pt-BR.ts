@@ -814,7 +814,7 @@ export const ptBR: Strings = {
     // Staff
     /** Badge on the manager the user controls. */
     you: "Você",
-    youTitle: "O técnico que você controla neste save",
+    youTitle: "O treinador que você controla neste save",
     id: "ID",
     job: "Função",
     /** Giving a member of staff another job at their club, under the job in the contract. */
@@ -1159,7 +1159,7 @@ export const ptBR: Strings = {
     does: [
       "Cada um sai do quadro de funcionários na hora e o contrato termina: desempregados, como os funcionários sem clube do próprio jogo",
       "Ninguém recebe nenhum pagamento",
-      "A vaga de técnico ou de diretor de futebol fica vazia, para o clube preencher",
+      "A vaga de treinador ou de diretor de futebol fica vazia, para o clube preencher",
       "Você, a diretoria e quem o editor não pode dispensar permanecem",
       "Listado em Alterações, onde um único desfazer traz todos de volta com os mesmos contratos",
     ],
@@ -1192,7 +1192,7 @@ export const ptBR: Strings = {
      * move to. The hover text has the game's answer in full.
      */
     moveStays: {
-      managerTaken: (club: string) => `${club} já tem técnico`,
+      managerTaken: (club: string) => `${club} já tem treinador`,
       directorTaken: (club: string) => `${club} já tem diretor de futebol`,
       yourClub: (club: string) => `Você treina ${club}`,
       other: "Não pode ser movido",
@@ -1201,7 +1201,7 @@ export const ptBR: Strings = {
     moveDoes: [
       "Cada um entra no novo clube onde fica a função: no departamento médico, de treinamento ou de observação",
       "Mesma função, salário e fim de contrato; cada contrato começa na data do jogo",
-      "Um técnico ou diretor de futebol só entra se a vaga no novo clube estiver livre; a vaga deixada aqui fica " +
+      "Um treinador ou diretor de futebol só entra se a vaga no novo clube estiver livre; a vaga deixada aqui fica " +
         "vazia, para o clube preencher",
       "Você, a diretoria e quem o editor não pode mover permanecem",
       "Listado em Alterações, onde um único desfazer traz todos de volta a este clube",
@@ -1314,7 +1314,7 @@ export const ptBR: Strings = {
     squadHeading: (team: string, count: number) => `${team}: ${format(count)} ${count === 1 ? "jogador" : "jogadores"}`,
     /** The name of the squad table for assistive technology; `team` is the name of the team picked. */
     squadLabel: (team: string) => `Jogadores da seleção: ${team}`,
-    squadNote: "Os jogadores que o jogo lista para esta seleção, na ordem dele. Convocações, capitães e o contrato do técnico não são editados aqui.",
+    squadNote: "Os jogadores que o jogo lista para esta seleção, na ordem dele. Convocações, capitães e o contrato do treinador não são editados aqui.",
     /** What the profile shows of the nation and its federation, read from the game; the staff's heading has how many there are. */
     details: {
       nation: "País",
@@ -2438,9 +2438,9 @@ export const ptBR: Strings = {
     staffNewJob: "Assume a nova função e mantém o salário e o fim do contrato; o contrato começa na data do jogo.",
     staffDoes: [
       "Entra no novo clube onde fica a função: no departamento médico, de treinamento ou de observação, ou como diretor de " +
-        "futebol ou técnico, o que um clube que já tem um não aceita",
+        "futebol ou treinador, o que um clube que já tem um não aceita",
       "Mesmo salário e fim de contrato; o contrato começa na data do jogo",
-      "Um técnico que deixa um time deixa a vaga aberta, para o clube preencher; a diretoria fica a cargo do jogo",
+      "Um treinador que deixa um time deixa a vaga aberta, para o clube preencher; a diretoria fica a cargo do jogo",
       "Listado em Alterações, onde pode ser desfeito",
     ],
     // Signing a member of staff who has no club
@@ -2455,7 +2455,7 @@ export const ptBR: Strings = {
     staffSignContract: (wage: string, expires: string) => `Novo contrato: ${wage} por semana até ${expires}`,
     staffSignDoes: [
       "Entra no clube onde fica a função: no departamento, que é ampliado se estiver cheio, ou como diretor de futebol ou " +
-        "técnico, quando não há um",
+        "treinador, quando não há um",
       "Um novo contrato a partir da data do jogo, em um dos espaços livres de contrato do próprio jogo, como o jogo faz",
       "Modelado no contrato do funcionário do clube com a mesma função (senão do mesmo departamento, senão qualquer um) " +
         "mais próximo da habilidade dela",
@@ -2613,7 +2613,7 @@ export const ptBR: Strings = {
     staffDoes: [
       "Sai do quadro de funcionários do clube na hora e o contrato termina: desempregado, como os funcionários sem clube do próprio jogo",
       "Ninguém recebe nenhum pagamento",
-      "A vaga de técnico ou de diretor de futebol fica vazia, para o clube preencher",
+      "A vaga de treinador ou de diretor de futebol fica vazia, para o clube preencher",
       "Listado em Alterações, onde um desfazer traz a pessoa de volta com o mesmo contrato",
     ],
 
@@ -3454,7 +3454,7 @@ export const ptBR: Strings = {
     nav: "Meu clube",
     loading: "Procurando o seu clube…",
     failed: (reason: string) => `Não foi possível procurar o seu clube: ${reason}`,
-    manager: (name: string) => `Técnico: ${name}`,
+    manager: (name: string) => `Treinador: ${name}`,
     following: "Um clube que você acompanha",
     clubsLabel: "Seus clubes",
     openProfile: "Perfil do clube",
@@ -3551,7 +3551,7 @@ export const ptBR: Strings = {
       "O app anota as habilidades, o valor e os atributos de cada jogador cerca de uma vez por semana do tempo do jogo, sempre que lê os dados do jogo. Continue jogando, leia os dados de novo e a evolução deste jogador aparece aqui.",
     offTitle: "Sem registros para este save",
     offText:
-      "O app guarda registros de um save com um técnico seu, em uma versão do jogo cujos dados passam nas verificações dele.",
+      "O app guarda registros de um save com um treinador seu, em uma versão do jogo cujos dados passam nas verificações dele.",
   },
 
   /**
