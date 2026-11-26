@@ -2072,7 +2072,7 @@ export const ptBR: Strings = {
       const changedWord = count === 1 ? "mudou" : "mudaram";
       return (
         `${entityCount[entity](count)} ${changedWord} no jogo durante a leitura e ` +
-        `${count === 1 ? "was" : "were"} left out.`
+        `${count === 1 ? "ficou" : "ficaram"} de fora.`
       );
     },
     open: "Abrir",
@@ -2248,35 +2248,35 @@ export const ptBR: Strings = {
   /** Comparing players: the button in a player's profile, the tray under the player list and the dialog. */
   comparison: {
     /** The button in the header of a player's profile. */
-    compare: "Compare",
+    compare: "Comparar",
     /** Hover text of that button while the player is not in the comparison, and while they are. */
-    add: "Add to comparison",
-    remove: "Remove from comparison",
+    add: "Adicionar à comparação",
+    remove: "Remover da comparação",
     /** Hover text of the button while the comparison is full and cannot take this player; `max` is its size. */
-    full: (max: number) => `A comparison holds up to ${max} players. Remove one to add this player.`,
+    full: (max: number) => `Uma comparação aceita até ${max} jogadores. Remova um para adicionar este jogador.`,
 
     // The tray under the player list
-    trayLabel: "Players to compare",
+    trayLabel: "Jogadores para comparar",
     /** The name and hover text of the × on a player's chip. */
-    removePlayer: (name: string) => `Remove from comparison: ${name}`,
-    clear: "Clear",
+    removePlayer: (name: string) => `Remover da comparação: ${name}`,
+    clear: "Limpar",
     /** The button that opens the dialog; `count` is how many players are picked. */
     open: (count: number) => `Compare (${count})`,
 
     // The dialog
-    title: "Comparison",
+    title: "Comparação",
     /** Under the title: what the highlight in the table means. */
-    hint: "The best value in each row is highlighted: the highest, or the lowest where lower is better.",
+    hint: "O melhor valor de cada linha fica destacado: o mais alto, ou o mais baixo onde menor é melhor.",
     /** What the dialog says when fewer than two players are picked. */
-    tooFew: "Add at least two players to compare them.",
-    loading: "Loading the players…",
-    tableLabel: "Values of the compared players",
+    tooFew: "Adicione pelo menos dois jogadores para compará-los.",
+    loading: "Carregando os jogadores…",
+    tableLabel: "Valores dos jogadores comparados",
     /** Said after the highlighted value of a row, for assistive technology. */
-    highest: "highest",
-    lowest: "lowest",
+    highest: "mais alto",
+    lowest: "mais baixo",
     /** The heading of the rows with the positions, height, reputation and contract. */
-    profile: "Profile",
-    close: "Close",
+    profile: "Perfil",
+    close: "Fechar",
   },
 
   /**
@@ -2284,293 +2284,233 @@ export const ptBR: Strings = {
    * dialog it opens.
    */
   move: {
-    /** The button in the header of a player's profile. */
-    button: "Transfer",
-    buttonTitle: "Transfer this player to another club in the game, for a fee if you like",
+    button: "Transferir",
+    buttonTitle: "Transfere este jogador para outro clube no jogo, com valor se você quiser",
 
     // The dialog
-    title: "Transfer",
-    /** The club the player is at, and the club he moves to (or, in a swap, goes to). */
-    from: "From",
-    to: "To",
+    title: "Transferir",
+    from: "De",
+    to: "Para",
 
-    // The switch at the top of the dialog: a transfer the game makes the next day, a move to a club now, or a swap with
-    // one of its players.
-    /** Its name for assistive technology. */
-    modeLabel: "Transfer, loan, move now or swap",
-    modeArrange: "Transfer",
-    modeMove: "Move now",
-    modeSwap: "Swap with a player",
-    /** Under the switch: what each of the first two does, and why Transfer is missing where it is. */
+    modeLabel: "Transferir, emprestar, mover agora ou trocar",
+    modeArrange: "Transferir",
+    modeMove: "Mover agora",
+    modeSwap: "Trocar com um jogador",
     arrangeNote:
-      "The game makes the transfer on its next day, as it makes its own: his history keeps this season's matches " +
-      "with his old club, lists the new club with the fee, and the game pays the fee.",
+      "O jogo faz a transferência no dia seguinte, como faz as dele: o histórico do jogador mantém as partidas desta temporada " +
+      "pelo clube antigo, lista o novo clube com o valor, e o jogo paga o valor.",
     moveNote:
-      "The editor moves him at once. The game's history does not list it: this season shows under the new club, " +
-      "with no fee.",
+      "O editor o move na hora. O histórico do jogo não registra isso: esta temporada aparece no novo clube, " +
+      "sem valor.",
     arrangeUnavailable:
-      "This version of the game, or this system, does not let the editor arrange a transfer for the game to make: " +
-      "Move now moves him at once.",
+      "Esta versão do jogo, ou este sistema, não deixa o editor agendar uma transferência para o jogo fazer: " +
+      "“Mover agora” o move na hora.",
 
     // A transfer the game makes the next day
-    /** While the plan is worked out: the first time, finding the game's transfers takes a few seconds. */
-    arrangeChecking: "Checking the transfer… the first time, finding the game's transfers takes a few seconds.",
-    /** The day the game makes the move, in the plan. */
-    movesOn: (date: string) => `The game makes the move on ${date}`,
-    /** The fee in the plan: the game pays it on the day. */
-    arrangeFee: (amount: string) => `Fee ${amount}, paid by the game on the day`,
-    /** The contract in the plan: the wage per week and the end date, written out. */
-    arrangeContract: (wage: string, expires: string) => `Contract: ${wage} a week, until ${expires}`,
-    /** What arranging the transfer does, one line each, in the place of `does`. */
+    arrangeChecking: "Verificando a transferência… na primeira vez, achar as transferências do jogo leva alguns segundos.",
+    movesOn: (date: string) => `O jogo faz a transferência em ${date}`,
+    arrangeFee: (amount: string) => `Valor ${amount}, pago pelo jogo no dia`,
+    arrangeContract: (wage: string, expires: string) => `Contrato: ${wage} por semana, até ${expires}`,
     arrangeDoes: [
-      "Agreed now: the game makes the move when it reaches its next day",
-      "His history keeps this season's matches with his old club, and lists the new club with the fee",
-      "The game pays the fee on the day, as it pays for its own transfers",
-      "Contract with the new club from that day; wage and contract end change only if you set new ones",
-      "Listed under Changes, where one undo takes it back until the day",
+      "Combinado agora: o jogo faz a transferência quando chegar ao dia seguinte",
+      "O histórico dele mantém as partidas desta temporada pelo clube antigo e lista o novo clube com o valor",
+      "O jogo paga o valor no dia, como paga as próprias transferências",
+      "Contrato com o novo clube a partir desse dia; salário e fim do contrato só mudam se você definir novos",
+      "Listado em Alterações, onde um desfazer cancela a transferência até o dia",
     ],
-    /** The button of the foot. */
-    arrangeButton: "Arrange transfer",
+    arrangeButton: "Agendar transferência",
 
     // A loan the game makes the next day
-    /** The choice of the switch. */
-    modeLoan: "Loan",
-    /** Under the switch in loan mode. */
-    loanNote: "The game makes the loan on its next day, as it makes its own; he is back at his club after it.",
-    /** While the loan's plan is worked out. */
-    loanChecking: "Checking the loan…",
-    /** The plan's lines: the day the game makes the loan, its last day, what the club pays, the monthly fee, the option. */
-    loanOn: (date: string) => `The game makes the loan on ${date}`,
-    loanUntil: (date: string) => `The loan lasts until ${date}`,
-    loanWage: (money: string, share: number) => `The club pays ${money} a week (${format(share)}% of his wage)`,
-    loanMonthlyFee: (money: string) => `Monthly fee ${money}`,
-    loanOption: (money: string) => `Option to buy for ${money}`,
-    /** What arranging the loan does, one line each, in the place of `does`. */
+    modeLoan: "Empréstimo",
+    loanNote: "O jogo faz o empréstimo no dia seguinte, como faz os dele; depois dele, o jogador volta ao seu clube.",
+    loanChecking: "Verificando o empréstimo…",
+    loanOn: (date: string) => `O jogo faz o empréstimo em ${date}`,
+    loanUntil: (date: string) => `O empréstimo dura até ${date}`,
+    loanWage: (money: string, share: number) => `O clube paga ${money} por semana (${format(share)}% do salário dele)`,
+    loanMonthlyFee: (money: string) => `Taxa mensal ${money}`,
+    loanOption: (money: string) => `Opção de compra por ${money}`,
     loanDoes: [
-      "Agreed now: the game makes the loan when it reaches its next day",
-      "His history lists the loan, and he returns to his own club the day after the last day",
-      "The club pays its share of his wage, and the monthly fee if you set one",
-      "With an option, the club he joins may sign him for its fee when the loan ends",
+      "Combinado agora: o jogo faz o empréstimo quando chegar ao dia seguinte",
+      "O histórico dele lista o empréstimo, e ele volta ao próprio clube no dia depois do último dia",
+      "O clube paga a parte dele no salário e a taxa mensal, se você definir uma",
+      "Com opção, o clube que o recebe pode contratá-lo pelo valor dela quando o empréstimo terminar",
     ],
-    /** The heading of `loanDoes`. */
-    loanDoesHeading: "What the loan does",
-    /** The foot's hint and button in loan mode. */
-    loanHint: "Nothing changes in the game until you press Arrange loan.",
-    loanButton: "Arrange loan",
-    /** The loan's inputs: label, and the short hint under it. */
-    loanLastDay: "Last day of the loan",
-    loanLastDayHint: "He is back at his own club the next day",
-    loanShare: "Share of his wage paid",
-    loanShareHint: "What the club he joins pays; his own club pays the rest",
-    loanShareInvalid: "Enter a whole number from 0 to 100",
-    loanMonthly: "Monthly fee",
-    loanOptionFee: "Option to buy",
-    loanOptionFeeHint: "The club he joins may sign him for this fee when the loan ends; empty for none",
+    loanDoesHeading: "O que o empréstimo faz",
+    loanHint: "Nada muda no jogo até você clicar em Agendar empréstimo.",
+    loanButton: "Agendar empréstimo",
+    loanLastDay: "Último dia do empréstimo",
+    loanLastDayHint: "No dia seguinte ele volta ao próprio clube",
+    loanShare: "Parte do salário paga",
+    loanShareHint: "O que o clube que o recebe paga; o clube dele paga o resto",
+    loanShareInvalid: "Digite um número inteiro de 0 a 100",
+    loanMonthly: "Taxa mensal",
+    loanOptionFee: "Opção de compra",
+    loanOptionFeeHint: "O clube que o recebe pode contratá-lo por este valor quando o empréstimo terminar; vazio para nenhuma",
 
     // Choosing the club
-    /** The name of the search box, and of the list of clubs under it, for assistive technology. */
-    searchLabel: "Search for the club to transfer to",
-    resultsLabel: "Clubs found",
-    searching: "Searching clubs…",
-    searchFailed: (reason: string) => `Could not search the clubs: ${reason}`,
-    /** Under the list when the search found more clubs than it lists; `count` is how many more. */
-    more: (count: number) => `and ${format(count)} more; type to narrow the search`,
-    /** Takes the place of the search once a club is picked: the button that brings it back. */
-    change: "Choose another club",
+    searchLabel: "Buscar o clube para onde transferir",
+    resultsLabel: "Clubes encontrados",
+    searching: "Buscando clubes…",
+    searchFailed: (reason: string) => `Não foi possível buscar os clubes: ${reason}`,
+    more: (count: number) => `e mais ${format(count)}; digite para refinar a busca`,
+    change: "Escolher outro clube",
 
     // The fee
-    feeHeading: "Fee",
-    fee: "Transfer fee",
-    /** Under the fee input while it can be sent, and while it cannot. */
-    feeHint: "Leave it empty for a free transfer",
-    /** `max` is the most a fee can be, as amounts are shown. */
-    feeInvalid: (max: string) => `Enter a whole amount, from 0 to ${max}`,
-    /**
-     * What the fee does to the clubs' money, a line each in the plan. `fee` is the amount, `balance` and `budget` a
-     * change written out ("£9,492,232 → £10,726,799"); `budget` is null when the club has no transfer budget set.
-     */
+    feeHeading: "Valor",
+    fee: "Valor da transferência",
+    feeHint: "Deixe vazio para uma transferência gratuita",
+    feeInvalid: (max: string) => `Digite um valor inteiro, de 0 a ${max}`,
     pays: (club: string, fee: string, balance: string, budget: string | null) =>
-      `${club} pays ${fee}: balance ${balance}${budget === null ? "" : `, transfer budget ${budget}`}`,
-    receives: (club: string, fee: string, balance: string) => `${club} receives ${fee}: balance ${balance}`,
-    /** For a club outside the leagues being played, which the game keeps no finances for. */
-    noFinances: (club: string) => `${club} has no finances in the game: its money stays as it is`,
+      `${club} paga ${fee}: saldo ${balance}${budget === null ? "" : `, orçamento de transferências ${budget}`}`,
+    receives: (club: string, fee: string, balance: string) => `${club} recebe ${fee}: saldo ${balance}`,
+    noFinances: (club: string) => `${club} não tem finanças no jogo: o dinheiro dele continua como está`,
 
     // The contract
-    /** Under an input that cannot be sent. */
-    wageInvalid: "Enter a whole amount, 0 or more",
-    expiresInvalid: "Enter a date",
+    wageInvalid: "Digite um valor inteiro, 0 ou mais",
+    expiresInvalid: "Digite uma data",
 
     // What the dialog says about the move itself
-    chooseClub: "Choose the club to transfer the player to.",
-    fixTerms: "Fix the fee or the contract values first.",
-    checking: "Checking the transfer…",
-    /** The move can be made; `from` and `to` are the names of the clubs. */
+    chooseClub: "Escolha o clube para onde transferir o jogador.",
+    fixTerms: "Corrija antes o valor ou os dados do contrato.",
+    checking: "Verificando a transferência…",
     route: (from: string, to: string) => `${from} → ${to}`,
-    doesHeading: "What the transfer does",
-    /** What the game does to the player, one line each. */
+    doesHeading: "O que a transferência faz",
     does: [
-      "Joins the senior team of the new club",
-      "Contract dated from the game's date; squad number cleared",
-      "Comes off the transfer and loan lists",
-      "Wage and contract end change only if you set new ones",
-      "The fee comes out of the buying club's balance and transfer budget, and goes into the selling club's balance",
-      "Any captaincy at the old club is left empty",
-      "The game's transfer history does not list it yet",
-      "Listed under Changes, where one undo takes back the transfer and the fee",
+      "Entra no time principal do novo clube",
+      "Contrato a partir da data do jogo; número da camisa removido",
+      "Sai das listas de transferências e de empréstimos",
+      "Salário e fim do contrato só mudam se você definir novos",
+      "O valor sai do saldo e do orçamento de transferências do clube comprador e entra no saldo do clube vendedor",
+      "Qualquer braçadeira de capitão no clube antigo fica vaga",
+      "O histórico de transferências do jogo ainda não a registra",
+      "Listado em Alterações, onde um desfazer cancela a transferência e o valor",
     ],
 
-    // A club whose squad list is full: the box that takes the place of the refusal and offers to make room, by
-    // releasing one of its players in the same transfer, or by making it a swap with that player.
-    /** The first line; `club` is the club picked. */
-    noRoom: (club: string) => `${club} has no room in its squad.`,
-    /** The name of the (i) button after the first line, for assistive technology, and the note it shows. */
-    noRoomInfoLabel: "Why?",
+    // A club whose squad list is full
+    noRoom: (club: string) => `${club} não tem vaga no elenco.`,
+    noRoomInfoLabel: "Por quê?",
     noRoomInfo:
-      "The editor makes a full squad list bigger where it can, but it cannot make this one bigger: a player has to " +
-      "leave to make room.",
-    /** The second line, which also names the choices under it; `player` is the player transferred. */
-    noRoomNeed: (player: string, club: string) => `For ${player} to join, a player has to leave ${club}.`,
-    /** The first choice: a player of the club picked from a list, who becomes a free agent. */
-    releaseChoice: "Release:",
-    releasePickLabel: "Player to release",
-    releaseOutcome: "→ becomes a free agent",
-    /** After a player's name in that list: what makes him a worse choice. */
-    injuredTag: "injured",
-    captainTag: "captain",
-    /** The second choice, which turns the dialog into a swap with the player picked; `club` is the player's club. */
-    swapChoice: "Make it a swap:",
-    swapChoiceOutcome: (club: string) => `this player goes to ${club}`,
-    /** The button of the foot while a player is released; `name` is that player. */
-    moveAndRelease: (name: string) => `Transfer and release ${name}`,
-    /** What a transfer that makes room does, one line each, in the place of `does`. */
+      "O editor aumenta uma lista de elenco cheia quando consegue, mas não consegue aumentar esta: um jogador precisa " +
+      "sair para abrir vaga.",
+    noRoomNeed: (player: string, club: string) => `Para ${player} entrar, um jogador precisa sair de ${club}.`,
+    releaseChoice: "Dispensar:",
+    releasePickLabel: "Jogador a dispensar",
+    releaseOutcome: "→ fica sem clube",
+    injuredTag: "lesionado",
+    captainTag: "capitão",
+    swapChoice: "Fazer uma troca:",
+    swapChoiceOutcome: (club: string) => `este jogador vai para ${club}`,
+    moveAndRelease: (name: string) => `Transferir e dispensar ${name}`,
     makeRoomDoes: [
-      "Joins the senior team of the new club, in the place of the player released",
-      "The player released leaves every team of that club, and their contract ends: a free agent",
-      "Contract dated from the game's date; squad number cleared",
-      "Comes off the transfer and loan lists",
-      "Wage and contract end change only if you set new ones",
-      "The fee comes out of the buying club's balance and transfer budget, and goes into the selling club's balance",
-      "Any captaincy either of them held at the club they leave is left empty",
-      "The game's transfer history does not list it yet",
-      "Listed under Changes as one change, where one undo takes back the transfer, the release and the fee",
+      "Entra no time principal do novo clube, no lugar do jogador dispensado",
+      "O jogador dispensado sai de todos os times desse clube e o contrato dele termina: fica sem clube",
+      "Contrato a partir da data do jogo; número da camisa removido",
+      "Sai das listas de transferências e de empréstimos",
+      "Salário e fim do contrato só mudam se você definir novos",
+      "O valor sai do saldo e do orçamento de transferências do clube comprador e entra no saldo do clube vendedor",
+      "Qualquer braçadeira de capitão que um deles tinha no clube que deixa fica vaga",
+      "O histórico de transferências do jogo ainda não a registra",
+      "Listado em Alterações como uma única alteração, onde um desfazer cancela a transferência, a dispensa e o valor",
     ],
 
-    // Swapping with a player of the club instead: the title, and the section that picks the player (the club is
-    // chosen as for a move).
-    swapTitle: "Swap with a player",
-    /** The player who goes the other way. */
-    swapWith: "Swap with",
-    /** The name of the search box of the club's players, its hint, and the name of the list under it. */
-    playerSearchLabel: "Search for the player to swap with",
-    playerSearch: "Search this club's players by name",
-    playersLabel: "Players found",
-    playersSearching: "Searching players…",
-    playersSearchFailed: (reason: string) => `Could not search the players: ${reason}`,
-    /** Under the list when it is empty: `query` is what was typed. */
+    // Swapping with a player of the club instead
+    swapTitle: "Trocar com um jogador",
+    swapWith: "Trocar com",
+    playerSearchLabel: "Buscar o jogador para trocar",
+    playerSearch: "Buscar jogadores deste clube pelo nome",
+    playersLabel: "Jogadores encontrados",
+    playersSearching: "Buscando jogadores…",
+    playersSearchFailed: (reason: string) => `Não foi possível buscar os jogadores: ${reason}`,
     playersEmpty: (query: string) =>
-      query === "" ? "This club has no players." : `No player of this club matches “${query}”.`,
-    /** Takes the place of the list once a player is picked: the button that brings it back. */
-    changePlayer: "Choose another player",
+      query === "" ? "Este clube não tem jogadores." : `Nenhum jogador deste clube corresponde a “${query}”.`,
+    changePlayer: "Escolher outro jogador",
 
     // What the dialog says about the swap
-    /** A swap has no contract terms to set. */
-    swapContract: "Each player keeps their own contract; wages and contract ends do not change.",
-    // Moving a member of staff, who has neither a fee nor terms to set, and no swap.
-    staffButtonTitle: "Move this member of staff to another club in the game",
-    staffChooseClub: "Choose the club to move this member of staff to.",
-    staffContract: "Keeps the job, the wage and the contract end; the contract is dated from the game's date.",
-    /** The select of the job they take at the club, and its first choice for one who has no job yet. */
-    staffJob: "Job",
-    staffJobChoose: "Choose a job…",
-    /** After the name of their own job in that select. */
-    staffJobKept: (job: string) => `${job} (keeps it)`,
-    /** In the place of `staffContract` when another job is chosen. */
-    staffNewJob: "Takes the new job, and keeps the wage and the contract end; the contract is dated from the game's date.",
+    swapContract: "Cada jogador mantém o próprio contrato; salários e fins de contrato não mudam.",
+    // Moving a member of staff
+    staffButtonTitle: "Move este funcionário para outro clube no jogo",
+    staffChooseClub: "Escolha o clube para onde mover este funcionário.",
+    staffContract: "Mantém a função, o salário e o fim do contrato; o contrato começa na data do jogo.",
+    staffJob: "Função",
+    staffJobChoose: "Escolha uma função…",
+    staffJobKept: (job: string) => `${job} (mantém)`,
+    staffNewJob: "Assume a nova função e mantém o salário e o fim do contrato; o contrato começa na data do jogo.",
     staffDoes: [
-      "Joins the new club where the job is: its medical, coaching or scouting department, or as its director of " +
-        "football or manager, which a club with one already does not take",
-      "Same wage and contract end; the contract is dated from the game's date",
-      "A manager who leaves a team leaves its place empty, for the club to fill; the board is left to the game",
-      "Listed under Changes, where it can be undone",
+      "Entra no novo clube onde fica a função: no departamento médico, de treinamento ou de observação, ou como diretor de " +
+        "futebol ou técnico, o que um clube que já tem um não aceita",
+      "Mesmo salário e fim de contrato; o contrato começa na data do jogo",
+      "Um técnico que deixa um time deixa a vaga aberta, para o clube preencher; a diretoria fica a cargo do jogo",
+      "Listado em Alterações, onde pode ser desfeito",
     ],
-    // Signing a member of staff who has no club: the same dialog with a job to choose and a contract the editor makes.
-    staffSignButtonTitle: "Sign this member of staff, who has no club, for a club in the game",
-    staffSignTitle: "Sign a member of staff",
-    staffSignChooseClub: "Choose the club to sign them for.",
-    staffSignChooseJob: "Choose the job they take at the club.",
-    /** Under the contract's inputs. */
+    // Signing a member of staff who has no club
+    staffSignButtonTitle: "Contrata este funcionário, que está sem clube, para um clube no jogo",
+    staffSignTitle: "Contratar um funcionário",
+    staffSignChooseClub: "Escolha o clube para o qual contratá-lo.",
+    staffSignChooseJob: "Escolha a função que a pessoa assume no clube.",
     staffSignTerms:
-      "Leave them empty for the wage of the club's member of staff whose job is most like theirs, and a contract to " +
-      "the end of next season.",
-    /** The signing can be made: `to` is the club. */
-    staffSignRoute: (to: string) => `No club → ${to}`,
-    /** The contract the editor makes: `wage` and `expires` written out. */
-    staffSignContract: (wage: string, expires: string) => `New contract: ${wage} a week until ${expires}`,
+      "Deixe vazio para usar o salário do funcionário do clube cuja função é mais parecida com a dela e um contrato até " +
+      "o fim da próxima temporada.",
+    staffSignRoute: (to: string) => `Sem clube → ${to}`,
+    staffSignContract: (wage: string, expires: string) => `Novo contrato: ${wage} por semana até ${expires}`,
     staffSignDoes: [
-      "Joins the club where the job is: its department, made bigger when full, or as its director of football or " +
-        "manager, when it has none",
-      "A new contract from the game's date, in one of the game's own free contract slots, as the game makes one",
-      "Modelled on the contract of the club's member of staff with the same job (else in the same department, else " +
-        "any) nearest their ability",
-      "Your wage and contract end, or that contract's wage and the end of next season; no clauses or bonuses",
-      "Listed under Changes, where one undo takes it all back",
+      "Entra no clube onde fica a função: no departamento, que é ampliado se estiver cheio, ou como diretor de futebol ou " +
+        "técnico, quando não há um",
+      "Um novo contrato a partir da data do jogo, em um dos espaços livres de contrato do próprio jogo, como o jogo faz",
+      "Modelado no contrato do funcionário do clube com a mesma função (senão do mesmo departamento, senão qualquer um) " +
+        "mais próximo da habilidade dela",
+      "O salário e o fim de contrato que você definir, ou o salário daquele contrato e o fim da próxima temporada; sem cláusulas nem bônus",
+      "Listado em Alterações, onde um desfazer cancela tudo",
     ],
-    swapChooseClub: "Choose the club of the player to swap with.",
-    swapChoosePlayer: "Choose the player to swap with.",
-    swapChecking: "Checking the swap…",
-    /** The swap can be made: who goes where, a line each. `from` is the club of the player, `to` that of the other. */
+    swapChooseClub: "Escolha o clube do jogador para trocar.",
+    swapChoosePlayer: "Escolha o jogador para trocar.",
+    swapChecking: "Verificando a troca…",
     swapRoute: (player: string, from: string, to: string, other: string) =>
       `${player}: ${from} → ${to}\n${other}: ${to} → ${from}`,
-    swapDoesHeading: "What the swap does",
+    swapDoesHeading: "O que a troca faz",
     swapDoes: [
-      "Each joins the senior team of the other's club",
-      "Contracts dated from the game's date; squad numbers cleared",
-      "Both come off the transfer and loan lists",
-      "Any captaincy at their old clubs is left empty",
-      "No fees are paid; career history is not updated",
-      "Listed under Changes as one change, which undoes both moves",
+      "Cada um entra no time principal do clube do outro",
+      "Contratos a partir da data do jogo; números de camisa removidos",
+      "Ambos saem das listas de transferências e de empréstimos",
+      "Qualquer braçadeira de capitão nos clubes antigos fica vaga",
+      "Nenhum valor é pago; o histórico de carreira não é atualizado",
+      "Listado em Alterações como uma única alteração, que desfaz as duas transferências",
     ],
 
-    // Signing a free agent, who has no club: the same dialog with no fee and no swap, and a contract the editor makes.
-    signButtonTitle: "Sign this free agent for a club in the game",
-    signTitle: "Sign a free agent",
-    signChooseClub: "Choose the club to sign the player for.",
-    signChecking: "Checking the signing…",
-    /** Under the contract's inputs. */
+    // Signing a free agent
+    signButtonTitle: "Contrata este jogador, que está sem clube, para um clube no jogo",
+    signTitle: "Contratar um jogador sem clube",
+    signChooseClub: "Escolha o clube para o qual contratar o jogador.",
+    signChecking: "Verificando a contratação…",
     signTerms:
-      "Leave them empty for the wage of the club's player nearest his ability, and a contract to the end of next " +
-      "season.",
-    /** The signing can be made: `to` is the club. */
-    signRoute: (to: string) => `Free agent → ${to}`,
-    /** The contract the editor makes: `wage` and `expires` written out, `status` the squad status's name. */
+      "Deixe vazio para usar o salário do jogador do clube mais próximo da habilidade dele e um contrato até o fim da " +
+      "próxima temporada.",
+    signRoute: (to: string) => `Sem clube → ${to}`,
     signContract: (wage: string, expires: string, status: string) =>
-      `New contract: ${wage} a week until ${expires}, ${status}`,
-    signDoesHeading: "What the signing does",
+      `Novo contrato: ${wage} por semana até ${expires}, ${status}`,
+    signDoesHeading: "O que a contratação faz",
     signDoes: [
-      "Joins the senior team of the club; a full squad list is made bigger",
-      "A new contract from the game's date, in one of the game's own free contract slots, as the game makes one",
-      "Modelled on the contract of the club's player nearest his ability: the same kind of contract and squad status",
-      "Your wage and contract end, or that player's wage and the end of next season",
-      "No squad number, loyalty bonus, clauses or bonuses",
-      "The game's transfer history does not list it yet",
-      "Listed under Changes, where one undo takes it all back",
+      "Entra no time principal do clube; uma lista de elenco cheia é ampliada",
+      "Um novo contrato a partir da data do jogo, em um dos espaços livres de contrato do próprio jogo, como o jogo faz",
+      "Modelado no contrato do jogador do clube mais próximo da habilidade dele: o mesmo tipo de contrato e status no elenco",
+      "O salário e o fim de contrato que você definir, ou o salário daquele jogador e o fim da próxima temporada",
+      "Sem número de camisa, bônus de lealdade, cláusulas ou bônus",
+      "O histórico de transferências do jogo ainda não a registra",
+      "Listado em Alterações, onde um desfazer cancela tudo",
     ],
-    signHint: "Nothing changes in the game until you press Sign.",
-    sign: "Sign",
-    signing: "Signing…",
+    signHint: "Nada muda no jogo até você clicar em Contratar.",
+    sign: "Contratar",
+    signing: "Contratando…",
 
     // The foot
-    /** Nothing changes in the game until Transfer, or Swap. */
-    hint: "Nothing changes in the game until you press Transfer.",
-    /** The same for a transfer arranged for the game, and for a player moved now. */
-    arrangeHint: "Nothing changes in the game until you press Arrange transfer.",
-    moveNowHint: "Nothing changes in the game until you press Move now.",
-    move: "Transfer",
-    moving: "Transferring…",
-    cancel: "Cancel",
-    swapHint: "Nothing changes in the game until you press Swap.",
-    swap: "Swap",
-    swapping: "Swapping…",
+    hint: "Nada muda no jogo até você clicar em Transferir.",
+    arrangeHint: "Nada muda no jogo até você clicar em Agendar transferência.",
+    moveNowHint: "Nada muda no jogo até você clicar em Mover agora.",
+    move: "Transferir",
+    moving: "Transferindo…",
+    cancel: "Cancelar",
+    swapHint: "Nada muda no jogo até você clicar em Trocar.",
+    swap: "Trocar",
+    swapping: "Trocando…",
   },
 
   /**
