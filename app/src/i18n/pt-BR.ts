@@ -2017,232 +2017,232 @@ export const ptBR: Strings = {
 
   /** Exporting players or clubs to a file: the button in the toolbar of the player and club lists and its dialog. */
   export: {
-    button: "Export",
+    button: "Exportar",
     buttonTitle: {
-      player: "Write the players the list shows to a CSV or JSON file",
-      staff: "Write the staff the list shows to a CSV or JSON file",
-      club: "Write the clubs the list shows to a CSV or JSON file",
+      player: "Grava os jogadores exibidos na lista em um arquivo CSV ou JSON",
+      staff: "Grava os funcionários exibidos na lista em um arquivo CSV ou JSON",
+      club: "Grava os clubes exibidos na lista em um arquivo CSV ou JSON",
     } satisfies Record<ExportEntity, string>,
-    title: { player: "Export players", staff: "Export staff", club: "Export clubs" } satisfies Record<
+    title: { player: "Exportar jogadores", staff: "Exportar funcionários", club: "Exportar clubes" } satisfies Record<
       ExportEntity,
       string
     >,
     /** What the export covers: everything the list's search and filters select, in its order. */
     scope: (entity: ExportEntity, count: number) =>
       count === 0
-        ? `No ${entity === "staff" ? "member of staff" : entity} matches the search and the filters.`
-        : `${entityCount[entity](count)}: what the list's search and filters select, in its order.`,
-    formatLabel: "Format",
+        ? `Nenhum ${({ player: "jogador", staff: "funcionário", club: "clube" } as const)[entity]} corresponde à busca e aos filtros.`
+        : `${entityCount[entity](count)}: o que a busca e os filtros da lista selecionam, na ordem dela.`,
+    formatLabel: "Formato",
     formats: {
-      csv: "CSV, comma-separated",
-      csvSemicolon: "CSV, semicolon-separated",
+      csv: "CSV, separado por vírgulas",
+      csvSemicolon: "CSV, separado por ponto e vírgula",
       json: "JSON",
     } satisfies Record<ExportFormat, string>,
     formatHints: {
-      csv: "For most spreadsheets and scripts",
-      csvSemicolon: "For Excel where decimals are written with a comma: in Turkish, Spanish or German, say",
+      csv: "Para a maioria das planilhas e scripts",
+      csvSemicolon: "Para o Excel em que os decimais são escritos com vírgula, como em português, espanhol ou alemão",
       json: {
-        player: "For scripts: the positions, attributes and personality as objects of their own",
-        staff: "For scripts: the attributes, personality and contract as objects of their own",
-        club: "For scripts: the supporters, facilities, stadium and finances as objects of their own",
+        player: "Para scripts: posições, atributos e personalidade como objetos próprios",
+        staff: "Para scripts: atributos, personalidade e contrato como objetos próprios",
+        club: "Para scripts: torcida, instalações, estádio e finanças como objetos próprios",
       } satisfies Record<ExportEntity, string>,
     },
     contents: {
       player:
-        "Each player's abilities, positions and position ratings, attributes on the 1–20 scale (the hidden ones " +
-        "too), personality, reputation, caps, and contract with its clauses, with the in-game date. Money is in " +
-        "pounds, as the game keeps it. Nothing in the game changes.",
+        "Habilidades, posições e avaliações de posição de cada jogador, atributos na escala de 1 a 20 (inclusive os ocultos), " +
+        "personalidade, reputação, jogos pela seleção e contrato com as cláusulas, com a data do jogo. O dinheiro está em " +
+        "libras, como o jogo guarda. Nada muda no jogo.",
       staff:
-        "Each member of staff's job and employer, abilities, attributes on the 1–20 scale, personality, reputation, " +
-        "and contract (wage and dates), with the in-game date. Money is in pounds, as the game keeps it. Nothing in " +
-        "the game changes.",
+        "Função e empregador de cada funcionário, habilidades, atributos na escala de 1 a 20, personalidade, reputação " +
+        "e contrato (salário e datas), com a data do jogo. O dinheiro está em libras, como o jogo guarda. Nada " +
+        "muda no jogo.",
       club:
-        "Each club's nation, league, reputation, founding year, season tickets, social media followers, supporter " +
-        "mix and traits, " +
-        "facilities, stadium, and finances: balance, transfer budget, weekly wage spend and wage budget, and ticket " +
-        "price, with the in-game date. FM keeps finances only for clubs in the leagues being played. Money is in " +
-        "pounds, as the game keeps it. Nothing in the game changes.",
+        "País, liga, reputação, ano de fundação, sócios-torcedores, seguidores nas redes sociais, perfil e traços da " +
+        "torcida, " +
+        "instalações, estádio e finanças de cada clube: saldo, orçamento de transferências, gasto semanal com salários e orçamento salarial, e preço " +
+        "do ingresso, com a data do jogo. O FM guarda finanças apenas dos clubes das ligas que estão sendo jogadas. O dinheiro está em " +
+        "libras, como o jogo guarda. Nada muda no jogo.",
     } satisfies Record<ExportEntity, string>,
-    export: "Export",
-    exporting: "Exporting…",
+    export: "Exportar",
+    exporting: "Exportando…",
     /** After the export: what was written, and where. */
-    done: (entity: ExportEntity, count: number, file: string) => `Exported ${entityCount[entity](count)} to ${file}`,
-    folder: (folder: string) => `in ${folder}`,
+    done: (entity: ExportEntity, count: number, file: string) => `Exportado: ${entityCount[entity](count)} em ${file}`,
+    folder: (folder: string) => `em ${folder}`,
     skipped: (entity: ExportEntity, count: number) => {
-      const pronoun = count !== 1 || entity === "staff" ? "they were" : entity === "player" ? "he was" : "it was";
+      const changedWord = count === 1 ? "mudou" : "mudaram";
       return (
-        `${entityCount[entity](count)} changed in the game while ${pronoun} read, and ` +
+        `${entityCount[entity](count)} ${changedWord} no jogo durante a leitura e ` +
         `${count === 1 ? "was" : "were"} left out.`
       );
     },
-    open: "Open",
-    openTitle: "Open the file in the app your system opens it with",
-    show: "Show in folder",
-    showTitle: "Show the file in its folder",
-    close: "Close",
+    open: "Abrir",
+    openTitle: "Abre o arquivo no app com que o sistema o abre",
+    show: "Mostrar na pasta",
+    showTitle: "Mostra o arquivo na pasta dele",
+    close: "Fechar",
 
     /** The export of the Changes view: a CSV file of the changes its search and filters show. */
     changes: {
-      buttonTitle: "Write the changes the list shows to a CSV file",
-      title: "Export changes",
+      buttonTitle: "Grava as alterações exibidas na lista em um arquivo CSV",
+      title: "Exportar alterações",
       /** What the export covers: everything the list's search and filters select, or, with none on, the whole history. */
       scope: (count: number, filtering: boolean) =>
         count === 0
-          ? "No change matches the search and the filters."
+          ? "Nenhuma alteração corresponde à busca e aos filtros."
           : filtering
-            ? `${changeCount(count)}: what the search and the filters select, newest first.`
-            : `${changeCount(count)}: the whole history of this career, newest first.`,
+            ? `${changeCount(count)}: o que a busca e os filtros selecionam, mais recentes primeiro.`
+            : `${changeCount(count)}: todo o histórico desta carreira, mais recentes primeiro.`,
       contents:
-        "Each change's time (local, with its offset from UTC), name and UID, the field, its old and new value as " +
-        "the game stores them and as shown here, what the list says under them, the mass edit it was part of, when " +
-        "it was undone, and whether it is from an earlier session and in the game. Nothing in the game changes.",
-      done: (count: number, file: string) => `Exported ${changeCount(count)} to ${file}`,
+        "Hora de cada alteração (local, com o desvio em relação ao UTC), nome e UID, o campo, os valores antigo e novo como " +
+        "o jogo os guarda e como aparecem aqui, o que a lista diz sob eles, a edição em massa de que fez parte, quando " +
+        "foi desfeita e se é de uma sessão anterior e está no jogo. Nada muda no jogo.",
+      done: (count: number, file: string) => `Exportado: ${changeCount(count)} em ${file}`,
     },
   },
 
   /** Mass editing: the button in the toolbar of a list and the dialog it opens. */
   massEdit: {
     /** The button in the toolbar of the player, staff and club lists. */
-    button: "Mass edit",
-    buttonTitle: "Change values of everything the list shows, with a preview first",
+    button: "Edição em massa",
+    buttonTitle: "Altera valores de tudo o que a lista mostra, com uma prévia antes",
     title: {
-      player: "Mass edit players",
-      staff: "Mass edit staff",
-      club: "Mass edit clubs",
+      player: "Edição em massa de jogadores",
+      staff: "Edição em massa de funcionários",
+      club: "Edição em massa de clubes",
     } satisfies Record<Entity, string>,
 
     // What it applies to
     /** `total` is the list's: the search and the filters of the list select them. */
     scope: (entity: Entity, total: number) =>
-      `The ${entityCount[entity](total)} the list shows now (search and filters)`,
+      `${entityCount[entity](total)} exibidos agora na lista (busca e filtros)`,
     /** After the scope, when the list shows only the first `shown` rows of its `total`. */
-    scopeAll: (shown: number) => `That is every match, not only the first ${format(shown)} rows on screen.`,
+    scopeAll: (shown: number) => `São todas as correspondências, não só as ${format(shown)} primeiras linhas na tela.`,
     scopeNone: (entity: Entity) =>
-      `No ${entityNouns[entity]} match the search and filters, so there is nothing to change.`,
+      `Não há ${entityNouns[entity]} que correspondam à busca e aos filtros, então não há nada a alterar.`,
     /** `limit` is the most one mass edit takes. */
     scopeTooMany: (entity: Entity, total: number, limit: number) =>
-      `The ${entityCount[entity](total)} the list shows are more than one mass edit takes (${format(limit)}). ` +
-      "Narrow the search or the filters first.",
-    loadingFields: "Reading the fields…",
-    fieldsFailed: (reason: string) => `Could not read the fields: ${reason}`,
+      `${entityCount[entity](total)} exibidos na lista são mais do que uma edição em massa aceita (${format(limit)}). ` +
+      "Restrinja antes a busca ou os filtros.",
+    loadingFields: "Lendo os campos…",
+    fieldsFailed: (reason: string) => `Não foi possível ler os campos: ${reason}`,
 
     // The fields to change
     /** The groups of the field select, in the order the dialog lists them. */
     groups: {
-      ability: "Ability",
-      technical: "Technical attributes",
-      mental: "Mental attributes",
-      physical: "Physical attributes",
-      goalkeeping: "Goalkeeping attributes",
-      hidden: "Hidden attributes",
-      feet: "Feet",
-      coaching: "Coaching attributes",
-      knowledge: "Knowledge attributes",
-      medical: "Medical attributes",
-      positions: "Positions",
-      personality: "Personality",
-      reputation: "Reputation",
-      international: "International",
-      contract: "Contract",
-      facilities: "Facilities",
-      finances: "Finances",
-      stadium: "Stadium",
-      traits: "Traits",
+      ability: "Habilidade",
+      technical: "Atributos técnicos",
+      mental: "Atributos mentais",
+      physical: "Atributos físicos",
+      goalkeeping: "Atributos de goleiro",
+      hidden: "Atributos ocultos",
+      feet: "Pés",
+      coaching: "Atributos de treinamento",
+      knowledge: "Atributos de conhecimento",
+      medical: "Atributos médicos",
+      positions: "Posições",
+      personality: "Personalidade",
+      reputation: "Reputação",
+      international: "Seleção",
+      contract: "Contrato",
+      facilities: "Instalações",
+      finances: "Finanças",
+      stadium: "Estádio",
+      traits: "Traços",
       /** A player's energy, match sharpness and morale: the Medical group of his profile. */
-      health: "Medical",
+      health: "Médico",
       /** Whatever the other groups do not have, e.g. a player's height. */
-      other: "Other",
+      other: "Outros",
     },
-    fieldsLabel: "Fields to change",
+    fieldsLabel: "Campos a alterar",
     /** The name of a row of the dialog for assistive technology; `position` counts from 1. */
-    row: (position: number) => `Change ${position}`,
-    field: "Field",
-    operation: "Operation",
-    operations: { set: "Set to", add: "Add", scale: "Scale to %", addYears: "Add years" } satisfies Record<
+    row: (position: number) => `Alteração ${position}`,
+    field: "Campo",
+    operation: "Operação",
+    operations: { set: "Definir como", add: "Somar", scale: "Escalar para %", addYears: "Somar anos" } satisfies Record<
       MassOperationKind["op"],
       string
     >,
     /** The name of the value input, by operation. */
-    values: { set: "Value", add: "Amount", scale: "Percent", addYears: "Years" } satisfies Record<
+    values: { set: "Valor", add: "Quantia", scale: "Porcentagem", addYears: "Anos" } satisfies Record<
       MassOperationKind["op"],
       string
     >,
     /** Hover text of the amount of an Add. */
-    addTitle: "Added to every value as shown; a negative number takes away",
+    addTitle: "Somada a cada valor como mostrado; um número negativo subtrai",
     /** The same for a percentage: the amount is in percentage points, not a percent of the value (that is Scale). */
-    addPointsTitle: "Percentage points added to every value (70% plus 10 is 80%); a negative number takes away",
+    addPointsTitle: "Pontos percentuais somados a cada valor (70% mais 10 dá 80%); um número negativo subtrai",
     /** The hint in an empty value input: what it takes. */
     rangeHint: (min: number, max: number) => `${format(min)}–${format(max)}`,
     /** The same for an amount, which may be negative: up to `max` either way. */
     amountHint: (max: number) => `±${format(max)}`,
     /** After the input of a Scale: the number is a percent of the value the game has now. */
-    ofCurrent: "% of current",
-    percentTitle: "A percent of the current value: 100 keeps it, 110 raises it by a tenth, 50 halves it",
+    ofCurrent: "% do atual",
+    percentTitle: "Uma porcentagem do valor atual: 100 mantém, 110 aumenta em um décimo, 50 reduz pela metade",
     /** Hover text of the years of an Add years, and the word after its input. */
-    addYearsTitle: "Years added to every date; a negative number moves it back, and 29 February may become 28",
-    years: "years",
+    addYearsTitle: "Anos somados a cada data; um número negativo volta a data, e 29 de fevereiro pode virar 28",
+    years: "anos",
     /** Hover text of an amount that cannot be applied; `min` and `max` are what it takes. */
-    invalidAdd: (min: number, max: number) => `Enter a whole number from ${format(min)} to ${format(max)}`,
-    invalidPercent: (min: number, max: number) => `Enter a whole percent from ${min} to ${max}`,
-    invalidYears: (min: number, max: number) => `Enter a whole number of years from ${format(min)} to ${format(max)}`,
+    invalidAdd: (min: number, max: number) => `Digite um número inteiro de ${format(min)} a ${format(max)}`,
+    invalidPercent: (min: number, max: number) => `Digite uma porcentagem inteira de ${min} a ${max}`,
+    invalidYears: (min: number, max: number) => `Digite um número inteiro de anos de ${format(min)} a ${format(max)}`,
     /** A date cannot be added to or scaled, only set or moved by years; and nothing else is moved by years. */
-    dateSetOnly: "A date can only be set or moved by years",
-    yearsDateOnly: "Only a date can be moved by years",
-    addField: "Add a field",
+    dateSetOnly: "Uma data só pode ser definida ou movida em anos",
+    yearsDateOnly: "Só uma data pode ser movida em anos",
+    addField: "Adicionar um campo",
     /** Hover text of Add a field when the rows are full; `max` is how many fields one mass edit changes. */
-    addFieldFull: (max: number) => `A mass edit changes up to ${max} fields`,
-    remove: "Remove this field",
+    addFieldFull: (max: number) => `Uma edição em massa altera até ${max} campos`,
+    remove: "Remover este campo",
     /** Hover text of Remove on the only row. */
-    removeLast: "A mass edit needs at least one field",
+    removeLast: "Uma edição em massa precisa de pelo menos um campo",
 
     // The preview
-    preview: "Preview",
-    previewing: "Previewing…",
+    preview: "Prévia",
+    previewing: "Gerando prévia…",
     /** Beside Preview while it cannot be pressed. */
-    previewBlocked: "Fill in every field with a valid value to preview",
+    previewBlocked: "Preencha todos os campos com um valor válido para ver a prévia",
     /** "312 changes for 140 of 237 players · 97 already have these values · 12 values left alone". */
     summary: (entity: Entity, preview: MassPreview) =>
       [
         preview.changes === 0
-          ? "No changes"
-          : `${changeCount(preview.changes)} for ${format(preview.targets - preview.unchanged)} of ` +
+          ? "Nenhuma alteração"
+          : `${changeCount(preview.changes)} para ${format(preview.targets - preview.unchanged)} de ` +
             entityCount[entity](preview.targets),
         preview.unchanged > 0 &&
           (preview.unchanged === 1
-            ? "1 already has these values"
-            : `${format(preview.unchanged)} already have these values`),
+            ? "1 já tem estes valores"
+            : `${format(preview.unchanged)} já têm estes valores`),
         preview.skippedCount > 0 && valuesLeftAlone(preview.skippedCount),
       ]
         .filter(Boolean)
         .join(" · "),
-    tableLabel: "Changes the mass edit would make",
-    columns: { name: "Name", field: "Field", change: "Change", reason: "Reason" },
+    tableLabel: "Alterações que a edição em massa faria",
+    columns: { name: "Nome", field: "Campo", change: "Alteração", reason: "Motivo" },
     /** Under a table or a list that shows only the first rows; `count` is how many more there are. */
-    more: (count: number) => `and ${format(count)} more`,
+    more: (count: number) => `e mais ${format(count)}`,
     /** The line that opens the list of the values left alone. */
     skippedHeading: valuesLeftAlone,
-    skippedLabel: "Values the mass edit leaves alone",
+    skippedLabel: "Valores que a edição em massa mantém",
 
     // Apply and undo
-    apply: "Apply",
-    applying: "Applying…",
+    apply: "Aplicar",
+    applying: "Aplicando…",
     /** Hover text of Apply; `changes` is how many values it writes. */
-    applyTitle: (changes: number) => `Write ${changeCount(changes)} to the game`,
-    applyFirst: "Preview the mass edit first",
-    applyNothing: "The preview has no changes to write",
+    applyTitle: (changes: number) => `Grava no jogo: ${changeCount(changes)}`,
+    applyFirst: "Veja antes a prévia da edição em massa",
+    applyNothing: "A prévia não tem alterações a gravar",
     /** Nothing changes in the game until Apply. */
-    hint: "Nothing changes in the game until you apply.",
-    applied: (count: number) => (count === 0 ? "No changes were written" : `Applied ${changeCount(count)}`),
+    hint: "Nada muda no jogo até você aplicar.",
+    applied: (count: number) => (count === 0 ? "Nenhuma alteração foi gravada" : `Aplicado: ${changeCount(count)}`),
     /** A change the game refused: who, which field (see `fieldLabel`) and the game's answer. */
     failure: (name: string, label: string, reason: string) => `${name} · ${label}: ${reason}`,
-    undo: "Undo this mass edit",
-    undoing: "Undoing…",
-    undoTitle: "Write the old values of this mass edit back to the game",
-    undone: (count: number) => (count === 0 ? "Nothing was undone" : `Undid ${changeCount(count)}`),
+    undo: "Desfazer esta edição em massa",
+    undoing: "Desfazendo…",
+    undoTitle: "Grava de volta no jogo os valores antigos desta edição em massa",
+    undone: (count: number) => (count === 0 ? "Nada foi desfeito" : `Desfeito: ${changeCount(count)}`),
     /** A change an undo could not take back: `who` names the person and the field, or the change by its number. */
     undoFailure: (who: string, reason: string) => `${who}: ${reason}`,
-    changeNumber: (id: number) => `Change ${id}`,
-    close: "Close",
+    changeNumber: (id: number) => `Alteração ${id}`,
+    close: "Fechar",
   },
 
   /** Comparing players: the button in a player's profile, the tray under the player list and the dialog. */
