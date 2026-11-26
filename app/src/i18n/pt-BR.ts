@@ -2261,7 +2261,7 @@ export const ptBR: Strings = {
     removePlayer: (name: string) => `Remover da comparação: ${name}`,
     clear: "Limpar",
     /** The button that opens the dialog; `count` is how many players are picked. */
-    open: (count: number) => `Compare (${count})`,
+    open: (count: number) => `Comparar (${count})`,
 
     // The dialog
     title: "Comparação",
