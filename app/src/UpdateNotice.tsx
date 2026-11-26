@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { describeError } from "./format";
 import { updateText } from "./labels";
 import { installUpdate, NothingToInstall, openRelease, type InstallProgress, type Release, type UpdateState } from "./update";
 import { askToLeave } from "./useProfileEditing";
@@ -41,7 +42,7 @@ export function UpdateNotice({ release, current, selfUpdate, onLater }: UpdateNo
       await installUpdate(setProgress);
     } catch (e) {
       setProgress(null);
-      setError(e instanceof NothingToInstall ? text.notInstallable : text.installFailed(String(e)));
+      setError(e instanceof NothingToInstall ? text.notInstallable : text.installFailed(describeError(e)));
     }
   };
 

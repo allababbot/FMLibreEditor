@@ -4460,6 +4460,8 @@ const unknownBuild = new URLSearchParams(window.location.search).has("unknownbui
 const failedChecks = new URLSearchParams(window.location.search).has("failedchecks");
 /** `?refrozen` previews connecting to a save in which players and a club were frozen the last time. */
 const refrozen = new URLSearchParams(window.location.search).has("refrozen");
+/** `?noplayers` previews connecting while the game shows its main menu: the player list is not found. */
+const noPlayers = new URLSearchParams(window.location.search).has("noplayers");
 /**
  * `?savechanged` previews the game having loaded a save since the data was read: `save_changed` says so until the data
  * is read again.
@@ -4649,6 +4651,12 @@ export async function mockInvoke<T>(command: string, args?: Record<string, unkno
     case "bridge_status":
       return (macPreview ? mockBridge : null) as T;
     case "connect": {
+      if (noPlayers) {
+        throw failure(
+          "session.playersNotFound",
+          "could not find the player list; load a save (not just the main menu) and try again",
+        );
+      }
       const info: ConnectionInfo = {
         game,
         profile: unknownBuild ? null : "FM27 0.9.2409.0 (Game Pass)",

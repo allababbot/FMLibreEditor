@@ -45,7 +45,7 @@ export function useProfileDetails<T>(command: string, uid: number, version: numb
         }
       } catch (e) {
         if (!cancelled) {
-          setLoaded({ error: String(e) });
+          setLoaded({ error: describeError(e) });
         }
       }
     };
