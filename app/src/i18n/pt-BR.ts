@@ -3450,43 +3450,32 @@ export const ptBR: Strings = {
 
   /** "My club" (`MyClub`): the page the app opens on, about the club the user manages in the save. */
   home: {
-    /** The tab's name. */
-    nav: "My club",
-    loading: "Looking for your club…",
-    failed: (reason: string) => `Could not look for your club: ${reason}`,
-    /** Under the club's name: who manages it, or that it is a club picked to follow. */
-    manager: (name: string) => `Manager: ${name}`,
-    following: "A club you follow",
-    /** The name of the switch between the clubs, in a save with several managers of the user's. */
-    clubsLabel: "Your clubs",
-    /** The button that opens the club in the Clubs tab, and its hover text. */
-    openProfile: "Club profile",
-    openProfileTitle: "Open this club in the Clubs tab: facilities, finances, stadium and more",
-    /** When the user's manager has no club: a club can be picked to follow instead. */
-    noClubTitle: "You manage no club in this save",
-    noClubText: "Pick a club to follow here instead: its squad, who needs a look, and the actions on a whole team.",
-    chooseAnother: "Choose another club",
-    /** The name of the search that picks the club to follow. */
-    searchLabel: "Club to follow",
-    /** The name of the page's squad part. */
-    squad: "Squad",
-    /** The cards over the squad: who in the shown team needs a look. Injured, Banned and Unrest take the squad's tags. */
+    nav: "Meu clube",
+    loading: "Procurando o seu clube…",
+    failed: (reason: string) => `Não foi possível procurar o seu clube: ${reason}`,
+    manager: (name: string) => `Técnico: ${name}`,
+    following: "Um clube que você acompanha",
+    clubsLabel: "Seus clubes",
+    openProfile: "Perfil do clube",
+    openProfileTitle: "Abre este clube na aba Clubes: instalações, finanças, estádio e mais",
+    noClubTitle: "Você não treina nenhum clube neste save",
+    noClubText: "Escolha aqui um clube para acompanhar: o elenco, quem merece atenção e as ações sobre o time todo.",
+    chooseAnother: "Escolher outro clube",
+    searchLabel: "Clube a acompanhar",
+    squad: "Elenco",
     cards: {
-      label: "Who needs a look",
-      lowMorale: "Low morale",
-      tired: "Tired",
-      contracts: "Contracts ending",
-      /** The hover texts of the cards' titles: what each one counts. `below` is a morale or a percentage as shown. */
-      injuredHint: "Players with an injury",
-      bannedHint: "Players with a ban",
-      lowMoraleHint: (below: string) => `Players whose morale is below ${below}`,
-      tiredHint: (below: string) => `Players whose energy is below ${below}`,
-      unrestHint: "Players some of their teammates are unhappy about",
-      contractsHint: (months: number) => `Players whose contracts end within ${months} months`,
-      /** In a card that counts nobody. */
-      none: "None",
-      /** After the first few names. */
-      more: (count: number) => `and ${format(count)} more`,
+      label: "Quem merece atenção",
+      lowMorale: "Moral baixa",
+      tired: "Cansados",
+      contracts: "Contratos acabando",
+      injuredHint: "Jogadores com uma lesão",
+      bannedHint: "Jogadores com uma suspensão",
+      lowMoraleHint: (below: string) => `Jogadores com moral abaixo de ${below}`,
+      tiredHint: (below: string) => `Jogadores com energia abaixo de ${below}`,
+      unrestHint: "Jogadores com quem alguns companheiros estão insatisfeitos",
+      contractsHint: (months: number) => `Jogadores cujos contratos terminam em até ${months} meses`,
+      none: "Nenhum",
+      more: (count: number) => `e mais ${format(count)}`,
     },
   },
 
@@ -3496,53 +3485,44 @@ export const ptBR: Strings = {
    * Apply, the columns and the outcome it shares.
    */
   recipes: {
-    /** The button beside Max attributes in a player's profile, and in the header of a club's. */
-    button: "Recipes",
-    buttonTitle: "Ready-made sets of changes, previewed first",
-    /** The recipes by key, as the menu and the title of the dialog name them. */
+    button: "Receitas",
+    buttonTitle: "Conjuntos prontos de alterações, com prévia antes",
     names: {
-      wonderkid: "Make a wonderkid",
-      injuryProof: "Injury-proof",
-      longCareer: "Extend his career",
-      richClub: "Make the club rich",
-      topFacilities: "Top facilities",
+      wonderkid: "Criar uma joia",
+      injuryProof: "À prova de lesões",
+      longCareer: "Estender a carreira",
+      richClub: "Deixar o clube rico",
+      topFacilities: "Instalações de ponta",
     },
-    /** What each one does, kept short: the note beside its menu item, and the line under the dialog's title. */
     notes: {
       wonderkid:
-        "21 or younger: potential ability at least 180, ability and attributes to suit his age. Higher values " +
-        "stay.",
-      injuryProof: "Injury proneness 1, natural fitness 20, stamina at least 15, injuries healed.",
+        "21 anos ou menos: habilidade potencial de pelo menos 180, habilidade e atributos de acordo com a idade. Valores " +
+        "mais altos permanecem.",
+      injuryProof: "Propensão a lesões 1, condição física natural 20, resistência de pelo menos 15, lesões curadas.",
       longCareer:
-        "No planned retirement, three more years of contract, natural fitness 20, professionalism at least 18.",
-      richClub: "Balance, transfer budget and wage budgets up to the level of the richest clubs.",
-      topFacilities: "All five facilities to 20.",
+        "Sem aposentadoria planejada, mais três anos de contrato, condição física natural 20, profissionalismo de pelo menos 18.",
+      richClub: "Saldo, orçamento de transferências e orçamentos salariais até o nível dos clubes mais ricos.",
+      topFacilities: "As cinco instalações em 20.",
     },
-    /** The note of a recipe that is dimmed: the player is older than `oldest`, or his age is not known. */
-    tooOld: (oldest: number) => `For players of ${oldest} or younger`,
-    /** A recipe as the command palette lists it for the profile on show. */
-    command: (recipe: string) => `Recipe: ${recipe}`,
-    /** In the dialog while the recipe is worked out. */
-    working: "Working out the changes…",
-    /** "14 changes · 30 values as good already · 2 values left alone". */
+    tooOld: (oldest: number) => `Para jogadores de ${oldest} anos ou menos`,
+    command: (recipe: string) => `Receita: ${recipe}`,
+    working: "Calculando as alterações…",
     summary: (changes: number, kept: number, left: number) =>
       [
         changeCount(changes),
-        kept > 0 && (kept === 1 ? "1 value as good already" : `${format(kept)} values as good already`),
+        kept > 0 && (kept === 1 ? "1 valor já é igual ou melhor" : `${format(kept)} valores já são iguais ou melhores`),
         left > 0 && valuesLeftAlone(left),
       ]
         .filter(Boolean)
         .join(" · "),
-    tableLabel: "Changes the recipe would make",
-    /** The line that opens the list of the values that stay because they are as good already, or better. */
+    tableLabel: "Alterações que a receita faria",
     keptHeading: (count: number) =>
-      count === 1 ? "1 value stays as it is: as good already" : `${format(count)} values stay as they are: as good already`,
-    keptLabel: "Values that are as good already",
-    /** The head of the column of those values. */
-    valueColumn: "Value",
-    leftLabel: "What the recipe leaves alone",
-    undo: "Undo this recipe",
-    undoTitle: "Write everything this recipe changed back to the game",
+      count === 1 ? "1 valor permanece como está: já é igual ou melhor" : `${format(count)} valores permanecem como estão: já são iguais ou melhores`,
+    keptLabel: "Valores que já são iguais ou melhores",
+    valueColumn: "Valor",
+    leftLabel: "O que a receita mantém",
+    undo: "Desfazer esta receita",
+    undoTitle: "Grava de volta no jogo tudo o que esta receita alterou",
   },
 
   /**
@@ -3550,37 +3530,27 @@ export const ptBR: Strings = {
    * profile, the note under his abilities in its header, and the change beside an ability in a squad's table.
    */
   progress: {
-    /** The name of the profile's tabs, and the two tabs. */
-    tabsLabel: "Sections of the player's profile",
-    tabs: { overview: "Profile", progress: "Development" },
-    /** Hover text of the Development tab while the player is edited. */
-    lockedWhileEdited: "Finish editing to open this tab",
-    /** Hover text of the note under the abilities, under what changed. */
-    openTab: "Open the Development tab",
-    loading: "Reading the records…",
-    failed: (reason: string) => `Could not read the records: ${reason}`,
-    /** After a change: "+6 since 1 Jul 2026". `date` is a date as the language writes it. */
-    since: (date: string) => `since ${date}`,
-    /** A change in words, for hover texts and screen readers: "120 → 126 since 1 Jul 2026". */
-    change: (from: string, to: string, date: string) => `${from} → ${to} since ${date}`,
-    /** The periods to look back over, where the records reach back far enough for a choice. */
-    rangeLabel: "Period",
-    ranges: { quarter: "3 months", year: "1 year", all: "All" },
-    /** How many records there are of the player, and the date of the first. */
-    recorded: (count: number, first: string) => `Records: ${count} · first on ${first}`,
-    /** The headings: current and potential ability over time, the transfer value, and the attributes. */
-    abilityTitle: "Ability",
-    valueTitle: "Value",
-    attributesTitle: "Attributes that changed",
-    noAttributeChanges: (date: string) => `No attribute has changed since ${date}.`,
-    /** With no record before today's: how the records come about. */
-    emptyTitle: "Nothing to compare with yet",
+    tabsLabel: "Seções do perfil do jogador",
+    tabs: { overview: "Perfil", progress: "Evolução" },
+    lockedWhileEdited: "Termine a edição para abrir esta aba",
+    openTab: "Abrir a aba Evolução",
+    loading: "Lendo os registros…",
+    failed: (reason: string) => `Não foi possível ler os registros: ${reason}`,
+    since: (date: string) => `desde ${date}`,
+    change: (from: string, to: string, date: string) => `${from} → ${to} desde ${date}`,
+    rangeLabel: "Período",
+    ranges: { quarter: "3 meses", year: "1 ano", all: "Tudo" },
+    recorded: (count: number, first: string) => `Registros: ${count} · o primeiro em ${first}`,
+    abilityTitle: "Habilidade",
+    valueTitle: "Valor",
+    attributesTitle: "Atributos que mudaram",
+    noAttributeChanges: (date: string) => `Nenhum atributo mudou desde ${date}.`,
+    emptyTitle: "Nada para comparar ainda",
     emptyText:
-      "The app notes every player's abilities, value and attributes about once a week of the game's time, whenever it reads the game's data. Play on, read the data again, and how this player develops shows here.",
-    /** Where the app keeps no records: a save without a manager of the user's, or data that fails the checks. */
-    offTitle: "No records for this save",
+      "O app anota as habilidades, o valor e os atributos de cada jogador cerca de uma vez por semana do tempo do jogo, sempre que lê os dados do jogo. Continue jogando, leia os dados de novo e a evolução deste jogador aparece aqui.",
+    offTitle: "Sem registros para este save",
     offText:
-      "The app keeps records for a save with a manager of yours, on a version of the game whose data passes its checks.",
+      "O app guarda registros de um save com um técnico seu, em uma versão do jogo cujos dados passam nas verificações dele.",
   },
 
   /**
@@ -3588,36 +3558,24 @@ export const ptBR: Strings = {
    * keyboard shortcuts (`shortcuts.ts`) take their key names from here.
    */
   palette: {
-    /** The button in the masthead that opens it. */
-    button: "Search",
-    /** The button's hover text, and the name of the box. */
-    title: "Search or run a command",
-    /** In the box while connected, and while not: then it finds commands only. */
-    placeholder: "Search players, staff, clubs and commands",
-    placeholderCommands: "Search commands",
-    /** The heading over the commands; the names of the lists head the people and the clubs found. */
-    commands: "Commands",
-    /** The command that shows one of the app's lists; `list` is the name of its tab. */
-    goTo: (list: string) => `Go to ${list}`,
-    /** The command that puts the caret in the search box of the list on show. */
-    searchList: "Search this list",
-    /** The commands for the profile on show: they press its Edit button (to start, and to end) and its Apply button. */
-    editProfile: "Edit this profile",
-    doneEditing: "Finish editing this profile",
-    applyChanges: "Apply the changes to this profile",
-    /** Under the people or the clubs found, when the list has more: opens that list with the same search. */
-    showAll: (count: number, list: string) => `Show all ${format(count)} in ${list}`,
-    searching: "Searching…",
-    /** When nothing matches what is typed. */
-    empty: (query: string) => `Nothing matches “${query}”.`,
-    /** Under the commands while not connected. */
-    notConnected: "Connect to the game to search its players, staff and clubs.",
-    failed: (reason: string) => `The search failed: ${reason}`,
-    /** The foot of the box: what the arrow keys, Enter and Escape do. */
-    hintMove: "Move",
-    hintOpen: "Open",
-    hintClose: "Close",
-    /** The names of the keys as Windows keyboards have them ("Ctrl+K"); macOS shows the keys' signs instead. */
+    button: "Buscar",
+    title: "Buscar ou executar um comando",
+    placeholder: "Buscar jogadores, funcionários, clubes e comandos",
+    placeholderCommands: "Buscar comandos",
+    commands: "Comandos",
+    goTo: (list: string) => `Ir para ${list}`,
+    searchList: "Buscar nesta lista",
+    editProfile: "Editar este perfil",
+    doneEditing: "Concluir a edição deste perfil",
+    applyChanges: "Aplicar as alterações a este perfil",
+    showAll: (count: number, list: string) => `Mostrar todos os ${format(count)} em ${list}`,
+    searching: "Buscando…",
+    empty: (query: string) => `Nada corresponde a “${query}”.`,
+    notConnected: "Conecte-se ao jogo para buscar jogadores, funcionários e clubes dele.",
+    failed: (reason: string) => `A busca falhou: ${reason}`,
+    hintMove: "Mover",
+    hintOpen: "Abrir",
+    hintClose: "Fechar",
     keys: { ctrl: "Ctrl", shift: "Shift", enter: "Enter", escape: "Esc" },
   },
 
@@ -3626,140 +3584,130 @@ export const ptBR: Strings = {
    * update, and from the foot of the window or the palette when asked.
    */
   whatsNew: {
-    title: (version: string) => `What's new in ${version}`,
-    /** Under the title when the dialog opened by itself. */
-    updated: "FMLibreEditor has been updated.",
-    /** Over each version's list, when the dialog tells about more than one. */
-    version: (version: string) => `Version ${version}`,
-    /** `names` is a list the language's own way ("a, b and c"). */
-    thanks: (names: string) => `Thanks to ${names}.`,
-    /** Opens the release's notes on GitHub. */
-    allChanges: "All changes",
-    allChangesTitle: "Open this version's notes in full on GitHub",
-    /** Closes the dialog, which does not open by itself again for this version. */
-    close: "Got it",
-    /** The link at the foot of the window that opens it again, and the palette's command. */
-    link: "What's new",
-    command: "What's new in this version",
-    /**
-     * What each version brings, newest first: a few words in bold, then a sentence. Where a language lacks a version,
-     * the dialog shows it in English. A release adds its version here (see docs/DEVELOPING.md).
-     */
+    title: (version: string) => `Novidades da ${version}`,
+    updated: "O FMLibreEditor foi atualizado.",
+    version: (version: string) => `Versão ${version}`,
+    thanks: (names: string) => `Obrigado a ${names}.`,
+    allChanges: "Todas as alterações",
+    allChangesTitle: "Abre as notas completas desta versão no GitHub",
+    close: "Entendi",
+    link: "Novidades",
+    command: "Novidades desta versão",
     versions: {
       "0.5.5": [
         {
           title: "FM 27.1.1.",
-          text: "The update of 24 November is known on Game Pass, Steam and Mac, and everything works on it as before. When a future update comes out, the app keeps reading club finances and the tactic in use until a version that knows it follows.",
+          text: "A atualização de 24 de novembro é reconhecida no Game Pass, na Steam e no Mac, e tudo funciona nela como antes. Quando sair uma atualização futura, o app continua lendo as finanças dos clubes e a tática em uso até que uma versão que a reconheça chegue.",
         },
         {
-          title: "Competitions tab.",
-          text: "See and change each competition's squad rules, such as how many foreign players a squad may register, for this season and the next apart. On Windows and Apple silicon Macs.",
+          title: "Aba Competições.",
+          text: "Veja e altere as regras de elenco de cada competição, como quantos jogadores estrangeiros um elenco pode inscrever, para esta temporada e a próxima separadamente. No Windows e em Macs com chip Apple.",
         },
         {
-          title: "Loans.",
-          text: "The Transfer dialog's new Loan arranges a loan for the game's next day, in a transfer window or out of one. You set its last day, the share of his wage the other club pays, a monthly fee and, if you like, an option to buy. On Windows and Apple silicon Macs.",
+          title: "Empréstimos.",
+          text: "O novo Empréstimo do diálogo Transferir agenda um empréstimo para o dia seguinte do jogo, dentro ou fora de uma janela de transferências. Você define o último dia, a parte do salário que o outro clube paga, uma taxa mensal e, se quiser, uma opção de compra. No Windows e em Macs com chip Apple.",
         },
         {
-          title: "Recipes.",
-          text: "Ready-made sets of changes for a player or a club: Make a wonderkid, Injury-proof, Extend his career, Make the club rich and Top facilities. Each shows what it will change before anything is written, and one Undo takes it back.",
+          title: "Receitas.",
+          text: "Conjuntos prontos de alterações para um jogador ou um clube: Criar uma joia, À prova de lesões, Estender a carreira, Deixar o clube rico e Instalações de ponta. Cada uma mostra o que vai mudar antes de gravar qualquer coisa, e um Desfazer reverte tudo.",
         },
         {
-          title: "Development.",
-          text: "The app keeps a weekly record of every player as it reads the game, and a player's profile shows it in a new Development tab: his ability, potential, value and attributes over your career.",
+          title: "Evolução.",
+          text: "O app guarda um registro semanal de cada jogador conforme lê o jogo, e o perfil do jogador o mostra em uma nova aba Evolução: habilidade, potencial, valor e atributos ao longo da sua carreira.",
         },
         {
-          title: "B teams.",
-          text: "A club's Squad tab shows its B teams after its own teams, such as Castilla for Real Madrid, and the team actions work on them too.",
+          title: "Times B.",
+          text: "A aba Elenco de um clube mostra os times B depois dos times principais, como o Castilla do Real Madrid, e as ações de time funcionam neles também.",
         },
         {
-          title: "Shorter notes.",
-          text: "The notes on buttons are a line each, in a small box instead of a long strip across the window.",
+          title: "Avisos mais curtos.",
+          text: "As notas dos botões têm uma linha cada, em uma caixa pequena em vez de uma faixa longa na janela.",
         },
       ],
       "0.5.4": [
         {
-          title: "Transfers in the player's history.",
-          text: "Transfer, now the first choice when you move a player, arranges the move for the game's next day. The game makes it as one of its own: it pays the fee and keeps the move in his career history, with this season's matches at his old club in a row of their own. Move now still moves him at once.",
+          title: "Transferências no histórico do jogador.",
+          text: "Transferir, agora a primeira opção ao mover um jogador, agenda a transferência para o dia seguinte do jogo. O jogo a faz como uma das dele: paga o valor e guarda a transferência no histórico de carreira, com as partidas desta temporada no clube antigo em uma linha própria. “Mover agora” ainda move o jogador na hora.",
         },
         {
-          title: "Team at its best, and Destroy.",
-          text: "In a club's Squad tab, one press heals, inspires and refreshes the whole team and takes its cohesion and tactic to the top; Destroy, after a question, does the opposite. One Undo takes either back, and the single actions are under More actions.",
+          title: "Time no auge e Destruir.",
+          text: "Na aba Elenco de um clube, um clique cura, motiva e recupera o time todo e leva o entrosamento e a tática ao máximo; Destruir, depois de uma pergunta, faz o oposto. Um Desfazer reverte qualquer um dos dois, e as ações individuais estão em Mais ações.",
         },
         {
-          title: "Batch traits.",
-          text: "Under More actions in a club's Squad tab, Batch traits gives every player of the team the traits you pick, or takes them away, and leaves the rest of their traits as they are. One Undo takes it back.",
+          title: "Traços em lote.",
+          text: "Em Mais ações, na aba Elenco de um clube, Traços em lote dá a todos os jogadores do time os traços que você escolher, ou os remove, e deixa os outros traços como estão. Um Desfazer reverte tudo.",
         },
         {
-          title: "Move all staff.",
-          text: "A club's Staff tab moves its whole staff to another club at once, each in the same job, and one Undo brings them all back.",
+          title: "Mover todos os funcionários.",
+          text: "A aba Funcionários de um clube move todos os funcionários para outro clube de uma vez, cada um na mesma função, e um Desfazer traz todos de volta.",
         },
         {
-          title: "National teams.",
-          text: "A national team's senior squad gets Heal all, Inspire all and Refresh all, and its table shows energy, sharpness and morale.",
+          title: "Seleções.",
+          text: "O elenco principal de uma seleção ganha Curar todos, Motivar todos e Recuperar todos, e a tabela mostra energia, ritmo de jogo e moral.",
         },
         {
-          title: "Sponsorship deals.",
-          text: "A club's finances list its sponsorship deals, read only: what each pays per season and in all, its term, and what a relegation changes. On Game Pass 0.9.2524.0 so far.",
+          title: "Contratos de patrocínio.",
+          text: "As finanças de um clube listam os contratos de patrocínio, somente leitura: quanto cada um paga por temporada e no total, a duração e o que um rebaixamento muda. Por enquanto no Game Pass 0.9.2524.0.",
         },
         {
-          title: "Fix.",
-          text: "On some careers the staff check failed although the staff read right, which left staff read-only and refused healing, Max cohesion and Max tactics. It now passes.",
+          title: "Correção.",
+          text: "Em algumas carreiras a verificação dos funcionários falhava mesmo com a leitura certa, o que deixava os funcionários somente leitura e recusava Curar, Entrosamento máximo e Táticas no máximo. Agora ela passa.",
         },
       ],
       "0.5.3": [
         {
-          title: "FM27's update of 17 November.",
-          text: "On Windows and macOS, Game Pass 0.9.2524.0 and Steam build 26620374 are known builds, and the clubs' finances and the tactic your team plays are read again where the update moved them.",
+          title: "A atualização do FM27 de 17 de novembro.",
+          text: "No Windows e no macOS, o Game Pass 0.9.2524.0 e a build 26620374 da Steam são versões reconhecidas, e as finanças dos clubes e a tática que o seu time joga voltam a ser lidas onde a atualização as moveu.",
         },
         {
-          title: "National teams.",
-          text: "The switch over the club list shows every nation's men's and women's teams: a team's squad, its youth teams (Under 21, Under 20 and the others) with theirs, and the reputation of each, which you can edit.",
+          title: "Seleções.",
+          text: "O seletor acima da lista de clubes mostra as seleções masculina e feminina de cada país: o elenco de uma seleção, as categorias de base (Sub-21, Sub-20 e outras) com os respectivos elencos, e a reputação de cada uma, que você pode editar.",
         },
         {
-          title: "League prize money.",
-          text: "A club's overview shows what its league pays this season, by final position and per match, and the amounts can be changed for every club in the league until the season ends.",
+          title: "Premiação das ligas.",
+          text: "A visão geral de um clube mostra o que a liga dele paga nesta temporada, por posição final e por jogo, e os valores podem ser alterados para todos os clubes da liga até o fim da temporada.",
         },
         {
-          title: "Fix.",
-          text: "A save whose youth players were born after 2020 no longer fails the check the editor makes before it writes.",
+          title: "Correção.",
+          text: "Um save cujos jogadores da base nasceram depois de 2020 não falha mais na verificação que o editor faz antes de gravar.",
         },
       ],
       "0.5.2": [
         {
-          title: "My club.",
-          text: "The app opens on the club you manage: who needs a look, its money and the squad's actions, in one place. Without a club of your own, you can follow one.",
+          title: "Meu clube.",
+          text: "O app abre no clube que você treina: quem merece atenção, o dinheiro e as ações do elenco, em um só lugar. Sem um clube seu, você pode acompanhar um.",
         },
         {
-          title: "Command palette.",
-          text: "Ctrl+K (⌘K on a Mac) finds a player, a member of staff, a club or a command, and shortcuts move between the tabs.",
+          title: "Paleta de comandos.",
+          text: "Ctrl+K (⌘K no Mac) encontra um jogador, um funcionário, um clube ou um comando, e atalhos movem entre as abas.",
         },
         {
-          title: "Scouting.",
-          text: "Opportunities in the market, players like one you would let go, a comparison with your no. 1 at his position, scout reports to save as a picture or a PDF, the squad on a pitch and the youth intakes.",
+          title: "Observação.",
+          text: "Oportunidades no mercado, jogadores parecidos com um que você liberaria, uma comparação com o seu nº 1 na posição dele, relatórios do olheiro para salvar como imagem ou PDF, o elenco em um campo e as revelações da base.",
         },
         {
-          title: "Rename a player.",
-          text: "First, last, common and full name. The game keeps the new name in its saves.",
+          title: "Renomear um jogador.",
+          text: "Nome, sobrenome, nome popular e nome completo. O jogo guarda o novo nome nos saves.",
         },
         {
-          title: "Contracts and staff.",
-          text: "Extend a contract by five years in one click, or add years to many in a mass edit. Release a member of staff, or a club's whole staff, and bring them back with one Undo.",
+          title: "Contratos e funcionários.",
+          text: "Estenda um contrato por cinco anos com um clique, ou some anos a vários em uma edição em massa. Dispense um funcionário, ou todos os de um clube, e traga-os de volta com um Desfazer.",
         },
         {
-          title: "Max tactics.",
-          text: "In a club's Squad tab, it brings the team's tactical familiarity to the top. Reasons to be unhappy are now worded as the game words them.",
+          title: "Táticas no máximo.",
+          text: "Na aba Elenco de um clube, leva a familiaridade tática do time ao máximo. Os motivos de insatisfação agora usam as palavras do próprio jogo.",
         },
         {
-          title: "Your changes, kept.",
-          text: "Each career's changes stay in the Changes tab after a restart, and you can search, filter and export them.",
+          title: "Suas alterações, guardadas.",
+          text: "As alterações de cada carreira ficam na aba Alterações depois de reiniciar, e você pode buscá-las, filtrá-las e exportá-las.",
         },
         {
-          title: "Club filters.",
-          text: "Nation, league and reputation; Mass edit and Export take the clubs the list shows.",
+          title: "Filtros de clubes.",
+          text: "País, liga e reputação; Edição em massa e Exportar usam os clubes que a lista mostra.",
         },
         {
-          title: "Russian and Japanese.",
-          text: "Two more languages. Steam's update of 12 November is a known build too.",
+          title: "Russo e japonês.",
+          text: "Mais dois idiomas. A atualização da Steam de 12 de novembro também é uma versão reconhecida.",
         },
       ],
     } as Record<string, { title: string; text: string }[]>,
