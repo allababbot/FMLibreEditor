@@ -3423,6 +3423,8 @@ export const ptBR: Strings = {
       p: "Oportunista",
       tcf: "Centroavante de Acompanhamento",
       ocf: "Centroavante de Referência",
+      gk: "Goleiro",
+      wm: "Meio-campista de Lado",
     } as Record<string, string>,
     reasons: {
       listed: () => "Na lista de transferências",
