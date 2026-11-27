@@ -3437,6 +3437,8 @@ export const zhCN: Strings = {
       p: "偷猎者",
       tcf: "回防型中锋",
       ocf: "出球点型中锋",
+      gk: "Goalkeeper",
+      wm: "Wide Midfielder",
     } as Record<string, string>,
     reasons: {
       listed: () => "已列入转会名单",

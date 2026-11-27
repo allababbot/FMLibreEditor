@@ -3604,6 +3604,8 @@ export const en = {
       p: "Poacher",
       tcf: "Tracking Centre Forward",
       ocf: "Outlet Centre Forward",
+      gk: "Goalkeeper",
+      wm: "Wide Midfielder",
     } as Record<string, string>,
     reasons: {
       listed: () => "Transfer listed",

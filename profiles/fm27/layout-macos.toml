@@ -350,6 +350,33 @@ slots = 0x28
 count = 26
 player_person = 0x390
 
+# The tactic block the first entry of a selection's list points at, laid out as on Windows (see
+# docs/recon/fm27-tactics-and-value.md) with the places' records 8 bytes later. Read on a save of 14 September 2026
+# (Steam build 26385295, Apple silicon), where the game held selections for the manager's club and for three clubs it
+# runs itself: in each, the roles the editor knows were a goalkeeper's for the goalkeeper, a centre-back's for the
+# centre-backs and a striker's for the strikers. `pairing` is the eleven bytes after a 0x1B at +0x7B3: for each
+# in-possession slot, the out-of-possession slot of the same place. One block read 0 1 2 3 4 6 7 5 8 9 10, which makes
+# the left wing-back (AWB with the ball) an HWB without it and the defensive midfielder a PDM; read slot for slot, the
+# wing-back would defend as a PDM and a central midfielder as an HWB. A selection lists one block for each tactic its
+# manager keeps, and the byte after the list is the index of the one he plays, as `[tactics]` reads it: 0 in every
+# selection of that save, each with one block. On a save of 4 July 2027 each of the manager's selections listed two
+# blocks, and the second matched its eleven; the byte was not read then.
+#
+# A record starts with the place's position, one bit of a u32 (and, for one of two or three in the centre, bit 20 for
+# the left one or bit 21 for the right one). Read in the 19 blocks of the September save: every one gave a goalkeeper
+# and ten outfield positions in each phase, a centre-back's role sat at DC and a striker's at ST, and the positions
+# the pairing joins were one player's in both phases. One block, a 4-3-3 with a holding midfielder, read GK DR DC DC DL
+# DM MC MC AMR AML ST with the ball and GK DR DC DC DL DM MR MC MC ML ST without it; another GK DC DC DC WBR DM WBL MC
+# MC ST ST and GK DC DC DC WBR DM DM WBL AMC ST ST.
+[tactic]
+in_possession = 0x120
+out_of_possession = 0x440
+slot_size = 0x48
+role = 0x40               # in a record: the u64 role mask
+position = 0x00           # in a record: the u32 mask of the place's position
+style = 0x100
+pairing = 0x7B4
+
 # The tactics each human manager keeps for each of his teams, which the game reads to tell how well the players know
 # the tactic in use (game_plugin+0x2039c64 and +0x2ce4aec, Steam build 26340721). The build profile's tactics_manager
 # leads to an object listing one object per human manager; each has a map from a team's id (the team's u32 at +0x08)

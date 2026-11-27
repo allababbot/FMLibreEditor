@@ -3047,6 +3047,8 @@ export const ja: Strings = {
       p: "ポーチャー",
       tcf: "守備型センターフォワード",
       ocf: "アウトレット型センターフォワード",
+      gk: "Goalkeeper",
+      wm: "Wide Midfielder",
     } as Record<string, string>,
     reasons: {
       listed: () => "移籍リスト入り",
