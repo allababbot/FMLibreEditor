@@ -2039,13 +2039,11 @@ impl Connection {
         self.rules.as_deref()?.iter().find(|rules| rules.competition.uid == uid)
     }
 
-    /// The competitions with a squad rule to show, this season or the next, as read last: the others, about a
-    /// quarter of those the game plays, register their squads under none.
-    fn ruled_competitions(&self) -> Vec<CompetitionRules> {
-        let ruled = |rules: &&CompetitionRules| {
-            !rules.current.is_empty() || rules.next.as_ref().is_some_and(|next| !next.is_empty())
-        };
-        self.rules.iter().flatten().filter(ruled).cloned().collect()
+    /// The competitions the game is playing, with their squad rules as read last. About a quarter register their
+    /// squads under none (Scotland's and Slovakia's top divisions, most cups): they are listed too, so that the
+    /// Competitions tab finds them and says so, rather than seem not to know them.
+    fn listed_competitions(&self) -> Vec<CompetitionRules> {
+        self.rules.clone().unwrap_or_default()
     }
 
     /// Sets squad rules of the competition `uid`: each the rule at a place of a season's list, as `competition_rules`
@@ -3732,10 +3730,11 @@ struct LeaguePrizesSet {
     league: Option<CompetitionPrizes>,
 }
 
-/// The squad rules of every competition that has some, this season's and next season's: how many foreign players a
-/// squad may register, how many goalkeepers, how many players in all; or why this version of the game shows none. The
-/// first time, and with `again`, read from the game: off the window's thread, as it reads all of the game's memory
-/// once, which takes a few seconds. After that, as read then, with the changes the editor made since. Only reads.
+/// Every competition the game is playing, with its squad rules, this season's and next season's (none for about a
+/// quarter of them): how many foreign players a squad may register, how many goalkeepers, how many players in all;
+/// or why this version of the game shows none. The first time, and with `again`, read from the game: off the
+/// window's thread, as it reads all of the game's memory once, which takes a few seconds. After that, as read then,
+/// with the changes the editor made since. Only reads.
 #[tauri::command]
 async fn competition_rules(app: tauri::AppHandle, again: bool) -> Result<CompetitionRulesRead, Failure> {
     tauri::async_runtime::spawn_blocking(move || -> Result<CompetitionRulesRead, Failure> {
@@ -3754,7 +3753,7 @@ async fn competition_rules(app: tauri::AppHandle, again: bool) -> Result<Competi
         }
         Ok(CompetitionRulesRead {
             unavailable: None,
-            competitions: connection.ruled_competitions(),
+            competitions: connection.listed_competitions(),
             held: connection.frozen.rules.clone(),
         })
     })
@@ -3808,7 +3807,7 @@ fn set_competition_rules(
     let changes = connection.set_competition_rules(file.0.as_deref(), competition, &changes)?;
     Ok(CompetitionRulesSet {
         changes,
-        competitions: connection.ruled_competitions(),
+        competitions: connection.listed_competitions(),
         held: connection.frozen.rules.clone(),
     })
 }

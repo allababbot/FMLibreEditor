@@ -1433,9 +1433,9 @@ export const en = {
   },
 
   /**
-   * The Competitions tab: the competitions that have squad rules, and beside the list the rules of the one picked, this
-   * season's and next season's in an area each: how many players of a kind a squad may register or a team may pick.
-   * While the game can be written to, the counts can be changed.
+   * The Competitions tab: the competitions the game is playing, and beside the list the squad rules of the one picked,
+   * this season's and next season's in an area each: how many players of a kind a squad may register or a team may
+   * pick. While the game can be written to, the counts can be changed.
    */
   competitions: {
     /** The tab in the masthead, and the palette's command to go there. */
@@ -1454,8 +1454,8 @@ export const en = {
     reading: "Reading the competitions' squad rules from the game… This takes a few seconds.",
     readAgain: "Read again",
     readAgainTitle: "Read the rules from the game again",
-    /** Under the list. */
-    listNote: "Competitions that have no squad rules are not listed.",
+    /** Under the list, and under a search that finds none: competitions with no squad rules are listed too. */
+    listNote: "Only the competitions the game is playing in this save are listed.",
     /** Where the app cannot show the rules: the heading, and why. */
     unavailableTitle: "No squad rules to show",
     unavailableBuild: "Nobody has checked yet where this version of the game keeps the competitions' squad rules, so the editor shows none rather than read the wrong memory.",
@@ -1489,6 +1489,8 @@ export const en = {
     /** In an area with no rules, and in next season's when the game holds no list for it. */
     noRules: "No squad rules.",
     noNext: "The game holds no rules for next season.",
+    /** The panel of a competition with no squad rule in either season (Scotland's top division, most cups). */
+    noneGiven: "The game gives this competition no squad rules, so there is nothing to change here.",
     ruleColumns: {
       rule: "Rule",
       where: "Counted in",

@@ -1448,7 +1448,7 @@ export const ptBR: Strings = {
     readAgain: "Ler de novo",
     readAgainTitle: "Lê as regras do jogo de novo",
     /** Under the list. */
-    listNote: "Competições sem regras de elenco não são listadas.",
+    listNote: "Só são listadas as competições disputadas neste save.",
     /** Where the app cannot show the rules: the heading, and why. */
     unavailableTitle: "Sem regras de elenco para mostrar",
     unavailableBuild: "Ninguém verificou ainda onde esta versão do jogo guarda as regras de elenco das competições, então o editor não mostra nenhuma para não ler a memória errada.",
@@ -1482,6 +1482,7 @@ export const ptBR: Strings = {
     /** In an area with no rules, and in next season's when the game holds no list for it. */
     noRules: "Sem regras de elenco.",
     noNext: "O jogo não tem regras para a próxima temporada.",
+    noneGiven: "O jogo não define nenhuma regra de elenco para esta competição, então não há nada para mudar aqui.",
     ruleColumns: {
       rule: "Regra",
       where: "Contado em",

@@ -491,7 +491,7 @@ export interface CompetitionRules {
 /** The competitions' squad rules, or why this version of the game shows none (`competition_rules`). */
 export interface CompetitionRulesRead {
   unavailable: RuleUnavailable | null;
-  /** The competitions with a squad rule this season or the next. */
+  /** Every competition the game is playing: about a quarter have no squad rule this season or the next. */
   competitions: CompetitionRules[];
   /** The rules the editor holds in this save. */
   held: HeldRule[];

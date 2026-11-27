@@ -80,7 +80,9 @@ when you connect to that save another time.
   players a squad may register, how many goalkeepers, how many players in all, and what a
   team may pick for a match, this season's and next season's apart. A change is kept in the
   save. UEFA's Champions, Europa and Conference League keep their rules in none, so the
-  editor holds a change of them and writes it again each time it connects.
+  editor holds a change of them and writes it again each time it connects. Competitions the
+  game gives no squad rules (Scotland's and Slovakia's top divisions, most cups) are listed
+  too, and say so.
 - Edit a national team's reputation.
 
 ## Follow a career

@@ -4087,9 +4087,10 @@ const secondLeagueRules = () => [
 ];
 
 /**
- * The competitions the mock has squad rules for (`competition_rules`), as the editor changed them: the Süper Lig's as
- * FM27 lists them, a division whose groups share its lists, a cup whose rules are for the teams of a division, a
- * league with a wage among its rules and a continent's competition with no list for next season.
+ * The competitions the mock is playing (`competition_rules`), with their squad rules as the editor changed them: the
+ * Süper Lig's as FM27 lists them, a division whose groups share its lists, a cup whose rules are for the teams of a
+ * division, a league with a wage among its rules, a continent's competition with no list for next season, and a cup the
+ * game gives no squad rule, as about a quarter of the competitions it plays (#274).
  */
 const ruledCompetitions: CompetitionRules[] = [
   ruledCompetition(130286, "Trendyol Süper Lig", TURKIYE, 0, [
@@ -4127,6 +4128,7 @@ const ruledCompetitions: CompetitionRules[] = [
     squadRule(502, "weekly_wage_for_youth_contract", -1, 71_940_388),
     squadRule(77, "keepers_on_bench", 1, 1),
   ]),
+  ruledCompetition(1301426, "Emirates FA Cup", ENGLAND, 0, [], []),
   ruledCompetition(
     1301394,
     "UEFA Champions League",

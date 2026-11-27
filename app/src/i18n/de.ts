@@ -1427,7 +1427,7 @@ export const de: Strings = {
     reading: "Die Kaderregeln der Wettbewerbe werden aus dem Spiel gelesen … Das dauert einige Sekunden.",
     readAgain: "Neu lesen",
     readAgainTitle: "Die Regeln erneut aus dem Spiel lesen",
-    listNote: "Wettbewerbe ohne Kaderregeln werden nicht aufgeführt.",
+    listNote: "Aufgeführt sind nur die Wettbewerbe, die das Spiel in diesem Spielstand austrägt.",
     unavailableTitle: "Keine Kaderregeln anzuzeigen",
     unavailableBuild: "Noch niemand hat geprüft, wo diese Version des Spiels die Kaderregeln der Wettbewerbe ablegt; der Editor zeigt daher keine an, statt den falschen Speicher zu lesen.",
     unavailableUnreadable: "Der Editor hat die Kaderregeln dort gesucht, wo er sie in dieser Version des Spiels erwartet, doch was er fand, sieht nicht nach den Daten des Spiels aus; deshalb zeigt er keine an.",
@@ -1454,6 +1454,7 @@ export const de: Strings = {
     begins: (year) => `beginnt ${year}`,
     noRules: "Keine Kaderregeln.",
     noNext: "Das Spiel führt keine Regeln für die nächste Saison.",
+    noneGiven: "Das Spiel gibt diesem Wettbewerb keine Kaderregeln vor, hier gibt es also nichts zu ändern.",
     ruleColumns: {
       rule: "Regel",
       where: "Gezählt bei",

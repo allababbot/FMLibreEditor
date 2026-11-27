@@ -1448,7 +1448,7 @@ export const zhCN: Strings = {
     reading: "正在从游戏读取各赛事的阵容规则…这需要几秒钟。",
     readAgain: "重新读取",
     readAgainTitle: "重新从游戏读取规则",
-    listNote: "没有阵容规则的赛事不会列出。",
+    listNote: "只列出游戏在此存档中进行的赛事。",
     unavailableTitle: "没有可显示的阵容规则",
     unavailableBuild: "还没有人确认此版本的游戏把赛事的阵容规则存放在哪里，因此编辑器不显示，以免读取错误的内存。",
     unavailableUnreadable: "编辑器在此版本游戏中预期的位置查找了阵容规则，但找到的内容不像游戏的数据，因此不显示。",
@@ -1475,6 +1475,7 @@ export const zhCN: Strings = {
     begins: (year: number) => `将于 ${year} 年开始`,
     noRules: "没有阵容规则。",
     noNext: "游戏中没有下赛季的规则。",
+    noneGiven: "游戏没有给这项赛事设定阵容规则，因此这里没有可修改的内容。",
     ruleColumns: {
       rule: "规则",
       where: "计入范围",

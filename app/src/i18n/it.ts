@@ -1403,7 +1403,7 @@ export const it: Strings = {
     reading: "Lettura delle regole di rosa delle competizioni dal gioco… Ci vogliono alcuni secondi.",
     readAgain: "Rileggi",
     readAgainTitle: "Rileggi le regole dal gioco",
-    listNote: "Le competizioni senza regole di rosa non sono elencate.",
+    listNote: "Sono elencate solo le competizioni che il gioco fa disputare in questo salvataggio.",
     unavailableTitle: "Nessuna regola di rosa da mostrare",
     unavailableBuild: "Nessuno ha ancora verificato dove questa versione del gioco tenga le regole di rosa delle competizioni, quindi l'editor non ne mostra per non leggere la memoria sbagliata.",
     unavailableUnreadable: "L'editor ha cercato le regole di rosa dove se le aspetta in questa versione del gioco, ma ciò che ha trovato non sembra quello del gioco, quindi non ne mostra.",
@@ -1430,6 +1430,7 @@ export const it: Strings = {
     begins: (year) => `inizia nel ${year}`,
     noRules: "Nessuna regola di rosa.",
     noNext: "Il gioco non ha regole per la prossima stagione.",
+    noneGiven: "Il gioco non dà a questa competizione alcuna regola di rosa, quindi qui non c'è nulla da cambiare.",
     ruleColumns: {
       rule: "Regola",
       where: "Conteggio in",

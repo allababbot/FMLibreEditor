@@ -1340,7 +1340,7 @@ export const tr: Strings = {
     reading: "Organizasyonların kadro kuralları oyundan okunuyor… Bu birkaç saniye sürer.",
     readAgain: "Yeniden oku",
     readAgainTitle: "Kuralları oyundan yeniden oku",
-    listNote: "Kadro kuralı olmayan organizasyonlar listelenmez.",
+    listNote: "Yalnızca oyunun bu kayıtta oynattığı organizasyonlar listelenir.",
     unavailableTitle: "Gösterilecek kadro kuralı yok",
     unavailableBuild: "Oyunun bu sürümünün organizasyonların kadro kurallarını nerede tuttuğunu henüz kimse denetlemedi; bu yüzden editör yanlış belleği okumak yerine hiçbirini göstermiyor.",
     unavailableUnreadable: "Editör kadro kurallarını oyunun bu sürümünde beklediği yerde aradı, ama bulduğu veri oyunun verisine benzemiyor; bu yüzden hiçbirini göstermiyor.",
@@ -1367,6 +1367,7 @@ export const tr: Strings = {
     begins: (year) => `${year} yılında başlıyor`,
     noRules: "Kadro kuralı yok.",
     noNext: "Oyun gelecek sezon için kural tutmuyor.",
+    noneGiven: "Oyun bu organizasyona hiç kadro kuralı vermiyor, bu yüzden burada değiştirilecek bir şey yok.",
     ruleColumns: {
       rule: "Kural",
       where: "Sayıldığı yer",

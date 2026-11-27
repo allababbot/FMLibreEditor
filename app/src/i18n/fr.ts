@@ -1448,7 +1448,7 @@ export const fr: Strings = {
     reading: "Lecture des règles d'effectif des compétitions dans le jeu… Cela prend quelques secondes.",
     readAgain: "Relire",
     readAgainTitle: "Relire les règles dans le jeu",
-    listNote: "Les compétitions sans règles d'effectif ne sont pas listées.",
+    listNote: "Seules les compétitions que le jeu fait jouer dans cette sauvegarde sont listées.",
     unavailableTitle: "Aucune règle d'effectif à afficher",
     unavailableBuild: "Personne n'a encore vérifié où cette version du jeu garde les règles d'effectif des compétitions : l'éditeur n'en montre donc aucune plutôt que de lire la mauvaise mémoire.",
     unavailableUnreadable: "L'éditeur a cherché les règles d'effectif là où il les attend dans cette version du jeu, mais ce qu'il a trouvé ne ressemble pas aux données du jeu : il n'en montre donc aucune.",
@@ -1475,6 +1475,7 @@ export const fr: Strings = {
     begins: (year) => `commence en ${year}`,
     noRules: "Aucune règle d'effectif.",
     noNext: "Le jeu ne contient aucune règle pour la saison prochaine.",
+    noneGiven: "Le jeu ne donne aucune règle d'effectif à cette compétition, il n'y a donc rien à changer ici.",
     ruleColumns: {
       rule: "Règle",
       where: "Compté dans",
