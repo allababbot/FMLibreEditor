@@ -138,7 +138,7 @@ export const leaguePrizesText = strings.leaguePrizes;
 export const sponsorshipsText = strings.sponsorships;
 /** The Clubs tab's national teams: the list, the profile of a national team and why there may be none. */
 export const nationalText = strings.national;
-/** The Competitions tab: the competitions with squad rules, and the rules of the one picked, season by season. */
+/** The Competitions tab: the competitions the game plays, and the squad rules of the one picked, season by season. */
 export const competitionsText = strings.competitions;
 
 /**

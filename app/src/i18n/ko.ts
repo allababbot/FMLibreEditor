@@ -1351,7 +1351,7 @@ export const ko: Strings = {
     reading: "게임에서 대회의 스쿼드 규칙을 읽는 중… 몇 초 걸립니다.",
     readAgain: "다시 읽기",
     readAgainTitle: "게임에서 규칙을 다시 읽습니다",
-    listNote: "스쿼드 규칙이 없는 대회는 표시되지 않습니다.",
+    listNote: "이 세이브에서 게임이 치르고 있는 대회만 표시됩니다.",
     unavailableTitle: "표시할 스쿼드 규칙이 없습니다",
     unavailableBuild: "이 게임 버전이 대회의 스쿼드 규칙을 어디에 보관하는지 아직 확인되지 않아, 엉뚱한 메모리를 읽지 않도록 표시하지 않습니다.",
     unavailableUnreadable: "에디터가 이 게임 버전에서 스쿼드 규칙이 있을 것으로 예상한 곳을 살펴봤지만, 찾은 내용이 게임의 데이터로 읽히지 않아 아무것도 표시하지 않습니다.",
@@ -1378,6 +1378,7 @@ export const ko: Strings = {
     begins: (year) => `${year}년에 시작 예정`,
     noRules: "스쿼드 규칙이 없습니다.",
     noNext: "게임에 다음 시즌 규칙이 없습니다.",
+    noneGiven: "게임이 이 대회에 스쿼드 규칙을 두지 않아서 여기서 바꿀 것이 없습니다.",
     ruleColumns: {
       rule: "규칙",
       where: "집계 대상",

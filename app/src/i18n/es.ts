@@ -1359,7 +1359,7 @@ export const es: Strings = {
     reading: "Leyendo las reglas de plantilla de las competiciones desde el juego… Tardará unos segundos.",
     readAgain: "Leer de nuevo",
     readAgainTitle: "Volver a leer las reglas del juego",
-    listNote: "No se muestran las competiciones sin reglas de plantilla.",
+    listNote: "Solo se muestran las competiciones que el juego disputa en esta partida.",
     unavailableTitle: "No hay reglas de plantilla que mostrar",
     unavailableBuild: "Nadie ha comprobado todavía dónde guarda esta versión del juego las reglas de plantilla de las competiciones, así que el editor no muestra ninguna en lugar de leer la memoria equivocada.",
     unavailableUnreadable: "El editor buscó las reglas de plantilla donde las espera en esta versión del juego, pero lo que encontró no parece del juego, así que no muestra ninguna.",
@@ -1386,6 +1386,7 @@ export const es: Strings = {
     begins: (year) => `empieza en ${year}`,
     noRules: "Sin reglas de plantilla.",
     noNext: "El juego no tiene reglas para la próxima temporada.",
+    noneGiven: "El juego no da a esta competición ninguna regla de plantilla, así que aquí no hay nada que cambiar.",
     ruleColumns: {
       rule: "Regla",
       where: "Se cuenta en",

@@ -330,9 +330,14 @@ sizes (105), which the files give with the squad numbers; the others are of many
 ## The app's Competitions tab
 
 The app reads the same lists (`competition_rules`, the first time its Competitions tab is shown: one pass over the
-game's memory, a few seconds) and keeps them, with its own changes, until the data is read again. It lists the
-competitions that have a squad rule in either season, and beside the list the rules of the one picked, in an area for
-this season and one for the next. A rule's count is changed there (`set_competition_rules`) under the conditions the
+game's memory, a few seconds) and keeps them, with its own changes, until the data is read again. It lists every
+competition being played, and beside the list the rules of the one picked, in an area for this season and one for the
+next. About a quarter have no squad rule in either season: Scotland's, Austria's and Slovakia's top divisions, the
+Republic of Ireland's, most cups (124 of 550 on the save above; Slovakia's records hold no squad rule either, read
+again on Game Pass 0.9.2562.0). The tab listed only those with rules at first, so that a search for Slovakia's First
+Division found nothing and seemed not to know it (#274); now it lists them too, and the panel of one says the game
+gives it no squad rules.
+A rule's count is changed there (`set_competition_rules`) under the conditions the
 probe changes it under; each rule changed is logged as a change of the competition, with the rule it set, and Undo in
 Changes writes back what it found, in the list and in the record. A change logged before the app last connected is
 kept as history: its undo needed the game's memory as it was.

@@ -1306,7 +1306,7 @@ export const id: Strings = {
     reading: "Membaca aturan skuad kompetisi dari game… Ini butuh beberapa detik.",
     readAgain: "Baca ulang",
     readAgainTitle: "Baca ulang aturan dari game",
-    listNote: "Kompetisi tanpa aturan skuad tidak ditampilkan.",
+    listNote: "Hanya kompetisi yang dimainkan game di save ini yang ditampilkan.",
     unavailableTitle: "Tidak ada aturan skuad untuk ditampilkan",
     unavailableBuild: "Belum ada yang memeriksa di mana versi game ini menyimpan aturan skuad kompetisi, jadi editor tidak menampilkannya daripada membaca memori yang salah.",
     unavailableUnreadable: "Editor mencari aturan skuad di tempat yang diharapkan pada versi game ini, tetapi yang ditemukan tidak terbaca seperti data game, jadi tidak ditampilkan.",
@@ -1333,6 +1333,7 @@ export const id: Strings = {
     begins: (year: number) => `akan dimulai tahun ${year}`,
     noRules: "Tidak ada aturan skuad.",
     noNext: "Game tidak menyimpan aturan untuk musim depan.",
+    noneGiven: "Game tidak memberi kompetisi ini aturan skuad apa pun, jadi tidak ada yang bisa diubah di sini.",
     ruleColumns: {
       rule: "Aturan",
       where: "Dihitung di",
