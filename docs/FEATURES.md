@@ -110,7 +110,7 @@ Even so: use it with offline, single-player saves, and back up your save before 
 
 ## Languages and updates
 
-- English, Turkish, Spanish, German, French, Indonesian, Italian, Japanese, Korean, Russian
-  and Simplified Chinese.
+- English, Turkish, Spanish, German, French, Indonesian, Italian, Japanese, Korean, Brazilian
+  Portuguese, Russian and Simplified Chinese.
 - The app updates itself on Windows and macOS: one click downloads and installs a new
   version.

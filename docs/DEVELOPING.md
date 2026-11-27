@@ -435,7 +435,7 @@ with the same quoting, separator and byte order mark as the lists.
 3. **The `Release` workflow** (`.github/workflows/release.yml`) builds, on GitHub's Windows
    and macOS machines:
    - `FMLibreEditor-Setup.exe`, a per-user NSIS installer in English, Turkish, Spanish, German,
-     French, Italian, Japanese, Korean, Russian and Simplified Chinese;
+     French, Italian, Japanese, Korean, Brazilian Portuguese, Russian and Simplified Chinese;
    - `FMLibreEditor-portable.zip`;
    - `FMLibreEditor-macOS.zip`, the universal app with the bridge and its launcher;
    - `FMLibreEditor-macOS.app.tar.gz`, the same app, which installed macOS apps update from.
