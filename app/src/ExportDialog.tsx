@@ -22,8 +22,8 @@ const STORAGE_KEY = "fmlibre.exportFormat";
 
 /**
  * The format chosen last, if `formats` offers it; at first, CSV with semicolons in a language whose Excel writes decimals
- * with a comma (Turkish, Spanish, German, French, Indonesian, Italian, Brazilian Portuguese and Russian), and with commas in English, Japanese,
- * Korean and Chinese, whose Excel writes them with a point.
+ * with a comma (Turkish, Spanish, German, French, Indonesian, Italian, Brazilian Portuguese and Russian), and with
+ * commas in English, Japanese, Korean and Chinese, whose Excel writes them with a point.
  */
 function startFormat(formats: readonly ExportFormat[]): ExportFormat {
   try {

@@ -58,9 +58,10 @@ function savedLocale(): Locale | null {
 
 /**
  * The first of the system's languages, most preferred first, that the app has: "es-MX" is Spanish, "tr" Turkish,
- * "id-ID" Indonesian, "pt" and "pt-BR" Brazilian Portuguese (there is no pt-PT yet), "ja-JP" Japanese, "ko-KR" Korean, and "zh", "zh-CN", "zh-SG" or "zh-Hans" Simplified Chinese. Traditional Chinese
- * ("zh-TW", "zh-HK", "zh-Hant") is not taken for it: English reads better than the other script. English when it has
- * none of them. WebView2 lists the languages of Windows; WKWebView only the first one of macOS.
+ * "id-ID" Indonesian, "ja-JP" Japanese, "ko-KR" Korean, "pt" and "pt-BR" Brazilian Portuguese (there is no pt-PT yet),
+ * and "zh", "zh-CN", "zh-SG" or "zh-Hans" Simplified Chinese. Traditional Chinese ("zh-TW", "zh-HK", "zh-Hant") is not
+ * taken for it: English reads better than the other script. English when it has none of them. WebView2 lists the
+ * languages of Windows; WKWebView only the first one of macOS.
  */
 function systemLocale(): Locale {
   const { languages, language } = window.navigator;

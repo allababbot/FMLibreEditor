@@ -59,8 +59,8 @@ signed: [Code signing policy](#code-signing-policy).
   on a version of FM27 it has not been checked with yet, and changes nothing after the game
   loads another save until you reload the data.
 
-In English, Turkish, Spanish, German, French, Indonesian, Italian, Japanese, Korean, Russian
-and Simplified Chinese. The app updates itself on Windows and macOS.
+In English, Turkish, Spanish, German, French, Indonesian, Italian, Japanese, Korean, Brazilian
+Portuguese, Russian and Simplified Chinese. The app updates itself on Windows and macOS.
 
 Everything it does: [docs/FEATURES.md](docs/FEATURES.md). The game shows a change once you
 press **Continue** in FM.
