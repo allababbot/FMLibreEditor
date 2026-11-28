@@ -677,6 +677,11 @@ export const es: Strings = {
     potentialAbility: "Habilidad potencial",
     potentialAbilityShort: "HP",
     potentialRange: "Potencial fijado como un rango",
+    recommendedAbility: "Recomendada",
+    recommendedAbilityTip: "La HA que mantiene estos atributos. El juego acerca los atributos a la HA.",
+    abilityOverMost: (fitted: number) => `Los atributos valen ${fitted}`,
+    abilityOverMostTip: (most: number) => `La HA llega hasta ${most}.`,
+    abilityAbovePotential: "Por encima de la HP",
 
     // Atributos
     technical: "Técnicos",

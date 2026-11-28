@@ -673,6 +673,11 @@ export const tr: Strings = {
     potentialAbility: "Potansiyel yetenek",
     potentialAbilityShort: "PY",
     potentialRange: "Potansiyel bir aralık olarak belirlenmiş",
+    recommendedAbility: "Önerilen",
+    recommendedAbilityTip: "Bu nitelikleri koruyan MY. Oyun nitelikleri zamanla MY'ye çeker.",
+    abilityOverMost: (fitted: number) => `Nitelikler ${fitted} tutuyor`,
+    abilityOverMostTip: (most: number) => `MY en çok ${most} olur.`,
+    abilityAbovePotential: "PY'nin üstünde",
 
     // Attributes
     technical: "Teknik",

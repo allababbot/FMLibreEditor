@@ -78,6 +78,8 @@ interface ProfileFrameProps {
   potentialAbility?: number;
   /** Under the abilities while the person is not edited: how the current ability moved (see `AbilityTrend`). */
   abilityNote?: ReactNode;
+  /** Under the abilities while the person is edited: the ability that fits (see `RecommendedAbility`). */
+  abilityEditNote?: ReactNode;
   /** Under the close button instead of the abilities, e.g. the reputation of a club. */
   side?: ReactNode;
   /** Buttons before Edit in the header, e.g. the player's Compare button. */
@@ -109,7 +111,8 @@ interface ProfileFrameProps {
  */
 export function ProfileFrame(props: ProfileFrameProps) {
   const { picture, name, fullName, badge, meta, vitals, currentAbility, potentialAbility } = props;
-  const { side, actions, tabs, wide, modal = false, loaded, onClose, editing, children, abilityNote } = props;
+  const { side, actions, tabs, wide, modal = false, loaded, onClose, editing, children } = props;
+  const { abilityNote, abilityEditNote } = props;
   const closeProfile = editing ? () => editing.guardClose(onClose) : onClose;
   const onEscape = editing ? () => editing.escape(onClose) : onClose;
   const panelWidth = usePanelWidth(wide ? "wide" : "profile");
@@ -199,7 +202,7 @@ export function ProfileFrame(props: ProfileFrameProps) {
                   </EditableValue>
                 </div>
               ))}
-            {editing?.stage !== "edit" && abilityNote}
+            {editing?.stage === "edit" ? abilityEditNote : abilityNote}
           </div>
         </header>
 

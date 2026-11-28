@@ -586,6 +586,11 @@ export const ptBR: Strings = {
     potentialAbilityShort: "POT",
     /** Hover text of a potential ability that is set as a range (the game stores it as a negative number). */
     potentialRange: "Potencial definido como faixa",
+    recommendedAbility: "Recomendada",
+    recommendedAbilityTip: "A HA que mantém esses atributos. O jogo aproxima os atributos da HA.",
+    abilityOverMost: (fitted: number) => `Atributos valem ${fitted}`,
+    abilityOverMostTip: (most: number) => `A HA vai até ${most}.`,
+    abilityAbovePotential: "Acima do POT",
 
     // Attributes
     technical: "Técnicos",

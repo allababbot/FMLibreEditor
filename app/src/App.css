@@ -7988,6 +7988,44 @@ kbd {
   font-weight: 800;
 }
 
+/* Under the abilities while a player is edited, where the trend is while he is read: the current ability his
+   attributes fit, a click away from the input, and what to know about the ability typed. */
+.ability-fit {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  max-width: 100%;
+}
+
+.ability-fit-button {
+  min-height: 0;
+  margin: -1px -5px 0;
+  padding: 1px 5px;
+  border: 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ability-fit-button:hover:not(:disabled) {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.ability-fit-figure {
+  color: var(--accent-text);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+.ability-fit-note {
+  color: var(--danger);
+  font-size: 12px;
+  font-weight: 600;
+}
+
 .ability-trend .trend-mark,
 .ability-trend-figure,
 .ability-change,

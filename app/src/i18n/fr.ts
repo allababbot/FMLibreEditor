@@ -763,6 +763,11 @@ export const fr: Strings = {
     potentialAbility: "Niveau potentiel",
     potentialAbilityShort: "PA",
     potentialRange: "Potentiel défini comme une plage",
+    recommendedAbility: "Recommandée",
+    recommendedAbilityTip: "La CA qui garde ces attributs. Le jeu ramène les attributs vers la CA.",
+    abilityOverMost: (fitted: number) => `Attributs valant ${fitted}`,
+    abilityOverMostTip: (most: number) => `La CA va jusqu'à ${most}.`,
+    abilityAbovePotential: "Au-dessus du PA",
 
     // Attributs
     technical: "Technique",
