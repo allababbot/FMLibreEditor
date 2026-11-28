@@ -29,6 +29,9 @@ The game shows a change once you press **Continue** in FM.
 ## Edit a player or a member of staff
 
 - Attributes, abilities, positions, personality, traits, reputation and more.
+- While you edit a player, the current ability his attributes and positions fit, as FM's own
+  editors recommend one: one click puts it in, so raised attributes are not pulled back down by
+  the game.
 - Contracts with their bonuses and clauses. One click extends a contract by five years.
 - Rename a player: first, last, common and full name. The game keeps names in its saves, so a
   new name stays once you save.

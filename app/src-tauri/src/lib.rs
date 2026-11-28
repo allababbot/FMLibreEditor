@@ -3925,6 +3925,7 @@ async fn export_list(
             writer: format!("FMLibreEditor {}", app.package_info().version),
             game: connection.session.game.name(),
             game_date: connection.session.game_date(),
+            stored_attributes: false,
         };
         std::fs::create_dir_all(&folder).map_err(failed)?;
         let (path, file) = new_export_file(&folder, what, header.game_date, format.extension()).map_err(failed)?;

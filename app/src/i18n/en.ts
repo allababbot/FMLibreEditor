@@ -593,6 +593,17 @@ export const en = {
     potentialAbilityShort: "PA",
     /** Hover text of a potential ability that is set as a range (the game stores it as a negative number). */
     potentialRange: "Potential set as a range",
+    /**
+     * Under the abilities while a player is edited, before the number: the current ability his attributes and positions
+     * fit, as FM's own editors recommend one. A click puts it in.
+     */
+    recommendedAbility: "Recommended",
+    recommendedAbilityTip: "The CA his attributes and positions fit. The game moves attributes towards the CA.",
+    /** When his attributes are worth more current ability than the game holds. */
+    abilityOverMost: (fitted: number) => `Attributes fit ${fitted}`,
+    abilityOverMostTip: (most: number) => `CA goes up to ${most}.`,
+    /** When the current ability typed is above the potential ability. */
+    abilityAbovePotential: "Above PA",
 
     // Attributes
     technical: "Technical",

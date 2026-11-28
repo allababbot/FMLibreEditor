@@ -115,6 +115,10 @@ export interface InputState {
   status: "same" | "changed" | "invalid";
   /** The value the game showed when editing began, as shown. */
   was: number;
+  /** The value the game had when editing began, as stored: an attribute 0–100. */
+  stored: number;
+  /** What the field would hold after Apply, as stored: the value typed, or `stored`; null while it is invalid. */
+  next: number | null;
   /** Why it is invalid. */
   message: string | null;
 }
@@ -157,6 +161,8 @@ export function inputState(
     range,
     status: verdict.status === "invalid" || refusal !== undefined ? "invalid" : verdict.status,
     was,
+    stored,
+    next: verdict.status === "changed" ? verdict.edit.value : verdict.status === "same" ? stored : null,
     message: verdict.status === "invalid" ? invalidMessage(field, range) : (refusal ?? null),
   };
 }

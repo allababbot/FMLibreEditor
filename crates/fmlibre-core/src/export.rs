@@ -1,7 +1,7 @@
 //! Players, staff or clubs written to a file that a spreadsheet or a script reads: CSV, a row each, or JSON, an object
 //! each. What a profile holds that is worth comparing, across players, staff or clubs and over time. For a player:
-//! abilities, positions, the attributes on the 1–20 scale the game shows, personality, reputation, caps, and the contract
-//! with its clauses. For a member of staff: the job, abilities, attributes, personality, reputation and the contract. For
+//! abilities, positions, the attributes on the 1–20 scale the game shows (or as stored, when the export asks: see
+//! `ExportHeader::stored_attributes`), personality, reputation, caps, and the contract with its clauses. For a member of staff: the job, abilities, attributes, personality, reputation and the contract. For
 //! a club: reputation, supporters, facilities, the stadium and the finances. Each with the in-game date they were read
 //! on. Money is in pounds, as the game keeps it. Only reads memory.
 //!
@@ -13,8 +13,8 @@ use std::io::{self, Write};
 use serde::{Deserialize, Serialize, Serializer};
 
 use crate::{
-    ATTRIBUTE_GROUPS, ClubDetails, ClubSummary, Contract, Entity, FmDate, International, PERSONALITY, PlayerDetails,
-    PlayerSummary, RELEASE_CLAUSE, RELEASE_CLAUSES, Reputation, STAFF_ATTRIBUTE_GROUPS, SUPPORTER_MIX,
+    ATTRIBUTE_GROUPS, Attribute, ClubDetails, ClubSummary, Contract, Entity, FmDate, International, PERSONALITY,
+    PlayerDetails, PlayerSummary, RELEASE_CLAUSE, RELEASE_CLAUSES, Reputation, STAFF_ATTRIBUTE_GROUPS, SUPPORTER_MIX,
     SUPPORTER_TRAITS, Session, StaffContract, StaffDetails, StaffSummary, job_name, read_player_details,
     read_staff_details, release_clause_expiry, release_clause_never_expires,
 };
@@ -52,6 +52,10 @@ pub struct ExportHeader {
     /// The game it was read from, e.g. "FM27 Steam build 26340721".
     pub game: String,
     pub game_date: Option<FmDate>,
+    /// Whether a player's attributes are written as the game stores them (0–100) rather than as it shows them (1–20):
+    /// for working out how the game weighs them, where the steps between two shown values count. Staff exports keep
+    /// the scale the game shows, as some of their attributes are stored on it.
+    pub stored_attributes: bool,
 }
 
 /// What an export wrote.
@@ -230,7 +234,7 @@ impl Columns<PlayerDetails> {
     }
 }
 
-fn csv_columns(game_date: Option<FmDate>) -> Columns<PlayerDetails> {
+fn csv_columns(game_date: Option<FmDate>, stored_attributes: bool) -> Columns<PlayerDetails> {
     let mut columns = Columns::<PlayerDetails>::default();
     columns.add("game_date", move |_| game_date.map(iso).unwrap_or_default());
     columns.add("uid", |d| d.summary.uid.to_string());
@@ -248,7 +252,9 @@ fn csv_columns(game_date: Option<FmDate>) -> Columns<PlayerDetails> {
         columns.add(format!("rating_{key}"), move |d| text(d.position_ratings.get(key)));
     }
     for key in ATTRIBUTE_GROUPS.iter().flat_map(|(_, keys)| keys.iter().copied()) {
-        columns.add(key, move |d| text(d.attributes.get(key).map(|attribute| attribute.value)));
+        columns.add(key, move |d| {
+            text(d.attributes.get(key).map(|attribute| attribute_value(attribute, stored_attributes)))
+        });
     }
     for key in PERSONALITY {
         columns.add(key, move |d| text(d.personality.get(key)));
@@ -404,7 +410,12 @@ fn write_csv(
     players: impl Iterator<Item = PlayerDetails>,
     separator: u8,
 ) -> io::Result<()> {
-    write_rows(out, &csv_columns(header.game_date), players, separator)
+    write_rows(out, &csv_columns(header.game_date, header.stored_attributes), players, separator)
+}
+
+/// A player's attribute as an export writes it: as stored (0–100) or as shown (1–20).
+fn attribute_value(attribute: &Attribute, stored: bool) -> u8 {
+    if stored { attribute.raw } else { attribute.value }
 }
 
 /// Writes the staff as CSV: a row of column names, then a row per member of staff, each cell apart by `separator`.
@@ -468,11 +479,12 @@ fn write_json(
     players: impl Iterator<Item = PlayerDetails>,
 ) -> io::Result<()> {
     write_json_header(out, header)?;
-    writeln!(out, "  \"attributeScale\": \"1-20\",")?;
+    let scale = if header.stored_attributes { "0-100" } else { "1-20" };
+    writeln!(out, "  \"attributeScale\": \"{scale}\",")?;
     write!(out, "  \"players\": [")?;
     for (i, details) in players.enumerate() {
         out.write_all(if i == 0 { b"\n    " } else { b",\n    " })?;
-        serde_json::to_writer(&mut *out, &JsonPlayer::from(&details))?;
+        serde_json::to_writer(&mut *out, &JsonPlayer::new(&details, header.stored_attributes))?;
     }
     writeln!(out, "\n  ]\n}}")
 }
@@ -533,6 +545,7 @@ struct JsonPlayer<'a> {
     potential_ability: i16,
     height_cm: u16,
     position_ratings: InOrder<String, Option<u8>>,
+    /// 1–20, or 0–100 as stored (see `ExportHeader::stored_attributes`), in the game's groups.
     attributes: InOrder<&'static str, u8>,
     personality: InOrder<&'static str, Option<u8>>,
     reputation: Reputation,
@@ -576,8 +589,9 @@ struct JsonClause {
     expires: Option<String>,
 }
 
-impl<'a> From<&'a PlayerDetails> for JsonPlayer<'a> {
-    fn from(d: &'a PlayerDetails) -> Self {
+impl<'a> JsonPlayer<'a> {
+    /// The player `d`, with his attributes as stored (0–100) or as shown (1–20).
+    fn new(d: &'a PlayerDetails, stored_attributes: bool) -> Self {
         let p = &d.summary;
         let attributes = ATTRIBUTE_GROUPS.iter().flat_map(|(_, keys)| keys.iter().copied());
         Self {
@@ -595,7 +609,11 @@ impl<'a> From<&'a PlayerDetails> for JsonPlayer<'a> {
             position_ratings: InOrder(
                 RATINGS.iter().map(|&key| (key.to_uppercase(), d.position_ratings.get(key).copied())).collect(),
             ),
-            attributes: InOrder(attributes.filter_map(|key| Some((key, d.attributes.get(key)?.value))).collect()),
+            attributes: InOrder(
+                attributes
+                    .filter_map(|key| Some((key, attribute_value(d.attributes.get(key)?, stored_attributes))))
+                    .collect(),
+            ),
             personality: InOrder(PERSONALITY.iter().map(|&key| (key, d.personality.get(key).copied())).collect()),
             reputation: d.reputation,
             international: d.international,
@@ -1169,7 +1187,28 @@ mod tests {
             writer: "FMLibreEditor test".to_owned(),
             game: "FM27 Steam build 26340721".to_owned(),
             game_date: Some(FmDate { year: 2027, month: 1, day: 2 }),
+            stored_attributes: false,
         }
+    }
+
+    #[test]
+    fn attributes_can_be_written_as_stored() {
+        let stored = ExportHeader { stored_attributes: true, ..header() };
+        let mut out = Vec::new();
+        write_json(&mut out, &stored, std::iter::once(saka())).unwrap();
+        let value: serde_json::Value = serde_json::from_str(&String::from_utf8(out).unwrap()).unwrap();
+        assert_eq!(value["attributeScale"], "0-100");
+        assert_eq!(value["players"][0]["attributes"]["finishing"], 70);
+        // Position ratings and abilities are on their own scales either way.
+        assert_eq!(value["players"][0]["positionRatings"]["AMR"], 20);
+
+        let mut out = Vec::new();
+        write_csv(&mut out, &stored, std::iter::once(saka()), b',').unwrap();
+        let text = String::from_utf8(out).unwrap();
+        let lines: Vec<&str> = text.trim_start_matches('\u{FEFF}').split("\r\n").collect();
+        let names: Vec<&str> = lines[0].split(',').collect();
+        let finishing = names.iter().position(|&name| name == "finishing").unwrap();
+        assert_eq!(lines[1].split(',').nth(finishing), Some("70"));
     }
 
     #[test]

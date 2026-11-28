@@ -700,6 +700,11 @@ export const ko: Strings = {
     potentialAbility: "잠재 능력",
     potentialAbilityShort: "PA",
     potentialRange: "잠재 능력이 범위로 설정됨",
+    recommendedAbility: "권장",
+    recommendedAbilityTip: "능력치와 포지션에 맞는 CA입니다. 게임은 능력치를 CA 쪽으로 맞춰 갑니다.",
+    abilityOverMost: (fitted: number) => `능력치 기준 ${fitted}`,
+    abilityOverMostTip: (most: number) => `CA는 최대 ${most}입니다.`,
+    abilityAbovePotential: "PA 초과",
 
     // Attributes
     technical: "기술",

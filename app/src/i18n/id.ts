@@ -650,6 +650,11 @@ export const id: Strings = {
     potentialAbility: "Kemampuan potensial",
     potentialAbilityShort: "PA",
     potentialRange: "Potensi diatur sebagai rentang",
+    recommendedAbility: "Disarankan",
+    recommendedAbilityTip: "CA yang sesuai dengan atribut dan posisinya. Game menggeser atribut ke arah CA.",
+    abilityOverMost: (fitted: number) => `Atribut setara ${fitted}`,
+    abilityOverMostTip: (most: number) => `CA paling tinggi ${most}.`,
+    abilityAbovePotential: "Di atas PA",
 
     technical: "Teknis",
     goalkeeping: "Kemampuan Jaga Gawang",

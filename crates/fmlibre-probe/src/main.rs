@@ -229,6 +229,10 @@ enum Command {
         /// In the CSV file, semicolons between the values instead of commas, as Excel takes them in many languages.
         #[arg(long, requires = "export")]
         semicolon: bool,
+        /// Write the attributes as the game stores them (0-100) instead of as it shows them (1-20), e.g. for
+        /// tools/ability.
+        #[arg(long, requires = "export")]
+        stored: bool,
     },
     /// List the fields the editor can change, or with --stats check them against every object.
     Fields {
@@ -1441,10 +1445,10 @@ fn run(cli: Cli) -> Result<()> {
             clubs(&session, text.as_deref(), limit, export)
         }
         Command::Club { uid } => club(&connect(process, ArraySource::ProfileFirst)?, uid),
-        Command::Players { text, limit, filter, export, semicolon } => {
+        Command::Players { text, limit, filter, export, semicolon, stored } => {
             let session = connect(process, ArraySource::ProfileFirst)?;
             let export = export.as_deref().map(|path| (path, export_format(path, semicolon)));
-            players(&session, text.as_deref(), limit, &filter, export)
+            players(&session, text.as_deref(), limit, &filter, export, stored)
         }
         Command::Fields { entity, stats } => {
             fields(&connect(process, ArraySource::ProfileFirst)?, entity.into(), stats)
@@ -3924,17 +3928,20 @@ fn export_format(path: &Path, semicolon: bool) -> ExportFormat {
     }
 }
 
-/// Writes an export of `what` ("players", "staff", "clubs") to `path` with `write`, and says how it went.
+/// Writes an export of `what` ("players", "staff", "clubs") to `path` with `write`, and says how it went. A player's
+/// attributes are written as stored with `stored_attributes` (see `ExportHeader`).
 fn export_to(
     session: &Session,
     path: &Path,
     what: &str,
+    stored_attributes: bool,
     write: impl FnOnce(&ExportHeader, &mut std::io::BufWriter<std::fs::File>) -> std::io::Result<Exported>,
 ) -> Result<()> {
     let header = ExportHeader {
         writer: format!("fmlibre-probe {}", env!("CARGO_PKG_VERSION")),
         game: session.game.name(),
         game_date: session.game_date(),
+        stored_attributes,
     };
     let started = Instant::now();
     let file = std::fs::File::create(path).with_context(|| format!("creating {}", path.display()))?;
@@ -3961,6 +3968,7 @@ fn players(
     limit: usize,
     args: &PlayerFilterArgs,
     export: Option<(&Path, ExportFormat)>,
+    stored_attributes: bool,
 ) -> Result<()> {
     let (filter, order) = args.parse()?;
     let started = Instant::now();
@@ -3972,7 +3980,9 @@ fn players(
         sort_players(&mut hits, order);
     }
     if let Some((path, format)) = export {
-        export_to(session, path, "players", |header, out| session.export_players(&hits, format, header, out))?;
+        export_to(session, path, "players", stored_attributes, |header, out| {
+            session.export_players(&hits, format, header, out)
+        })?;
     }
     println!(
         "Read {} players in {:.1} s; {} shown of {} matching.",
@@ -4205,7 +4215,7 @@ fn staff(session: &Session, text: Option<&str>, limit: usize, export: Option<(&P
     let elapsed = started.elapsed();
     let hits = index.search(text.unwrap_or(""));
     if let Some((path, format)) = export {
-        export_to(session, path, "staff", |header, out| session.export_staff(&hits, format, header, out))?;
+        export_to(session, path, "staff", false, |header, out| session.export_staff(&hits, format, header, out))?;
     }
     println!(
         "Read {} staff in {:.1} s; {} shown of {} matching.",
@@ -7244,7 +7254,7 @@ fn clubs(session: &Session, text: Option<&str>, limit: usize, export: Option<(&P
     let elapsed = started.elapsed();
     let hits = index.search(text.unwrap_or(""));
     if let Some((path, format)) = export {
-        export_to(session, path, "clubs", |header, out| session.export_clubs(&hits, format, header, out))?;
+        export_to(session, path, "clubs", false, |header, out| session.export_clubs(&hits, format, header, out))?;
     }
     println!(
         "Read {} clubs in {:.1} s; {} shown of {} matching.",

@@ -14,6 +14,7 @@ import { ClubLogo, NationFlag, PersonFace, PICTURE_SIZE, WithPicture } from "./P
 import { FEET, GOALKEEPING, HIDDEN, isGoalkeeper, MENTAL, PHYSICAL, TECHNICAL } from "./playerAttributes";
 import { PositionFreeze, PositionPitch, PositionRatings } from "./PositionPitch";
 import { PermanentDialog } from "./PermanentDialog";
+import { RecommendedAbility } from "./RecommendedAbility";
 import { AbilityTrend, changeTitle, ProgressTab } from "./PlayerProgress";
 import { attributeChanges, DEFAULT_RANGE, referenceOf, type Change } from "./progress";
 import { RecallDialog } from "./RecallDialog";
@@ -157,6 +158,7 @@ export function PlayerProfile({ player, version, onClose, comparison, modal }: P
       currentAbility={info.currentAbility}
       potentialAbility={info.potentialAbility}
       abilityNote={progress?.details && <AbilityTrend progress={progress.details} onOpen={() => select("progress")} />}
+      abilityEditNote={<RecommendedAbility />}
       tabs={details && <PlayerTabs tab={shown} base={base} locked={locked} onSelect={select} />}
       loaded={loaded}
       onClose={onClose}

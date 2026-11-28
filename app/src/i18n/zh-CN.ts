@@ -699,6 +699,11 @@ export const zhCN: Strings = {
     potentialAbilityShort: "PA",
     /** Hover text of a potential ability that is set as a range (the game stores it as a negative number). */
     potentialRange: "潜力以范围形式设定",
+    recommendedAbility: "推荐",
+    recommendedAbilityTip: "与其属性和位置相符的 CA。游戏会让属性逐渐向 CA 靠拢。",
+    abilityOverMost: (fitted: number) => `属性相当于 ${fitted}`,
+    abilityOverMostTip: (most: number) => `CA 最高为 ${most}。`,
+    abilityAbovePotential: "高于 PA",
 
     // Attributes
     technical: "技术",
