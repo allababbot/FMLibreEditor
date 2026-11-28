@@ -715,7 +715,7 @@ export const ru: Strings = {
     potentialAbilityShort: "ПОТ",
     potentialRange: "Потенциал задан диапазоном",
     recommendedAbility: "Рекомендуемый",
-    recommendedAbilityTip: "ТУ, который соответствует его атрибутам и позициям. Игра подтягивает атрибуты к ТУ.",
+    recommendedAbilityTip: "ТУ, при котором эти атрибуты сохранятся. Игра подтягивает атрибуты к ТУ.",
     abilityOverMost: (fitted: number) => `Атрибуты тянут на ${fitted}`,
     abilityOverMostTip: (most: number) => `ТУ не бывает выше ${most}.`,
     abilityAbovePotential: "Выше ПОТ",

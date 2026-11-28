@@ -651,7 +651,7 @@ export const id: Strings = {
     potentialAbilityShort: "PA",
     potentialRange: "Potensi diatur sebagai rentang",
     recommendedAbility: "Disarankan",
-    recommendedAbilityTip: "CA yang sesuai dengan atribut dan posisinya. Game menggeser atribut ke arah CA.",
+    recommendedAbilityTip: "CA yang menjaga atribut ini. Game menggeser atribut ke arah CA.",
     abilityOverMost: (fitted: number) => `Atribut setara ${fitted}`,
     abilityOverMostTip: (most: number) => `CA paling tinggi ${most}.`,
     abilityAbovePotential: "Di atas PA",

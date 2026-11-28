@@ -142,6 +142,15 @@ export const OWN_DISTANCE = 6;
 /** The ability the game holds for a player, the most it holds, and the least. */
 export const ABILITY_RANGE = { min: 1, max: 200 } as const;
 
+/**
+ * What a raise gets on top, to spare its attributes the game's own sum where it comes out a little higher than this
+ * one: a share of what the raise is worth, up to `SPARE_MOST`. In the game, attributes worth even a little more than
+ * the ability each lose a stored step, while an ability a little over theirs cost nothing seen (see
+ * tools/ability/README.md).
+ */
+export const SPARE_SHARE = 0.1;
+export const SPARE_MOST = 2;
+
 /** A player as the sum reads him: attributes as stored (0–100) and position ratings (1–20). */
 export interface AbilityParts {
   attributes: Readonly<Record<string, number>>;
@@ -160,8 +169,9 @@ export interface AbilitySuggestion {
  * The current ability that suits a player whose attributes, feet and positions are now `after`, when the game held
  * `ability` for `before`; null when no position of his counts. The game's ability is seldom exactly the fit: it is
  * moved by what the change is worth, so a player nothing was changed on is suggested the ability he has. An ability
- * further from the fit than `OWN_DISTANCE` was not the game's own, and the fit itself is suggested. A fit between two
- * whole numbers is rounded up: attributes worth even a little more than the ability lose a step each in the game.
+ * further from the fit than `OWN_DISTANCE` was not the game's own, and the fit itself is suggested. A raise gets a
+ * little to spare (see `SPARE_SHARE`), and the result is rounded up: attributes worth even a little more than the
+ * ability lose a step each in the game.
  */
 export function suggestAbility(
   ability: number,
@@ -174,10 +184,12 @@ export function suggestAbility(
   if (was === null || now === null) {
     return null;
   }
+  const worth = now - was;
   const own = ability - was;
-  const fitted = Math.abs(own) <= OWN_DISTANCE ? ability + (now - was) : now;
+  const fitted = Math.abs(own) <= OWN_DISTANCE ? ability + worth : now;
+  const spare = worth > 0 ? Math.min(SPARE_MOST, worth * SPARE_SHARE) : 0;
   // A hair over a whole number is that number: the sum of the same parts is not always the same to the last digit.
-  const whole = Math.ceil(fitted - 1e-6);
+  const whole = Math.ceil(fitted + spare - 1e-6);
   const suggested = Math.min(ABILITY_RANGE.max, Math.max(ABILITY_RANGE.min, whole));
   return { suggested, fitted };
 }

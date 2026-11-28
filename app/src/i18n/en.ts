@@ -598,7 +598,7 @@ export const en = {
      * fit, as FM's own editors recommend one. A click puts it in.
      */
     recommendedAbility: "Recommended",
-    recommendedAbilityTip: "The CA his attributes and positions fit. The game moves attributes towards the CA.",
+    recommendedAbilityTip: "The CA that keeps these attributes. The game moves attributes towards the CA.",
     /** When his attributes are worth more current ability than the game holds. */
     abilityOverMost: (fitted: number) => `Attributes fit ${fitted}`,
     abilityOverMostTip: (most: number) => `CA goes up to ${most}.`,

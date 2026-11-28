@@ -739,7 +739,7 @@ export const de: Strings = {
     potentialAbilityShort: "PA",
     potentialRange: "Potenzial als Spanne festgelegt",
     recommendedAbility: "Empfohlen",
-    recommendedAbilityTip: "Die CA, die zu seinen Attributen und Positionen passt. Das Spiel gleicht die Attribute der CA an.",
+    recommendedAbilityTip: "Die CA, bei der diese Attribute bleiben. Das Spiel gleicht die Attribute der CA an.",
     abilityOverMost: (fitted: number) => `Attribute entsprechen ${fitted}`,
     abilityOverMostTip: (most: number) => `Die CA reicht bis ${most}.`,
     abilityAbovePotential: "Über PA",

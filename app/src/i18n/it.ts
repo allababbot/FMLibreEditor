@@ -720,7 +720,7 @@ export const it: Strings = {
     potentialAbilityShort: "AP",
     potentialRange: "Potenziale impostato come intervallo",
     recommendedAbility: "Consigliata",
-    recommendedAbilityTip: "L'AA che corrisponde ad attributi e posizioni. Il gioco riporta gli attributi verso l'AA.",
+    recommendedAbilityTip: "L'AA che mantiene questi attributi. Il gioco riporta gli attributi verso l'AA.",
     abilityOverMost: (fitted: number) => `Gli attributi valgono ${fitted}`,
     abilityOverMostTip: (most: number) => `L'AA arriva fino a ${most}.`,
     abilityAbovePotential: "Sopra l'AP",

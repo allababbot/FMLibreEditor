@@ -28,9 +28,10 @@ On the half of the players the numbers were not fitted on, the sum lands within 
 them and within 4 for 97% (from an ability of 30). A player whose ability is further from his sum than that was
 mostly edited by hand, or is one whose ability the game is still moving his attributes towards.
 
-The app suggests an ability from the change: what the game held, moved by what the edit is worth, and rounded up. A
-player nothing was changed on is then suggested the ability he has. For a player whose ability is more than 6 away
-from his sum (about one in 150 of the game's), the sum itself is suggested.
+The app suggests an ability from the change: what the game held, moved by what the edit is worth. A raise gets a
+tenth of its worth on top, up to 2, and the result is rounded up (see below). A player nothing was changed on is then
+suggested the ability he has. For a player whose ability is more than 6 away from his sum (about one in 150 of the
+game's), the sum itself is suggested.
 
 ## What the game does with attributes worth more than the ability
 
@@ -42,9 +43,13 @@ same three attributes three points higher (Decisions, Marking, Positioning):
   stayed. The attributes that count for no role stayed as they were.
 - The one given the CA a straight sum suggested (183) lost a stored step or two on most of them: the sum was a few
   points short. Points near the top of the scale are worth more than lower down, which is the curve above: with it
-  the three raises are worth 17 to 19 points rather than 15 to 16, and the suggestion for him is 186.
+  the three raises are worth 17 to 19 points rather than 15 to 16.
 
-So the suggestion is rounded up: attributes worth even a little more than the ability lose a step each.
+A second month, both put back as they were and given the same raises with the CA the curved sum suggested, rounded
+up (186 and 189): the second lost nothing (five attributes went a stored step up), the first lost exactly one stored
+step on every attribute that counts. So the game takes whole steps, from every counted attribute at once, as soon as
+they are worth even a little more than the ability, while an ability a little over theirs cost nothing seen. The
+suggestion is therefore rounded up, and a raise gets a little to spare: with it, the first would have been given 188.
 
 ## Fitting it again
 

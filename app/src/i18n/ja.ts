@@ -671,7 +671,7 @@ export const ja: Strings = {
     potentialAbilityShort: "PA",
     potentialRange: "潜在能力が範囲で設定されています",
     recommendedAbility: "推奨",
-    recommendedAbilityTip: "能力値とポジションに見合うCA。ゲームは能力値をCAに近づけていきます。",
+    recommendedAbilityTip: "この能力値を保てるCA。ゲームは能力値をCAに近づけていきます。",
     abilityOverMost: (fitted: number) => `能力値は${fitted}相当`,
     abilityOverMostTip: (most: number) => `CAの上限は${most}です。`,
     abilityAbovePotential: "PA超え",
