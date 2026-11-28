@@ -5,8 +5,9 @@
 // The game's sum is not read from the game. Its form and its numbers were worked out from the game's own players by
 // `tools/ability/fit.mjs`, which writes `abilityModel.ts` (see tools/ability/README.md). For each position he plays
 // rated 12 or more, his attributes are summed with the weights of the role the position is played as (a left back and
-// a right back are both full backs), his weaker foot counted like an attribute; a position rated below 17 asks for a
-// little less. The position that asks the most sets the ability, and each other position rated 15 or more adds to it.
+// a right back are both full backs), his weaker foot counted like an attribute, and a point near the top of the scale
+// counting for more than one lower down; a position rated below 18 asks for a little less. The position that asks the
+// most sets the ability, and other positions rated 15 or more add to it.
 //
 // No imports but the numbers, so that the tool runs this very code in Node.
 
@@ -42,6 +43,11 @@ export interface AbilityModel {
    * (1–20, the stored value divided by five). An attribute the role does not count is not there.
    */
   readonly sums: Readonly<Record<string, { readonly base: number; readonly weights: Readonly<Record<string, number>> }>>;
+  /**
+   * How a point counts higher up the scale: from each `from` (1–20) on, every point of an attribute, or of the weaker
+   * foot, counts `slope` more. The game's players show a point near the top worth more than one lower down.
+   */
+  readonly curve: readonly { readonly from: number; readonly slope: number }[];
   /** For a position rated 0–20 (the index), the share of its sum it asks for; 0 for one that does not count. */
   readonly fade: readonly number[];
   /** The least rating at which another position adds to the ability. */
@@ -66,6 +72,15 @@ export function abilityAttributes(model: AbilityModel = MODEL): string[] {
   return [...keys];
 }
 
+/** What a value on the scale the game shows (1–20, between whole numbers too) counts for, along the model's curve. */
+export function curved(shown: number, model: AbilityModel = MODEL): number {
+  let value = shown;
+  for (const { from, slope } of model.curve) {
+    value += slope * Math.max(0, shown - from);
+  }
+  return value;
+}
+
 /** The sum of a role for `attributes` (stored, 0–100): unfaded, so the ability one natural position asks for. */
 export function roleSum(role: string, attributes: Readonly<Record<string, number>>, model: AbilityModel = MODEL): number {
   const sum = model.sums[role];
@@ -76,7 +91,7 @@ export function roleSum(role: string, attributes: Readonly<Record<string, number
   for (const [key, weight] of Object.entries(sum.weights)) {
     const stored =
       key === WEAK_FOOT ? Math.min(attributes.left_foot ?? 0, attributes.right_foot ?? 0) : (attributes[key] ?? 0);
-    total += weight * (stored / 5);
+    total += weight * curved(stored / 5, model);
   }
   return total;
 }
@@ -145,7 +160,8 @@ export interface AbilitySuggestion {
  * The current ability that suits a player whose attributes, feet and positions are now `after`, when the game held
  * `ability` for `before`; null when no position of his counts. The game's ability is seldom exactly the fit: it is
  * moved by what the change is worth, so a player nothing was changed on is suggested the ability he has. An ability
- * further from the fit than `OWN_DISTANCE` was not the game's own, and the fit itself is suggested.
+ * further from the fit than `OWN_DISTANCE` was not the game's own, and the fit itself is suggested. A fit between two
+ * whole numbers is rounded up: attributes worth even a little more than the ability lose a step each in the game.
  */
 export function suggestAbility(
   ability: number,
@@ -159,7 +175,9 @@ export function suggestAbility(
     return null;
   }
   const own = ability - was;
-  const fitted = Math.abs(own) <= OWN_DISTANCE ? now + own : now;
-  const suggested = Math.min(ABILITY_RANGE.max, Math.max(ABILITY_RANGE.min, Math.round(fitted)));
+  const fitted = Math.abs(own) <= OWN_DISTANCE ? ability + (now - was) : now;
+  // A hair over a whole number is that number: the sum of the same parts is not always the same to the last digit.
+  const whole = Math.ceil(fitted - 1e-6);
+  const suggested = Math.min(ABILITY_RANGE.max, Math.max(ABILITY_RANGE.min, whole));
   return { suggested, fitted };
 }

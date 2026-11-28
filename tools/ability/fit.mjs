@@ -32,6 +32,11 @@ const LEAST_RATING = 12;
 const EXTRA_FROM = 15;
 /** A weight smaller than this, after the first rounds, is taken for none: the role does not count the attribute. */
 const LEAST_WEIGHT = 0.1;
+/**
+ * Where a point of an attribute may start to count for more, on the 1–20 scale: the curve gets a steeper slope from
+ * each, as much as the game's players show (none, at least).
+ */
+const KNOTS = [10, 12, 14, 16, 18];
 /** Players fitted on: those of this ability or more (below it, attributes at their lowest no longer follow it)... */
 const LEAST_ABILITY = 30;
 /** ...and, after the first round, within this distance of the fit (the others were edited, or are on the move). */
@@ -139,18 +144,84 @@ function solve(rows, targets, columns) {
   return weights;
 }
 
+/** `raw` (a row of `features`) with every value put through the curve, as `curved` in abilityFit.ts does. */
+function bend(raw, curve) {
+  const bent = Float64Array.from(raw);
+  for (let i = 1; i < bent.length; i++) {
+    for (const { from, slope } of curve) bent[i] += slope * Math.max(0, raw[i] - from);
+  }
+  return bent;
+}
+
+/**
+ * The slopes of the curve, given each row's role weights and share: least squares on what the straight sum leaves,
+ * none of them below 0 (a slope that comes out below is left at 0 and the others fitted again).
+ */
+function fitCurve(rows, weights, assigned) {
+  const kept = KNOTS.map((_, k) => k);
+  for (;;) {
+    const m = kept.length;
+    const A = Array.from({ length: m }, () => new Float64Array(m));
+    const b = new Float64Array(m);
+    for (const { row, role, share, extra } of assigned) {
+      const w = weights[role];
+      let straight = w[0];
+      for (let i = 1; i < row.raw.length; i++) straight += w[i] * row.raw[i];
+      const target = row.p.ability - extra - share * straight;
+      const z = kept.map((k) => {
+        let s = 0;
+        for (let i = 1; i < row.raw.length; i++) s += w[i] * Math.max(0, row.raw[i] - KNOTS[k]);
+        return share * s;
+      });
+      for (let i = 0; i < m; i++) {
+        b[i] += z[i] * target;
+        for (let j = 0; j < m; j++) A[i][j] += z[i] * z[j];
+      }
+    }
+    // Gaussian elimination, small and well posed.
+    const x = Array.from(b);
+    const M = A.map((r) => Array.from(r));
+    for (let c = 0; c < m; c++) {
+      let pivot = c;
+      for (let r = c + 1; r < m; r++) if (Math.abs(M[r][c]) > Math.abs(M[pivot][c])) pivot = r;
+      [M[c], M[pivot]] = [M[pivot], M[c]];
+      [x[c], x[pivot]] = [x[pivot], x[c]];
+      for (let r = c + 1; r < m; r++) {
+        const f = M[r][c] / M[c][c];
+        for (let k = c; k < m; k++) M[r][k] -= f * M[c][k];
+        x[r] -= f * x[c];
+      }
+    }
+    for (let r = m - 1; r >= 0; r--) {
+      for (let k = r + 1; k < m; k++) x[r] -= M[r][k] * x[k];
+      x[r] /= M[r][r];
+    }
+    const negative = x.findIndex((slope) => slope < 0);
+    if (negative < 0 || m === 0) {
+      return KNOTS.map((from, k) => ({ from, slope: kept.includes(k) ? x[kept.indexOf(k)] : 0 }));
+    }
+    kept.splice(negative, 1);
+    if (kept.length === 0) return KNOTS.map((from) => ({ from, slope: 0 }));
+  }
+}
+
 /**
  * Fits the model on `list`: role weights first from the specialists (one role at 20, no other role above 14), then
- * a few rounds of fitting each role on the players whose ability it sets, the shares of lower ratings and the extra
- * for other positions in between.
+ * a few rounds of fitting each role on the players whose ability it sets, the curve of the points, the shares of
+ * lower ratings and the extra for other positions in between.
  */
 function fit(list) {
-  const rows = list.map((p, index) => ({
-    index,
-    p,
-    x: features(p),
-    positions: POSITIONS.map((key) => [Math.round(p.positions[key] ?? 0), ROLES.indexOf(POSITION_ROLES[key])]),
-  }));
+  let curve = KNOTS.map((from) => ({ from, slope: 0 }));
+  const rows = list.map((p, index) => {
+    const raw = features(p);
+    return {
+      index,
+      p,
+      raw,
+      x: raw,
+      positions: POSITIONS.map((key) => [Math.round(p.positions[key] ?? 0), ROLES.indexOf(POSITION_ROLES[key])]),
+    };
+  });
   const allColumns = FEATURES.map((_, i) => i + 1).filter((c) => !HIDDEN.has(FEATURES[c - 1]));
   // Every role counts the constant; only a goalkeeper counts the goalkeeping attributes.
   let columns = ROLES.map((role) => [0, ...allColumns.filter((c) => role === "gk" || !GOALKEEPING.has(FEATURES[c - 1]))]);
@@ -215,6 +286,18 @@ function fit(list) {
     });
     sums = rows.map((row) => weights.map((w) => dot(row.x, w)));
 
+    // The curve, for the role and share each player's ability comes from; then every row through it again.
+    const assigned = [];
+    for (const row of fitted) {
+      const { at, others } = evaluate(row, sums[row.index]);
+      if (at < 0) continue;
+      const [r, role] = row.positions[at];
+      assigned.push({ row, role, share: fade[r], extra: extra[Math.min(others, extra.length - 1)] });
+    }
+    curve = fitCurve(rows, weights, assigned);
+    for (const row of rows) row.x = bend(row.raw, curve);
+    sums = rows.map((row) => weights.map((w) => dot(row.x, w)));
+
     // The extra by how many other positions are rated EXTRA_FROM or more: what the highest sum leaves, on average,
     // never less than for fewer positions; a count too rare to tell takes the one before.
     const left = new Map();
@@ -253,11 +336,11 @@ function fit(list) {
         Math.abs(evaluate(row, sums[row.index]).value - row.p.ability) <= FIT_DISTANCE,
     );
   }
-  return toModel(weights, fade, extra);
+  return toModel(weights, fade, extra, curve);
 }
 
 /** The model as `abilityFit` reads it, rounded as it is written. */
-function toModel(weights, fade, extra, source = "") {
+function toModel(weights, fade, extra, curve, source = "") {
   const round = (value, places) => Number(value.toFixed(places));
   const sums = Object.fromEntries(
     ROLES.map((role, ri) => [
@@ -273,6 +356,7 @@ function toModel(weights, fade, extra, source = "") {
   return {
     source,
     sums,
+    curve: curve.map(({ from, slope }) => ({ from, slope: round(slope, 3) })).filter(({ slope }) => slope > 0),
     fade: fade.map((share) => round(share, 3)),
     extraFrom: EXTRA_FROM,
     extra: extra.map((value) => round(value, 2)),
@@ -298,6 +382,7 @@ model.source =
   `${exported.game}, ${players.length} players on ${date}: on the half it was not fitted on, within 2 of the game's ` +
   `ability for ${held.within[2].toFixed(0)}% and within 4 for ${held.within[4].toFixed(0)}%`;
 console.log(`\nfitted on all ${players.length}: ${describe(accuracy(players, (p) => abilityFit(p.attributes, p.positions, model)))}`);
+console.log(`curve, extra slope from: ${model.curve.map(({ from, slope }) => `${from} +${slope}`).join(", ") || "none"}`);
 console.log(`shares of ratings ${LEAST_RATING}-20: ${model.fade.slice(LEAST_RATING).join(" ")}`);
 console.log(`extra for other positions rated ${EXTRA_FROM}+, by count: ${model.extra.join(" ")}`);
 const free = FEATURES.filter((key) => ROLES.every((role) => model.sums[role].weights[key] === undefined));
@@ -326,6 +411,7 @@ function modelSource(model) {
   }
   lines.push(
     "  },",
+    `  curve: [${model.curve.map(({ from, slope }) => `{ from: ${from}, slope: ${slope} }`).join(", ")}],`,
     `  fade: [${model.fade.join(", ")}],`,
     `  extraFrom: ${model.extraFrom},`,
     `  extra: [${model.extra.join(", ")}],`,
